@@ -1,9 +1,13 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
-
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+            <i class="fas fa-bars"></i>
+        </a>
 
     <ul class="navbar-nav ml-auto">
-
+     
+    <ul class="navbar-nav ml-auto">
+     
 
         <!-- Notification -->
         <li class="nav-item dropdown">
@@ -15,7 +19,7 @@
                 <span class="dropdown-header">15 Notifications</span>
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
+                    <i class="fas fa-envelope mr-2"></i> 1 new messages
                     <span class="float-right text-muted text-sm">3 mins</span>
                 </a>
 
