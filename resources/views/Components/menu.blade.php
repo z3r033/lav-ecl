@@ -3,7 +3,7 @@
         data-accordion="false">
 
         <li class="nav-item {{setMenuClass('home','menu-open')}}">
-            <a href="#" class="nav-link {{setMenuClass('users.index','active')}}">
+            <a href="#" class="nav-link {{setMenuClass('home','active')}}">
               <i class="nav-icon fas fa-globe-americas fa-lg"></i>
               <p>
                 Gestion GIS
@@ -12,7 +12,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="{{route('home')}}" class="nav-link active">
                   <i class="nav-icon fas fa-globe-americas"></i>
                   <p>GIS</p>
                 </a>
@@ -53,15 +53,15 @@
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-fingerprint"></i>
-                  <p>Roles et permissions</p>
+                  <p>roles</p>
                 </a>
               </li>
 
             </ul>
         </li>
 
-        <li class="nav-item {{setMenuClass('type-articles','menu-open')}}">
-            <a href="#" class="nav-link {{setMenuClass('type-articles','active')}}">
+        <li class="nav-item {{setMenuClass('articles','menu-open')}} {{setMenuClass('type-articles','menu-open')}} ">
+            <a href="#" class="nav-link {{setMenuClass('articles','active')}} {{setMenuClass('type-articles','active')}}">
                 <i class="nav-icon fas fa-cogs"></i>
                 <p>
                 Gestion articles
@@ -91,8 +91,8 @@
 
 
 
-        <li class="nav-item {{setMenuClass('type-articles','menu-open')}}">
-            <a href="#" class="nav-link {{setMenuClass('type-articles','menu-open')}}">
+        <li class="nav-item {{setMenuClass('reclamations','menu-open')}} {{setMenuClass('interventions','menu-open')}}">
+            <a href="#" class="nav-link {{setMenuClass('reclamations','active')}} {{setMenuClass('interventions','active')}}">
                 <i class="nav-icon fas fa-lightbulb"></i>
                 <p>
                 Interventions
