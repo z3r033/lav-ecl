@@ -28,23 +28,39 @@ class Articles extends Component
     public $articlesOfId;
     public $typeArt;
 
-
-
+    public $search;
+    public $selectedTypeId = null;
 
     public function getArticlesByTypeId($id, $type)
     {
-
+        $this->selectedTypeId = $id;
         $typeArticle = TypeArticle::with('articles')->find($id);
         $this->typeArt = $id . ' ' . $type;
         $this->articlesOfId = $typeArticle->articles()->get()->toJson();
 
 
     }
+    public function getAll(){
+        $this->selectedTypeId = null;
+    }
     public function render()
     {
-        $articles = Article::with('typeArticle')->latest()->paginate(6);
+       
+        $query = Article::with('typeArticle')->latest();
+        if ($this->selectedTypeId) {
+            $query->where('type_article_id', $this->selectedTypeId);
+        }
+        if (!empty($this->search)) {
+            $query->where(function ($query) {
+                $query->where('nom', 'LIKE', $this->search . '%')
+                      ->orWhereHas('TypeArticle', function ($query) {
+                          $query->where('type_nom', 'LIKE', '%' . $this->search . '%');
+                      });
+            });
+        }
+    
+        $articles = $query->paginate(6);
         $typesArticles = TypeArticle::all();
-
 
 
         return view('livewire.articles.index', compact('articles', 'typesArticles'))

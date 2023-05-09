@@ -25,23 +25,35 @@ class InterventionComponent extends Component
         public $date_intervention;
         public $duree;
         public $statut;
-    
+        public $search;
         public function render()
         {
-            $secteurs = Secteur::all();
-            $postesElectriques = PosteElectrique::all();
-            $equipes = Equipe::all();
-            $interventions = DB::table('intervention')
-                ->join('secteur', 'intervention.secteur_id', '=', 'secteur.id')
-                ->join('poste_electrique', 'intervention.poste_electrique_id', '=', 'poste_electrique.id')
-                ->join('equipe', 'intervention.equipe_id', '=', 'equipe.id')
-                ->select('intervention.*', 'secteur.nom_secteur as secteur_nom', 'poste_electrique.nom as poste_electrique_nom', 'equipe.nom as equipe_nom')
-                ->latest()
-                ->paginate(6);
-            return view('livewire.interventions.index', compact('interventions', 'secteurs', 'postesElectriques', 'equipes'))
+            $query = DB::table('intervention')
+            ->join('secteur', 'intervention.secteur_id', '=', 'secteur.id')
+            ->join('poste_electrique', 'intervention.poste_electrique_id', '=', 'poste_electrique.id')
+            ->join('equipe', 'intervention.equipe_id', '=', 'equipe.id')
+            ->select('intervention.*', 'secteur.nom_secteur as secteur_nom', 'poste_electrique.nom as poste_electrique_nom', 'equipe.nom as equipe_nom')
+            ->latest();
+    
+        if (!empty($this->search)) {
+            $query->where(function ($query) {
+                $query->where('intervention.type_intervention', 'LIKE', '%' . $this->search . '%')
+                      ->orWhere('secteur.nom_secteur', 'LIKE', '%' . $this->search . '%')
+                      ->orWhere('poste_electrique.nom', 'LIKE', '%' . $this->search . '%')
+                      ->orWhere('equipe.nom', 'LIKE', '%' . $this->search . '%');
+            });
+        }
+    
+        $interventions = $query->paginate(6);
+        $secteurs = Secteur::all();
+        $postesElectriques = PosteElectrique::all();
+        $equipes = Equipe::all();
+    
+        return view('livewire.interventions.index', compact('interventions', 'secteurs', 'postesElectriques', 'equipes'))
                 ->extends("layouts.master")
                 ->section("contenu");
         }
+        
     
         public function goToAddIntervention()
         {

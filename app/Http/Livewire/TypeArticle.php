@@ -15,7 +15,7 @@ class TypeArticle extends Component
     public $type_article;
     public $selectedType;
 
-
+    public $search;
     public function goToAddTypeArticle()
     {
         $this->currentPage = PAGECREATEFORM;

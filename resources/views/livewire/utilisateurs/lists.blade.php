@@ -10,7 +10,7 @@
                             class="fas fa-user-plus"></i>
                         utilisateur</a>
                     <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                        <input type="text" wire:model="search" name="table_search" class="form-control float-right" placeholder="rechercher">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                                 <i class="fas fa-search"></i>

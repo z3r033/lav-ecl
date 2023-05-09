@@ -62,11 +62,7 @@
                     </div>
                   </div>
                 <div class="card-footer">
-               
-            
-                    {{-- <div class="float-right">
-                        {{ $reclamations->links() }}
-                    </div> --}}
+         
                 </div>
             </div>
 

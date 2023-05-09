@@ -10,7 +10,7 @@
                     <a wire:click.prevent="goToAddArticle()" class="btn btn-link text-white mr-4 d-block"><i class="fas fa-plus"></i>
                         Ajouter un article</a>
                     <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right"
+                        <input type="text" wire:model="search" name="table_search" class="form-control float-right"
                             placeholder="Rechercher">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
@@ -22,6 +22,7 @@
             </div>
           
             <div class="card-body table-responsive p-0 table-striped" style="height: 300px;">
+                <button class="btn btn-link btn-danger m-2 pl-3 text-white"  wire:click="getAll()"><i class="fas fa-check"></i> All types</button>
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
                         <tr>

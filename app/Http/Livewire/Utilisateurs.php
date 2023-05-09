@@ -24,11 +24,22 @@ class Utilisateurs extends Component
     public $role;
     public $equipes;
     public $date_derniere_connexion;
+    public $search;
 
     public function render()
     {
         // $utilisateurs = User::all();
-        $utilisateurs = User::with('equipes')->latest()->paginate(6);
+       /*  $utilisateurs = User::with('equipes')->latest()->paginate(6);
+        $Allequipes = Equipe::all(); */
+
+        $query = User::with('equipes')->latest();
+
+        if (!empty($this->search)) {
+            $query->where('nom', 'LIKE', '%' . $this->search . '%')
+                  ->orWhere('email', 'LIKE', '%' . $this->search . '%');
+        }
+    
+        $utilisateurs = $query->paginate(6);
         $Allequipes = Equipe::all();
         return view('livewire.utilisateurs.index', compact('utilisateurs', 'Allequipes'))
             ->extends("layouts.master")

@@ -56,12 +56,16 @@ class ReclamationComponent extends Component
 
         public function render()
         {
-            $reclamations = Reclamation::with('utilisateur', 'equipe')
-                ->where(function ($query) {
-                    $query->where('titre', 'like', '%' . $this->search . '%')
-                        ->orWhere('description', 'like', '%' . $this->search . '%');
-                })
-                ->paginate(10);
+            $query = Reclamation::with('utilisateur', 'equipe');
+    
+            if ($this->search) {
+                $query->where(function ($q) {
+                    $q->where('titre', 'like', '%' . $this->search . '%');
+                     // ->orWhere('description', 'like', '%' . $this->search . '%');
+                });
+            }
+        
+            $reclamations = $query->paginate(10);
             return view('livewire.reclamations.index', ['reclamations' => $reclamations])
             ->extends("layouts.master")
             ->section("contenu");;

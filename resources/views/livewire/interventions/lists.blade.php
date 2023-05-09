@@ -61,7 +61,7 @@
                   </div>
                 <div class="card-footer">
                     <div class="float-right">
-                        {{ $interventions->links() }}
+                     
                     </div>
                 </div>
             </div>
