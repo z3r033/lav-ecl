@@ -7,11 +7,11 @@
                 <h3 class="card-title flex-grow-1"><i class="fas fa-users fa-2x"></i> Liste des utilisateurs
                 </h3>
                 <div class="card-tools d-flex align-items-center">
-                    <a wire:click.prevent="goToAddUser()" class="btn btn-link text-white mr-4 d-block"><i class="fas fa-user-plus"></i>
+                    <a wire:click.prevent="goToAddUser()" class="btn btn-link text-white mr-4 d-block"><i
+                            class="fas fa-user-plus"></i>
                         utilisateur</a>
                     <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right"
-                            placeholder="Search">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">
                                 <i class="fas fa-search"></i>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-          
+
             <div class="card-body table-responsive p-0 table-striped" style="height: 300px;">
                 <table class="table table-head-fixed text-nowrap">
                     <thead>
@@ -39,9 +39,9 @@
                         <tr>
                             <td>
                                 @if ($utilisateur->sexe=='M')
-                                <img src="{{asset("images/male.png")}}" width="24" />
+                                <img src="{{asset(" images/male.png")}}" width="24" />
                                 @else
-                                <img src="{{asset("images/female.png")}}" width="24" />
+                                <img src="{{asset(" images/female.png")}}" width="24" />
                                 @endif
                             </td>
                             <td>{{$utilisateur->id}}</td>
@@ -53,8 +53,10 @@
 
 
                             <td class="text-center">
-                                <button class="btn btn-link" wire:click="goToEditUser({{$utilisateur->id}})"><i class="far fa-edit btn-info"></i></button>
-                                <button class="btn btn-link" wire:click="confirmDelete('{{$utilisateur->prenom}} {{$utilisateur->nom}}',{{$utilisateur->id}})">
+                                <button class="btn btn-link" wire:click="goToEditUser({{$utilisateur->id}})"><i
+                                        class="far fa-edit btn-info"></i></button>
+                                <button class="btn btn-link"
+                                    wire:click="confirmDelete('{{$utilisateur->prenom}} {{$utilisateur->nom}}',{{$utilisateur->id}})">
                                     <i class="far fa-trash-alt btn-info"></i></button>
                             </td>
 
@@ -71,8 +73,11 @@
                 </div>
             </div>
         </div>
-        <script>
-       window.addEventListener('showConfirmMessage', function (event) {
+    </div>
+</div>
+
+<script>
+    window.addEventListener('showConfirmMessage', function (event) {
         Swal.fire({
                 title: event.detail.message.title,
                 text: event.detail.message.text,
@@ -111,7 +116,4 @@
                // alert(event.detail);
 });
             
-        </script>
-    </div>
-</div>
-</div>
+</script>

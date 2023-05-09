@@ -58,7 +58,7 @@ class Articles extends Component
         $this->currentPage = PAGECREATEFORM;
     }
 
-    public function goToListArticle()
+    public function goToListArticles()
     {
         $this->currentPage = PAGELIST;
     }
