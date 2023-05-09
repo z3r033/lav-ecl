@@ -39,9 +39,9 @@
                         <tr>
                             <td>
                                 @if ($utilisateur->sexe=='M')
-                                <img src="{{asset(" images/male.png")}}" width="24" />
+                                <img src="{{asset("images/male.png")}}" width="24" />
                                 @else
-                                <img src="{{asset(" images/female.png")}}" width="24" />
+                                <img src="{{asset("images/female.png")}}" width="24" />
                                 @endif
                             </td>
                             <td>{{$utilisateur->id}}</td>
