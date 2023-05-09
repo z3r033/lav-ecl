@@ -1,7 +1,7 @@
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-    <li class="nav-item {{setMenuClass('home','menu-open')}}">
+    <li class="nav-item  menu-open {{setMenuClass('home','menu-open')}}">
       <a href="#" class="nav-link {{setMenuClass('home','active')}}">
         <i class="nav-icon fas fa-globe-americas fa-lg"></i>
         <p>
@@ -13,7 +13,7 @@
         <li class="nav-item">
           <a href="{{route('home')}}" class="nav-link  {{setMenuClass('home','active')}}">
             <i class="nav-icon fas fa-globe-americas"></i>
-            <p>GIS</p>
+            <p>S.I.G</p>
           </a>
         </li>
 
@@ -25,7 +25,7 @@
 
 
 
-  <li class="nav-item {{setMenuClass('users.index','menu-open')}}">
+  <li class="nav-item menu-open {{setMenuClass('users.index','menu-open')}}">
     <a href="#" class="nav-link {{setMenuClass('users.index','active')}}">
       <i class=" nav-icon fas fa-user-shield"></i>
       <p>
@@ -56,7 +56,7 @@
     </ul>
   </li>
 
-  <li class="nav-item {{setMenuClass('articles','menu-open')}} {{setMenuClass('type-articles','menu-open')}} ">
+  <li class="nav-item menu-open {{setMenuClass('articles','menu-open')}} {{setMenuClass('type-articles','menu-open')}} ">
     <a href="#" class="nav-link {{setMenuClass('articles','active')}} {{setMenuClass('type-articles','active')}}">
       <i class="nav-icon fas fa-cogs"></i>
       <p>
@@ -86,7 +86,7 @@
 
 
 
-  <li class="nav-item {{setMenuClass('reclamations','menu-open')}} {{setMenuClass('interventions','menu-open')}}">
+  <li class="nav-item menu-open {{setMenuClass('reclamations','menu-open')}} {{setMenuClass('interventions','menu-open')}}">
     <a href="#" class="nav-link {{setMenuClass('reclamations','active')}} {{setMenuClass('interventions','active')}}">
       <i class="nav-icon fas fa-lightbulb"></i>
       <p>

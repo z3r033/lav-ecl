@@ -1,5 +1,5 @@
 <div>
     <div class="map h-[600px] border border-slate-300 rounded-md shadow-lg">
-			The map will be here
+			<h1>Map va être ici!<h1>
     </div>
 </div>

@@ -7,8 +7,9 @@
                 <div class="card-header bg-info d-flex align-items-center ">
                     <h3 class="card-title flex-grow-1"><i class="fas fa-tag fa-2x"></i> Liste des interventions</h3>
                     <div class="card-tools d-flex align-items-center">
-                        <button wire:click="goToAddIntervention()" class="btn btn-link flex-grow-1 text-white mr-4 d-block"><i
-                                class="fas fa-plus"></i> Ajouter une intervention</button>
+                        <button wire:click="goToAddIntervention()"
+                            class="btn btn-link flex-grow-1 text-white mr-4 d-block"><i class="fas fa-plus"></i> Ajouter
+                            une intervention</button>
                         <div class="input-group input-group-sm flex-grow-1">
                             <input wire:model="search" type="text" name="table_search" class="form-control float-right"
                                 placeholder="Recherche">
@@ -38,13 +39,33 @@
                                 <td><i class="fas fa-tag"></i></td>
                                 <td>{{$intervention->id}}</td>
                                 <td>{{$intervention->secteur_id}}</td>
-                                <td>{{$intervention->type_intervention}}</td>
+                                <td>
+                                    @switch($intervention->type_intervention)
+                                    @case('urgence')
+                                    <span class="badge badge-warning">{{$intervention->type_intervention}}</span>
+                                    @break
+
+                                    @case('inspection')
+                                    <span class="badge badge-warning">{{$intervention->type_intervention}}</span>
+                                    @break
+
+                                    {{-- @case('resolue')
+                                    <span class="badge badge-success">Résolue</span>
+                                    @break
+
+                                    @case('fermee')
+                                    <span class="badge badge-secondary">Fermée</span>
+                                    @break --}}
+
+                                    @default
+                                    <span class="badge badge-secondary">{{ $intervention->type_intervention }}</span>
+                                    @endswitch
+                                </td>
                                 <td class="text-center">
                                     <button class="btn btn-link"
                                         wire:click="goToEditIntervention({{$intervention->id}})"><i
                                             class="far fa-edit btn-info"></i></button>
-                                    <button class="btn btn-link"
-                                        wire:click="confirmDelete({{$intervention->id}})"><i
+                                    <button class="btn btn-link" wire:click="confirmDelete({{$intervention->id}})"><i
                                             class="far fa-trash-alt btn-info"></i></button>
                                 </td>
                             </tr>
@@ -53,16 +74,14 @@
                     </table>
                 </div>
                 <div class="card-footer table-responsive">
-          
-                    {{-- {{ $utilisateurs->links() }} --}}      
+
+                    {{-- {{ $utilisateurs->links() }} --}}
                     <div class="pagination-links">
                         {{ $interventions->onEachSide(1)->links() }}
                     </div>
-                  </div>
+                </div>
                 <div class="card-footer">
-                    <div class="float-right">
-                     
-                    </div>
+                  
                 </div>
             </div>
 

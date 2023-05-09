@@ -37,8 +37,6 @@ class Articles extends Component
         $typeArticle = TypeArticle::with('articles')->find($id);
         $this->typeArt = $id . ' ' . $type;
         $this->articlesOfId = $typeArticle->articles()->get()->toJson();
-
-
     }
     public function getAll(){
         $this->selectedTypeId = null;

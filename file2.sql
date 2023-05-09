@@ -16,19 +16,21 @@ CREATE TABLE IF NOT EXISTS secteur (
     entreprise_maintenance VARCHAR(255)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS poste_electrique (
+CREATE TABLE reclamation (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(255) NOT NULL,
+    utilisateur_id INT,
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id),
+    equipe_id INT,
+    FOREIGN KEY (equipe_id) REFERENCES equipe(id),
+    titre VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_modification TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    statut ENUM('ouverte', 'en_cours', 'resolue', 'fermee') NOT NULL,
     secteur_id INT,
-    FOREIGN KEY (secteur_id) REFERENCES secteur(id) ON DELETE CASCADE,
-    capacite INT NOT NULL,
-    type ENUM('HTA', 'BT') NOT NULL,
-    date_installation DATE NOT NULL,
-    date_derniere_maintenance DATE,
-    entreprise_maintenance VARCHAR(255),
-    equipements TEXT,
-    puissance_souscrite INT NOT NULL,
-    etat ENUM('actif', 'inactif', 'maintenance', 'hors_service') NOT NULL
+    source_defaillance VARCHAR(255),
+    etat_signalement VARCHAR(255),
+    FOREIGN KEY (secteur_id) REFERENCES secteur(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS coffret (
@@ -434,6 +436,8 @@ CREATE TABLE IF NOT EXISTS intervention (
     FOREIGN KEY (secteur_id) REFERENCES secteur(id) ON DELETE CASCADE,
     poste_electrique_id INT,
     FOREIGN KEY (poste_electrique_id) REFERENCES poste_electrique(id) ON DELETE CASCADE,
+    reclamation_id INT,
+    FOREIGN KEY (reclamation_id) REFERENCES reclamation(id) ON DELETE CASCADE,
     type_intervention ENUM('maintenance', 'inspection', 'urgence', 'autre') NOT NULL,
     description TEXT,
     date_intervention DATE NOT NULL,

@@ -21,14 +21,14 @@ class ReclamationFactory extends Factory
         $statuts = ['ouverte', 'en_cours', 'resolue', 'fermee'];
 
         return [
-            'utilisateur_id' => User::factory(),
-            'equipe_id' => Equipe::factory(),
+            'utilisateur_id' => $this->faker->numberBetween(1, 10),
+            'equipe_id' => $this->faker->numberBetween(1, 5),
+            'secteur_id' => $this->faker->numberBetween(1, 10),
             'titre' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
-            'date_creation' => $this->faker->dateTimeBetween('-2 years', 'now'),
-            'date_modification' => $this->faker->dateTimeBetween('-2 years', 'now'),
-            'statut' => $this->faker->randomElement($statuts)
-            
+            'statut' => $this->faker->randomElement(['ouverte', 'en_cours', 'resolue', 'fermee']),
+            'source_defaillance' => $this->faker->word(),
+            'etat_signalement' => $this->faker->word(),
         ];
     }
 }

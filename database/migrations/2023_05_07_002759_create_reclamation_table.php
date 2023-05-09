@@ -17,13 +17,16 @@ return new class extends Migration
             $table->foreign('utilisateur_id')->references('id')->on('users');
             $table->unsignedBigInteger('equipe_id');
             $table->foreign('equipe_id')->references('id')->on('equipe');
+            $table->unsignedBigInteger('secteur_id')->nullable();
+            $table->foreign('secteur_id')->references('id')->on('secteur')->onDelete('cascade');
             $table->string('titre', 255)->nullable(false);
             $table->text('description')->nullable(false);
             $table->timestamp('date_creation')->useCurrent();
             $table->timestamp('date_modification')->useCurrent()->nullable(false)->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->enum('statut', ['ouverte', 'en_cours', 'resolue', 'fermee'])->nullable(false);
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->string('source_defaillance', 255)->nullable();
+            $table->string('etat_signalement', 255)->nullable();
+            $table->timestamps();
         });
     }
 

@@ -13,25 +13,26 @@ class Reclamation extends Model
     protected $fillable = [
         'utilisateur_id',
         'equipe_id',
+        'secteur_id',
         'titre',
         'description',
-        'statut'
-    ];
-
-    protected $dates = [
-        'date_creation',
-        'date_modification',
-        'created_at',
-        'updated_at',
+        'statut',
+        'source_defaillance',
+        'etat_signalement'
     ];
 
     public function utilisateur()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
     public function equipe()
     {
-        return $this->belongsTo(Equipe::class);
+        return $this->belongsTo(Equipe::class, 'equipe_id');
+    }
+
+    public function secteur()
+    {
+        return $this->belongsTo(Secteur::class, 'secteur_id');
     }
 }

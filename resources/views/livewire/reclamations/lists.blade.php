@@ -7,9 +7,10 @@
                 <div class="card-header bg-info d-flex align-items-center ">
                     <h3 class="card-title flex-grow-1"><i class="fas fa-tag fa-2x"></i> Liste des réclamations</h3>
                     <div class="card-tools d-flex align-items-center">
-                        <button wire:click="goToAddReclamation()" class="btn btn-link text-white flex-grow-1 mr-4 d-block"><i
-                                class="fas fa-plus"></i> Ajouter une réclamation</button>
-                        <div class="input-group input-group-sm flex-grow-1" >
+                        <button wire:click="goToAddReclamation()"
+                            class="btn btn-link text-white flex-grow-1 mr-4 d-block"><i class="fas fa-plus"></i> Ajouter
+                            une réclamation</button>
+                        <div class="input-group input-group-sm flex-grow-1">
                             <input wire:model="search" type="text" name="table_search" class="form-control float-right"
                                 placeholder="Recherche">
                             <div class="input-group-append">
@@ -40,14 +41,36 @@
                                 <td>{{$reclamation->id}}</td>
                                 <td>{{$reclamation->titre}}</td>
                                 <td>{{$reclamation->description}}</td>
-                                <td>{{$reclamation->statut}}</td>
+                                <td>
+                                    @switch($reclamation->statut)
+                                    @case('ouverte')
+                                    <span class="badge badge-info">Ouverte</span>
+                                    @break
+
+                                    @case('en_cours')
+                                    <span class="badge badge-warning">En cours</span>
+                                    @break
+
+                                    @case('resolue')
+                                    <span class="badge badge-success">Résolue</span>
+                                    @break
+
+                                    @case('fermee')
+                                    <span class="badge badge-secondary">Fermée</span>
+                                    @break
+
+                                    @default
+                                    <span class="badge badge-secondary">{{ $reclamation->statut }}</span>
+                                    @endswitch
+                                </td>
                                 <td class="text-center">
                                     <button class="btn btn-link"
-                                        wire:click="goToEditReclamation({{$reclamation->id}})"><i class="far fa-edit btn-info
-                                    </i></button>
+                                        wire:click="goToEditReclamation({{$reclamation->id}})"><i
+                                            class="far fa-edit btn-info">
+                                        </i></button>
                                     <button class=" btn btn-link"
-                                            wire:click="confirmDelete('{{$reclamation->titre}}',{{$reclamation->id}})"><i
-                                                class="far fa-trash-alt btn-info"></i></button>
+                                        wire:click="confirmDelete('{{$reclamation->titre}}',{{$reclamation->id}})"><i
+                                            class="far fa-trash-alt btn-info"></i></button>
                                 </td>
                             </tr>
                             @endforeach
@@ -55,15 +78,13 @@
                     </table>
                 </div>
                 <div class="card-footer table-responsive">
-          
-                    {{-- {{ $utilisateurs->links() }} --}}      
+
+                    {{-- {{ $utilisateurs->links() }} --}}
                     <div class="pagination-links">
                         {{ $reclamations->onEachSide(1)->links() }}
                     </div>
-                  </div>
-                <div class="card-footer">
-         
                 </div>
+           
             </div>
 
             <script>
