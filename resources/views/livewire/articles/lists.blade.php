@@ -62,12 +62,21 @@
                     </tbody>
                 </table>
             </div>
-
+            <div class="card-footer table-responsive float-right">
+          
+                {{-- {{ $utilisateurs->links() }} --}}      
+                <div class="pagination-links right ">
+             
+                    {{ $articles->onEachSide(1)->links() }}
+                </div>
+              </div>
             <div class="card-footer">
-                <div class="float-right">
-                    {{ $articles->links() }}
+                <div class="">
+                  
                 </div>
             </div>
+
+            
         </div>
         @if(!is_null($articlesOfId) && !is_null($typeArt))
         <h2>{{$typeArt}}</h2>

@@ -52,10 +52,20 @@
                 </div>
 
                 <div class="card-footer">
-                    <div class="float-right">
+                    {{-- <div class="float-right">
                         {{ $types->links() }}
-                    </div>
+                    </div> --}}
+
                 </div>
+
+                <div class="card-footer table-responsive">
+          
+                    {{-- {{ $utilisateurs->links() }} --}}      
+                    <div class="pagination-links">
+                        {{ $types->onEachSide(1)->links() }}
+                    </div>
+                  </div>
+           
             </div>
 
             <script>
@@ -89,4 +99,6 @@
                 });
             });
             </script>
-        </div></div></div>
+        </div>
+    </div>
+</div>

@@ -7,9 +7,11 @@
                 <div class="card-header bg-info d-flex align-items-center ">
                     <h3 class="card-title flex-grow-1"><i class="fas fa-tag fa-2x"></i> Liste des réclamations</h3>
                     <div class="card-tools d-flex align-items-center">
-                        <button wire:click="goToAddReclamation()" class="btn btn-link text-white mr-4 d-block"><i class="fas fa-plus"></i> Ajouter une réclamation</button>
+                        <button wire:click="goToAddReclamation()" class="btn btn-link text-white mr-4 d-block"><i
+                                class="fas fa-plus"></i> Ajouter une réclamation</button>
                         <div class="input-group input-group-sm" style="width: 150px;">
-                            <input wire:model="search" type="text" name="table_search" class="form-control float-right" placeholder="Recherche">
+                            <input wire:model="search" type="text" name="table_search" class="form-control float-right"
+                                placeholder="Recherche">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
                                     <i class="fas fa-search"></i>
@@ -40,24 +42,36 @@
                                 <td>{{$reclamation->description}}</td>
                                 <td>{{$reclamation->statut}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-link" wire:click="goToEditReclamation({{$reclamation->id}})"><i class="far fa-edit btn-info
+                                    <button class="btn btn-link"
+                                        wire:click="goToEditReclamation({{$reclamation->id}})"><i class="far fa-edit btn-info
                                     </i></button>
-                                    <button class="btn btn-link" wire:click="confirmDelete('{{$reclamation->titre}}',{{$reclamation->id}})"><i class="far fa-trash-alt btn-info"></i></button>
-                                    </td>
-                                    </tr>
-                                    @endforeach
-                                    </tbody>
-                                    </table>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="float-right">
-                                            {{ $reclamations->links() }}
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                                <script>
-                                    window.addEventListener('showConfirmMessage', function (event) {
+                                    <button class=" btn btn-link"
+                                            wire:click="confirmDelete('{{$reclamation->titre}}',{{$reclamation->id}})"><i
+                                                class="far fa-trash-alt btn-info"></i></button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer table-responsive">
+          
+                    {{-- {{ $utilisateurs->links() }} --}}      
+                    <div class="pagination-links">
+                        {{ $reclamations->onEachSide(1)->links() }}
+                    </div>
+                  </div>
+                <div class="card-footer">
+               
+            
+                    {{-- <div class="float-right">
+                        {{ $reclamations->links() }}
+                    </div> --}}
+                </div>
+            </div>
+
+            <script>
+                window.addEventListener('showConfirmMessage', function (event) {
                                         Swal.fire({
                                             title: event.detail.message.title,
                                             text: event.detail.message.text,
@@ -86,7 +100,6 @@
                                             timer: 1500
                                         });
                                     });
-                                </script>
-                            </div>
-                        </div>
-                        
+            </script>
+        </div>
+    </div>

@@ -52,6 +52,13 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer table-responsive">
+          
+                    {{-- {{ $utilisateurs->links() }} --}}      
+                    <div class="pagination-links">
+                        {{ $interventions->onEachSide(1)->links() }}
+                    </div>
+                  </div>
                 <div class="card-footer">
                     <div class="float-right">
                         {{ $interventions->links() }}

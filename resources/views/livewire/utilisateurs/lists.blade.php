@@ -4,8 +4,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-info d-flex align-items-center ">
-                <h3 class="card-title flex-grow-1"><i class="fas fa-users fa-2x"></i> Liste des utilisateurs
-                </h3>
+                <h3 class="card-title flex-grow-1"><i class="fas fa-users fa-2x"></i> Liste des utilisateurs </h3>
                 <div class="card-tools d-flex align-items-center">
                     <a wire:click.prevent="goToAddUser()" class="btn btn-link text-white mr-4 d-block"><i
                             class="fas fa-user-plus"></i>
@@ -39,9 +38,9 @@
                         <tr>
                             <td>
                                 @if ($utilisateur->sexe=='M')
-                                <img src="{{asset("images/male.png")}}" width="24" />
+                                <img src="{{asset(" images/male.png")}}" width="24" />
                                 @else
-                                <img src="{{asset("images/female.png")}}" width="24" />
+                                <img src="{{asset(" images/female.png")}}" width="24" />
                                 @endif
                             </td>
                             <td>{{$utilisateur->id}}</td>
@@ -67,10 +66,12 @@
                 </table>
             </div>
 
-            <div class="card-footer">
-                <div class="float-right">
-                    {{ $utilisateurs->links() }}
-                </div>
+            <div class="card-footer table-responsive">
+          
+                    {{-- {{ $utilisateurs->links() }} --}}      
+                    <div class="pagination-links">
+                        {{ $utilisateurs->onEachSide(1)->links() }} -
+                    </div>
             </div>
         </div>
     </div>
