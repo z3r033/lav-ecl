@@ -8,7 +8,8 @@
             <a href="{{route('login')}}" class="h1"><b>eclairage</b>public</a>
         </div>
         <div class="card-body">
-            <p class="login-box-msg">Sign in</p>
+            <p class="login-box-msg">admin : admin@gmail.com</p>
+            <p class="login-box-msg">password : password</p>
             <form action="{{route('login')}}" method="POST">
                 @csrf
                 <div class="input-group mb-3">
