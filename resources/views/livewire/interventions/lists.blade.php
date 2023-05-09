@@ -7,9 +7,9 @@
                 <div class="card-header bg-info d-flex align-items-center ">
                     <h3 class="card-title flex-grow-1"><i class="fas fa-tag fa-2x"></i> Liste des interventions</h3>
                     <div class="card-tools d-flex align-items-center">
-                        <button wire:click="goToAddIntervention()" class="btn btn-link text-white mr-4 d-block"><i
+                        <button wire:click="goToAddIntervention()" class="btn btn-link flex-grow-1 text-white mr-4 d-block"><i
                                 class="fas fa-plus"></i> Ajouter une intervention</button>
-                        <div class="input-group input-group-sm" style="width: 150px;">
+                        <div class="input-group input-group-sm flex-grow-1">
                             <input wire:model="search" type="text" name="table_search" class="form-control float-right"
                                 placeholder="Recherche">
                             <div class="input-group-append">

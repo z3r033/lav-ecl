@@ -6,10 +6,10 @@
             <div class="card-header bg-info d-flex align-items-center ">
                 <h3 class="card-title flex-grow-1"><i class="fas fa-users fa-2x"></i> Liste des utilisateurs </h3>
                 <div class="card-tools d-flex align-items-center">
-                    <a wire:click.prevent="goToAddUser()" class="btn btn-link text-white mr-4 d-block"><i
+                    <a wire:click.prevent="goToAddUser()" class="btn btn-link  text-white flex-grow-1 mr-4 d-block"><i
                             class="fas fa-user-plus"></i>
                         utilisateur</a>
-                    <div class="input-group input-group-sm" style="width: 150px;">
+                    <div class="input-group input-group-sm flex-grow-1" >
                         <input type="text" wire:model="search" name="table_search" class="form-control float-right" placeholder="rechercher">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default">

@@ -7,9 +7,9 @@
                 <h3 class="card-title flex-grow-1"><i class="fas fa-clipboard-list fa-2x"></i> Liste des articles
                 </h3>
                 <div class="card-tools d-flex align-items-center">
-                    <a wire:click.prevent="goToAddArticle()" class="btn btn-link text-white mr-4 d-block"><i class="fas fa-plus"></i>
+                    <a wire:click.prevent="goToAddArticle()" class="btn btn-link flex-grow-1 text-white mr-4 d-block"><i class="fas fa-plus"></i>
                         Ajouter un article</a>
-                    <div class="input-group input-group-sm" style="width: 150px;">
+                    <div class="input-group input-group-sm flex-grow-1">
                         <input type="text" wire:model="search" name="table_search" class="form-control float-right"
                             placeholder="Rechercher">
                         <div class="input-group-append">
@@ -20,6 +20,7 @@
                     </div>
                 </div>
             </div>
+        
           
             <div class="card-body table-responsive p-0 table-striped" style="height: 300px;">
                 <button class="btn btn-link btn-danger m-2 pl-3 text-white"  wire:click="getAll()"><i class="fas fa-check"></i> All types</button>
