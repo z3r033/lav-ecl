@@ -1,6 +1,16 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/rbush/rbush.min.js":
+/*!*****************************************!*\
+  !*** ./node_modules/rbush/rbush.min.js ***!
+  \*****************************************/
+/***/ (function(module) {
+
+!function(t,i){ true?module.exports=i():0}(this,function(){"use strict";function t(t,r,e,a,h){!function t(n,r,e,a,h){for(;a>e;){if(a-e>600){var o=a-e+1,s=r-e+1,l=Math.log(o),f=.5*Math.exp(2*l/3),u=.5*Math.sqrt(l*f*(o-f)/o)*(s-o/2<0?-1:1),m=Math.max(e,Math.floor(r-s*f/o+u)),c=Math.min(a,Math.floor(r+(o-s)*f/o+u));t(n,r,m,c,h)}var p=n[r],d=e,x=a;for(i(n,e,r),h(n[a],p)>0&&i(n,e,a);d<x;){for(i(n,d,x),d++,x--;h(n[d],p)<0;)d++;for(;h(n[x],p)>0;)x--}0===h(n[e],p)?i(n,e,x):i(n,++x,a),x<=r&&(e=x+1),r<=x&&(a=x-1)}}(t,r,e||0,a||t.length-1,h||n)}function i(t,i,n){var r=t[i];t[i]=t[n],t[n]=r}function n(t,i){return t<i?-1:t>i?1:0}var r=function(t){void 0===t&&(t=9),this._maxEntries=Math.max(4,t),this._minEntries=Math.max(2,Math.ceil(.4*this._maxEntries)),this.clear()};function e(t,i,n){if(!n)return i.indexOf(t);for(var r=0;r<i.length;r++)if(n(t,i[r]))return r;return-1}function a(t,i){h(t,0,t.children.length,i,t)}function h(t,i,n,r,e){e||(e=p(null)),e.minX=1/0,e.minY=1/0,e.maxX=-1/0,e.maxY=-1/0;for(var a=i;a<n;a++){var h=t.children[a];o(e,t.leaf?r(h):h)}return e}function o(t,i){return t.minX=Math.min(t.minX,i.minX),t.minY=Math.min(t.minY,i.minY),t.maxX=Math.max(t.maxX,i.maxX),t.maxY=Math.max(t.maxY,i.maxY),t}function s(t,i){return t.minX-i.minX}function l(t,i){return t.minY-i.minY}function f(t){return(t.maxX-t.minX)*(t.maxY-t.minY)}function u(t){return t.maxX-t.minX+(t.maxY-t.minY)}function m(t,i){return t.minX<=i.minX&&t.minY<=i.minY&&i.maxX<=t.maxX&&i.maxY<=t.maxY}function c(t,i){return i.minX<=t.maxX&&i.minY<=t.maxY&&i.maxX>=t.minX&&i.maxY>=t.minY}function p(t){return{children:t,height:1,leaf:!0,minX:1/0,minY:1/0,maxX:-1/0,maxY:-1/0}}function d(i,n,r,e,a){for(var h=[n,r];h.length;)if(!((r=h.pop())-(n=h.pop())<=e)){var o=n+Math.ceil((r-n)/e/2)*e;t(i,o,n,r,a),h.push(n,o,o,r)}}return r.prototype.all=function(){return this._all(this.data,[])},r.prototype.search=function(t){var i=this.data,n=[];if(!c(t,i))return n;for(var r=this.toBBox,e=[];i;){for(var a=0;a<i.children.length;a++){var h=i.children[a],o=i.leaf?r(h):h;c(t,o)&&(i.leaf?n.push(h):m(t,o)?this._all(h,n):e.push(h))}i=e.pop()}return n},r.prototype.collides=function(t){var i=this.data;if(!c(t,i))return!1;for(var n=[];i;){for(var r=0;r<i.children.length;r++){var e=i.children[r],a=i.leaf?this.toBBox(e):e;if(c(t,a)){if(i.leaf||m(t,a))return!0;n.push(e)}}i=n.pop()}return!1},r.prototype.load=function(t){if(!t||!t.length)return this;if(t.length<this._minEntries){for(var i=0;i<t.length;i++)this.insert(t[i]);return this}var n=this._build(t.slice(),0,t.length-1,0);if(this.data.children.length)if(this.data.height===n.height)this._splitRoot(this.data,n);else{if(this.data.height<n.height){var r=this.data;this.data=n,n=r}this._insert(n,this.data.height-n.height-1,!0)}else this.data=n;return this},r.prototype.insert=function(t){return t&&this._insert(t,this.data.height-1),this},r.prototype.clear=function(){return this.data=p([]),this},r.prototype.remove=function(t,i){if(!t)return this;for(var n,r,a,h=this.data,o=this.toBBox(t),s=[],l=[];h||s.length;){if(h||(h=s.pop(),r=s[s.length-1],n=l.pop(),a=!0),h.leaf){var f=e(t,h.children,i);if(-1!==f)return h.children.splice(f,1),s.push(h),this._condense(s),this}a||h.leaf||!m(h,o)?r?(n++,h=r.children[n],a=!1):h=null:(s.push(h),l.push(n),n=0,r=h,h=h.children[0])}return this},r.prototype.toBBox=function(t){return t},r.prototype.compareMinX=function(t,i){return t.minX-i.minX},r.prototype.compareMinY=function(t,i){return t.minY-i.minY},r.prototype.toJSON=function(){return this.data},r.prototype.fromJSON=function(t){return this.data=t,this},r.prototype._all=function(t,i){for(var n=[];t;)t.leaf?i.push.apply(i,t.children):n.push.apply(n,t.children),t=n.pop();return i},r.prototype._build=function(t,i,n,r){var e,h=n-i+1,o=this._maxEntries;if(h<=o)return a(e=p(t.slice(i,n+1)),this.toBBox),e;r||(r=Math.ceil(Math.log(h)/Math.log(o)),o=Math.ceil(h/Math.pow(o,r-1))),(e=p([])).leaf=!1,e.height=r;var s=Math.ceil(h/o),l=s*Math.ceil(Math.sqrt(o));d(t,i,n,l,this.compareMinX);for(var f=i;f<=n;f+=l){var u=Math.min(f+l-1,n);d(t,f,u,s,this.compareMinY);for(var m=f;m<=u;m+=s){var c=Math.min(m+s-1,u);e.children.push(this._build(t,m,c,r-1))}}return a(e,this.toBBox),e},r.prototype._chooseSubtree=function(t,i,n,r){for(;r.push(i),!i.leaf&&r.length-1!==n;){for(var e=1/0,a=1/0,h=void 0,o=0;o<i.children.length;o++){var s=i.children[o],l=f(s),u=(m=t,c=s,(Math.max(c.maxX,m.maxX)-Math.min(c.minX,m.minX))*(Math.max(c.maxY,m.maxY)-Math.min(c.minY,m.minY))-l);u<a?(a=u,e=l<e?l:e,h=s):u===a&&l<e&&(e=l,h=s)}i=h||i.children[0]}var m,c;return i},r.prototype._insert=function(t,i,n){var r=n?t:this.toBBox(t),e=[],a=this._chooseSubtree(r,this.data,i,e);for(a.children.push(t),o(a,r);i>=0&&e[i].children.length>this._maxEntries;)this._split(e,i),i--;this._adjustParentBBoxes(r,e,i)},r.prototype._split=function(t,i){var n=t[i],r=n.children.length,e=this._minEntries;this._chooseSplitAxis(n,e,r);var h=this._chooseSplitIndex(n,e,r),o=p(n.children.splice(h,n.children.length-h));o.height=n.height,o.leaf=n.leaf,a(n,this.toBBox),a(o,this.toBBox),i?t[i-1].children.push(o):this._splitRoot(n,o)},r.prototype._splitRoot=function(t,i){this.data=p([t,i]),this.data.height=t.height+1,this.data.leaf=!1,a(this.data,this.toBBox)},r.prototype._chooseSplitIndex=function(t,i,n){for(var r,e,a,o,s,l,u,m=1/0,c=1/0,p=i;p<=n-i;p++){var d=h(t,0,p,this.toBBox),x=h(t,p,n,this.toBBox),v=(e=d,a=x,o=void 0,s=void 0,l=void 0,u=void 0,o=Math.max(e.minX,a.minX),s=Math.max(e.minY,a.minY),l=Math.min(e.maxX,a.maxX),u=Math.min(e.maxY,a.maxY),Math.max(0,l-o)*Math.max(0,u-s)),M=f(d)+f(x);v<m?(m=v,r=p,c=M<c?M:c):v===m&&M<c&&(c=M,r=p)}return r||n-i},r.prototype._chooseSplitAxis=function(t,i,n){var r=t.leaf?this.compareMinX:s,e=t.leaf?this.compareMinY:l;this._allDistMargin(t,i,n,r)<this._allDistMargin(t,i,n,e)&&t.children.sort(r)},r.prototype._allDistMargin=function(t,i,n,r){t.children.sort(r);for(var e=this.toBBox,a=h(t,0,i,e),s=h(t,n-i,n,e),l=u(a)+u(s),f=i;f<n-i;f++){var m=t.children[f];o(a,t.leaf?e(m):m),l+=u(a)}for(var c=n-i-1;c>=i;c--){var p=t.children[c];o(s,t.leaf?e(p):p),l+=u(s)}return l},r.prototype._adjustParentBBoxes=function(t,i,n){for(var r=n;r>=0;r--)o(i[r],t)},r.prototype._condense=function(t){for(var i=t.length-1,n=void 0;i>=0;i--)0===t[i].children.length?i>0?(n=t[i-1].children).splice(n.indexOf(t[i]),1):this.clear():a(t[i],this.toBBox)},r});
+
+
+/***/ }),
 
 /***/ "./node_modules/ol/AssertionError.js":
 /*!*******************************************!*\
@@ -8,6 +18,7 @@
   \*******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -117,12 +128,398 @@ class AssertionError extends Error {
 
 /***/ }),
 
+/***/ "./node_modules/ol/Collection.js":
+/*!***************************************!*\
+  !*** ./node_modules/ol/Collection.js ***!
+  \***************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CollectionEvent": () => (/* binding */ CollectionEvent),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AssertionError_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AssertionError.js */ "./node_modules/ol/AssertionError.js");
+/* harmony import */ var _Object_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Object.js */ "./node_modules/ol/Object.js");
+/* harmony import */ var _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CollectionEventType.js */ "./node_modules/ol/CollectionEventType.js");
+/* harmony import */ var _events_Event_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events/Event.js */ "./node_modules/ol/events/Event.js");
+/**
+ * @module ol/Collection
+ */
+
+
+
+
+
+/**
+ * @enum {string}
+ * @private
+ */
+const Property = {
+  LENGTH: 'length',
+};
+
+/**
+ * @classdesc
+ * Events emitted by {@link module:ol/Collection~Collection} instances are instances of this
+ * type.
+ * @template T
+ */
+class CollectionEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {import("./CollectionEventType.js").default} type Type.
+   * @param {T} element Element.
+   * @param {number} index The index of the added or removed element.
+   */
+  constructor(type, element, index) {
+    super(type);
+
+    /**
+     * The element that is added to or removed from the collection.
+     * @type {T}
+     * @api
+     */
+    this.element = element;
+
+    /**
+     * The index of the added or removed element.
+     * @type {number}
+     * @api
+     */
+    this.index = index;
+  }
+}
+
+/***
+ * @template T
+ * @template Return
+ * @typedef {import("./Observable").OnSignature<import("./Observable").EventTypes, import("./events/Event.js").default, Return> &
+ *   import("./Observable").OnSignature<import("./ObjectEventType").Types|'change:length', import("./Object").ObjectEvent, Return> &
+ *   import("./Observable").OnSignature<'add'|'remove', CollectionEvent<T>, Return> &
+ *   import("./Observable").CombinedOnSignature<import("./Observable").EventTypes|import("./ObjectEventType").Types|
+ *     'change:length'|'add'|'remove',Return>} CollectionOnSignature
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {boolean} [unique=false] Disallow the same item from being added to
+ * the collection twice.
+ */
+
+/**
+ * @classdesc
+ * An expanded version of standard JS Array, adding convenience methods for
+ * manipulation. Add and remove changes to the Collection trigger a Collection
+ * event. Note that this does not cover changes to the objects _within_ the
+ * Collection; they trigger events on the appropriate object, not on the
+ * Collection as a whole.
+ *
+ * @fires CollectionEvent
+ *
+ * @template T
+ * @api
+ */
+class Collection extends _Object_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {Array<T>} [array] Array.
+   * @param {Options} [options] Collection options.
+   */
+  constructor(array, options) {
+    super();
+
+    /***
+     * @type {CollectionOnSignature<T, import("./events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {CollectionOnSignature<T, import("./events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {CollectionOnSignature<T, void>}
+     */
+    this.un;
+
+    options = options || {};
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.unique_ = !!options.unique;
+
+    /**
+     * @private
+     * @type {!Array<T>}
+     */
+    this.array_ = array ? array : [];
+
+    if (this.unique_) {
+      for (let i = 0, ii = this.array_.length; i < ii; ++i) {
+        this.assertUnique_(this.array_[i], i);
+      }
+    }
+
+    this.updateLength_();
+  }
+
+  /**
+   * Remove all elements from the collection.
+   * @api
+   */
+  clear() {
+    while (this.getLength() > 0) {
+      this.pop();
+    }
+  }
+
+  /**
+   * Add elements to the collection.  This pushes each item in the provided array
+   * to the end of the collection.
+   * @param {!Array<T>} arr Array.
+   * @return {Collection<T>} This collection.
+   * @api
+   */
+  extend(arr) {
+    for (let i = 0, ii = arr.length; i < ii; ++i) {
+      this.push(arr[i]);
+    }
+    return this;
+  }
+
+  /**
+   * Iterate over each element, calling the provided callback.
+   * @param {function(T, number, Array<T>): *} f The function to call
+   *     for every element. This function takes 3 arguments (the element, the
+   *     index and the array). The return value is ignored.
+   * @api
+   */
+  forEach(f) {
+    const array = this.array_;
+    for (let i = 0, ii = array.length; i < ii; ++i) {
+      f(array[i], i, array);
+    }
+  }
+
+  /**
+   * Get a reference to the underlying Array object. Warning: if the array
+   * is mutated, no events will be dispatched by the collection, and the
+   * collection's "length" property won't be in sync with the actual length
+   * of the array.
+   * @return {!Array<T>} Array.
+   * @api
+   */
+  getArray() {
+    return this.array_;
+  }
+
+  /**
+   * Get the element at the provided index.
+   * @param {number} index Index.
+   * @return {T} Element.
+   * @api
+   */
+  item(index) {
+    return this.array_[index];
+  }
+
+  /**
+   * Get the length of this collection.
+   * @return {number} The length of the array.
+   * @observable
+   * @api
+   */
+  getLength() {
+    return this.get(Property.LENGTH);
+  }
+
+  /**
+   * Insert an element at the provided index.
+   * @param {number} index Index.
+   * @param {T} elem Element.
+   * @api
+   */
+  insertAt(index, elem) {
+    if (index < 0 || index > this.getLength()) {
+      throw new Error('Index out of bounds: ' + index);
+    }
+    if (this.unique_) {
+      this.assertUnique_(elem);
+    }
+    this.array_.splice(index, 0, elem);
+    this.updateLength_();
+    this.dispatchEvent(
+      new CollectionEvent(_CollectionEventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].ADD, elem, index)
+    );
+  }
+
+  /**
+   * Remove the last element of the collection and return it.
+   * Return `undefined` if the collection is empty.
+   * @return {T|undefined} Element.
+   * @api
+   */
+  pop() {
+    return this.removeAt(this.getLength() - 1);
+  }
+
+  /**
+   * Insert the provided element at the end of the collection.
+   * @param {T} elem Element.
+   * @return {number} New length of the collection.
+   * @api
+   */
+  push(elem) {
+    if (this.unique_) {
+      this.assertUnique_(elem);
+    }
+    const n = this.getLength();
+    this.insertAt(n, elem);
+    return this.getLength();
+  }
+
+  /**
+   * Remove the first occurrence of an element from the collection.
+   * @param {T} elem Element.
+   * @return {T|undefined} The removed element or undefined if none found.
+   * @api
+   */
+  remove(elem) {
+    const arr = this.array_;
+    for (let i = 0, ii = arr.length; i < ii; ++i) {
+      if (arr[i] === elem) {
+        return this.removeAt(i);
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Remove the element at the provided index and return it.
+   * Return `undefined` if the collection does not contain this index.
+   * @param {number} index Index.
+   * @return {T|undefined} Value.
+   * @api
+   */
+  removeAt(index) {
+    if (index < 0 || index >= this.getLength()) {
+      return undefined;
+    }
+    const prev = this.array_[index];
+    this.array_.splice(index, 1);
+    this.updateLength_();
+    this.dispatchEvent(
+      /** @type {CollectionEvent<T>} */ (
+        new CollectionEvent(_CollectionEventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].REMOVE, prev, index)
+      )
+    );
+    return prev;
+  }
+
+  /**
+   * Set the element at the provided index.
+   * @param {number} index Index.
+   * @param {T} elem Element.
+   * @api
+   */
+  setAt(index, elem) {
+    const n = this.getLength();
+    if (index >= n) {
+      this.insertAt(index, elem);
+      return;
+    }
+    if (index < 0) {
+      throw new Error('Index out of bounds: ' + index);
+    }
+    if (this.unique_) {
+      this.assertUnique_(elem, index);
+    }
+    const prev = this.array_[index];
+    this.array_[index] = elem;
+    this.dispatchEvent(
+      /** @type {CollectionEvent<T>} */ (
+        new CollectionEvent(_CollectionEventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].REMOVE, prev, index)
+      )
+    );
+    this.dispatchEvent(
+      /** @type {CollectionEvent<T>} */ (
+        new CollectionEvent(_CollectionEventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].ADD, elem, index)
+      )
+    );
+  }
+
+  /**
+   * @private
+   */
+  updateLength_() {
+    this.set(Property.LENGTH, this.array_.length);
+  }
+
+  /**
+   * @private
+   * @param {T} elem Element.
+   * @param {number} [except] Optional index to ignore.
+   */
+  assertUnique_(elem, except) {
+    for (let i = 0, ii = this.array_.length; i < ii; ++i) {
+      if (this.array_[i] === elem && i !== except) {
+        throw new _AssertionError_js__WEBPACK_IMPORTED_MODULE_3__["default"](58);
+      }
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Collection);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/CollectionEventType.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/CollectionEventType.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/CollectionEventType
+ */
+
+/**
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * Triggered when an item is added to the collection.
+   * @event module:ol/Collection.CollectionEvent#add
+   * @api
+   */
+  ADD: 'add',
+  /**
+   * Triggered when an item is removed from the collection.
+   * @event module:ol/Collection.CollectionEvent#remove
+   * @api
+   */
+  REMOVE: 'remove',
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/Disposable.js":
 /*!***************************************!*\
   !*** ./node_modules/ol/Disposable.js ***!
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -167,12 +564,367 @@ class Disposable {
 
 /***/ }),
 
+/***/ "./node_modules/ol/Feature.js":
+/*!************************************!*\
+  !*** ./node_modules/ol/Feature.js ***!
+  \************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createStyleFunction": () => (/* binding */ createStyleFunction),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Object.js */ "./node_modules/ol/Object.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events.js */ "./node_modules/ol/events.js");
+/**
+ * @module ol/Feature
+ */
+
+
+
+
+
+/**
+ * @typedef {typeof Feature|typeof import("./render/Feature.js").default} FeatureClass
+ */
+
+/**
+ * @typedef {Feature|import("./render/Feature.js").default} FeatureLike
+ */
+
+/***
+ * @template Return
+ * @typedef {import("./Observable").OnSignature<import("./Observable").EventTypes, import("./events/Event.js").default, Return> &
+ *   import("./Observable").OnSignature<import("./ObjectEventType").Types|'change:geometry', import("./Object").ObjectEvent, Return> &
+ *   import("./Observable").CombinedOnSignature<import("./Observable").EventTypes|import("./ObjectEventType").Types
+ *     |'change:geometry', Return>} FeatureOnSignature
+ */
+
+/***
+ * @template Geometry
+ * @typedef {Object<string, *> & { geometry?: Geometry }} ObjectWithGeometry
+ */
+
+/**
+ * @classdesc
+ * A vector object for geographic features with a geometry and other
+ * attribute properties, similar to the features in vector file formats like
+ * GeoJSON.
+ *
+ * Features can be styled individually with `setStyle`; otherwise they use the
+ * style of their vector layer.
+ *
+ * Note that attribute properties are set as {@link module:ol/Object~BaseObject} properties on
+ * the feature object, so they are observable, and have get/set accessors.
+ *
+ * Typically, a feature has a single geometry property. You can set the
+ * geometry using the `setGeometry` method and get it with `getGeometry`.
+ * It is possible to store more than one geometry on a feature using attribute
+ * properties. By default, the geometry used for rendering is identified by
+ * the property name `geometry`. If you want to use another geometry property
+ * for rendering, use the `setGeometryName` method to change the attribute
+ * property associated with the geometry for the feature.  For example:
+ *
+ * ```js
+ *
+ * import Feature from 'ol/Feature.js';
+ * import Polygon from 'ol/geom/Polygon.js';
+ * import Point from 'ol/geom/Point.js';
+ *
+ * const feature = new Feature({
+ *   geometry: new Polygon(polyCoords),
+ *   labelPoint: new Point(labelCoords),
+ *   name: 'My Polygon',
+ * });
+ *
+ * // get the polygon geometry
+ * const poly = feature.getGeometry();
+ *
+ * // Render the feature as a point using the coordinates from labelPoint
+ * feature.setGeometryName('labelPoint');
+ *
+ * // get the point geometry
+ * const point = feature.getGeometry();
+ * ```
+ *
+ * @api
+ * @template {import("./geom/Geometry.js").default} [Geometry=import("./geom/Geometry.js").default]
+ */
+class Feature extends _Object_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Geometry|ObjectWithGeometry<Geometry>} [geometryOrProperties]
+   *     You may pass a Geometry object directly, or an object literal containing
+   *     properties. If you pass an object literal, you may include a Geometry
+   *     associated with a `geometry` key.
+   */
+  constructor(geometryOrProperties) {
+    super();
+
+    /***
+     * @type {FeatureOnSignature<import("./events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {FeatureOnSignature<import("./events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {FeatureOnSignature<void>}
+     */
+    this.un;
+
+    /**
+     * @private
+     * @type {number|string|undefined}
+     */
+    this.id_ = undefined;
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.geometryName_ = 'geometry';
+
+    /**
+     * User provided style.
+     * @private
+     * @type {import("./style/Style.js").StyleLike}
+     */
+    this.style_ = null;
+
+    /**
+     * @private
+     * @type {import("./style/Style.js").StyleFunction|undefined}
+     */
+    this.styleFunction_ = undefined;
+
+    /**
+     * @private
+     * @type {?import("./events.js").EventsKey}
+     */
+    this.geometryChangeKey_ = null;
+
+    this.addChangeListener(this.geometryName_, this.handleGeometryChanged_);
+
+    if (geometryOrProperties) {
+      if (
+        typeof (
+          /** @type {?} */ (geometryOrProperties).getSimplifiedGeometry
+        ) === 'function'
+      ) {
+        const geometry = /** @type {Geometry} */ (geometryOrProperties);
+        this.setGeometry(geometry);
+      } else {
+        /** @type {Object<string, *>} */
+        const properties = geometryOrProperties;
+        this.setProperties(properties);
+      }
+    }
+  }
+
+  /**
+   * Clone this feature. If the original feature has a geometry it
+   * is also cloned. The feature id is not set in the clone.
+   * @return {Feature<Geometry>} The clone.
+   * @api
+   */
+  clone() {
+    const clone = /** @type {Feature<Geometry>} */ (
+      new Feature(this.hasProperties() ? this.getProperties() : null)
+    );
+    clone.setGeometryName(this.getGeometryName());
+    const geometry = this.getGeometry();
+    if (geometry) {
+      clone.setGeometry(/** @type {Geometry} */ (geometry.clone()));
+    }
+    const style = this.getStyle();
+    if (style) {
+      clone.setStyle(style);
+    }
+    return clone;
+  }
+
+  /**
+   * Get the feature's default geometry.  A feature may have any number of named
+   * geometries.  The "default" geometry (the one that is rendered by default) is
+   * set when calling {@link module:ol/Feature~Feature#setGeometry}.
+   * @return {Geometry|undefined} The default geometry for the feature.
+   * @api
+   * @observable
+   */
+  getGeometry() {
+    return /** @type {Geometry|undefined} */ (this.get(this.geometryName_));
+  }
+
+  /**
+   * Get the feature identifier.  This is a stable identifier for the feature and
+   * is either set when reading data from a remote source or set explicitly by
+   * calling {@link module:ol/Feature~Feature#setId}.
+   * @return {number|string|undefined} Id.
+   * @api
+   */
+  getId() {
+    return this.id_;
+  }
+
+  /**
+   * Get the name of the feature's default geometry.  By default, the default
+   * geometry is named `geometry`.
+   * @return {string} Get the property name associated with the default geometry
+   *     for this feature.
+   * @api
+   */
+  getGeometryName() {
+    return this.geometryName_;
+  }
+
+  /**
+   * Get the feature's style. Will return what was provided to the
+   * {@link module:ol/Feature~Feature#setStyle} method.
+   * @return {import("./style/Style.js").StyleLike|undefined} The feature style.
+   * @api
+   */
+  getStyle() {
+    return this.style_;
+  }
+
+  /**
+   * Get the feature's style function.
+   * @return {import("./style/Style.js").StyleFunction|undefined} Return a function
+   * representing the current style of this feature.
+   * @api
+   */
+  getStyleFunction() {
+    return this.styleFunction_;
+  }
+
+  /**
+   * @private
+   */
+  handleGeometryChange_() {
+    this.changed();
+  }
+
+  /**
+   * @private
+   */
+  handleGeometryChanged_() {
+    if (this.geometryChangeKey_) {
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey)(this.geometryChangeKey_);
+      this.geometryChangeKey_ = null;
+    }
+    const geometry = this.getGeometry();
+    if (geometry) {
+      this.geometryChangeKey_ = (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+        geometry,
+        _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].CHANGE,
+        this.handleGeometryChange_,
+        this
+      );
+    }
+    this.changed();
+  }
+
+  /**
+   * Set the default geometry for the feature.  This will update the property
+   * with the name returned by {@link module:ol/Feature~Feature#getGeometryName}.
+   * @param {Geometry|undefined} geometry The new geometry.
+   * @api
+   * @observable
+   */
+  setGeometry(geometry) {
+    this.set(this.geometryName_, geometry);
+  }
+
+  /**
+   * Set the style for the feature to override the layer style.  This can be a
+   * single style object, an array of styles, or a function that takes a
+   * resolution and returns an array of styles. To unset the feature style, call
+   * `setStyle()` without arguments or a falsey value.
+   * @param {import("./style/Style.js").StyleLike} [style] Style for this feature.
+   * @api
+   * @fires module:ol/events/Event~BaseEvent#event:change
+   */
+  setStyle(style) {
+    this.style_ = style;
+    this.styleFunction_ = !style ? undefined : createStyleFunction(style);
+    this.changed();
+  }
+
+  /**
+   * Set the feature id.  The feature id is considered stable and may be used when
+   * requesting features or comparing identifiers returned from a remote source.
+   * The feature id can be used with the
+   * {@link module:ol/source/Vector~VectorSource#getFeatureById} method.
+   * @param {number|string|undefined} id The feature id.
+   * @api
+   * @fires module:ol/events/Event~BaseEvent#event:change
+   */
+  setId(id) {
+    this.id_ = id;
+    this.changed();
+  }
+
+  /**
+   * Set the property name to be used when getting the feature's default geometry.
+   * When calling {@link module:ol/Feature~Feature#getGeometry}, the value of the property with
+   * this name will be returned.
+   * @param {string} name The property name of the default geometry.
+   * @api
+   */
+  setGeometryName(name) {
+    this.removeChangeListener(this.geometryName_, this.handleGeometryChanged_);
+    this.geometryName_ = name;
+    this.addChangeListener(this.geometryName_, this.handleGeometryChanged_);
+    this.handleGeometryChanged_();
+  }
+}
+
+/**
+ * Convert the provided object into a feature style function.  Functions passed
+ * through unchanged.  Arrays of Style or single style objects wrapped
+ * in a new feature style function.
+ * @param {!import("./style/Style.js").StyleFunction|!Array<import("./style/Style.js").default>|!import("./style/Style.js").default} obj
+ *     A feature style function, a single style, or an array of styles.
+ * @return {import("./style/Style.js").StyleFunction} A style function.
+ */
+function createStyleFunction(obj) {
+  if (typeof obj === 'function') {
+    return obj;
+  }
+  /**
+   * @type {Array<import("./style/Style.js").default>}
+   */
+  let styles;
+  if (Array.isArray(obj)) {
+    styles = obj;
+  } else {
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(typeof (/** @type {?} */ (obj).getZIndex) === 'function', 41); // Expected an `import("./style/Style.js").Style` or an array of `import("./style/Style.js").Style`
+    const style = /** @type {import("./style/Style.js").default} */ (obj);
+    styles = [style];
+  }
+  return function () {
+    return styles;
+  };
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Feature);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/Image.js":
 /*!**********************************!*\
   !*** ./node_modules/ol/Image.js ***!
   \**********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
@@ -419,6 +1171,7 @@ function listenImage(image, loadHandler, errorHandler) {
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -534,6 +1287,7 @@ class ImageBase extends _events_Target_js__WEBPACK_IMPORTED_MODULE_0__["default"
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -562,6 +1316,7 @@ __webpack_require__.r(__webpack_exports__);
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -762,12 +1517,2817 @@ function getBlankImage() {
 
 /***/ }),
 
+/***/ "./node_modules/ol/Kinetic.js":
+/*!************************************!*\
+  !*** ./node_modules/ol/Kinetic.js ***!
+  \************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/Kinetic
+ */
+
+/**
+ * @classdesc
+ * Implementation of inertial deceleration for map movement.
+ *
+ * @api
+ */
+class Kinetic {
+  /**
+   * @param {number} decay Rate of decay (must be negative).
+   * @param {number} minVelocity Minimum velocity (pixels/millisecond).
+   * @param {number} delay Delay to consider to calculate the kinetic
+   *     initial values (milliseconds).
+   */
+  constructor(decay, minVelocity, delay) {
+    /**
+     * @private
+     * @type {number}
+     */
+    this.decay_ = decay;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.minVelocity_ = minVelocity;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.delay_ = delay;
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.points_ = [];
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.angle_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.initialVelocity_ = 0;
+  }
+
+  /**
+   * FIXME empty description for jsdoc
+   */
+  begin() {
+    this.points_.length = 0;
+    this.angle_ = 0;
+    this.initialVelocity_ = 0;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   */
+  update(x, y) {
+    this.points_.push(x, y, Date.now());
+  }
+
+  /**
+   * @return {boolean} Whether we should do kinetic animation.
+   */
+  end() {
+    if (this.points_.length < 6) {
+      // at least 2 points are required (i.e. there must be at least 6 elements
+      // in the array)
+      return false;
+    }
+    const delay = Date.now() - this.delay_;
+    const lastIndex = this.points_.length - 3;
+    if (this.points_[lastIndex + 2] < delay) {
+      // the last tracked point is too old, which means that the user stopped
+      // panning before releasing the map
+      return false;
+    }
+
+    // get the first point which still falls into the delay time
+    let firstIndex = lastIndex - 3;
+    while (firstIndex > 0 && this.points_[firstIndex + 2] > delay) {
+      firstIndex -= 3;
+    }
+
+    const duration = this.points_[lastIndex + 2] - this.points_[firstIndex + 2];
+    // we don't want a duration of 0 (divide by zero)
+    // we also make sure the user panned for a duration of at least one frame
+    // (1/60s) to compute sane displacement values
+    if (duration < 1000 / 60) {
+      return false;
+    }
+
+    const dx = this.points_[lastIndex] - this.points_[firstIndex];
+    const dy = this.points_[lastIndex + 1] - this.points_[firstIndex + 1];
+    this.angle_ = Math.atan2(dy, dx);
+    this.initialVelocity_ = Math.sqrt(dx * dx + dy * dy) / duration;
+    return this.initialVelocity_ > this.minVelocity_;
+  }
+
+  /**
+   * @return {number} Total distance travelled (pixels).
+   */
+  getDistance() {
+    return (this.minVelocity_ - this.initialVelocity_) / this.decay_;
+  }
+
+  /**
+   * @return {number} Angle of the kinetic panning animation (radians).
+   */
+  getAngle() {
+    return this.angle_;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Kinetic);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/Map.js":
+/*!********************************!*\
+  !*** ./node_modules/ol/Map.js ***!
+  \********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Object_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Object.js */ "./node_modules/ol/Object.js");
+/* harmony import */ var _Collection_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Collection.js */ "./node_modules/ol/Collection.js");
+/* harmony import */ var _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CollectionEventType.js */ "./node_modules/ol/CollectionEventType.js");
+/* harmony import */ var _renderer_Composite_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./renderer/Composite.js */ "./node_modules/ol/renderer/Composite.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _layer_Layer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layer/Layer.js */ "./node_modules/ol/layer/Layer.js");
+/* harmony import */ var _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layer/Group.js */ "./node_modules/ol/layer/Group.js");
+/* harmony import */ var _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./MapBrowserEvent.js */ "./node_modules/ol/MapBrowserEvent.js");
+/* harmony import */ var _MapBrowserEventHandler_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./MapBrowserEventHandler.js */ "./node_modules/ol/MapBrowserEventHandler.js");
+/* harmony import */ var _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./MapBrowserEventType.js */ "./node_modules/ol/MapBrowserEventType.js");
+/* harmony import */ var _MapEvent_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./MapEvent.js */ "./node_modules/ol/MapEvent.js");
+/* harmony import */ var _MapEventType_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./MapEventType.js */ "./node_modules/ol/MapEventType.js");
+/* harmony import */ var _MapProperty_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./MapProperty.js */ "./node_modules/ol/MapProperty.js");
+/* harmony import */ var _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./ObjectEventType.js */ "./node_modules/ol/ObjectEventType.js");
+/* harmony import */ var _pointer_EventType_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pointer/EventType.js */ "./node_modules/ol/pointer/EventType.js");
+/* harmony import */ var _render_EventType_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./render/EventType.js */ "./node_modules/ol/render/EventType.js");
+/* harmony import */ var _TileQueue_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TileQueue.js */ "./node_modules/ol/TileQueue.js");
+/* harmony import */ var _View_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./View.js */ "./node_modules/ol/View.js");
+/* harmony import */ var _ViewHint_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./ViewHint.js */ "./node_modules/ol/ViewHint.js");
+/* harmony import */ var _has_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./has.js */ "./node_modules/ol/has.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./transform.js */ "./node_modules/ol/transform.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _control_defaults_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./control/defaults.js */ "./node_modules/ol/control/defaults.js");
+/* harmony import */ var _interaction_defaults_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./interaction/defaults.js */ "./node_modules/ol/interaction/defaults.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _proj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./proj.js */ "./node_modules/ol/proj.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _size_js__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./size.js */ "./node_modules/ol/size.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./events.js */ "./node_modules/ol/events.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _console_js__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./console.js */ "./node_modules/ol/console.js");
+/**
+ * @module ol/Map
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * State of the current frame. Only `pixelRatio`, `time` and `viewState` should
+ * be used in applications.
+ * @typedef {Object} FrameState
+ * @property {number} pixelRatio The pixel ratio of the frame.
+ * @property {number} time The time when rendering of the frame was requested.
+ * @property {import("./View.js").State} viewState The state of the current view.
+ * @property {boolean} animate Animate.
+ * @property {import("./transform.js").Transform} coordinateToPixelTransform CoordinateToPixelTransform.
+ * @property {import("rbush").default} declutterTree DeclutterTree.
+ * @property {null|import("./extent.js").Extent} extent Extent.
+ * @property {import("./extent.js").Extent} [nextExtent] Next extent during an animation series.
+ * @property {number} index Index.
+ * @property {Array<import("./layer/Layer.js").State>} layerStatesArray LayerStatesArray.
+ * @property {number} layerIndex LayerIndex.
+ * @property {import("./transform.js").Transform} pixelToCoordinateTransform PixelToCoordinateTransform.
+ * @property {Array<PostRenderFunction>} postRenderFunctions PostRenderFunctions.
+ * @property {import("./size.js").Size} size Size.
+ * @property {TileQueue} tileQueue TileQueue.
+ * @property {!Object<string, Object<string, boolean>>} usedTiles UsedTiles.
+ * @property {Array<number>} viewHints ViewHints.
+ * @property {!Object<string, Object<string, boolean>>} wantedTiles WantedTiles.
+ * @property {string} mapId The id of the map.
+ * @property {Object<string, boolean>} renderTargets Identifiers of previously rendered elements.
+ */
+
+/**
+ * @typedef {function(Map, ?FrameState): any} PostRenderFunction
+ */
+
+/**
+ * @typedef {Object} AtPixelOptions
+ * @property {undefined|function(import("./layer/Layer.js").default<import("./source/Source").default>): boolean} [layerFilter] Layer filter
+ * function. The filter function will receive one argument, the
+ * {@link module:ol/layer/Layer~Layer layer-candidate} and it should return a boolean value.
+ * Only layers which are visible and for which this function returns `true`
+ * will be tested for features. By default, all visible layers will be tested.
+ * @property {number} [hitTolerance=0] Hit-detection tolerance in css pixels. Pixels
+ * inside the radius around the given position will be checked for features.
+ * @property {boolean} [checkWrapped=true] Check-Wrapped Will check for wrapped geometries inside the range of
+ *   +/- 1 world width. Works only if a projection is used that can be wrapped.
+ */
+
+/**
+ * @typedef {Object} MapOptionsInternal
+ * @property {Collection<import("./control/Control.js").default>} [controls] Controls.
+ * @property {Collection<import("./interaction/Interaction.js").default>} [interactions] Interactions.
+ * @property {HTMLElement|Document} keyboardEventTarget KeyboardEventTarget.
+ * @property {Collection<import("./Overlay.js").default>} overlays Overlays.
+ * @property {Object<string, *>} values Values.
+ */
+
+/**
+ * @typedef {import("./ObjectEventType").Types|'change:layergroup'|'change:size'|'change:target'|'change:view'} MapObjectEventTypes
+ */
+
+/***
+ * @template Return
+ * @typedef {import("./Observable").OnSignature<import("./Observable").EventTypes, import("./events/Event.js").default, Return> &
+ *    import("./Observable").OnSignature<MapObjectEventTypes, import("./Object").ObjectEvent, Return> &
+ *    import("./Observable").OnSignature<import("./MapBrowserEventType").Types, import("./MapBrowserEvent").default, Return> &
+ *    import("./Observable").OnSignature<import("./MapEventType").Types, import("./MapEvent").default, Return> &
+ *    import("./Observable").OnSignature<import("./render/EventType").MapRenderEventTypes, import("./render/Event").default, Return> &
+ *    import("./Observable").CombinedOnSignature<import("./Observable").EventTypes|MapObjectEventTypes|
+ *      import("./MapBrowserEventType").Types|import("./MapEventType").Types|
+ *      import("./render/EventType").MapRenderEventTypes, Return>} MapEventHandler
+ */
+
+/**
+ * Object literal with config options for the map.
+ * @typedef {Object} MapOptions
+ * @property {Collection<import("./control/Control.js").default>|Array<import("./control/Control.js").default>} [controls]
+ * Controls initially added to the map. If not specified,
+ * {@link module:ol/control/defaults.defaults} is used.
+ * @property {number} [pixelRatio=window.devicePixelRatio] The ratio between
+ * physical pixels and device-independent pixels (dips) on the device.
+ * @property {Collection<import("./interaction/Interaction.js").default>|Array<import("./interaction/Interaction.js").default>} [interactions]
+ * Interactions that are initially added to the map. If not specified,
+ * {@link module:ol/interaction/defaults.defaults} is used.
+ * @property {HTMLElement|Document|string} [keyboardEventTarget] The element to
+ * listen to keyboard events on. This determines when the `KeyboardPan` and
+ * `KeyboardZoom` interactions trigger. For example, if this option is set to
+ * `document` the keyboard interactions will always trigger. If this option is
+ * not specified, the element the library listens to keyboard events on is the
+ * map target (i.e. the user-provided div for the map). If this is not
+ * `document`, the target element needs to be focused for key events to be
+ * emitted, requiring that the target element has a `tabindex` attribute.
+ * @property {Array<import("./layer/Base.js").default>|Collection<import("./layer/Base.js").default>|LayerGroup} [layers]
+ * Layers. If this is not defined, a map with no layers will be rendered. Note
+ * that layers are rendered in the order supplied, so if you want, for example,
+ * a vector layer to appear on top of a tile layer, it must come after the tile
+ * layer.
+ * @property {number} [maxTilesLoading=16] Maximum number tiles to load
+ * simultaneously.
+ * @property {number} [moveTolerance=1] The minimum distance in pixels the
+ * cursor must move to be detected as a map move event instead of a click.
+ * Increasing this value can make it easier to click on the map.
+ * @property {Collection<import("./Overlay.js").default>|Array<import("./Overlay.js").default>} [overlays]
+ * Overlays initially added to the map. By default, no overlays are added.
+ * @property {HTMLElement|string} [target] The container for the map, either the
+ * element itself or the `id` of the element. If not specified at construction
+ * time, {@link module:ol/Map~Map#setTarget} must be called for the map to be
+ * rendered. If passed by element, the container can be in a secondary document.
+ * **Note:** CSS `transform` support for the target element is limited to `scale`.
+ * @property {View|Promise<import("./View.js").ViewOptions>} [view] The map's view.  No layer sources will be
+ * fetched unless this is specified at construction time or through
+ * {@link module:ol/Map~Map#setView}.
+ */
+
+/**
+ * @param {import("./layer/Base.js").default} layer Layer.
+ */
+function removeLayerMapProperty(layer) {
+  if (layer instanceof _layer_Layer_js__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+    layer.setMapInternal(null);
+    return;
+  }
+  if (layer instanceof _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+    layer.getLayers().forEach(removeLayerMapProperty);
+  }
+}
+
+/**
+ * @param {import("./layer/Base.js").default} layer Layer.
+ * @param {Map} map Map.
+ */
+function setLayerMapProperty(layer, map) {
+  if (layer instanceof _layer_Layer_js__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+    layer.setMapInternal(map);
+    return;
+  }
+  if (layer instanceof _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+    const layers = layer.getLayers().getArray();
+    for (let i = 0, ii = layers.length; i < ii; ++i) {
+      setLayerMapProperty(layers[i], map);
+    }
+  }
+}
+
+/**
+ * @classdesc
+ * The map is the core component of OpenLayers. For a map to render, a view,
+ * one or more layers, and a target container are needed:
+ *
+ *     import Map from 'ol/Map.js';
+ *     import View from 'ol/View.js';
+ *     import TileLayer from 'ol/layer/Tile.js';
+ *     import OSM from 'ol/source/OSM.js';
+ *
+ *     const map = new Map({
+ *       view: new View({
+ *         center: [0, 0],
+ *         zoom: 1,
+ *       }),
+ *       layers: [
+ *         new TileLayer({
+ *           source: new OSM(),
+ *         }),
+ *       ],
+ *       target: 'map',
+ *     });
+ *
+ * The above snippet creates a map using a {@link module:ol/layer/Tile~TileLayer} to
+ * display {@link module:ol/source/OSM~OSM} OSM data and render it to a DOM
+ * element with the id `map`.
+ *
+ * The constructor places a viewport container (with CSS class name
+ * `ol-viewport`) in the target element (see `getViewport()`), and then two
+ * further elements within the viewport: one with CSS class name
+ * `ol-overlaycontainer-stopevent` for controls and some overlays, and one with
+ * CSS class name `ol-overlaycontainer` for other overlays (see the `stopEvent`
+ * option of {@link module:ol/Overlay~Overlay} for the difference). The map
+ * itself is placed in a further element within the viewport.
+ *
+ * Layers are stored as a {@link module:ol/Collection~Collection} in
+ * layerGroups. A top-level group is provided by the library. This is what is
+ * accessed by `getLayerGroup` and `setLayerGroup`. Layers entered in the
+ * options are added to this group, and `addLayer` and `removeLayer` change the
+ * layer collection in the group. `getLayers` is a convenience function for
+ * `getLayerGroup().getLayers()`. Note that {@link module:ol/layer/Group~LayerGroup}
+ * is a subclass of {@link module:ol/layer/Base~BaseLayer}, so layers entered in the
+ * options or added with `addLayer` can be groups, which can contain further
+ * groups, and so on.
+ *
+ * @fires import("./MapBrowserEvent.js").MapBrowserEvent
+ * @fires import("./MapEvent.js").MapEvent
+ * @fires import("./render/Event.js").default#precompose
+ * @fires import("./render/Event.js").default#postcompose
+ * @fires import("./render/Event.js").default#rendercomplete
+ * @api
+ */
+class Map extends _Object_js__WEBPACK_IMPORTED_MODULE_3__["default"] {
+  /**
+   * @param {MapOptions} [options] Map options.
+   */
+  constructor(options) {
+    super();
+
+    options = options || {};
+
+    /***
+     * @type {MapEventHandler<import("./events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {MapEventHandler<import("./events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {MapEventHandler<void>}
+     */
+    this.un;
+
+    const optionsInternal = createOptionsInternal(options);
+
+    /**
+     * @private
+     * @type {boolean|undefined}
+     */
+    this.renderComplete_;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.loaded_ = true;
+
+    /** @private */
+    this.boundHandleBrowserEvent_ = this.handleBrowserEvent.bind(this);
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.maxTilesLoading_ =
+      options.maxTilesLoading !== undefined ? options.maxTilesLoading : 16;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.pixelRatio_ =
+      options.pixelRatio !== undefined
+        ? options.pixelRatio
+        : _has_js__WEBPACK_IMPORTED_MODULE_4__.DEVICE_PIXEL_RATIO;
+
+    /**
+     * @private
+     * @type {*}
+     */
+    this.postRenderTimeoutHandle_;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.animationDelayKey_;
+
+    /**
+     * @private
+     */
+    this.animationDelay_ = this.animationDelay_.bind(this);
+
+    /**
+     * @private
+     * @type {import("./transform.js").Transform}
+     */
+    this.coordinateToPixelTransform_ = (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.create)();
+
+    /**
+     * @private
+     * @type {import("./transform.js").Transform}
+     */
+    this.pixelToCoordinateTransform_ = (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.create)();
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.frameIndex_ = 0;
+
+    /**
+     * @private
+     * @type {?FrameState}
+     */
+    this.frameState_ = null;
+
+    /**
+     * The extent at the previous 'moveend' event.
+     * @private
+     * @type {import("./extent.js").Extent}
+     */
+    this.previousExtent_ = null;
+
+    /**
+     * @private
+     * @type {?import("./events.js").EventsKey}
+     */
+    this.viewPropertyListenerKey_ = null;
+
+    /**
+     * @private
+     * @type {?import("./events.js").EventsKey}
+     */
+    this.viewChangeListenerKey_ = null;
+
+    /**
+     * @private
+     * @type {?Array<import("./events.js").EventsKey>}
+     */
+    this.layerGroupPropertyListenerKeys_ = null;
+
+    /**
+     * @private
+     * @type {!HTMLElement}
+     */
+    this.viewport_ = document.createElement('div');
+    this.viewport_.className =
+      'ol-viewport' + ('ontouchstart' in window ? ' ol-touch' : '');
+    this.viewport_.style.position = 'relative';
+    this.viewport_.style.overflow = 'hidden';
+    this.viewport_.style.width = '100%';
+    this.viewport_.style.height = '100%';
+
+    /**
+     * @private
+     * @type {!HTMLElement}
+     */
+    this.overlayContainer_ = document.createElement('div');
+    this.overlayContainer_.style.position = 'absolute';
+    this.overlayContainer_.style.zIndex = '0';
+    this.overlayContainer_.style.width = '100%';
+    this.overlayContainer_.style.height = '100%';
+    this.overlayContainer_.style.pointerEvents = 'none';
+    this.overlayContainer_.className = 'ol-overlaycontainer';
+    this.viewport_.appendChild(this.overlayContainer_);
+
+    /**
+     * @private
+     * @type {!HTMLElement}
+     */
+    this.overlayContainerStopEvent_ = document.createElement('div');
+    this.overlayContainerStopEvent_.style.position = 'absolute';
+    this.overlayContainerStopEvent_.style.zIndex = '0';
+    this.overlayContainerStopEvent_.style.width = '100%';
+    this.overlayContainerStopEvent_.style.height = '100%';
+    this.overlayContainerStopEvent_.style.pointerEvents = 'none';
+    this.overlayContainerStopEvent_.className = 'ol-overlaycontainer-stopevent';
+    this.viewport_.appendChild(this.overlayContainerStopEvent_);
+
+    /**
+     * @private
+     * @type {MapBrowserEventHandler}
+     */
+    this.mapBrowserEventHandler_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.moveTolerance_ = options.moveTolerance;
+
+    /**
+     * @private
+     * @type {HTMLElement|Document}
+     */
+    this.keyboardEventTarget_ = optionsInternal.keyboardEventTarget;
+
+    /**
+     * @private
+     * @type {?Array<import("./events.js").EventsKey>}
+     */
+    this.targetChangeHandlerKeys_ = null;
+
+    /**
+     * @private
+     * @type {HTMLElement|null}
+     */
+    this.targetElement_ = null;
+
+    /**
+     * @type {ResizeObserver}
+     */
+    this.resizeObserver_ = new ResizeObserver(() => this.updateSize());
+
+    /**
+     * @type {Collection<import("./control/Control.js").default>}
+     * @protected
+     */
+    this.controls = optionsInternal.controls || (0,_control_defaults_js__WEBPACK_IMPORTED_MODULE_6__.defaults)();
+
+    /**
+     * @type {Collection<import("./interaction/Interaction.js").default>}
+     * @protected
+     */
+    this.interactions =
+      optionsInternal.interactions ||
+      (0,_interaction_defaults_js__WEBPACK_IMPORTED_MODULE_7__.defaults)({
+        onFocusOnly: true,
+      });
+
+    /**
+     * @type {Collection<import("./Overlay.js").default>}
+     * @private
+     */
+    this.overlays_ = optionsInternal.overlays;
+
+    /**
+     * A lookup of overlays by id.
+     * @private
+     * @type {Object<string, import("./Overlay.js").default>}
+     */
+    this.overlayIdIndex_ = {};
+
+    /**
+     * @type {import("./renderer/Map.js").default|null}
+     * @private
+     */
+    this.renderer_ = null;
+
+    /**
+     * @private
+     * @type {!Array<PostRenderFunction>}
+     */
+    this.postRenderFunctions_ = [];
+
+    /**
+     * @private
+     * @type {TileQueue}
+     */
+    this.tileQueue_ = new _TileQueue_js__WEBPACK_IMPORTED_MODULE_8__["default"](
+      this.getTilePriority.bind(this),
+      this.handleTileChange_.bind(this)
+    );
+
+    this.addChangeListener(
+      _MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].LAYERGROUP,
+      this.handleLayerGroupChanged_
+    );
+    this.addChangeListener(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].VIEW, this.handleViewChanged_);
+    this.addChangeListener(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].SIZE, this.handleSizeChanged_);
+    this.addChangeListener(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].TARGET, this.handleTargetChanged_);
+
+    // setProperties will trigger the rendering of the map if the map
+    // is "defined" already.
+    this.setProperties(optionsInternal.values);
+
+    const map = this;
+    if (options.view && !(options.view instanceof _View_js__WEBPACK_IMPORTED_MODULE_10__["default"])) {
+      options.view.then(function (viewOptions) {
+        map.setView(new _View_js__WEBPACK_IMPORTED_MODULE_10__["default"](viewOptions));
+      });
+    }
+
+    this.controls.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].ADD,
+      /**
+       * @param {import("./Collection.js").CollectionEvent<import("./control/Control.js").default>} event CollectionEvent
+       */
+      (event) => {
+        event.element.setMap(this);
+      }
+    );
+
+    this.controls.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].REMOVE,
+      /**
+       * @param {import("./Collection.js").CollectionEvent<import("./control/Control.js").default>} event CollectionEvent.
+       */
+      (event) => {
+        event.element.setMap(null);
+      }
+    );
+
+    this.interactions.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].ADD,
+      /**
+       * @param {import("./Collection.js").CollectionEvent<import("./interaction/Interaction.js").default>} event CollectionEvent.
+       */
+      (event) => {
+        event.element.setMap(this);
+      }
+    );
+
+    this.interactions.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].REMOVE,
+      /**
+       * @param {import("./Collection.js").CollectionEvent<import("./interaction/Interaction.js").default>} event CollectionEvent.
+       */
+      (event) => {
+        event.element.setMap(null);
+      }
+    );
+
+    this.overlays_.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].ADD,
+      /**
+       * @param {import("./Collection.js").CollectionEvent<import("./Overlay.js").default>} event CollectionEvent.
+       */
+      (event) => {
+        this.addOverlayInternal_(event.element);
+      }
+    );
+
+    this.overlays_.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].REMOVE,
+      /**
+       * @param {import("./Collection.js").CollectionEvent<import("./Overlay.js").default>} event CollectionEvent.
+       */
+      (event) => {
+        const id = event.element.getId();
+        if (id !== undefined) {
+          delete this.overlayIdIndex_[id.toString()];
+        }
+        event.element.setMap(null);
+      }
+    );
+
+    this.controls.forEach(
+      /**
+       * @param {import("./control/Control.js").default} control Control.
+       */
+      (control) => {
+        control.setMap(this);
+      }
+    );
+
+    this.interactions.forEach(
+      /**
+       * @param {import("./interaction/Interaction.js").default} interaction Interaction.
+       */
+      (interaction) => {
+        interaction.setMap(this);
+      }
+    );
+
+    this.overlays_.forEach(this.addOverlayInternal_.bind(this));
+  }
+
+  /**
+   * Add the given control to the map.
+   * @param {import("./control/Control.js").default} control Control.
+   * @api
+   */
+  addControl(control) {
+    this.getControls().push(control);
+  }
+
+  /**
+   * Add the given interaction to the map. If you want to add an interaction
+   * at another point of the collection use `getInteractions()` and the methods
+   * available on {@link module:ol/Collection~Collection}. This can be used to
+   * stop the event propagation from the handleEvent function. The interactions
+   * get to handle the events in the reverse order of this collection.
+   * @param {import("./interaction/Interaction.js").default} interaction Interaction to add.
+   * @api
+   */
+  addInteraction(interaction) {
+    this.getInteractions().push(interaction);
+  }
+
+  /**
+   * Adds the given layer to the top of this map. If you want to add a layer
+   * elsewhere in the stack, use `getLayers()` and the methods available on
+   * {@link module:ol/Collection~Collection}.
+   * @param {import("./layer/Base.js").default} layer Layer.
+   * @api
+   */
+  addLayer(layer) {
+    const layers = this.getLayerGroup().getLayers();
+    layers.push(layer);
+  }
+
+  /**
+   * @param {import("./layer/Group.js").GroupEvent} event The layer add event.
+   * @private
+   */
+  handleLayerAdd_(event) {
+    setLayerMapProperty(event.layer, this);
+  }
+
+  /**
+   * Add the given overlay to the map.
+   * @param {import("./Overlay.js").default} overlay Overlay.
+   * @api
+   */
+  addOverlay(overlay) {
+    this.getOverlays().push(overlay);
+  }
+
+  /**
+   * This deals with map's overlay collection changes.
+   * @param {import("./Overlay.js").default} overlay Overlay.
+   * @private
+   */
+  addOverlayInternal_(overlay) {
+    const id = overlay.getId();
+    if (id !== undefined) {
+      this.overlayIdIndex_[id.toString()] = overlay;
+    }
+    overlay.setMap(this);
+  }
+
+  /**
+   *
+   * Clean up.
+   */
+  disposeInternal() {
+    this.controls.clear();
+    this.interactions.clear();
+    this.overlays_.clear();
+    this.resizeObserver_.disconnect();
+    this.setTarget(null);
+    super.disposeInternal();
+  }
+
+  /**
+   * Detect features that intersect a pixel on the viewport, and execute a
+   * callback with each intersecting feature. Layers included in the detection can
+   * be configured through the `layerFilter` option in `options`.
+   * @param {import("./pixel.js").Pixel} pixel Pixel.
+   * @param {function(import("./Feature.js").FeatureLike, import("./layer/Layer.js").default<import("./source/Source").default>, import("./geom/SimpleGeometry.js").default): T} callback Feature callback. The callback will be
+   *     called with two arguments. The first argument is one
+   *     {@link module:ol/Feature~Feature feature} or
+   *     {@link module:ol/render/Feature~RenderFeature render feature} at the pixel, the second is
+   *     the {@link module:ol/layer/Layer~Layer layer} of the feature and will be null for
+   *     unmanaged layers. To stop detection, callback functions can return a
+   *     truthy value.
+   * @param {AtPixelOptions} [options] Optional options.
+   * @return {T|undefined} Callback result, i.e. the return value of last
+   * callback execution, or the first truthy callback return value.
+   * @template T
+   * @api
+   */
+  forEachFeatureAtPixel(pixel, callback, options) {
+    if (!this.frameState_ || !this.renderer_) {
+      return;
+    }
+    const coordinate = this.getCoordinateFromPixelInternal(pixel);
+    options = options !== undefined ? options : {};
+    const hitTolerance =
+      options.hitTolerance !== undefined ? options.hitTolerance : 0;
+    const layerFilter =
+      options.layerFilter !== undefined ? options.layerFilter : _functions_js__WEBPACK_IMPORTED_MODULE_12__.TRUE;
+    const checkWrapped = options.checkWrapped !== false;
+    return this.renderer_.forEachFeatureAtCoordinate(
+      coordinate,
+      this.frameState_,
+      hitTolerance,
+      checkWrapped,
+      callback,
+      null,
+      layerFilter,
+      null
+    );
+  }
+
+  /**
+   * Get all features that intersect a pixel on the viewport.
+   * @param {import("./pixel.js").Pixel} pixel Pixel.
+   * @param {AtPixelOptions} [options] Optional options.
+   * @return {Array<import("./Feature.js").FeatureLike>} The detected features or
+   * an empty array if none were found.
+   * @api
+   */
+  getFeaturesAtPixel(pixel, options) {
+    const features = [];
+    this.forEachFeatureAtPixel(
+      pixel,
+      function (feature) {
+        features.push(feature);
+      },
+      options
+    );
+    return features;
+  }
+
+  /**
+   * Get all layers from all layer groups.
+   * @return {Array<import("./layer/Layer.js").default>} Layers.
+   * @api
+   */
+  getAllLayers() {
+    const layers = [];
+    function addLayersFrom(layerGroup) {
+      layerGroup.forEach(function (layer) {
+        if (layer instanceof _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+          addLayersFrom(layer.getLayers());
+        } else {
+          layers.push(layer);
+        }
+      });
+    }
+    addLayersFrom(this.getLayers());
+    return layers;
+  }
+
+  /**
+   * Detect if features intersect a pixel on the viewport. Layers included in the
+   * detection can be configured through the `layerFilter` option.
+   * @param {import("./pixel.js").Pixel} pixel Pixel.
+   * @param {AtPixelOptions} [options] Optional options.
+   * @return {boolean} Is there a feature at the given pixel?
+   * @api
+   */
+  hasFeatureAtPixel(pixel, options) {
+    if (!this.frameState_ || !this.renderer_) {
+      return false;
+    }
+    const coordinate = this.getCoordinateFromPixelInternal(pixel);
+    options = options !== undefined ? options : {};
+    const layerFilter =
+      options.layerFilter !== undefined ? options.layerFilter : _functions_js__WEBPACK_IMPORTED_MODULE_12__.TRUE;
+    const hitTolerance =
+      options.hitTolerance !== undefined ? options.hitTolerance : 0;
+    const checkWrapped = options.checkWrapped !== false;
+    return this.renderer_.hasFeatureAtCoordinate(
+      coordinate,
+      this.frameState_,
+      hitTolerance,
+      checkWrapped,
+      layerFilter,
+      null
+    );
+  }
+
+  /**
+   * Returns the coordinate in user projection for a browser event.
+   * @param {MouseEvent} event Event.
+   * @return {import("./coordinate.js").Coordinate} Coordinate.
+   * @api
+   */
+  getEventCoordinate(event) {
+    return this.getCoordinateFromPixel(this.getEventPixel(event));
+  }
+
+  /**
+   * Returns the coordinate in view projection for a browser event.
+   * @param {MouseEvent} event Event.
+   * @return {import("./coordinate.js").Coordinate} Coordinate.
+   */
+  getEventCoordinateInternal(event) {
+    return this.getCoordinateFromPixelInternal(this.getEventPixel(event));
+  }
+
+  /**
+   * Returns the map pixel position for a browser event relative to the viewport.
+   * @param {UIEvent|{clientX: number, clientY: number}} event Event.
+   * @return {import("./pixel.js").Pixel} Pixel.
+   * @api
+   */
+  getEventPixel(event) {
+    const viewport = this.viewport_;
+    const viewportPosition = viewport.getBoundingClientRect();
+    const viewportSize = this.getSize();
+    const scaleX = viewportPosition.width / viewportSize[0];
+    const scaleY = viewportPosition.height / viewportSize[1];
+    const eventPosition =
+      //FIXME Are we really calling this with a TouchEvent anywhere?
+      'changedTouches' in event
+        ? /** @type {TouchEvent} */ (event).changedTouches[0]
+        : /** @type {MouseEvent} */ (event);
+
+    return [
+      (eventPosition.clientX - viewportPosition.left) / scaleX,
+      (eventPosition.clientY - viewportPosition.top) / scaleY,
+    ];
+  }
+
+  /**
+   * Get the target in which this map is rendered.
+   * Note that this returns what is entered as an option or in setTarget:
+   * if that was an element, it returns an element; if a string, it returns that.
+   * @return {HTMLElement|string|undefined} The Element or id of the Element that the
+   *     map is rendered in.
+   * @observable
+   * @api
+   */
+  getTarget() {
+    return /** @type {HTMLElement|string|undefined} */ (
+      this.get(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].TARGET)
+    );
+  }
+
+  /**
+   * Get the DOM element into which this map is rendered. In contrast to
+   * `getTarget` this method always return an `Element`, or `null` if the
+   * map has no target.
+   * @return {HTMLElement} The element that the map is rendered in.
+   * @api
+   */
+  getTargetElement() {
+    return this.targetElement_;
+  }
+
+  /**
+   * Get the coordinate for a given pixel.  This returns a coordinate in the
+   * user projection.
+   * @param {import("./pixel.js").Pixel} pixel Pixel position in the map viewport.
+   * @return {import("./coordinate.js").Coordinate} The coordinate for the pixel position.
+   * @api
+   */
+  getCoordinateFromPixel(pixel) {
+    return (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.toUserCoordinate)(
+      this.getCoordinateFromPixelInternal(pixel),
+      this.getView().getProjection()
+    );
+  }
+
+  /**
+   * Get the coordinate for a given pixel.  This returns a coordinate in the
+   * map view projection.
+   * @param {import("./pixel.js").Pixel} pixel Pixel position in the map viewport.
+   * @return {import("./coordinate.js").Coordinate} The coordinate for the pixel position.
+   */
+  getCoordinateFromPixelInternal(pixel) {
+    const frameState = this.frameState_;
+    if (!frameState) {
+      return null;
+    }
+    return (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.apply)(frameState.pixelToCoordinateTransform, pixel.slice());
+  }
+
+  /**
+   * Get the map controls. Modifying this collection changes the controls
+   * associated with the map.
+   * @return {Collection<import("./control/Control.js").default>} Controls.
+   * @api
+   */
+  getControls() {
+    return this.controls;
+  }
+
+  /**
+   * Get the map overlays. Modifying this collection changes the overlays
+   * associated with the map.
+   * @return {Collection<import("./Overlay.js").default>} Overlays.
+   * @api
+   */
+  getOverlays() {
+    return this.overlays_;
+  }
+
+  /**
+   * Get an overlay by its identifier (the value returned by overlay.getId()).
+   * Note that the index treats string and numeric identifiers as the same. So
+   * `map.getOverlayById(2)` will return an overlay with id `'2'` or `2`.
+   * @param {string|number} id Overlay identifier.
+   * @return {import("./Overlay.js").default} Overlay.
+   * @api
+   */
+  getOverlayById(id) {
+    const overlay = this.overlayIdIndex_[id.toString()];
+    return overlay !== undefined ? overlay : null;
+  }
+
+  /**
+   * Get the map interactions. Modifying this collection changes the interactions
+   * associated with the map.
+   *
+   * Interactions are used for e.g. pan, zoom and rotate.
+   * @return {Collection<import("./interaction/Interaction.js").default>} Interactions.
+   * @api
+   */
+  getInteractions() {
+    return this.interactions;
+  }
+
+  /**
+   * Get the layergroup associated with this map.
+   * @return {LayerGroup} A layer group containing the layers in this map.
+   * @observable
+   * @api
+   */
+  getLayerGroup() {
+    return /** @type {LayerGroup} */ (this.get(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].LAYERGROUP));
+  }
+
+  /**
+   * Clear any existing layers and add layers to the map.
+   * @param {Array<import("./layer/Base.js").default>|Collection<import("./layer/Base.js").default>} layers The layers to be added to the map.
+   * @api
+   */
+  setLayers(layers) {
+    const group = this.getLayerGroup();
+    if (layers instanceof _Collection_js__WEBPACK_IMPORTED_MODULE_13__["default"]) {
+      group.setLayers(layers);
+      return;
+    }
+
+    const collection = group.getLayers();
+    collection.clear();
+    collection.extend(layers);
+  }
+
+  /**
+   * Get the collection of layers associated with this map.
+   * @return {!Collection<import("./layer/Base.js").default>} Layers.
+   * @api
+   */
+  getLayers() {
+    const layers = this.getLayerGroup().getLayers();
+    return layers;
+  }
+
+  /**
+   * @return {boolean} Layers have sources that are still loading.
+   */
+  getLoadingOrNotReady() {
+    const layerStatesArray = this.getLayerGroup().getLayerStatesArray();
+    for (let i = 0, ii = layerStatesArray.length; i < ii; ++i) {
+      const state = layerStatesArray[i];
+      if (!state.visible) {
+        continue;
+      }
+      const renderer = state.layer.getRenderer();
+      if (renderer && !renderer.ready) {
+        return true;
+      }
+      const source = state.layer.getSource();
+      if (source && source.loading) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Get the pixel for a coordinate.  This takes a coordinate in the user
+   * projection and returns the corresponding pixel.
+   * @param {import("./coordinate.js").Coordinate} coordinate A map coordinate.
+   * @return {import("./pixel.js").Pixel} A pixel position in the map viewport.
+   * @api
+   */
+  getPixelFromCoordinate(coordinate) {
+    const viewCoordinate = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.fromUserCoordinate)(
+      coordinate,
+      this.getView().getProjection()
+    );
+    return this.getPixelFromCoordinateInternal(viewCoordinate);
+  }
+
+  /**
+   * Get the pixel for a coordinate.  This takes a coordinate in the map view
+   * projection and returns the corresponding pixel.
+   * @param {import("./coordinate.js").Coordinate} coordinate A map coordinate.
+   * @return {import("./pixel.js").Pixel} A pixel position in the map viewport.
+   */
+  getPixelFromCoordinateInternal(coordinate) {
+    const frameState = this.frameState_;
+    if (!frameState) {
+      return null;
+    }
+    return (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.apply)(
+      frameState.coordinateToPixelTransform,
+      coordinate.slice(0, 2)
+    );
+  }
+
+  /**
+   * Get the map renderer.
+   * @return {import("./renderer/Map.js").default|null} Renderer
+   */
+  getRenderer() {
+    return this.renderer_;
+  }
+
+  /**
+   * Get the size of this map.
+   * @return {import("./size.js").Size|undefined} The size in pixels of the map in the DOM.
+   * @observable
+   * @api
+   */
+  getSize() {
+    return /** @type {import("./size.js").Size|undefined} */ (
+      this.get(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].SIZE)
+    );
+  }
+
+  /**
+   * Get the view associated with this map. A view manages properties such as
+   * center and resolution.
+   * @return {View} The view that controls this map.
+   * @observable
+   * @api
+   */
+  getView() {
+    return /** @type {View} */ (this.get(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].VIEW));
+  }
+
+  /**
+   * Get the element that serves as the map viewport.
+   * @return {HTMLElement} Viewport.
+   * @api
+   */
+  getViewport() {
+    return this.viewport_;
+  }
+
+  /**
+   * Get the element that serves as the container for overlays.  Elements added to
+   * this container will let mousedown and touchstart events through to the map,
+   * so clicks and gestures on an overlay will trigger {@link module:ol/MapBrowserEvent~MapBrowserEvent}
+   * events.
+   * @return {!HTMLElement} The map's overlay container.
+   */
+  getOverlayContainer() {
+    return this.overlayContainer_;
+  }
+
+  /**
+   * Get the element that serves as a container for overlays that don't allow
+   * event propagation. Elements added to this container won't let mousedown and
+   * touchstart events through to the map, so clicks and gestures on an overlay
+   * don't trigger any {@link module:ol/MapBrowserEvent~MapBrowserEvent}.
+   * @return {!HTMLElement} The map's overlay container that stops events.
+   */
+  getOverlayContainerStopEvent() {
+    return this.overlayContainerStopEvent_;
+  }
+
+  /**
+   * @return {!Document} The document where the map is displayed.
+   */
+  getOwnerDocument() {
+    const targetElement = this.getTargetElement();
+    return targetElement ? targetElement.ownerDocument : document;
+  }
+
+  /**
+   * @param {import("./Tile.js").default} tile Tile.
+   * @param {string} tileSourceKey Tile source key.
+   * @param {import("./coordinate.js").Coordinate} tileCenter Tile center.
+   * @param {number} tileResolution Tile resolution.
+   * @return {number} Tile priority.
+   */
+  getTilePriority(tile, tileSourceKey, tileCenter, tileResolution) {
+    return (0,_TileQueue_js__WEBPACK_IMPORTED_MODULE_8__.getTilePriority)(
+      this.frameState_,
+      tile,
+      tileSourceKey,
+      tileCenter,
+      tileResolution
+    );
+  }
+
+  /**
+   * @param {UIEvent} browserEvent Browser event.
+   * @param {string} [type] Type.
+   */
+  handleBrowserEvent(browserEvent, type) {
+    type = type || browserEvent.type;
+    const mapBrowserEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_14__["default"](type, this, browserEvent);
+    this.handleMapBrowserEvent(mapBrowserEvent);
+  }
+
+  /**
+   * @param {MapBrowserEvent} mapBrowserEvent The event to handle.
+   */
+  handleMapBrowserEvent(mapBrowserEvent) {
+    if (!this.frameState_) {
+      // With no view defined, we cannot translate pixels into geographical
+      // coordinates so interactions cannot be used.
+      return;
+    }
+    const originalEvent = /** @type {PointerEvent} */ (
+      mapBrowserEvent.originalEvent
+    );
+    const eventType = originalEvent.type;
+    if (
+      eventType === _pointer_EventType_js__WEBPACK_IMPORTED_MODULE_15__["default"].POINTERDOWN ||
+      eventType === _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].WHEEL ||
+      eventType === _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].KEYDOWN
+    ) {
+      const doc = this.getOwnerDocument();
+      const rootNode = this.viewport_.getRootNode
+        ? this.viewport_.getRootNode()
+        : doc;
+      const target = /** @type {Node} */ (originalEvent.target);
+      if (
+        // Abort if the target is a child of the container for elements whose events are not meant
+        // to be handled by map interactions.
+        this.overlayContainerStopEvent_.contains(target) ||
+        // Abort if the event target is a child of the container that is no longer in the page.
+        // It's possible for the target to no longer be in the page if it has been removed in an
+        // event listener, this might happen in a Control that recreates it's content based on
+        // user interaction either manually or via a render in something like https://reactjs.org/
+        !(rootNode === doc ? doc.documentElement : rootNode).contains(target)
+      ) {
+        return;
+      }
+    }
+    mapBrowserEvent.frameState = this.frameState_;
+    if (this.dispatchEvent(mapBrowserEvent) !== false) {
+      const interactionsArray = this.getInteractions().getArray().slice();
+      for (let i = interactionsArray.length - 1; i >= 0; i--) {
+        const interaction = interactionsArray[i];
+        if (
+          interaction.getMap() !== this ||
+          !interaction.getActive() ||
+          !this.getTargetElement()
+        ) {
+          continue;
+        }
+        const cont = interaction.handleEvent(mapBrowserEvent);
+        if (!cont || mapBrowserEvent.propagationStopped) {
+          break;
+        }
+      }
+    }
+  }
+
+  /**
+   * @protected
+   */
+  handlePostRender() {
+    const frameState = this.frameState_;
+
+    // Manage the tile queue
+    // Image loads are expensive and a limited resource, so try to use them
+    // efficiently:
+    // * When the view is static we allow a large number of parallel tile loads
+    //   to complete the frame as quickly as possible.
+    // * When animating or interacting, image loads can cause janks, so we reduce
+    //   the maximum number of loads per frame and limit the number of parallel
+    //   tile loads to remain reactive to view changes and to reduce the chance of
+    //   loading tiles that will quickly disappear from view.
+    const tileQueue = this.tileQueue_;
+    if (!tileQueue.isEmpty()) {
+      let maxTotalLoading = this.maxTilesLoading_;
+      let maxNewLoads = maxTotalLoading;
+      if (frameState) {
+        const hints = frameState.viewHints;
+        if (hints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_17__["default"].ANIMATING] || hints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_17__["default"].INTERACTING]) {
+          const lowOnFrameBudget = Date.now() - frameState.time > 8;
+          maxTotalLoading = lowOnFrameBudget ? 0 : 8;
+          maxNewLoads = lowOnFrameBudget ? 0 : 2;
+        }
+      }
+      if (tileQueue.getTilesLoading() < maxTotalLoading) {
+        tileQueue.reprioritize(); // FIXME only call if view has changed
+        tileQueue.loadMoreTiles(maxTotalLoading, maxNewLoads);
+      }
+    }
+
+    if (frameState && this.renderer_ && !frameState.animate) {
+      if (this.renderComplete_ === true) {
+        if (this.hasListener(_render_EventType_js__WEBPACK_IMPORTED_MODULE_18__["default"].RENDERCOMPLETE)) {
+          this.renderer_.dispatchRenderEvent(
+            _render_EventType_js__WEBPACK_IMPORTED_MODULE_18__["default"].RENDERCOMPLETE,
+            frameState
+          );
+        }
+        if (this.loaded_ === false) {
+          this.loaded_ = true;
+          this.dispatchEvent(
+            new _MapEvent_js__WEBPACK_IMPORTED_MODULE_19__["default"](_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].LOADEND, this, frameState)
+          );
+        }
+      } else if (this.loaded_ === true) {
+        this.loaded_ = false;
+        this.dispatchEvent(
+          new _MapEvent_js__WEBPACK_IMPORTED_MODULE_19__["default"](_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].LOADSTART, this, frameState)
+        );
+      }
+    }
+
+    const postRenderFunctions = this.postRenderFunctions_;
+    for (let i = 0, ii = postRenderFunctions.length; i < ii; ++i) {
+      postRenderFunctions[i](this, frameState);
+    }
+    postRenderFunctions.length = 0;
+  }
+
+  /**
+   * @private
+   */
+  handleSizeChanged_() {
+    if (this.getView() && !this.getView().getAnimating()) {
+      this.getView().resolveConstraints(0);
+    }
+
+    this.render();
+  }
+
+  /**
+   * @private
+   */
+  handleTargetChanged_() {
+    if (this.mapBrowserEventHandler_) {
+      for (let i = 0, ii = this.targetChangeHandlerKeys_.length; i < ii; ++i) {
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.unlistenByKey)(this.targetChangeHandlerKeys_[i]);
+      }
+      this.targetChangeHandlerKeys_ = null;
+      this.viewport_.removeEventListener(
+        _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].CONTEXTMENU,
+        this.boundHandleBrowserEvent_
+      );
+      this.viewport_.removeEventListener(
+        _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].WHEEL,
+        this.boundHandleBrowserEvent_
+      );
+      this.mapBrowserEventHandler_.dispose();
+      this.mapBrowserEventHandler_ = null;
+      (0,_dom_js__WEBPACK_IMPORTED_MODULE_22__.removeNode)(this.viewport_);
+    }
+
+    if (this.targetElement_) {
+      this.resizeObserver_.unobserve(this.targetElement_);
+      const rootNode = this.targetElement_.getRootNode();
+      if (rootNode instanceof ShadowRoot) {
+        this.resizeObserver_.unobserve(rootNode.host);
+      }
+    }
+
+    // target may be undefined, null, a string or an Element.
+    // If it's a string we convert it to an Element before proceeding.
+    // If it's not now an Element we remove the viewport from the DOM.
+    // If it's an Element we append the viewport element to it.
+
+    const target = this.getTarget();
+    const targetElement =
+      typeof target === 'string' ? document.getElementById(target) : target;
+    this.targetElement_ = targetElement;
+    if (!targetElement) {
+      if (this.renderer_) {
+        clearTimeout(this.postRenderTimeoutHandle_);
+        this.postRenderTimeoutHandle_ = undefined;
+        this.postRenderFunctions_.length = 0;
+        this.renderer_.dispose();
+        this.renderer_ = null;
+      }
+      if (this.animationDelayKey_) {
+        cancelAnimationFrame(this.animationDelayKey_);
+        this.animationDelayKey_ = undefined;
+      }
+    } else {
+      targetElement.appendChild(this.viewport_);
+      if (!this.renderer_) {
+        this.renderer_ = new _renderer_Composite_js__WEBPACK_IMPORTED_MODULE_23__["default"](this);
+      }
+
+      this.mapBrowserEventHandler_ = new _MapBrowserEventHandler_js__WEBPACK_IMPORTED_MODULE_24__["default"](
+        this,
+        this.moveTolerance_
+      );
+      for (const key in _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_25__["default"]) {
+        this.mapBrowserEventHandler_.addEventListener(
+          _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_25__["default"][key],
+          this.handleMapBrowserEvent.bind(this)
+        );
+      }
+      this.viewport_.addEventListener(
+        _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].CONTEXTMENU,
+        this.boundHandleBrowserEvent_,
+        false
+      );
+      this.viewport_.addEventListener(
+        _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].WHEEL,
+        this.boundHandleBrowserEvent_,
+        _has_js__WEBPACK_IMPORTED_MODULE_4__.PASSIVE_EVENT_LISTENERS ? {passive: false} : false
+      );
+
+      const keyboardEventTarget = !this.keyboardEventTarget_
+        ? targetElement
+        : this.keyboardEventTarget_;
+      this.targetChangeHandlerKeys_ = [
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(
+          keyboardEventTarget,
+          _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].KEYDOWN,
+          this.handleBrowserEvent,
+          this
+        ),
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(
+          keyboardEventTarget,
+          _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].KEYPRESS,
+          this.handleBrowserEvent,
+          this
+        ),
+      ];
+      const rootNode = targetElement.getRootNode();
+      if (rootNode instanceof ShadowRoot) {
+        this.resizeObserver_.observe(rootNode.host);
+      }
+      this.resizeObserver_.observe(targetElement);
+    }
+
+    this.updateSize();
+    // updateSize calls setSize, so no need to call this.render
+    // ourselves here.
+  }
+
+  /**
+   * @private
+   */
+  handleTileChange_() {
+    this.render();
+  }
+
+  /**
+   * @private
+   */
+  handleViewPropertyChanged_() {
+    this.render();
+  }
+
+  /**
+   * @private
+   */
+  handleViewChanged_() {
+    if (this.viewPropertyListenerKey_) {
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.unlistenByKey)(this.viewPropertyListenerKey_);
+      this.viewPropertyListenerKey_ = null;
+    }
+    if (this.viewChangeListenerKey_) {
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.unlistenByKey)(this.viewChangeListenerKey_);
+      this.viewChangeListenerKey_ = null;
+    }
+    const view = this.getView();
+    if (view) {
+      this.updateViewportSize_();
+
+      this.viewPropertyListenerKey_ = (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(
+        view,
+        _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_26__["default"].PROPERTYCHANGE,
+        this.handleViewPropertyChanged_,
+        this
+      );
+      this.viewChangeListenerKey_ = (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(
+        view,
+        _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].CHANGE,
+        this.handleViewPropertyChanged_,
+        this
+      );
+
+      view.resolveConstraints(0);
+    }
+    this.render();
+  }
+
+  /**
+   * @private
+   */
+  handleLayerGroupChanged_() {
+    if (this.layerGroupPropertyListenerKeys_) {
+      this.layerGroupPropertyListenerKeys_.forEach(_events_js__WEBPACK_IMPORTED_MODULE_21__.unlistenByKey);
+      this.layerGroupPropertyListenerKeys_ = null;
+    }
+    const layerGroup = this.getLayerGroup();
+    if (layerGroup) {
+      this.handleLayerAdd_(new _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__.GroupEvent('addlayer', layerGroup));
+      this.layerGroupPropertyListenerKeys_ = [
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(layerGroup, _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_26__["default"].PROPERTYCHANGE, this.render, this),
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(layerGroup, _events_EventType_js__WEBPACK_IMPORTED_MODULE_16__["default"].CHANGE, this.render, this),
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(layerGroup, 'addlayer', this.handleLayerAdd_, this),
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_21__.listen)(layerGroup, 'removelayer', this.handleLayerRemove_, this),
+      ];
+    }
+    this.render();
+  }
+
+  /**
+   * @return {boolean} Is rendered.
+   */
+  isRendered() {
+    return !!this.frameState_;
+  }
+
+  /**
+   * @private
+   */
+  animationDelay_() {
+    this.animationDelayKey_ = undefined;
+    this.renderFrame_(Date.now());
+  }
+
+  /**
+   * Requests an immediate render in a synchronous manner.
+   * @api
+   */
+  renderSync() {
+    if (this.animationDelayKey_) {
+      cancelAnimationFrame(this.animationDelayKey_);
+    }
+    this.animationDelay_();
+  }
+
+  /**
+   * Redraws all text after new fonts have loaded
+   */
+  redrawText() {
+    const layerStates = this.getLayerGroup().getLayerStatesArray();
+    for (let i = 0, ii = layerStates.length; i < ii; ++i) {
+      const layer = layerStates[i].layer;
+      if (layer.hasRenderer()) {
+        layer.getRenderer().handleFontsChanged();
+      }
+    }
+  }
+
+  /**
+   * Request a map rendering (at the next animation frame).
+   * @api
+   */
+  render() {
+    if (this.renderer_ && this.animationDelayKey_ === undefined) {
+      this.animationDelayKey_ = requestAnimationFrame(this.animationDelay_);
+    }
+  }
+
+  /**
+   * Remove the given control from the map.
+   * @param {import("./control/Control.js").default} control Control.
+   * @return {import("./control/Control.js").default|undefined} The removed control (or undefined
+   *     if the control was not found).
+   * @api
+   */
+  removeControl(control) {
+    return this.getControls().remove(control);
+  }
+
+  /**
+   * Remove the given interaction from the map.
+   * @param {import("./interaction/Interaction.js").default} interaction Interaction to remove.
+   * @return {import("./interaction/Interaction.js").default|undefined} The removed interaction (or
+   *     undefined if the interaction was not found).
+   * @api
+   */
+  removeInteraction(interaction) {
+    return this.getInteractions().remove(interaction);
+  }
+
+  /**
+   * Removes the given layer from the map.
+   * @param {import("./layer/Base.js").default} layer Layer.
+   * @return {import("./layer/Base.js").default|undefined} The removed layer (or undefined if the
+   *     layer was not found).
+   * @api
+   */
+  removeLayer(layer) {
+    const layers = this.getLayerGroup().getLayers();
+    return layers.remove(layer);
+  }
+
+  /**
+   * @param {import("./layer/Group.js").GroupEvent} event The layer remove event.
+   * @private
+   */
+  handleLayerRemove_(event) {
+    removeLayerMapProperty(event.layer);
+  }
+
+  /**
+   * Remove the given overlay from the map.
+   * @param {import("./Overlay.js").default} overlay Overlay.
+   * @return {import("./Overlay.js").default|undefined} The removed overlay (or undefined
+   *     if the overlay was not found).
+   * @api
+   */
+  removeOverlay(overlay) {
+    return this.getOverlays().remove(overlay);
+  }
+
+  /**
+   * @param {number} time Time.
+   * @private
+   */
+  renderFrame_(time) {
+    const size = this.getSize();
+    const view = this.getView();
+    const previousFrameState = this.frameState_;
+    /** @type {?FrameState} */
+    let frameState = null;
+    if (size !== undefined && (0,_size_js__WEBPACK_IMPORTED_MODULE_27__.hasArea)(size) && view && view.isDef()) {
+      const viewHints = view.getHints(
+        this.frameState_ ? this.frameState_.viewHints : undefined
+      );
+      const viewState = view.getState();
+      frameState = {
+        animate: false,
+        coordinateToPixelTransform: this.coordinateToPixelTransform_,
+        declutterTree: null,
+        extent: (0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.getForViewAndSize)(
+          viewState.center,
+          viewState.resolution,
+          viewState.rotation,
+          size
+        ),
+        index: this.frameIndex_++,
+        layerIndex: 0,
+        layerStatesArray: this.getLayerGroup().getLayerStatesArray(),
+        pixelRatio: this.pixelRatio_,
+        pixelToCoordinateTransform: this.pixelToCoordinateTransform_,
+        postRenderFunctions: [],
+        size: size,
+        tileQueue: this.tileQueue_,
+        time: time,
+        usedTiles: {},
+        viewState: viewState,
+        viewHints: viewHints,
+        wantedTiles: {},
+        mapId: (0,_util_js__WEBPACK_IMPORTED_MODULE_29__.getUid)(this),
+        renderTargets: {},
+      };
+      if (viewState.nextCenter && viewState.nextResolution) {
+        const rotation = isNaN(viewState.nextRotation)
+          ? viewState.rotation
+          : viewState.nextRotation;
+
+        frameState.nextExtent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.getForViewAndSize)(
+          viewState.nextCenter,
+          viewState.nextResolution,
+          rotation,
+          size
+        );
+      }
+    }
+
+    this.frameState_ = frameState;
+    this.renderer_.renderFrame(frameState);
+
+    if (frameState) {
+      if (frameState.animate) {
+        this.render();
+      }
+      Array.prototype.push.apply(
+        this.postRenderFunctions_,
+        frameState.postRenderFunctions
+      );
+
+      if (previousFrameState) {
+        const moveStart =
+          !this.previousExtent_ ||
+          (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.isEmpty)(this.previousExtent_) &&
+            !(0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.equals)(frameState.extent, this.previousExtent_));
+        if (moveStart) {
+          this.dispatchEvent(
+            new _MapEvent_js__WEBPACK_IMPORTED_MODULE_19__["default"](_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].MOVESTART, this, previousFrameState)
+          );
+          this.previousExtent_ = (0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.createOrUpdateEmpty)(this.previousExtent_);
+        }
+      }
+
+      const idle =
+        this.previousExtent_ &&
+        !frameState.viewHints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_17__["default"].ANIMATING] &&
+        !frameState.viewHints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_17__["default"].INTERACTING] &&
+        !(0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.equals)(frameState.extent, this.previousExtent_);
+
+      if (idle) {
+        this.dispatchEvent(
+          new _MapEvent_js__WEBPACK_IMPORTED_MODULE_19__["default"](_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].MOVEEND, this, frameState)
+        );
+        (0,_extent_js__WEBPACK_IMPORTED_MODULE_28__.clone)(frameState.extent, this.previousExtent_);
+      }
+    }
+
+    this.dispatchEvent(new _MapEvent_js__WEBPACK_IMPORTED_MODULE_19__["default"](_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].POSTRENDER, this, frameState));
+
+    this.renderComplete_ =
+      this.hasListener(_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].LOADSTART) ||
+      this.hasListener(_MapEventType_js__WEBPACK_IMPORTED_MODULE_20__["default"].LOADEND) ||
+      this.hasListener(_render_EventType_js__WEBPACK_IMPORTED_MODULE_18__["default"].RENDERCOMPLETE)
+        ? !this.tileQueue_.getTilesLoading() &&
+          !this.tileQueue_.getCount() &&
+          !this.getLoadingOrNotReady()
+        : undefined;
+
+    if (!this.postRenderTimeoutHandle_) {
+      this.postRenderTimeoutHandle_ = setTimeout(() => {
+        this.postRenderTimeoutHandle_ = undefined;
+        this.handlePostRender();
+      }, 0);
+    }
+  }
+
+  /**
+   * Sets the layergroup of this map.
+   * @param {LayerGroup} layerGroup A layer group containing the layers in this map.
+   * @observable
+   * @api
+   */
+  setLayerGroup(layerGroup) {
+    const oldLayerGroup = this.getLayerGroup();
+    if (oldLayerGroup) {
+      this.handleLayerRemove_(new _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__.GroupEvent('removelayer', oldLayerGroup));
+    }
+    this.set(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].LAYERGROUP, layerGroup);
+  }
+
+  /**
+   * Set the size of this map.
+   * @param {import("./size.js").Size|undefined} size The size in pixels of the map in the DOM.
+   * @observable
+   * @api
+   */
+  setSize(size) {
+    this.set(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].SIZE, size);
+  }
+
+  /**
+   * Set the target element to render this map into.
+   * @param {HTMLElement|string} [target] The Element or id of the Element
+   *     that the map is rendered in.
+   * @observable
+   * @api
+   */
+  setTarget(target) {
+    this.set(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].TARGET, target);
+  }
+
+  /**
+   * Set the view for this map.
+   * @param {View|Promise<import("./View.js").ViewOptions>} view The view that controls this map.
+   * It is also possible to pass a promise that resolves to options for constructing a view.  This
+   * alternative allows view properties to be resolved by sources or other components that load
+   * view-related metadata.
+   * @observable
+   * @api
+   */
+  setView(view) {
+    if (!view || view instanceof _View_js__WEBPACK_IMPORTED_MODULE_10__["default"]) {
+      this.set(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].VIEW, view);
+      return;
+    }
+    this.set(_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].VIEW, new _View_js__WEBPACK_IMPORTED_MODULE_10__["default"]());
+
+    const map = this;
+    view.then(function (viewOptions) {
+      map.setView(new _View_js__WEBPACK_IMPORTED_MODULE_10__["default"](viewOptions));
+    });
+  }
+
+  /**
+   * Force a recalculation of the map viewport size.  This should be called when
+   * third-party code changes the size of the map viewport.
+   * @api
+   */
+  updateSize() {
+    const targetElement = this.getTargetElement();
+
+    let size = undefined;
+    if (targetElement) {
+      const computedStyle = getComputedStyle(targetElement);
+      const width =
+        targetElement.offsetWidth -
+        parseFloat(computedStyle['borderLeftWidth']) -
+        parseFloat(computedStyle['paddingLeft']) -
+        parseFloat(computedStyle['paddingRight']) -
+        parseFloat(computedStyle['borderRightWidth']);
+      const height =
+        targetElement.offsetHeight -
+        parseFloat(computedStyle['borderTopWidth']) -
+        parseFloat(computedStyle['paddingTop']) -
+        parseFloat(computedStyle['paddingBottom']) -
+        parseFloat(computedStyle['borderBottomWidth']);
+      if (!isNaN(width) && !isNaN(height)) {
+        size = [width, height];
+        if (
+          !(0,_size_js__WEBPACK_IMPORTED_MODULE_27__.hasArea)(size) &&
+          !!(
+            targetElement.offsetWidth ||
+            targetElement.offsetHeight ||
+            targetElement.getClientRects().length
+          )
+        ) {
+          (0,_console_js__WEBPACK_IMPORTED_MODULE_30__.warn)(
+            "No map visible because the map container's width or height are 0."
+          );
+        }
+      }
+    }
+
+    const oldSize = this.getSize();
+    if (size && (!oldSize || !(0,_array_js__WEBPACK_IMPORTED_MODULE_31__.equals)(size, oldSize))) {
+      this.setSize(size);
+      this.updateViewportSize_();
+    }
+  }
+
+  /**
+   * Recomputes the viewport size and save it on the view object (if any)
+   * @private
+   */
+  updateViewportSize_() {
+    const view = this.getView();
+    if (view) {
+      let size = undefined;
+      const computedStyle = getComputedStyle(this.viewport_);
+      if (computedStyle.width && computedStyle.height) {
+        size = [
+          parseInt(computedStyle.width, 10),
+          parseInt(computedStyle.height, 10),
+        ];
+      }
+      view.setViewportSize(size);
+    }
+  }
+}
+
+/**
+ * @param {MapOptions} options Map options.
+ * @return {MapOptionsInternal} Internal map options.
+ */
+function createOptionsInternal(options) {
+  /**
+   * @type {HTMLElement|Document}
+   */
+  let keyboardEventTarget = null;
+  if (options.keyboardEventTarget !== undefined) {
+    keyboardEventTarget =
+      typeof options.keyboardEventTarget === 'string'
+        ? document.getElementById(options.keyboardEventTarget)
+        : options.keyboardEventTarget;
+  }
+
+  /**
+   * @type {Object<string, *>}
+   */
+  const values = {};
+
+  const layerGroup =
+    options.layers &&
+    typeof (/** @type {?} */ (options.layers).getLayers) === 'function'
+      ? /** @type {LayerGroup} */ (options.layers)
+      : new _layer_Group_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+          layers:
+            /** @type {Collection<import("./layer/Base.js").default>|Array<import("./layer/Base.js").default>} */ (
+              options.layers
+            ),
+        });
+  values[_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].LAYERGROUP] = layerGroup;
+
+  values[_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].TARGET] = options.target;
+
+  values[_MapProperty_js__WEBPACK_IMPORTED_MODULE_9__["default"].VIEW] =
+    options.view instanceof _View_js__WEBPACK_IMPORTED_MODULE_10__["default"] ? options.view : new _View_js__WEBPACK_IMPORTED_MODULE_10__["default"]();
+
+  /** @type {Collection<import("./control/Control.js").default>} */
+  let controls;
+  if (options.controls !== undefined) {
+    if (Array.isArray(options.controls)) {
+      controls = new _Collection_js__WEBPACK_IMPORTED_MODULE_13__["default"](options.controls.slice());
+    } else {
+      (0,_asserts_js__WEBPACK_IMPORTED_MODULE_32__.assert)(
+        typeof (/** @type {?} */ (options.controls).getArray) === 'function',
+        47
+      ); // Expected `controls` to be an array or an `import("./Collection.js").Collection`
+      controls = options.controls;
+    }
+  }
+
+  /** @type {Collection<import("./interaction/Interaction").default>} */
+  let interactions;
+  if (options.interactions !== undefined) {
+    if (Array.isArray(options.interactions)) {
+      interactions = new _Collection_js__WEBPACK_IMPORTED_MODULE_13__["default"](options.interactions.slice());
+    } else {
+      (0,_asserts_js__WEBPACK_IMPORTED_MODULE_32__.assert)(
+        typeof (/** @type {?} */ (options.interactions).getArray) ===
+          'function',
+        48
+      ); // Expected `interactions` to be an array or an `import("./Collection.js").Collection`
+      interactions = options.interactions;
+    }
+  }
+
+  /** @type {Collection<import("./Overlay.js").default>} */
+  let overlays;
+  if (options.overlays !== undefined) {
+    if (Array.isArray(options.overlays)) {
+      overlays = new _Collection_js__WEBPACK_IMPORTED_MODULE_13__["default"](options.overlays.slice());
+    } else {
+      (0,_asserts_js__WEBPACK_IMPORTED_MODULE_32__.assert)(
+        typeof (/** @type {?} */ (options.overlays).getArray) === 'function',
+        49
+      ); // Expected `overlays` to be an array or an `import("./Collection.js").Collection`
+      overlays = options.overlays;
+    }
+  } else {
+    overlays = new _Collection_js__WEBPACK_IMPORTED_MODULE_13__["default"]();
+  }
+
+  return {
+    controls: controls,
+    interactions: interactions,
+    keyboardEventTarget: keyboardEventTarget,
+    overlays: overlays,
+    values: values,
+  };
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Map);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/MapBrowserEvent.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/MapBrowserEvent.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MapEvent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MapEvent.js */ "./node_modules/ol/MapEvent.js");
+/**
+ * @module ol/MapBrowserEvent
+ */
+
+
+/**
+ * @classdesc
+ * Events emitted as map browser events are instances of this type.
+ * See {@link module:ol/Map~Map} for which events trigger a map browser event.
+ * @template {UIEvent} EVENT
+ */
+class MapBrowserEvent extends _MapEvent_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {string} type Event type.
+   * @param {import("./Map.js").default} map Map.
+   * @param {EVENT} originalEvent Original event.
+   * @param {boolean} [dragging] Is the map currently being dragged?
+   * @param {import("./Map.js").FrameState} [frameState] Frame state.
+   * @param {Array<PointerEvent>} [activePointers] Active pointers.
+   */
+  constructor(type, map, originalEvent, dragging, frameState, activePointers) {
+    super(type, map, frameState);
+
+    /**
+     * The original browser event.
+     * @const
+     * @type {EVENT}
+     * @api
+     */
+    this.originalEvent = originalEvent;
+
+    /**
+     * The map pixel relative to the viewport corresponding to the original browser event.
+     * @type {?import("./pixel.js").Pixel}
+     */
+    this.pixel_ = null;
+
+    /**
+     * The coordinate in the user projection corresponding to the original browser event.
+     * @type {?import("./coordinate.js").Coordinate}
+     */
+    this.coordinate_ = null;
+
+    /**
+     * Indicates if the map is currently being dragged. Only set for
+     * `POINTERDRAG` and `POINTERMOVE` events. Default is `false`.
+     *
+     * @type {boolean}
+     * @api
+     */
+    this.dragging = dragging !== undefined ? dragging : false;
+
+    /**
+     * @type {Array<PointerEvent>|undefined}
+     */
+    this.activePointers = activePointers;
+  }
+
+  /**
+   * The map pixel relative to the viewport corresponding to the original event.
+   * @type {import("./pixel.js").Pixel}
+   * @api
+   */
+  get pixel() {
+    if (!this.pixel_) {
+      this.pixel_ = this.map.getEventPixel(this.originalEvent);
+    }
+    return this.pixel_;
+  }
+  set pixel(pixel) {
+    this.pixel_ = pixel;
+  }
+
+  /**
+   * The coordinate corresponding to the original browser event.  This will be in the user
+   * projection if one is set.  Otherwise it will be in the view projection.
+   * @type {import("./coordinate.js").Coordinate}
+   * @api
+   */
+  get coordinate() {
+    if (!this.coordinate_) {
+      this.coordinate_ = this.map.getCoordinateFromPixel(this.pixel);
+    }
+    return this.coordinate_;
+  }
+  set coordinate(coordinate) {
+    this.coordinate_ = coordinate;
+  }
+
+  /**
+   * Prevents the default browser action.
+   * See https://developer.mozilla.org/en-US/docs/Web/API/event.preventDefault.
+   * @api
+   */
+  preventDefault() {
+    super.preventDefault();
+    if ('preventDefault' in this.originalEvent) {
+      /** @type {UIEvent} */ (this.originalEvent).preventDefault();
+    }
+  }
+
+  /**
+   * Prevents further propagation of the current event.
+   * See https://developer.mozilla.org/en-US/docs/Web/API/event.stopPropagation.
+   * @api
+   */
+  stopPropagation() {
+    super.stopPropagation();
+    if ('stopPropagation' in this.originalEvent) {
+      /** @type {UIEvent} */ (this.originalEvent).stopPropagation();
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MapBrowserEvent);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/MapBrowserEventHandler.js":
+/*!***************************************************!*\
+  !*** ./node_modules/ol/MapBrowserEventHandler.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MapBrowserEvent.js */ "./node_modules/ol/MapBrowserEvent.js");
+/* harmony import */ var _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MapBrowserEventType.js */ "./node_modules/ol/MapBrowserEventType.js");
+/* harmony import */ var _pointer_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pointer/EventType.js */ "./node_modules/ol/pointer/EventType.js");
+/* harmony import */ var _events_Target_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events/Target.js */ "./node_modules/ol/events/Target.js");
+/* harmony import */ var _has_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./has.js */ "./node_modules/ol/has.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events.js */ "./node_modules/ol/events.js");
+/**
+ * @module ol/MapBrowserEventHandler
+ */
+
+
+
+
+
+
+
+
+
+class MapBrowserEventHandler extends _events_Target_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {import("./Map.js").default} map The map with the viewport to listen to events on.
+   * @param {number} [moveTolerance] The minimal distance the pointer must travel to trigger a move.
+   */
+  constructor(map, moveTolerance) {
+    super(map);
+
+    /**
+     * This is the element that we will listen to the real events on.
+     * @type {import("./Map.js").default}
+     * @private
+     */
+    this.map_ = map;
+
+    /**
+     * @type {any}
+     * @private
+     */
+    this.clickTimeoutId_;
+
+    /**
+     * Emulate dblclick and singleclick. Will be true when only one pointer is active.
+     * @type {boolean}
+     */
+    this.emulateClicks_ = false;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.dragging_ = false;
+
+    /**
+     * @type {!Array<import("./events.js").EventsKey>}
+     * @private
+     */
+    this.dragListenerKeys_ = [];
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.moveTolerance_ = moveTolerance === undefined ? 1 : moveTolerance;
+
+    /**
+     * The most recent "down" type event (or null if none have occurred).
+     * Set on pointerdown.
+     * @type {PointerEvent|null}
+     * @private
+     */
+    this.down_ = null;
+
+    const element = this.map_.getViewport();
+
+    /**
+     * @type {Array<PointerEvent>}
+     * @private
+     */
+    this.activePointers_ = [];
+
+    /**
+     * @type {!Object<number, Event>}
+     * @private
+     */
+    this.trackedTouches_ = {};
+
+    this.element_ = element;
+
+    /**
+     * @type {?import("./events.js").EventsKey}
+     * @private
+     */
+    this.pointerdownListenerKey_ = (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+      element,
+      _pointer_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].POINTERDOWN,
+      this.handlePointerDown_,
+      this
+    );
+
+    /**
+     * @type {PointerEvent}
+     * @private
+     */
+    this.originalPointerMoveEvent_;
+
+    /**
+     * @type {?import("./events.js").EventsKey}
+     * @private
+     */
+    this.relayedListenerKey_ = (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+      element,
+      _pointer_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].POINTERMOVE,
+      this.relayMoveEvent_,
+      this
+    );
+
+    /**
+     * @private
+     */
+    this.boundHandleTouchMove_ = this.handleTouchMove_.bind(this);
+
+    this.element_.addEventListener(
+      _events_EventType_js__WEBPACK_IMPORTED_MODULE_3__["default"].TOUCHMOVE,
+      this.boundHandleTouchMove_,
+      _has_js__WEBPACK_IMPORTED_MODULE_4__.PASSIVE_EVENT_LISTENERS ? {passive: false} : false
+    );
+  }
+
+  /**
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @private
+   */
+  emulateClick_(pointerEvent) {
+    let newEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+      _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].CLICK,
+      this.map_,
+      pointerEvent
+    );
+    this.dispatchEvent(newEvent);
+    if (this.clickTimeoutId_ !== undefined) {
+      // double-click
+      clearTimeout(this.clickTimeoutId_);
+      this.clickTimeoutId_ = undefined;
+      newEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+        _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].DBLCLICK,
+        this.map_,
+        pointerEvent
+      );
+      this.dispatchEvent(newEvent);
+    } else {
+      // click
+      this.clickTimeoutId_ = setTimeout(() => {
+        this.clickTimeoutId_ = undefined;
+        const newEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+          _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].SINGLECLICK,
+          this.map_,
+          pointerEvent
+        );
+        this.dispatchEvent(newEvent);
+      }, 250);
+    }
+  }
+
+  /**
+   * Keeps track on how many pointers are currently active.
+   *
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @private
+   */
+  updateActivePointers_(pointerEvent) {
+    const event = pointerEvent;
+    const id = event.pointerId;
+
+    if (
+      event.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERUP ||
+      event.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERCANCEL
+    ) {
+      delete this.trackedTouches_[id];
+      for (const pointerId in this.trackedTouches_) {
+        if (this.trackedTouches_[pointerId].target !== event.target) {
+          // Some platforms assign a new pointerId when the target changes.
+          // If this happens, delete one tracked pointer. If there is more
+          // than one tracked pointer for the old target, it will be cleared
+          // by subsequent POINTERUP events from other pointers.
+          delete this.trackedTouches_[pointerId];
+          break;
+        }
+      }
+    } else if (
+      event.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERDOWN ||
+      event.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERMOVE
+    ) {
+      this.trackedTouches_[id] = event;
+    }
+    this.activePointers_ = Object.values(this.trackedTouches_);
+  }
+
+  /**
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @private
+   */
+  handlePointerUp_(pointerEvent) {
+    this.updateActivePointers_(pointerEvent);
+    const newEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+      _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERUP,
+      this.map_,
+      pointerEvent,
+      undefined,
+      undefined,
+      this.activePointers_
+    );
+    this.dispatchEvent(newEvent);
+
+    // We emulate click events on left mouse button click, touch contact, and pen
+    // contact. isMouseActionButton returns true in these cases (evt.button is set
+    // to 0).
+    // See http://www.w3.org/TR/pointerevents/#button-states
+    // We only fire click, singleclick, and doubleclick if nobody has called
+    // event.preventDefault().
+    if (
+      this.emulateClicks_ &&
+      !newEvent.defaultPrevented &&
+      !this.dragging_ &&
+      this.isMouseActionButton_(pointerEvent)
+    ) {
+      this.emulateClick_(this.down_);
+    }
+
+    if (this.activePointers_.length === 0) {
+      this.dragListenerKeys_.forEach(_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey);
+      this.dragListenerKeys_.length = 0;
+      this.dragging_ = false;
+      this.down_ = null;
+    }
+  }
+
+  /**
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @return {boolean} If the left mouse button was pressed.
+   * @private
+   */
+  isMouseActionButton_(pointerEvent) {
+    return pointerEvent.button === 0;
+  }
+
+  /**
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @private
+   */
+  handlePointerDown_(pointerEvent) {
+    this.emulateClicks_ = this.activePointers_.length === 0;
+    this.updateActivePointers_(pointerEvent);
+    const newEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+      _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERDOWN,
+      this.map_,
+      pointerEvent,
+      undefined,
+      undefined,
+      this.activePointers_
+    );
+    this.dispatchEvent(newEvent);
+
+    this.down_ = new PointerEvent(pointerEvent.type, pointerEvent);
+    Object.defineProperty(this.down_, 'target', {
+      writable: false,
+      value: pointerEvent.target,
+    });
+
+    if (this.dragListenerKeys_.length === 0) {
+      const doc = this.map_.getOwnerDocument();
+      this.dragListenerKeys_.push(
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+          doc,
+          _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERMOVE,
+          this.handlePointerMove_,
+          this
+        ),
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(doc, _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERUP, this.handlePointerUp_, this),
+        /* Note that the listener for `pointercancel is set up on
+         * `pointerEventHandler_` and not `documentPointerEventHandler_` like
+         * the `pointerup` and `pointermove` listeners.
+         *
+         * The reason for this is the following: `TouchSource.vacuumTouches_()`
+         * issues `pointercancel` events, when there was no `touchend` for a
+         * `touchstart`. Now, let's say a first `touchstart` is registered on
+         * `pointerEventHandler_`. The `documentPointerEventHandler_` is set up.
+         * But `documentPointerEventHandler_` doesn't know about the first
+         * `touchstart`. If there is no `touchend` for the `touchstart`, we can
+         * only receive a `touchcancel` from `pointerEventHandler_`, because it is
+         * only registered there.
+         */
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+          this.element_,
+          _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERCANCEL,
+          this.handlePointerUp_,
+          this
+        )
+      );
+      if (this.element_.getRootNode && this.element_.getRootNode() !== doc) {
+        this.dragListenerKeys_.push(
+          (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+            this.element_.getRootNode(),
+            _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERUP,
+            this.handlePointerUp_,
+            this
+          )
+        );
+      }
+    }
+  }
+
+  /**
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @private
+   */
+  handlePointerMove_(pointerEvent) {
+    // Between pointerdown and pointerup, pointermove events are triggered.
+    // To avoid a 'false' touchmove event to be dispatched, we test if the pointer
+    // moved a significant distance.
+    if (this.isMoving_(pointerEvent)) {
+      this.updateActivePointers_(pointerEvent);
+      this.dragging_ = true;
+      const newEvent = new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+        _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERDRAG,
+        this.map_,
+        pointerEvent,
+        this.dragging_,
+        undefined,
+        this.activePointers_
+      );
+      this.dispatchEvent(newEvent);
+    }
+  }
+
+  /**
+   * Wrap and relay a pointermove event.
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @private
+   */
+  relayMoveEvent_(pointerEvent) {
+    this.originalPointerMoveEvent_ = pointerEvent;
+    const dragging = !!(this.down_ && this.isMoving_(pointerEvent));
+    this.dispatchEvent(
+      new _MapBrowserEvent_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+        _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POINTERMOVE,
+        this.map_,
+        pointerEvent,
+        dragging
+      )
+    );
+  }
+
+  /**
+   * Flexible handling of a `touch-action: none` css equivalent: because calling
+   * `preventDefault()` on a `pointermove` event does not stop native page scrolling
+   * and zooming, we also listen for `touchmove` and call `preventDefault()` on it
+   * when an interaction (currently `DragPan` handles the event.
+   * @param {TouchEvent} event Event.
+   * @private
+   */
+  handleTouchMove_(event) {
+    // Due to https://github.com/mpizenberg/elm-pep/issues/2, `this.originalPointerMoveEvent_`
+    // may not be initialized yet when we get here on a platform without native pointer events.
+    const originalEvent = this.originalPointerMoveEvent_;
+    if (
+      (!originalEvent || originalEvent.defaultPrevented) &&
+      (typeof event.cancelable !== 'boolean' || event.cancelable === true)
+    ) {
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * @param {PointerEvent} pointerEvent Pointer
+   * event.
+   * @return {boolean} Is moving.
+   * @private
+   */
+  isMoving_(pointerEvent) {
+    return (
+      this.dragging_ ||
+      Math.abs(pointerEvent.clientX - this.down_.clientX) >
+        this.moveTolerance_ ||
+      Math.abs(pointerEvent.clientY - this.down_.clientY) > this.moveTolerance_
+    );
+  }
+
+  /**
+   * Clean up.
+   */
+  disposeInternal() {
+    if (this.relayedListenerKey_) {
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey)(this.relayedListenerKey_);
+      this.relayedListenerKey_ = null;
+    }
+    this.element_.removeEventListener(
+      _events_EventType_js__WEBPACK_IMPORTED_MODULE_3__["default"].TOUCHMOVE,
+      this.boundHandleTouchMove_
+    );
+
+    if (this.pointerdownListenerKey_) {
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey)(this.pointerdownListenerKey_);
+      this.pointerdownListenerKey_ = null;
+    }
+
+    this.dragListenerKeys_.forEach(_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey);
+    this.dragListenerKeys_.length = 0;
+
+    this.element_ = null;
+    super.disposeInternal();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MapBrowserEventHandler);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/MapBrowserEventType.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/MapBrowserEventType.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/**
+ * @module ol/MapBrowserEventType
+ */
+
+
+/**
+ * Constants for event names.
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * A true single click with no dragging and no double click. Note that this
+   * event is delayed by 250 ms to ensure that it is not a double click.
+   * @event module:ol/MapBrowserEvent~MapBrowserEvent#singleclick
+   * @api
+   */
+  SINGLECLICK: 'singleclick',
+
+  /**
+   * A click with no dragging. A double click will fire two of this.
+   * @event module:ol/MapBrowserEvent~MapBrowserEvent#click
+   * @api
+   */
+  CLICK: _events_EventType_js__WEBPACK_IMPORTED_MODULE_0__["default"].CLICK,
+
+  /**
+   * A true double click, with no dragging.
+   * @event module:ol/MapBrowserEvent~MapBrowserEvent#dblclick
+   * @api
+   */
+  DBLCLICK: _events_EventType_js__WEBPACK_IMPORTED_MODULE_0__["default"].DBLCLICK,
+
+  /**
+   * Triggered when a pointer is dragged.
+   * @event module:ol/MapBrowserEvent~MapBrowserEvent#pointerdrag
+   * @api
+   */
+  POINTERDRAG: 'pointerdrag',
+
+  /**
+   * Triggered when a pointer is moved. Note that on touch devices this is
+   * triggered when the map is panned, so is not the same as mousemove.
+   * @event module:ol/MapBrowserEvent~MapBrowserEvent#pointermove
+   * @api
+   */
+  POINTERMOVE: 'pointermove',
+
+  POINTERDOWN: 'pointerdown',
+  POINTERUP: 'pointerup',
+  POINTEROVER: 'pointerover',
+  POINTEROUT: 'pointerout',
+  POINTERENTER: 'pointerenter',
+  POINTERLEAVE: 'pointerleave',
+  POINTERCANCEL: 'pointercancel',
+});
+
+/***
+ * @typedef {'singleclick'|'click'|'dblclick'|'pointerdrag'|'pointermove'} Types
+ */
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/MapEvent.js":
+/*!*************************************!*\
+  !*** ./node_modules/ol/MapEvent.js ***!
+  \*************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_Event_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./events/Event.js */ "./node_modules/ol/events/Event.js");
+/**
+ * @module ol/MapEvent
+ */
+
+
+/**
+ * @classdesc
+ * Events emitted as map events are instances of this type.
+ * See {@link module:ol/Map~Map} for which events trigger a map event.
+ */
+class MapEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {string} type Event type.
+   * @param {import("./Map.js").default} map Map.
+   * @param {?import("./Map.js").FrameState} [frameState] Frame state.
+   */
+  constructor(type, map, frameState) {
+    super(type);
+
+    /**
+     * The map where the event occurred.
+     * @type {import("./Map.js").default}
+     * @api
+     */
+    this.map = map;
+
+    /**
+     * The frame state at the time of the event.
+     * @type {?import("./Map.js").FrameState}
+     * @api
+     */
+    this.frameState = frameState !== undefined ? frameState : null;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MapEvent);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/MapEventType.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol/MapEventType.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/MapEventType
+ */
+
+/**
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * Triggered after a map frame is rendered.
+   * @event module:ol/MapEvent~MapEvent#postrender
+   * @api
+   */
+  POSTRENDER: 'postrender',
+
+  /**
+   * Triggered when the map starts moving.
+   * @event module:ol/MapEvent~MapEvent#movestart
+   * @api
+   */
+  MOVESTART: 'movestart',
+
+  /**
+   * Triggered after the map is moved.
+   * @event module:ol/MapEvent~MapEvent#moveend
+   * @api
+   */
+  MOVEEND: 'moveend',
+
+  /**
+   * Triggered when loading of additional map data (tiles, images, features) starts.
+   * @event module:ol/MapEvent~MapEvent#loadstart
+   * @api
+   */
+  LOADSTART: 'loadstart',
+
+  /**
+   * Triggered when loading of additional map data has completed.
+   * @event module:ol/MapEvent~MapEvent#loadend
+   * @api
+   */
+  LOADEND: 'loadend',
+});
+
+/***
+ * @typedef {'postrender'|'movestart'|'moveend'|'loadstart'|'loadend'} Types
+ */
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/MapProperty.js":
+/*!****************************************!*\
+  !*** ./node_modules/ol/MapProperty.js ***!
+  \****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/MapProperty
+ */
+
+/**
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  LAYERGROUP: 'layergroup',
+  SIZE: 'size',
+  TARGET: 'target',
+  VIEW: 'view',
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/Object.js":
 /*!***********************************!*\
   !*** ./node_modules/ol/Object.js ***!
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ObjectEvent": () => (/* binding */ ObjectEvent),
@@ -1053,6 +4613,7 @@ class BaseObject extends _Observable_js__WEBPACK_IMPORTED_MODULE_1__["default"] 
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1086,6 +4647,7 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
@@ -1295,6 +4857,7 @@ function unByKey(key) {
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1636,6 +5199,7 @@ class Tile extends _events_Target_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1694,12 +5258,196 @@ class TileCache extends _structs_LRUCache_js__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /***/ }),
 
+/***/ "./node_modules/ol/TileQueue.js":
+/*!**************************************!*\
+  !*** ./node_modules/ol/TileQueue.js ***!
+  \**************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "getTilePriority": () => (/* binding */ getTilePriority)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _structs_PriorityQueue_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./structs/PriorityQueue.js */ "./node_modules/ol/structs/PriorityQueue.js");
+/* harmony import */ var _TileState_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TileState.js */ "./node_modules/ol/TileState.js");
+/**
+ * @module ol/TileQueue
+ */
+
+
+
+
+/**
+ * @typedef {function(import("./Tile.js").default, string, import("./coordinate.js").Coordinate, number): number} PriorityFunction
+ */
+
+class TileQueue extends _structs_PriorityQueue_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {PriorityFunction} tilePriorityFunction Tile priority function.
+   * @param {function(): ?} tileChangeCallback Function called on each tile change event.
+   */
+  constructor(tilePriorityFunction, tileChangeCallback) {
+    super(
+      /**
+       * @param {Array} element Element.
+       * @return {number} Priority.
+       */
+      function (element) {
+        return tilePriorityFunction.apply(null, element);
+      },
+      /**
+       * @param {Array} element Element.
+       * @return {string} Key.
+       */
+      function (element) {
+        return /** @type {import("./Tile.js").default} */ (element[0]).getKey();
+      }
+    );
+
+    /** @private */
+    this.boundHandleTileChange_ = this.handleTileChange.bind(this);
+
+    /**
+     * @private
+     * @type {function(): ?}
+     */
+    this.tileChangeCallback_ = tileChangeCallback;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.tilesLoading_ = 0;
+
+    /**
+     * @private
+     * @type {!Object<string,boolean>}
+     */
+    this.tilesLoadingKeys_ = {};
+  }
+
+  /**
+   * @param {Array} element Element.
+   * @return {boolean} The element was added to the queue.
+   */
+  enqueue(element) {
+    const added = super.enqueue(element);
+    if (added) {
+      const tile = element[0];
+      tile.addEventListener(_events_EventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CHANGE, this.boundHandleTileChange_);
+    }
+    return added;
+  }
+
+  /**
+   * @return {number} Number of tiles loading.
+   */
+  getTilesLoading() {
+    return this.tilesLoading_;
+  }
+
+  /**
+   * @param {import("./events/Event.js").default} event Event.
+   * @protected
+   */
+  handleTileChange(event) {
+    const tile = /** @type {import("./Tile.js").default} */ (event.target);
+    const state = tile.getState();
+    if (
+      state === _TileState_js__WEBPACK_IMPORTED_MODULE_2__["default"].LOADED ||
+      state === _TileState_js__WEBPACK_IMPORTED_MODULE_2__["default"].ERROR ||
+      state === _TileState_js__WEBPACK_IMPORTED_MODULE_2__["default"].EMPTY
+    ) {
+      if (state !== _TileState_js__WEBPACK_IMPORTED_MODULE_2__["default"].ERROR) {
+        tile.removeEventListener(_events_EventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CHANGE, this.boundHandleTileChange_);
+      }
+      const tileKey = tile.getKey();
+      if (tileKey in this.tilesLoadingKeys_) {
+        delete this.tilesLoadingKeys_[tileKey];
+        --this.tilesLoading_;
+      }
+      this.tileChangeCallback_();
+    }
+  }
+
+  /**
+   * @param {number} maxTotalLoading Maximum number tiles to load simultaneously.
+   * @param {number} maxNewLoads Maximum number of new tiles to load.
+   */
+  loadMoreTiles(maxTotalLoading, maxNewLoads) {
+    let newLoads = 0;
+    let state, tile, tileKey;
+    while (
+      this.tilesLoading_ < maxTotalLoading &&
+      newLoads < maxNewLoads &&
+      this.getCount() > 0
+    ) {
+      tile = /** @type {import("./Tile.js").default} */ (this.dequeue()[0]);
+      tileKey = tile.getKey();
+      state = tile.getState();
+      if (state === _TileState_js__WEBPACK_IMPORTED_MODULE_2__["default"].IDLE && !(tileKey in this.tilesLoadingKeys_)) {
+        this.tilesLoadingKeys_[tileKey] = true;
+        ++this.tilesLoading_;
+        ++newLoads;
+        tile.load();
+      }
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TileQueue);
+
+/**
+ * @param {import('./Map.js').FrameState} frameState Frame state.
+ * @param {import("./Tile.js").default} tile Tile.
+ * @param {string} tileSourceKey Tile source key.
+ * @param {import("./coordinate.js").Coordinate} tileCenter Tile center.
+ * @param {number} tileResolution Tile resolution.
+ * @return {number} Tile priority.
+ */
+function getTilePriority(
+  frameState,
+  tile,
+  tileSourceKey,
+  tileCenter,
+  tileResolution
+) {
+  // Filter out tiles at higher zoom levels than the current zoom level, or that
+  // are outside the visible extent.
+  if (!frameState || !(tileSourceKey in frameState.wantedTiles)) {
+    return _structs_PriorityQueue_js__WEBPACK_IMPORTED_MODULE_0__.DROP;
+  }
+  if (!frameState.wantedTiles[tileSourceKey][tile.getKey()]) {
+    return _structs_PriorityQueue_js__WEBPACK_IMPORTED_MODULE_0__.DROP;
+  }
+  // Prioritize the highest zoom level tiles closest to the focus.
+  // Tiles at higher zoom levels are prioritized using Math.log(tileResolution).
+  // Within a zoom level, tiles are prioritized by the distance in pixels between
+  // the center of the tile and the center of the viewport.  The factor of 65536
+  // means that the prioritization should behave as desired for tiles up to
+  // 65536 * Math.log(2) = 45426 pixels from the focus.
+  const center = frameState.viewState.center;
+  const deltaX = tileCenter[0] - center[0];
+  const deltaY = tileCenter[1] - center[1];
+  return (
+    65536 * Math.log(tileResolution) +
+    Math.sqrt(deltaX * deltaX + deltaY * deltaY) / tileResolution
+  );
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/TileRange.js":
 /*!**************************************!*\
   !*** ./node_modules/ol/TileRange.js ***!
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createOrUpdate": () => (/* binding */ createOrUpdate),
@@ -1868,6 +5616,7 @@ function createOrUpdate(minX, maxX, minY, maxY, tileRange) {
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1900,6 +5649,7 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createCenterConstraint": () => (/* binding */ createCenterConstraint),
@@ -4058,6 +7808,7 @@ function calculateCenterOn(coordinate, size, position, resolution, rotation) {
   \*************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4083,6 +7834,7 @@ __webpack_require__.r(__webpack_exports__);
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4109,6 +7861,7 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ascending": () => (/* binding */ ascending),
@@ -4344,6 +8097,7 @@ function isSorted(arr, func, strict) {
   \************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "assert": () => (/* binding */ assert)
@@ -4373,6 +8127,7 @@ function assert(assertion, errorCode) {
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createExtent": () => (/* binding */ createExtent),
@@ -4468,6 +8223,7 @@ function none(center) {
   \**********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "asArray": () => (/* binding */ asArray),
@@ -4709,12 +8465,57 @@ function isStringColor(s) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/colorlike.js":
+/*!**************************************!*\
+  !*** ./node_modules/ol/colorlike.js ***!
+  \**************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "asColorLike": () => (/* binding */ asColorLike)
+/* harmony export */ });
+/* harmony import */ var _color_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./color.js */ "./node_modules/ol/color.js");
+/**
+ * @module ol/colorlike
+ */
+
+
+/**
+ * A type accepted by CanvasRenderingContext2D.fillStyle
+ * or CanvasRenderingContext2D.strokeStyle.
+ * Represents a color, pattern, or gradient. The origin for patterns and
+ * gradients as fill style is an increment of 512 css pixels from map coordinate
+ * `[0, 0]`. For seamless repeat patterns, width and height of the pattern image
+ * must be a factor of two (2, 4, 8, ..., 512).
+ *
+ * @typedef {string|CanvasPattern|CanvasGradient} ColorLike
+ * @api
+ */
+
+/**
+ * @param {import("./color.js").Color|ColorLike} color Color.
+ * @return {ColorLike} The color as an {@link ol/colorlike~ColorLike}.
+ * @api
+ */
+function asColorLike(color) {
+  if (Array.isArray(color)) {
+    return (0,_color_js__WEBPACK_IMPORTED_MODULE_0__.toString)(color);
+  }
+  return color;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/console.js":
 /*!************************************!*\
   !*** ./node_modules/ol/console.js ***!
   \************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "error": () => (/* binding */ error),
@@ -4780,12 +8581,1008 @@ function error(...args) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/control/Attribution.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/control/Attribution.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Control_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Control.js */ "./node_modules/ol/control/Control.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _css_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css.js */ "./node_modules/ol/css.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom.js */ "./node_modules/ol/dom.js");
+/**
+ * @module ol/control/Attribution
+ */
+
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {string} [className='ol-attribution'] CSS class name.
+ * @property {HTMLElement|string} [target] Specify a target if you
+ * want the control to be rendered outside of the map's
+ * viewport.
+ * @property {boolean} [collapsible] Specify if attributions can
+ * be collapsed. If not specified, sources control this behavior with their
+ * `attributionsCollapsible` setting.
+ * @property {boolean} [collapsed=true] Specify if attributions should
+ * be collapsed at startup.
+ * @property {string} [tipLabel='Attributions'] Text label to use for the button tip.
+ * @property {string|HTMLElement} [label='i'] Text label to use for the
+ * collapsed attributions button.
+ * Instead of text, also an element (e.g. a `span` element) can be used.
+ * @property {string} [expandClassName=className + '-expand'] CSS class name for the
+ * collapsed attributions button.
+ * @property {string|HTMLElement} [collapseLabel='›'] Text label to use
+ * for the expanded attributions button.
+ * Instead of text, also an element (e.g. a `span` element) can be used.
+ * @property {string} [collapseClassName=className + '-collapse'] CSS class name for the
+ * expanded attributions button.
+ * @property {function(import("../MapEvent.js").default):void} [render] Function called when
+ * the control should be re-rendered. This is called in a `requestAnimationFrame`
+ * callback.
+ */
+
+/**
+ * @classdesc
+ * Control to show all the attributions associated with the layer sources
+ * in the map. This control is one of the default controls included in maps.
+ * By default it will show in the bottom right portion of the map, but this can
+ * be changed by using a css selector for `.ol-attribution`.
+ *
+ * @api
+ */
+class Attribution extends _Control_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Attribution options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super({
+      element: document.createElement('div'),
+      render: options.render,
+      target: options.target,
+    });
+
+    /**
+     * @private
+     * @type {HTMLElement}
+     */
+    this.ulElement_ = document.createElement('ul');
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.collapsed_ =
+      options.collapsed !== undefined ? options.collapsed : true;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.userCollapsed_ = this.collapsed_;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.overrideCollapsible_ = options.collapsible !== undefined;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.collapsible_ =
+      options.collapsible !== undefined ? options.collapsible : true;
+
+    if (!this.collapsible_) {
+      this.collapsed_ = false;
+    }
+
+    const className =
+      options.className !== undefined ? options.className : 'ol-attribution';
+
+    const tipLabel =
+      options.tipLabel !== undefined ? options.tipLabel : 'Attributions';
+
+    const expandClassName =
+      options.expandClassName !== undefined
+        ? options.expandClassName
+        : className + '-expand';
+
+    const collapseLabel =
+      options.collapseLabel !== undefined ? options.collapseLabel : '\u203A';
+
+    const collapseClassName =
+      options.collapseClassName !== undefined
+        ? options.collapseClassName
+        : className + '-collapse';
+
+    if (typeof collapseLabel === 'string') {
+      /**
+       * @private
+       * @type {HTMLElement}
+       */
+      this.collapseLabel_ = document.createElement('span');
+      this.collapseLabel_.textContent = collapseLabel;
+      this.collapseLabel_.className = collapseClassName;
+    } else {
+      this.collapseLabel_ = collapseLabel;
+    }
+
+    const label = options.label !== undefined ? options.label : 'i';
+
+    if (typeof label === 'string') {
+      /**
+       * @private
+       * @type {HTMLElement}
+       */
+      this.label_ = document.createElement('span');
+      this.label_.textContent = label;
+      this.label_.className = expandClassName;
+    } else {
+      this.label_ = label;
+    }
+
+    const activeLabel =
+      this.collapsible_ && !this.collapsed_ ? this.collapseLabel_ : this.label_;
+
+    /**
+     * @private
+     * @type {HTMLElement}
+     */
+    this.toggleButton_ = document.createElement('button');
+    this.toggleButton_.setAttribute('type', 'button');
+    this.toggleButton_.setAttribute('aria-expanded', String(!this.collapsed_));
+    this.toggleButton_.title = tipLabel;
+    this.toggleButton_.appendChild(activeLabel);
+
+    this.toggleButton_.addEventListener(
+      _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CLICK,
+      this.handleClick_.bind(this),
+      false
+    );
+
+    const cssClasses =
+      className +
+      ' ' +
+      _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_UNSELECTABLE +
+      ' ' +
+      _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_CONTROL +
+      (this.collapsed_ && this.collapsible_ ? ' ' + _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_COLLAPSED : '') +
+      (this.collapsible_ ? '' : ' ol-uncollapsible');
+    const element = this.element;
+    element.className = cssClasses;
+    element.appendChild(this.toggleButton_);
+    element.appendChild(this.ulElement_);
+
+    /**
+     * A list of currently rendered resolutions.
+     * @type {Array<string>}
+     * @private
+     */
+    this.renderedAttributions_ = [];
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.renderedVisible_ = true;
+  }
+
+  /**
+   * Collect a list of visible attributions and set the collapsible state.
+   * @param {import("../Map.js").FrameState} frameState Frame state.
+   * @return {Array<string>} Attributions.
+   * @private
+   */
+  collectSourceAttributions_(frameState) {
+    const visibleAttributions = Array.from(
+      new Set(
+        this.getMap()
+          .getAllLayers()
+          .flatMap((layer) => layer.getAttributions(frameState))
+      )
+    );
+
+    const collapsible = !this.getMap()
+      .getAllLayers()
+      .some(
+        (layer) =>
+          layer.getSource() &&
+          layer.getSource().getAttributionsCollapsible() === false
+      );
+    if (!this.overrideCollapsible_) {
+      this.setCollapsible(collapsible);
+    }
+    return visibleAttributions;
+  }
+
+  /**
+   * @private
+   * @param {?import("../Map.js").FrameState} frameState Frame state.
+   */
+  updateElement_(frameState) {
+    if (!frameState) {
+      if (this.renderedVisible_) {
+        this.element.style.display = 'none';
+        this.renderedVisible_ = false;
+      }
+      return;
+    }
+
+    const attributions = this.collectSourceAttributions_(frameState);
+
+    const visible = attributions.length > 0;
+    if (this.renderedVisible_ != visible) {
+      this.element.style.display = visible ? '' : 'none';
+      this.renderedVisible_ = visible;
+    }
+
+    if ((0,_array_js__WEBPACK_IMPORTED_MODULE_3__.equals)(attributions, this.renderedAttributions_)) {
+      return;
+    }
+
+    (0,_dom_js__WEBPACK_IMPORTED_MODULE_4__.removeChildren)(this.ulElement_);
+
+    // append the attributions
+    for (let i = 0, ii = attributions.length; i < ii; ++i) {
+      const element = document.createElement('li');
+      element.innerHTML = attributions[i];
+      this.ulElement_.appendChild(element);
+    }
+
+    this.renderedAttributions_ = attributions;
+  }
+
+  /**
+   * @param {MouseEvent} event The event to handle
+   * @private
+   */
+  handleClick_(event) {
+    event.preventDefault();
+    this.handleToggle_();
+    this.userCollapsed_ = this.collapsed_;
+  }
+
+  /**
+   * @private
+   */
+  handleToggle_() {
+    this.element.classList.toggle(_css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_COLLAPSED);
+    if (this.collapsed_) {
+      (0,_dom_js__WEBPACK_IMPORTED_MODULE_4__.replaceNode)(this.collapseLabel_, this.label_);
+    } else {
+      (0,_dom_js__WEBPACK_IMPORTED_MODULE_4__.replaceNode)(this.label_, this.collapseLabel_);
+    }
+    this.collapsed_ = !this.collapsed_;
+    this.toggleButton_.setAttribute('aria-expanded', String(!this.collapsed_));
+  }
+
+  /**
+   * Return `true` if the attribution is collapsible, `false` otherwise.
+   * @return {boolean} True if the widget is collapsible.
+   * @api
+   */
+  getCollapsible() {
+    return this.collapsible_;
+  }
+
+  /**
+   * Set whether the attribution should be collapsible.
+   * @param {boolean} collapsible True if the widget is collapsible.
+   * @api
+   */
+  setCollapsible(collapsible) {
+    if (this.collapsible_ === collapsible) {
+      return;
+    }
+    this.collapsible_ = collapsible;
+    this.element.classList.toggle('ol-uncollapsible');
+    if (this.userCollapsed_) {
+      this.handleToggle_();
+    }
+  }
+
+  /**
+   * Collapse or expand the attribution according to the passed parameter. Will
+   * not do anything if the attribution isn't collapsible or if the current
+   * collapsed state is already the one requested.
+   * @param {boolean} collapsed True if the widget is collapsed.
+   * @api
+   */
+  setCollapsed(collapsed) {
+    this.userCollapsed_ = collapsed;
+    if (!this.collapsible_ || this.collapsed_ === collapsed) {
+      return;
+    }
+    this.handleToggle_();
+  }
+
+  /**
+   * Return `true` when the attribution is currently collapsed or `false`
+   * otherwise.
+   * @return {boolean} True if the widget is collapsed.
+   * @api
+   */
+  getCollapsed() {
+    return this.collapsed_;
+  }
+
+  /**
+   * Update the attribution element.
+   * @param {import("../MapEvent.js").default} mapEvent Map event.
+   * @override
+   */
+  render(mapEvent) {
+    this.updateElement_(mapEvent.frameState);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Attribution);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/control/Control.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/control/Control.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Object.js */ "./node_modules/ol/Object.js");
+/* harmony import */ var _MapEventType_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../MapEventType.js */ "./node_modules/ol/MapEventType.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events.js */ "./node_modules/ol/events.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom.js */ "./node_modules/ol/dom.js");
+/**
+ * @module ol/control/Control
+ */
+
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {HTMLElement} [element] The element is the control's
+ * container element. This only needs to be specified if you're developing
+ * a custom control.
+ * @property {function(import("../MapEvent.js").default):void} [render] Function called when
+ * the control should be re-rendered. This is called in a `requestAnimationFrame`
+ * callback.
+ * @property {HTMLElement|string} [target] Specify a target if you want
+ * the control to be rendered outside of the map's viewport.
+ */
+
+/**
+ * @classdesc
+ * A control is a visible widget with a DOM element in a fixed position on the
+ * screen. They can involve user input (buttons), or be informational only;
+ * the position is determined using CSS. By default these are placed in the
+ * container with CSS class name `ol-overlaycontainer-stopevent`, but can use
+ * any outside DOM element.
+ *
+ * This is the base class for controls. You can use it for simple custom
+ * controls by creating the element with listeners, creating an instance:
+ * ```js
+ * const myControl = new Control({element: myElement});
+ * ```
+ * and then adding this to the map.
+ *
+ * The main advantage of having this as a control rather than a simple separate
+ * DOM element is that preventing propagation is handled for you. Controls
+ * will also be objects in a {@link module:ol/Collection~Collection}, so you can use their methods.
+ *
+ * You can also extend this base for your own control class. See
+ * examples/custom-controls for an example of how to do this.
+ *
+ * @api
+ */
+class Control extends _Object_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} options Control options.
+   */
+  constructor(options) {
+    super();
+
+    const element = options.element;
+    if (element && !options.target && !element.style.pointerEvents) {
+      element.style.pointerEvents = 'auto';
+    }
+
+    /**
+     * @protected
+     * @type {HTMLElement}
+     */
+    this.element = element ? element : null;
+
+    /**
+     * @private
+     * @type {HTMLElement}
+     */
+    this.target_ = null;
+
+    /**
+     * @private
+     * @type {import("../Map.js").default|null}
+     */
+    this.map_ = null;
+
+    /**
+     * @protected
+     * @type {!Array<import("../events.js").EventsKey>}
+     */
+    this.listenerKeys = [];
+
+    if (options.render) {
+      this.render = options.render;
+    }
+
+    if (options.target) {
+      this.setTarget(options.target);
+    }
+  }
+
+  /**
+   * Clean up.
+   */
+  disposeInternal() {
+    (0,_dom_js__WEBPACK_IMPORTED_MODULE_1__.removeNode)(this.element);
+    super.disposeInternal();
+  }
+
+  /**
+   * Get the map associated with this control.
+   * @return {import("../Map.js").default|null} Map.
+   * @api
+   */
+  getMap() {
+    return this.map_;
+  }
+
+  /**
+   * Remove the control from its current map and attach it to the new map.
+   * Pass `null` to just remove the control from the current map.
+   * Subclasses may set up event handlers to get notified about changes to
+   * the map here.
+   * @param {import("../Map.js").default|null} map Map.
+   * @api
+   */
+  setMap(map) {
+    if (this.map_) {
+      (0,_dom_js__WEBPACK_IMPORTED_MODULE_1__.removeNode)(this.element);
+    }
+    for (let i = 0, ii = this.listenerKeys.length; i < ii; ++i) {
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_2__.unlistenByKey)(this.listenerKeys[i]);
+    }
+    this.listenerKeys.length = 0;
+    this.map_ = map;
+    if (map) {
+      const target = this.target_
+        ? this.target_
+        : map.getOverlayContainerStopEvent();
+      target.appendChild(this.element);
+      if (this.render !== _functions_js__WEBPACK_IMPORTED_MODULE_3__.VOID) {
+        this.listenerKeys.push(
+          (0,_events_js__WEBPACK_IMPORTED_MODULE_2__.listen)(map, _MapEventType_js__WEBPACK_IMPORTED_MODULE_4__["default"].POSTRENDER, this.render, this)
+        );
+      }
+      map.render();
+    }
+  }
+
+  /**
+   * Renders the control.
+   * @param {import("../MapEvent.js").default} mapEvent Map event.
+   * @api
+   */
+  render(mapEvent) {}
+
+  /**
+   * This function is used to set a target element for the control. It has no
+   * effect if it is called after the control has been added to the map (i.e.
+   * after `setMap` is called on the control). If no `target` is set in the
+   * options passed to the control constructor and if `setTarget` is not called
+   * then the control is added to the map's overlay container.
+   * @param {HTMLElement|string} target Target.
+   * @api
+   */
+  setTarget(target) {
+    this.target_ =
+      typeof target === 'string' ? document.getElementById(target) : target;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Control);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/control/Rotate.js":
+/*!*******************************************!*\
+  !*** ./node_modules/ol/control/Rotate.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Control_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Control.js */ "./node_modules/ol/control/Control.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _css_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css.js */ "./node_modules/ol/css.js");
+/* harmony import */ var _easing_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../easing.js */ "./node_modules/ol/easing.js");
+/**
+ * @module ol/control/Rotate
+ */
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {string} [className='ol-rotate'] CSS class name.
+ * @property {string|HTMLElement} [label='⇧'] Text label to use for the rotate button.
+ * Instead of text, also an element (e.g. a `span` element) can be used.
+ * @property {string} [tipLabel='Reset rotation'] Text label to use for the rotate tip.
+ * @property {string} [compassClassName='ol-compass'] CSS class name for the compass.
+ * @property {number} [duration=250] Animation duration in milliseconds.
+ * @property {boolean} [autoHide=true] Hide the control when rotation is 0.
+ * @property {function(import("../MapEvent.js").default):void} [render] Function called when the control should
+ * be re-rendered. This is called in a `requestAnimationFrame` callback.
+ * @property {function():void} [resetNorth] Function called when the control is clicked.
+ * This will override the default `resetNorth`.
+ * @property {HTMLElement|string} [target] Specify a target if you want the control to be
+ * rendered outside of the map's viewport.
+ */
+
+/**
+ * @classdesc
+ * A button control to reset rotation to 0.
+ * To style this control use css selector `.ol-rotate`. A `.ol-hidden` css
+ * selector is added to the button when the rotation is 0.
+ *
+ * @api
+ */
+class Rotate extends _Control_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Rotate options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super({
+      element: document.createElement('div'),
+      render: options.render,
+      target: options.target,
+    });
+
+    const className =
+      options.className !== undefined ? options.className : 'ol-rotate';
+
+    const label = options.label !== undefined ? options.label : '\u21E7';
+
+    const compassClassName =
+      options.compassClassName !== undefined
+        ? options.compassClassName
+        : 'ol-compass';
+
+    /**
+     * @type {HTMLElement}
+     * @private
+     */
+    this.label_ = null;
+
+    if (typeof label === 'string') {
+      this.label_ = document.createElement('span');
+      this.label_.className = compassClassName;
+      this.label_.textContent = label;
+    } else {
+      this.label_ = label;
+      this.label_.classList.add(compassClassName);
+    }
+
+    const tipLabel = options.tipLabel ? options.tipLabel : 'Reset rotation';
+
+    const button = document.createElement('button');
+    button.className = className + '-reset';
+    button.setAttribute('type', 'button');
+    button.title = tipLabel;
+    button.appendChild(this.label_);
+
+    button.addEventListener(
+      _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CLICK,
+      this.handleClick_.bind(this),
+      false
+    );
+
+    const cssClasses =
+      className + ' ' + _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_UNSELECTABLE + ' ' + _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_CONTROL;
+    const element = this.element;
+    element.className = cssClasses;
+    element.appendChild(button);
+
+    this.callResetNorth_ = options.resetNorth ? options.resetNorth : undefined;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 250;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.autoHide_ = options.autoHide !== undefined ? options.autoHide : true;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.rotation_ = undefined;
+
+    if (this.autoHide_) {
+      this.element.classList.add(_css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_HIDDEN);
+    }
+  }
+
+  /**
+   * @param {MouseEvent} event The event to handle
+   * @private
+   */
+  handleClick_(event) {
+    event.preventDefault();
+    if (this.callResetNorth_ !== undefined) {
+      this.callResetNorth_();
+    } else {
+      this.resetNorth_();
+    }
+  }
+
+  /**
+   * @private
+   */
+  resetNorth_() {
+    const map = this.getMap();
+    const view = map.getView();
+    if (!view) {
+      // the map does not have a view, so we can't act
+      // upon it
+      return;
+    }
+    const rotation = view.getRotation();
+    if (rotation !== undefined) {
+      if (this.duration_ > 0 && rotation % (2 * Math.PI) !== 0) {
+        view.animate({
+          rotation: 0,
+          duration: this.duration_,
+          easing: _easing_js__WEBPACK_IMPORTED_MODULE_3__.easeOut,
+        });
+      } else {
+        view.setRotation(0);
+      }
+    }
+  }
+
+  /**
+   * Update the rotate control element.
+   * @param {import("../MapEvent.js").default} mapEvent Map event.
+   * @override
+   */
+  render(mapEvent) {
+    const frameState = mapEvent.frameState;
+    if (!frameState) {
+      return;
+    }
+    const rotation = frameState.viewState.rotation;
+    if (rotation != this.rotation_) {
+      const transform = 'rotate(' + rotation + 'rad)';
+      if (this.autoHide_) {
+        const contains = this.element.classList.contains(_css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_HIDDEN);
+        if (!contains && rotation === 0) {
+          this.element.classList.add(_css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_HIDDEN);
+        } else if (contains && rotation !== 0) {
+          this.element.classList.remove(_css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_HIDDEN);
+        }
+      }
+      this.label_.style.transform = transform;
+    }
+    this.rotation_ = rotation;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Rotate);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/control/Zoom.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol/control/Zoom.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Control_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Control.js */ "./node_modules/ol/control/Control.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _css_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css.js */ "./node_modules/ol/css.js");
+/* harmony import */ var _easing_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../easing.js */ "./node_modules/ol/easing.js");
+/**
+ * @module ol/control/Zoom
+ */
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {number} [duration=250] Animation duration in milliseconds.
+ * @property {string} [className='ol-zoom'] CSS class name.
+ * @property {string} [zoomInClassName=className + '-in'] CSS class name for the zoom-in button.
+ * @property {string} [zoomOutClassName=className + '-out'] CSS class name for the zoom-out button.
+ * @property {string|HTMLElement} [zoomInLabel='+'] Text label to use for the zoom-in
+ * button. Instead of text, also an element (e.g. a `span` element) can be used.
+ * @property {string|HTMLElement} [zoomOutLabel='–'] Text label to use for the zoom-out button.
+ * Instead of text, also an element (e.g. a `span` element) can be used.
+ * @property {string} [zoomInTipLabel='Zoom in'] Text label to use for the button tip.
+ * @property {string} [zoomOutTipLabel='Zoom out'] Text label to use for the button tip.
+ * @property {number} [delta=1] The zoom delta applied on each click.
+ * @property {HTMLElement|string} [target] Specify a target if you want the control to be
+ * rendered outside of the map's viewport.
+ */
+
+/**
+ * @classdesc
+ * A control with 2 buttons, one for zoom in and one for zoom out.
+ * This control is one of the default controls of a map. To style this control
+ * use css selectors `.ol-zoom-in` and `.ol-zoom-out`.
+ *
+ * @api
+ */
+class Zoom extends _Control_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Zoom options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super({
+      element: document.createElement('div'),
+      target: options.target,
+    });
+
+    const className =
+      options.className !== undefined ? options.className : 'ol-zoom';
+
+    const delta = options.delta !== undefined ? options.delta : 1;
+
+    const zoomInClassName =
+      options.zoomInClassName !== undefined
+        ? options.zoomInClassName
+        : className + '-in';
+
+    const zoomOutClassName =
+      options.zoomOutClassName !== undefined
+        ? options.zoomOutClassName
+        : className + '-out';
+
+    const zoomInLabel =
+      options.zoomInLabel !== undefined ? options.zoomInLabel : '+';
+    const zoomOutLabel =
+      options.zoomOutLabel !== undefined ? options.zoomOutLabel : '\u2013';
+
+    const zoomInTipLabel =
+      options.zoomInTipLabel !== undefined ? options.zoomInTipLabel : 'Zoom in';
+    const zoomOutTipLabel =
+      options.zoomOutTipLabel !== undefined
+        ? options.zoomOutTipLabel
+        : 'Zoom out';
+
+    const inElement = document.createElement('button');
+    inElement.className = zoomInClassName;
+    inElement.setAttribute('type', 'button');
+    inElement.title = zoomInTipLabel;
+    inElement.appendChild(
+      typeof zoomInLabel === 'string'
+        ? document.createTextNode(zoomInLabel)
+        : zoomInLabel
+    );
+
+    inElement.addEventListener(
+      _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CLICK,
+      this.handleClick_.bind(this, delta),
+      false
+    );
+
+    const outElement = document.createElement('button');
+    outElement.className = zoomOutClassName;
+    outElement.setAttribute('type', 'button');
+    outElement.title = zoomOutTipLabel;
+    outElement.appendChild(
+      typeof zoomOutLabel === 'string'
+        ? document.createTextNode(zoomOutLabel)
+        : zoomOutLabel
+    );
+
+    outElement.addEventListener(
+      _events_EventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CLICK,
+      this.handleClick_.bind(this, -delta),
+      false
+    );
+
+    const cssClasses =
+      className + ' ' + _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_UNSELECTABLE + ' ' + _css_js__WEBPACK_IMPORTED_MODULE_2__.CLASS_CONTROL;
+    const element = this.element;
+    element.className = cssClasses;
+    element.appendChild(inElement);
+    element.appendChild(outElement);
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 250;
+  }
+
+  /**
+   * @param {number} delta Zoom delta.
+   * @param {MouseEvent} event The event to handle
+   * @private
+   */
+  handleClick_(delta, event) {
+    event.preventDefault();
+    this.zoomByDelta_(delta);
+  }
+
+  /**
+   * @param {number} delta Zoom delta.
+   * @private
+   */
+  zoomByDelta_(delta) {
+    const map = this.getMap();
+    const view = map.getView();
+    if (!view) {
+      // the map does not have a view, so we can't act
+      // upon it
+      return;
+    }
+    const currentZoom = view.getZoom();
+    if (currentZoom !== undefined) {
+      const newZoom = view.getConstrainedZoom(currentZoom + delta);
+      if (this.duration_ > 0) {
+        if (view.getAnimating()) {
+          view.cancelAnimations();
+        }
+        view.animate({
+          zoom: newZoom,
+          duration: this.duration_,
+          easing: _easing_js__WEBPACK_IMPORTED_MODULE_3__.easeOut,
+        });
+      } else {
+        view.setZoom(newZoom);
+      }
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Zoom);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/control/defaults.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ol/control/defaults.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "defaults": () => (/* binding */ defaults)
+/* harmony export */ });
+/* harmony import */ var _Attribution_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Attribution.js */ "./node_modules/ol/control/Attribution.js");
+/* harmony import */ var _Collection_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Collection.js */ "./node_modules/ol/Collection.js");
+/* harmony import */ var _Rotate_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Rotate.js */ "./node_modules/ol/control/Rotate.js");
+/* harmony import */ var _Zoom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Zoom.js */ "./node_modules/ol/control/Zoom.js");
+/**
+ * @module ol/control/defaults
+ */
+
+
+
+
+
+/**
+ * @typedef {Object} DefaultsOptions
+ * @property {boolean} [attribution=true] Include
+ * {@link module:ol/control/Attribution~Attribution}.
+ * @property {import("./Attribution.js").Options} [attributionOptions]
+ * Options for {@link module:ol/control/Attribution~Attribution}.
+ * @property {boolean} [rotate=true] Include
+ * {@link module:ol/control/Rotate~Rotate}.
+ * @property {import("./Rotate.js").Options} [rotateOptions] Options
+ * for {@link module:ol/control/Rotate~Rotate}.
+ * @property {boolean} [zoom] Include {@link module:ol/control/Zoom~Zoom}.
+ * @property {import("./Zoom.js").Options} [zoomOptions] Options for
+ * {@link module:ol/control/Zoom~Zoom}.
+ */
+
+/**
+ * Set of controls included in maps by default. Unless configured otherwise,
+ * this returns a collection containing an instance of each of the following
+ * controls:
+ * * {@link module:ol/control/Zoom~Zoom}
+ * * {@link module:ol/control/Rotate~Rotate}
+ * * {@link module:ol/control/Attribution~Attribution}
+ *
+ * @param {DefaultsOptions} [options] Options for the default controls.
+ * @return {Collection<import("./Control.js").default>} A collection of controls
+ * to be used with the {@link module:ol/Map~Map} constructor's `controls` option.
+ * @api
+ */
+function defaults(options) {
+  options = options ? options : {};
+
+  /** @type {Collection<import("./Control.js").default>} */
+  const controls = new _Collection_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+
+  const zoomControl = options.zoom !== undefined ? options.zoom : true;
+  if (zoomControl) {
+    controls.push(new _Zoom_js__WEBPACK_IMPORTED_MODULE_1__["default"](options.zoomOptions));
+  }
+
+  const rotateControl = options.rotate !== undefined ? options.rotate : true;
+  if (rotateControl) {
+    controls.push(new _Rotate_js__WEBPACK_IMPORTED_MODULE_2__["default"](options.rotateOptions));
+  }
+
+  const attributionControl =
+    options.attribution !== undefined ? options.attribution : true;
+  if (attributionControl) {
+    controls.push(new _Attribution_js__WEBPACK_IMPORTED_MODULE_3__["default"](options.attributionOptions));
+  }
+
+  return controls;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/coordinate.js":
 /*!***************************************!*\
   !*** ./node_modules/ol/coordinate.js ***!
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add": () => (/* binding */ add),
@@ -5250,12 +10047,150 @@ function getWorldsAway(coordinate, projection, sourceExtentWidth) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/css.js":
+/*!********************************!*\
+  !*** ./node_modules/ol/css.js ***!
+  \********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CLASS_COLLAPSED": () => (/* binding */ CLASS_COLLAPSED),
+/* harmony export */   "CLASS_CONTROL": () => (/* binding */ CLASS_CONTROL),
+/* harmony export */   "CLASS_HIDDEN": () => (/* binding */ CLASS_HIDDEN),
+/* harmony export */   "CLASS_SELECTABLE": () => (/* binding */ CLASS_SELECTABLE),
+/* harmony export */   "CLASS_UNSELECTABLE": () => (/* binding */ CLASS_UNSELECTABLE),
+/* harmony export */   "CLASS_UNSUPPORTED": () => (/* binding */ CLASS_UNSUPPORTED),
+/* harmony export */   "getFontParameters": () => (/* binding */ getFontParameters)
+/* harmony export */ });
+/**
+ * @module ol/css
+ */
+
+/**
+ * @typedef {Object} FontParameters
+ * @property {string} style Style.
+ * @property {string} variant Variant.
+ * @property {string} weight Weight.
+ * @property {string} size Size.
+ * @property {string} lineHeight LineHeight.
+ * @property {string} family Family.
+ * @property {Array<string>} families Families.
+ */
+
+/**
+ * The CSS class for hidden feature.
+ *
+ * @const
+ * @type {string}
+ */
+const CLASS_HIDDEN = 'ol-hidden';
+
+/**
+ * The CSS class that we'll give the DOM elements to have them selectable.
+ *
+ * @const
+ * @type {string}
+ */
+const CLASS_SELECTABLE = 'ol-selectable';
+
+/**
+ * The CSS class that we'll give the DOM elements to have them unselectable.
+ *
+ * @const
+ * @type {string}
+ */
+const CLASS_UNSELECTABLE = 'ol-unselectable';
+
+/**
+ * The CSS class for unsupported feature.
+ *
+ * @const
+ * @type {string}
+ */
+const CLASS_UNSUPPORTED = 'ol-unsupported';
+
+/**
+ * The CSS class for controls.
+ *
+ * @const
+ * @type {string}
+ */
+const CLASS_CONTROL = 'ol-control';
+
+/**
+ * The CSS class that we'll give the DOM elements that are collapsed, i.e.
+ * to those elements which usually can be expanded.
+ *
+ * @const
+ * @type {string}
+ */
+const CLASS_COLLAPSED = 'ol-collapsed';
+
+/**
+ * From https://stackoverflow.com/questions/10135697/regex-to-parse-any-css-font
+ * @type {RegExp}
+ */
+const fontRegEx = new RegExp(
+  [
+    '^\\s*(?=(?:(?:[-a-z]+\\s*){0,2}(italic|oblique))?)',
+    '(?=(?:(?:[-a-z]+\\s*){0,2}(small-caps))?)',
+    '(?=(?:(?:[-a-z]+\\s*){0,2}(bold(?:er)?|lighter|[1-9]00 ))?)',
+    '(?:(?:normal|\\1|\\2|\\3)\\s*){0,3}((?:xx?-)?',
+    '(?:small|large)|medium|smaller|larger|[\\.\\d]+(?:\\%|in|[cem]m|ex|p[ctx]))',
+    '(?:\\s*\\/\\s*(normal|[\\.\\d]+(?:\\%|in|[cem]m|ex|p[ctx])?))',
+    '?\\s*([-,\\"\\\'\\sa-z]+?)\\s*$',
+  ].join(''),
+  'i'
+);
+const fontRegExMatchIndex = [
+  'style',
+  'variant',
+  'weight',
+  'size',
+  'lineHeight',
+  'family',
+];
+
+/**
+ * Get the list of font families from a font spec.  Note that this doesn't work
+ * for font families that have commas in them.
+ * @param {string} fontSpec The CSS font property.
+ * @return {FontParameters|null} The font parameters (or null if the input spec is invalid).
+ */
+const getFontParameters = function (fontSpec) {
+  const match = fontSpec.match(fontRegEx);
+  if (!match) {
+    return null;
+  }
+  const style = /** @type {FontParameters} */ ({
+    lineHeight: 'normal',
+    size: '1.2em',
+    style: 'normal',
+    weight: 'normal',
+    variant: 'normal',
+  });
+  for (let i = 0, ii = fontRegExMatchIndex.length; i < ii; ++i) {
+    const value = match[i + 1];
+    if (value !== undefined) {
+      style[fontRegExMatchIndex[i]] = value;
+    }
+  }
+  style.families = style.family.split(/,\s?/);
+  return style;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/dom.js":
 /*!********************************!*\
   !*** ./node_modules/ol/dom.js ***!
   \********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createCanvasContext2D": () => (/* binding */ createCanvasContext2D),
@@ -5427,6 +10362,7 @@ function replaceChildren(node, children) {
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "easeIn": () => (/* binding */ easeIn),
@@ -5503,6 +10439,7 @@ function upAndDown(t) {
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "listen": () => (/* binding */ listen),
@@ -5625,6 +10562,7 @@ function unlistenByKey(key) {
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
@@ -5718,6 +10656,7 @@ function preventDefault(evt) {
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -5765,12 +10704,42 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/ol/events/KeyCode.js":
+/*!*******************************************!*\
+  !*** ./node_modules/ol/events/KeyCode.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/events/KeyCode
+ */
+
+/**
+ * @enum {number}
+ * @const
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/events/Target.js":
 /*!******************************************!*\
   !*** ./node_modules/ol/events/Target.js ***!
   \******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -5971,12 +10940,379 @@ class Target extends _Disposable_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 /***/ }),
 
+/***/ "./node_modules/ol/events/condition.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ol/events/condition.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "all": () => (/* binding */ all),
+/* harmony export */   "altKeyOnly": () => (/* binding */ altKeyOnly),
+/* harmony export */   "altShiftKeysOnly": () => (/* binding */ altShiftKeysOnly),
+/* harmony export */   "always": () => (/* binding */ always),
+/* harmony export */   "click": () => (/* binding */ click),
+/* harmony export */   "doubleClick": () => (/* binding */ doubleClick),
+/* harmony export */   "focus": () => (/* binding */ focus),
+/* harmony export */   "focusWithTabindex": () => (/* binding */ focusWithTabindex),
+/* harmony export */   "mouseActionButton": () => (/* binding */ mouseActionButton),
+/* harmony export */   "mouseOnly": () => (/* binding */ mouseOnly),
+/* harmony export */   "never": () => (/* binding */ never),
+/* harmony export */   "noModifierKeys": () => (/* binding */ noModifierKeys),
+/* harmony export */   "penOnly": () => (/* binding */ penOnly),
+/* harmony export */   "platformModifierKeyOnly": () => (/* binding */ platformModifierKeyOnly),
+/* harmony export */   "pointerMove": () => (/* binding */ pointerMove),
+/* harmony export */   "primaryAction": () => (/* binding */ primaryAction),
+/* harmony export */   "shiftKeyOnly": () => (/* binding */ shiftKeyOnly),
+/* harmony export */   "singleClick": () => (/* binding */ singleClick),
+/* harmony export */   "targetNotEditable": () => (/* binding */ targetNotEditable),
+/* harmony export */   "touchOnly": () => (/* binding */ touchOnly)
+/* harmony export */ });
+/* harmony import */ var _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../MapBrowserEventType.js */ "./node_modules/ol/MapBrowserEventType.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _has_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../has.js */ "./node_modules/ol/has.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/**
+ * @module ol/events/condition
+ */
+
+
+
+
+
+/**
+ * A function that takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a
+ * `{boolean}`. If the condition is met, true should be returned.
+ *
+ * @typedef {function(this: ?, import("../MapBrowserEvent.js").default): boolean} Condition
+ */
+
+/**
+ * Creates a condition function that passes when all provided conditions pass.
+ * @param {...Condition} var_args Conditions to check.
+ * @return {Condition} Condition function.
+ */
+function all(var_args) {
+  const conditions = arguments;
+  /**
+   * @param {import("../MapBrowserEvent.js").default} event Event.
+   * @return {boolean} All conditions passed.
+   */
+  return function (event) {
+    let pass = true;
+    for (let i = 0, ii = conditions.length; i < ii; ++i) {
+      pass = pass && conditions[i](event);
+      if (!pass) {
+        break;
+      }
+    }
+    return pass;
+  };
+}
+
+/**
+ * Return `true` if only the alt-key is pressed, `false` otherwise (e.g. when
+ * additionally the shift-key is pressed).
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if only the alt key is pressed.
+ * @api
+ */
+const altKeyOnly = function (mapBrowserEvent) {
+  const originalEvent = /** @type {KeyboardEvent|MouseEvent|TouchEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  return (
+    originalEvent.altKey &&
+    !(originalEvent.metaKey || originalEvent.ctrlKey) &&
+    !originalEvent.shiftKey
+  );
+};
+
+/**
+ * Return `true` if only the alt-key and shift-key is pressed, `false` otherwise
+ * (e.g. when additionally the platform-modifier-key is pressed).
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if only the alt and shift keys are pressed.
+ * @api
+ */
+const altShiftKeysOnly = function (mapBrowserEvent) {
+  const originalEvent = /** @type {KeyboardEvent|MouseEvent|TouchEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  return (
+    originalEvent.altKey &&
+    !(originalEvent.metaKey || originalEvent.ctrlKey) &&
+    originalEvent.shiftKey
+  );
+};
+
+/**
+ * Return `true` if the map has the focus. This condition requires a map target
+ * element with a `tabindex` attribute, e.g. `<div id="map" tabindex="1">`.
+ *
+ * @param {import("../MapBrowserEvent.js").default} event Map browser event.
+ * @return {boolean} The map has the focus.
+ * @api
+ */
+const focus = function (event) {
+  const targetElement = event.map.getTargetElement();
+  const activeElement = event.map.getOwnerDocument().activeElement;
+  return targetElement.contains(activeElement);
+};
+
+/**
+ * Return `true` if the map has the focus or no 'tabindex' attribute set.
+ *
+ * @param {import("../MapBrowserEvent.js").default} event Map browser event.
+ * @return {boolean} The map container has the focus or no 'tabindex' attribute.
+ */
+const focusWithTabindex = function (event) {
+  return event.map.getTargetElement().hasAttribute('tabindex')
+    ? focus(event)
+    : true;
+};
+
+/**
+ * Return always true.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True.
+ * @api
+ */
+const always = _functions_js__WEBPACK_IMPORTED_MODULE_0__.TRUE;
+
+/**
+ * Return `true` if the event is a `click` event, `false` otherwise.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event is a map `click` event.
+ * @api
+ */
+const click = function (mapBrowserEvent) {
+  return mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].CLICK;
+};
+
+/**
+ * Return `true` if the event has an "action"-producing mouse button.
+ *
+ * By definition, this includes left-click on windows/linux, and left-click
+ * without the ctrl key on Macs.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} The result.
+ */
+const mouseActionButton = function (mapBrowserEvent) {
+  const originalEvent = /** @type {MouseEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  return originalEvent.button == 0 && !(_has_js__WEBPACK_IMPORTED_MODULE_2__.WEBKIT && _has_js__WEBPACK_IMPORTED_MODULE_2__.MAC && originalEvent.ctrlKey);
+};
+
+/**
+ * Return always false.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} False.
+ * @api
+ */
+const never = _functions_js__WEBPACK_IMPORTED_MODULE_0__.FALSE;
+
+/**
+ * Return `true` if the browser event is a `pointermove` event, `false`
+ * otherwise.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the browser event is a `pointermove` event.
+ * @api
+ */
+const pointerMove = function (mapBrowserEvent) {
+  return mapBrowserEvent.type == 'pointermove';
+};
+
+/**
+ * Return `true` if the event is a map `singleclick` event, `false` otherwise.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event is a map `singleclick` event.
+ * @api
+ */
+const singleClick = function (mapBrowserEvent) {
+  return mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].SINGLECLICK;
+};
+
+/**
+ * Return `true` if the event is a map `dblclick` event, `false` otherwise.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event is a map `dblclick` event.
+ * @api
+ */
+const doubleClick = function (mapBrowserEvent) {
+  return mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].DBLCLICK;
+};
+
+/**
+ * Return `true` if no modifier key (alt-, shift- or platform-modifier-key) is
+ * pressed.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True only if there no modifier keys are pressed.
+ * @api
+ */
+const noModifierKeys = function (mapBrowserEvent) {
+  const originalEvent = /** @type {KeyboardEvent|MouseEvent|TouchEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  return (
+    !originalEvent.altKey &&
+    !(originalEvent.metaKey || originalEvent.ctrlKey) &&
+    !originalEvent.shiftKey
+  );
+};
+
+/**
+ * Return `true` if only the platform-modifier-key (the meta-key on Mac,
+ * ctrl-key otherwise) is pressed, `false` otherwise (e.g. when additionally
+ * the shift-key is pressed).
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if only the platform modifier key is pressed.
+ * @api
+ */
+const platformModifierKeyOnly = function (mapBrowserEvent) {
+  const originalEvent = /** @type {KeyboardEvent|MouseEvent|TouchEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  return (
+    !originalEvent.altKey &&
+    (_has_js__WEBPACK_IMPORTED_MODULE_2__.MAC ? originalEvent.metaKey : originalEvent.ctrlKey) &&
+    !originalEvent.shiftKey
+  );
+};
+
+/**
+ * Return `true` if only the shift-key is pressed, `false` otherwise (e.g. when
+ * additionally the alt-key is pressed).
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if only the shift key is pressed.
+ * @api
+ */
+const shiftKeyOnly = function (mapBrowserEvent) {
+  const originalEvent = /** @type {KeyboardEvent|MouseEvent|TouchEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  return (
+    !originalEvent.altKey &&
+    !(originalEvent.metaKey || originalEvent.ctrlKey) &&
+    originalEvent.shiftKey
+  );
+};
+
+/**
+ * Return `true` if the target element is not editable, i.e. not an `input`,
+ * `select`, or `textarea` element and no `contenteditable` attribute is
+ * set or inherited, `false` otherwise.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True only if the target element is not editable.
+ * @api
+ */
+const targetNotEditable = function (mapBrowserEvent) {
+  const originalEvent = /** @type {KeyboardEvent|MouseEvent|TouchEvent} */ (
+    mapBrowserEvent.originalEvent
+  );
+  const tagName = /** @type {Element} */ (originalEvent.target).tagName;
+  return (
+    tagName !== 'INPUT' &&
+    tagName !== 'SELECT' &&
+    tagName !== 'TEXTAREA' &&
+    // `isContentEditable` is only available on `HTMLElement`, but it may also be a
+    // different type like `SVGElement`.
+    // @ts-ignore
+    !originalEvent.target.isContentEditable
+  );
+};
+
+/**
+ * Return `true` if the event originates from a mouse device.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event originates from a mouse device.
+ * @api
+ */
+const mouseOnly = function (mapBrowserEvent) {
+  const pointerEvent = /** @type {import("../MapBrowserEvent").default} */ (
+    mapBrowserEvent
+  ).originalEvent;
+  (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(pointerEvent !== undefined, 56); // mapBrowserEvent must originate from a pointer event
+  // see https://www.w3.org/TR/pointerevents/#widl-PointerEvent-pointerType
+  return pointerEvent.pointerType == 'mouse';
+};
+
+/**
+ * Return `true` if the event originates from a touchable device.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event originates from a touchable device.
+ * @api
+ */
+const touchOnly = function (mapBrowserEvent) {
+  const pointerEvt = /** @type {import("../MapBrowserEvent").default} */ (
+    mapBrowserEvent
+  ).originalEvent;
+  (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(pointerEvt !== undefined, 56); // mapBrowserEvent must originate from a pointer event
+  // see https://www.w3.org/TR/pointerevents/#widl-PointerEvent-pointerType
+  return pointerEvt.pointerType === 'touch';
+};
+
+/**
+ * Return `true` if the event originates from a digital pen.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event originates from a digital pen.
+ * @api
+ */
+const penOnly = function (mapBrowserEvent) {
+  const pointerEvt = /** @type {import("../MapBrowserEvent").default} */ (
+    mapBrowserEvent
+  ).originalEvent;
+  (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(pointerEvt !== undefined, 56); // mapBrowserEvent must originate from a pointer event
+  // see https://www.w3.org/TR/pointerevents/#widl-PointerEvent-pointerType
+  return pointerEvt.pointerType === 'pen';
+};
+
+/**
+ * Return `true` if the event originates from a primary pointer in
+ * contact with the surface or if the left mouse button is pressed.
+ * See https://www.w3.org/TR/pointerevents/#button-states.
+ *
+ * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+ * @return {boolean} True if the event originates from a primary pointer.
+ * @api
+ */
+const primaryAction = function (mapBrowserEvent) {
+  const pointerEvent = /** @type {import("../MapBrowserEvent").default} */ (
+    mapBrowserEvent
+  ).originalEvent;
+  (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(pointerEvent !== undefined, 56); // mapBrowserEvent must originate from a pointer event
+  return pointerEvent.isPrimary && pointerEvent.button === 0;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/extent.js":
 /*!***********************************!*\
   !*** ./node_modules/ol/extent.js ***!
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "applyTransform": () => (/* binding */ applyTransform),
@@ -6958,6 +12294,7 @@ function wrapAndSliceX(extent, projection) {
   \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -6982,12 +12319,209 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/ol/featureloader.js":
+/*!******************************************!*\
+  !*** ./node_modules/ol/featureloader.js ***!
+  \******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "loadFeaturesXhr": () => (/* binding */ loadFeaturesXhr),
+/* harmony export */   "setWithCredentials": () => (/* binding */ setWithCredentials),
+/* harmony export */   "xhr": () => (/* binding */ xhr)
+/* harmony export */ });
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./functions.js */ "./node_modules/ol/functions.js");
+/**
+ * @module ol/featureloader
+ */
+
+
+/**
+ *
+ * @type {boolean}
+ * @private
+ */
+let withCredentials = false;
+
+/**
+ * {@link module:ol/source/Vector~VectorSource} sources use a function of this type to
+ * load features.
+ *
+ * This function takes up to 5 arguments. These are an {@link module:ol/extent~Extent} representing
+ * the area to be loaded, a `{number}` representing the resolution (map units per pixel), an
+ * {@link module:ol/proj/Projection~Projection} for the projection, an optional success callback that should get
+ * the loaded features passed as an argument and an optional failure callback with no arguments. If
+ * the callbacks are not used, the corresponding vector source will not fire `'featuresloadend'` and
+ * `'featuresloaderror'` events. `this` within the function is bound to the
+ * {@link module:ol/source/Vector~VectorSource} it's called from.
+ *
+ * The function is responsible for loading the features and adding them to the
+ * source.
+ * @typedef {function(this:(import("./source/Vector").default|import("./VectorTile.js").default),
+ *           import("./extent.js").Extent,
+ *           number,
+ *           import("./proj/Projection.js").default,
+ *           function(Array<import("./Feature.js").default>): void=,
+ *           function(): void=): void} FeatureLoader
+ * @api
+ */
+
+/**
+ * {@link module:ol/source/Vector~VectorSource} sources use a function of this type to
+ * get the url to load features from.
+ *
+ * This function takes an {@link module:ol/extent~Extent} representing the area
+ * to be loaded, a `{number}` representing the resolution (map units per pixel)
+ * and an {@link module:ol/proj/Projection~Projection} for the projection  as
+ * arguments and returns a `{string}` representing the URL.
+ * @typedef {function(import("./extent.js").Extent, number, import("./proj/Projection.js").default): string} FeatureUrlFunction
+ * @api
+ */
+
+/**
+ * @param {string|FeatureUrlFunction} url Feature URL service.
+ * @param {import("./format/Feature.js").default} format Feature format.
+ * @param {import("./extent.js").Extent} extent Extent.
+ * @param {number} resolution Resolution.
+ * @param {import("./proj/Projection.js").default} projection Projection.
+ * @param {function(Array<import("./Feature.js").default>, import("./proj/Projection.js").default): void} success Success
+ *      Function called with the loaded features and optionally with the data projection.
+ * @param {function(): void} failure Failure
+ *      Function called when loading failed.
+ */
+function loadFeaturesXhr(
+  url,
+  format,
+  extent,
+  resolution,
+  projection,
+  success,
+  failure
+) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    'GET',
+    typeof url === 'function' ? url(extent, resolution, projection) : url,
+    true
+  );
+  if (format.getType() == 'arraybuffer') {
+    xhr.responseType = 'arraybuffer';
+  }
+  xhr.withCredentials = withCredentials;
+  /**
+   * @param {Event} event Event.
+   * @private
+   */
+  xhr.onload = function (event) {
+    // status will be 0 for file:// urls
+    if (!xhr.status || (xhr.status >= 200 && xhr.status < 300)) {
+      const type = format.getType();
+      /** @type {Document|Node|Object|string|undefined} */
+      let source;
+      if (type == 'json' || type == 'text') {
+        source = xhr.responseText;
+      } else if (type == 'xml') {
+        source = xhr.responseXML;
+        if (!source) {
+          source = new DOMParser().parseFromString(
+            xhr.responseText,
+            'application/xml'
+          );
+        }
+      } else if (type == 'arraybuffer') {
+        source = /** @type {ArrayBuffer} */ (xhr.response);
+      }
+      if (source) {
+        success(
+          /** @type {Array<import("./Feature.js").default>} */
+          (
+            format.readFeatures(source, {
+              extent: extent,
+              featureProjection: projection,
+            })
+          ),
+          format.readProjection(source)
+        );
+      } else {
+        failure();
+      }
+    } else {
+      failure();
+    }
+  };
+  /**
+   * @private
+   */
+  xhr.onerror = failure;
+  xhr.send();
+}
+
+/**
+ * Create an XHR feature loader for a `url` and `format`. The feature loader
+ * loads features (with XHR), parses the features, and adds them to the
+ * vector source.
+ * @param {string|FeatureUrlFunction} url Feature URL service.
+ * @param {import("./format/Feature.js").default} format Feature format.
+ * @return {FeatureLoader} The feature loader.
+ * @api
+ */
+function xhr(url, format) {
+  /**
+   * @param {import("./extent.js").Extent} extent Extent.
+   * @param {number} resolution Resolution.
+   * @param {import("./proj/Projection.js").default} projection Projection.
+   * @param {function(Array<import("./Feature.js").default>): void} [success] Success
+   *      Function called when loading succeeded.
+   * @param {function(): void} [failure] Failure
+   *      Function called when loading failed.
+   */
+  return function (extent, resolution, projection, success, failure) {
+    const source = /** @type {import("./source/Vector").default} */ (this);
+    loadFeaturesXhr(
+      url,
+      format,
+      extent,
+      resolution,
+      projection,
+      /**
+       * @param {Array<import("./Feature.js").default>} features The loaded features.
+       * @param {import("./proj/Projection.js").default} dataProjection Data
+       * projection.
+       */
+      function (features, dataProjection) {
+        source.addFeatures(features);
+        if (success !== undefined) {
+          success(features);
+        }
+      },
+      /* FIXME handle error */ failure ? failure : _functions_js__WEBPACK_IMPORTED_MODULE_0__.VOID
+    );
+  };
+}
+
+/**
+ * Setter for the withCredentials configuration for the XHR.
+ *
+ * @param {boolean} xhrWithCredentials The value of withCredentials to set.
+ * Compare https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/
+ * @api
+ */
+function setWithCredentials(xhrWithCredentials) {
+  withCredentials = xhrWithCredentials;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/functions.js":
 /*!**************************************!*\
   !*** ./node_modules/ol/functions.js ***!
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FALSE": () => (/* binding */ FALSE),
@@ -7088,6 +12622,7 @@ function toPromise(getter) {
   \******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -7448,6 +12983,7 @@ class Geometry extends _Object_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -7657,6 +13193,7 @@ class LinearRing extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["defaul
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -7794,6 +13331,7 @@ class Point extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "circular": () => (/* binding */ circular),
@@ -8337,6 +13875,7 @@ function makeRegular(polygon, center, radius, angle) {
   \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
@@ -8706,6 +14245,7 @@ function transformGeom2D(simpleGeometry, transform, dest) {
   \*******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "linearRing": () => (/* binding */ linearRing),
@@ -8780,6 +14320,7 @@ function linearRingss(flatCoordinates, offset, endss, stride) {
   \**********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "arrayMaxSquaredDelta": () => (/* binding */ arrayMaxSquaredDelta),
@@ -9136,6 +14677,7 @@ function assignClosestMultiArrayPoint(
   \***********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "linearRingContainsExtent": () => (/* binding */ linearRingContainsExtent),
@@ -9299,6 +14841,7 @@ function linearRingssContainsXY(
   \**********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deflateCoordinate": () => (/* binding */ deflateCoordinate),
@@ -9421,6 +14964,7 @@ function deflateMultiCoordinatesArray(
   \**********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "inflateCoordinates": () => (/* binding */ inflateCoordinates),
@@ -9532,6 +15076,7 @@ function inflateMultiCoordinatesArray(
   \****************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getInteriorPointOfArray": () => (/* binding */ getInteriorPointOfArray),
@@ -9659,6 +15204,7 @@ function getInteriorPointsOfMultiArray(
   \*******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "intersectsLineString": () => (/* binding */ intersectsLineString),
@@ -9900,12 +15446,141 @@ function intersectsLinearRingMultiArray(
 
 /***/ }),
 
+/***/ "./node_modules/ol/geom/flat/length.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ol/geom/flat/length.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "lineStringLength": () => (/* binding */ lineStringLength),
+/* harmony export */   "linearRingLength": () => (/* binding */ linearRingLength)
+/* harmony export */ });
+/**
+ * @module ol/geom/flat/length
+ */
+
+/**
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {number} end End.
+ * @param {number} stride Stride.
+ * @return {number} Length.
+ */
+function lineStringLength(flatCoordinates, offset, end, stride) {
+  let x1 = flatCoordinates[offset];
+  let y1 = flatCoordinates[offset + 1];
+  let length = 0;
+  for (let i = offset + stride; i < end; i += stride) {
+    const x2 = flatCoordinates[i];
+    const y2 = flatCoordinates[i + 1];
+    length += Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+    x1 = x2;
+    y1 = y2;
+  }
+  return length;
+}
+
+/**
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {number} end End.
+ * @param {number} stride Stride.
+ * @return {number} Perimeter.
+ */
+function linearRingLength(flatCoordinates, offset, end, stride) {
+  let perimeter = lineStringLength(flatCoordinates, offset, end, stride);
+  const dx = flatCoordinates[end - stride] - flatCoordinates[offset];
+  const dy = flatCoordinates[end - stride + 1] - flatCoordinates[offset + 1];
+  perimeter += Math.sqrt(dx * dx + dy * dy);
+  return perimeter;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/flat/linechunk.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/geom/flat/linechunk.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "lineChunk": () => (/* binding */ lineChunk)
+/* harmony export */ });
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../math.js */ "./node_modules/ol/math.js");
+
+
+/**
+ * Creates chunks of equal length from a linestring
+ * @param {number} chunkLength Length of each chunk.
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Start offset of the `flatCoordinates`.
+ * @param {number} end End offset of the `flatCoordinates`.
+ * @param {number} stride Stride.
+ * @return {Array<Array<number>>} Chunks of linestrings with stride 2.
+ */
+function lineChunk(chunkLength, flatCoordinates, offset, end, stride) {
+  const chunks = [];
+  let cursor = offset;
+  let chunkM = 0;
+  let currentChunk = flatCoordinates.slice(offset, 2);
+  while (chunkM < chunkLength && cursor + stride < end) {
+    const [x1, y1] = currentChunk.slice(-2);
+    const x2 = flatCoordinates[cursor + stride];
+    const y2 = flatCoordinates[cursor + stride + 1];
+    const segmentLength = Math.sqrt(
+      (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
+    );
+    chunkM += segmentLength;
+    if (chunkM >= chunkLength) {
+      const m = (chunkLength - chunkM + segmentLength) / segmentLength;
+      const x = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(x1, x2, m);
+      const y = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(y1, y2, m);
+      currentChunk.push(x, y);
+      chunks.push(currentChunk);
+      currentChunk = [x, y];
+      if (chunkM == chunkLength) {
+        cursor += stride;
+      }
+      chunkM = 0;
+    } else if (chunkM < chunkLength) {
+      currentChunk.push(
+        flatCoordinates[cursor + stride],
+        flatCoordinates[cursor + stride + 1]
+      );
+      cursor += stride;
+    } else {
+      const missing = segmentLength - chunkM;
+      const x = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(x1, x2, missing / segmentLength);
+      const y = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(y1, y2, missing / segmentLength);
+      currentChunk.push(x, y);
+      chunks.push(currentChunk);
+      currentChunk = [x, y];
+      chunkM = 0;
+      cursor += stride;
+    }
+  }
+  if (chunkM > 0) {
+    chunks.push(currentChunk);
+  }
+  return chunks;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/geom/flat/orient.js":
 /*!*********************************************!*\
   !*** ./node_modules/ol/geom/flat/orient.js ***!
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "inflateEnds": () => (/* binding */ inflateEnds),
@@ -10132,6 +15807,7 @@ function inflateEnds(flatCoordinates, ends) {
   \**********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "coordinates": () => (/* binding */ coordinates)
@@ -10167,6 +15843,7 @@ function coordinates(flatCoordinates, offset, end, stride) {
   \***********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "forEach": () => (/* binding */ forEach)
@@ -10212,6 +15889,7 @@ function forEach(flatCoordinates, offset, end, stride, callback) {
   \***********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "douglasPeucker": () => (/* binding */ douglasPeucker),
@@ -10705,12 +16383,249 @@ function quantizeMultiArray(
 
 /***/ }),
 
+/***/ "./node_modules/ol/geom/flat/straightchunk.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/geom/flat/straightchunk.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "matchingChunk": () => (/* binding */ matchingChunk)
+/* harmony export */ });
+/**
+ * @module ol/geom/flat/straightchunk
+ */
+
+/**
+ * @param {number} maxAngle Maximum acceptable angle delta between segments.
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {number} end End.
+ * @param {number} stride Stride.
+ * @return {Array<number>} Start and end of the first suitable chunk of the
+ * given `flatCoordinates`.
+ */
+function matchingChunk(maxAngle, flatCoordinates, offset, end, stride) {
+  let chunkStart = offset;
+  let chunkEnd = offset;
+  let chunkM = 0;
+  let m = 0;
+  let start = offset;
+  let acos, i, m12, m23, x1, y1, x12, y12, x23, y23;
+  for (i = offset; i < end; i += stride) {
+    const x2 = flatCoordinates[i];
+    const y2 = flatCoordinates[i + 1];
+    if (x1 !== undefined) {
+      x23 = x2 - x1;
+      y23 = y2 - y1;
+      m23 = Math.sqrt(x23 * x23 + y23 * y23);
+      if (x12 !== undefined) {
+        m += m12;
+        acos = Math.acos((x12 * x23 + y12 * y23) / (m12 * m23));
+        if (acos > maxAngle) {
+          if (m > chunkM) {
+            chunkM = m;
+            chunkStart = start;
+            chunkEnd = i;
+          }
+          m = 0;
+          start = i - stride;
+        }
+      }
+      m12 = m23;
+      x12 = x23;
+      y12 = y23;
+    }
+    x1 = x2;
+    y1 = y2;
+  }
+  m += m23;
+  return m > chunkM ? [start, i] : [chunkStart, chunkEnd];
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/flat/textpath.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ol/geom/flat/textpath.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "drawTextOnPath": () => (/* binding */ drawTextOnPath)
+/* harmony export */ });
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../math.js */ "./node_modules/ol/math.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./transform.js */ "./node_modules/ol/geom/flat/transform.js");
+/**
+ * @module ol/geom/flat/textpath
+ */
+
+
+
+/**
+ * @param {Array<number>} flatCoordinates Path to put text on.
+ * @param {number} offset Start offset of the `flatCoordinates`.
+ * @param {number} end End offset of the `flatCoordinates`.
+ * @param {number} stride Stride.
+ * @param {string} text Text to place on the path.
+ * @param {number} startM m along the path where the text starts.
+ * @param {number} maxAngle Max angle between adjacent chars in radians.
+ * @param {number} scale The product of the text scale and the device pixel ratio.
+ * @param {function(string, string, Object<string, number>):number} measureAndCacheTextWidth Measure and cache text width.
+ * @param {string} font The font.
+ * @param {Object<string, number>} cache A cache of measured widths.
+ * @param {number} rotation Rotation to apply to the flatCoordinates to determine whether text needs to be reversed.
+ * @return {Array<Array<*>>|null} The result array (or null if `maxAngle` was
+ * exceeded). Entries of the array are x, y, anchorX, angle, chunk.
+ */
+function drawTextOnPath(
+  flatCoordinates,
+  offset,
+  end,
+  stride,
+  text,
+  startM,
+  maxAngle,
+  scale,
+  measureAndCacheTextWidth,
+  font,
+  cache,
+  rotation
+) {
+  let x2 = flatCoordinates[offset];
+  let y2 = flatCoordinates[offset + 1];
+  let x1 = 0;
+  let y1 = 0;
+  let segmentLength = 0;
+  let segmentM = 0;
+
+  function advance() {
+    x1 = x2;
+    y1 = y2;
+    offset += stride;
+    x2 = flatCoordinates[offset];
+    y2 = flatCoordinates[offset + 1];
+    segmentM += segmentLength;
+    segmentLength = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+  }
+  do {
+    advance();
+  } while (offset < end - stride && segmentM + segmentLength < startM);
+
+  let interpolate =
+    segmentLength === 0 ? 0 : (startM - segmentM) / segmentLength;
+  const beginX = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(x1, x2, interpolate);
+  const beginY = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(y1, y2, interpolate);
+
+  const startOffset = offset - stride;
+  const startLength = segmentM;
+  const endM = startM + scale * measureAndCacheTextWidth(font, text, cache);
+  while (offset < end - stride && segmentM + segmentLength < endM) {
+    advance();
+  }
+  interpolate = segmentLength === 0 ? 0 : (endM - segmentM) / segmentLength;
+  const endX = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(x1, x2, interpolate);
+  const endY = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(y1, y2, interpolate);
+
+  // Keep text upright
+  let reverse;
+  if (rotation) {
+    const flat = [beginX, beginY, endX, endY];
+    (0,_transform_js__WEBPACK_IMPORTED_MODULE_1__.rotate)(flat, 0, 4, 2, rotation, flat, flat);
+    reverse = flat[0] > flat[2];
+  } else {
+    reverse = beginX > endX;
+  }
+
+  const PI = Math.PI;
+  const result = [];
+  const singleSegment = startOffset + stride === offset;
+
+  offset = startOffset;
+  segmentLength = 0;
+  segmentM = startLength;
+  x2 = flatCoordinates[offset];
+  y2 = flatCoordinates[offset + 1];
+
+  let previousAngle;
+  // All on the same segment
+  if (singleSegment) {
+    advance();
+
+    previousAngle = Math.atan2(y2 - y1, x2 - x1);
+    if (reverse) {
+      previousAngle += previousAngle > 0 ? -PI : PI;
+    }
+    const x = (endX + beginX) / 2;
+    const y = (endY + beginY) / 2;
+    result[0] = [x, y, (endM - startM) / 2, previousAngle, text];
+    return result;
+  }
+
+  // rendering across line segments
+  text = text.replace(/\n/g, ' '); // ensure rendering in single-line as all calculations below don't handle multi-lines
+
+  for (let i = 0, ii = text.length; i < ii; ) {
+    advance();
+    let angle = Math.atan2(y2 - y1, x2 - x1);
+    if (reverse) {
+      angle += angle > 0 ? -PI : PI;
+    }
+    if (previousAngle !== undefined) {
+      let delta = angle - previousAngle;
+      delta += delta > PI ? -2 * PI : delta < -PI ? 2 * PI : 0;
+      if (Math.abs(delta) > maxAngle) {
+        return null;
+      }
+    }
+    previousAngle = angle;
+
+    const iStart = i;
+    let charLength = 0;
+    for (; i < ii; ++i) {
+      const index = reverse ? ii - i - 1 : i;
+      const len = scale * measureAndCacheTextWidth(font, text[index], cache);
+      if (
+        offset + stride < end &&
+        segmentM + segmentLength < startM + charLength + len / 2
+      ) {
+        break;
+      }
+      charLength += len;
+    }
+    if (i === iStart) {
+      continue;
+    }
+    const chars = reverse
+      ? text.substring(ii - iStart, ii - i)
+      : text.substring(iStart, i);
+    interpolate =
+      segmentLength === 0
+        ? 0
+        : (startM + charLength / 2 - segmentM) / segmentLength;
+    const x = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(x1, x2, interpolate);
+    const y = (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.lerp)(y1, y2, interpolate);
+    result.push([x, y, charLength / 2, angle, chars]);
+    startM += charLength;
+  }
+  return result;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/geom/flat/transform.js":
 /*!************************************************!*\
   !*** ./node_modules/ol/geom/flat/transform.js ***!
   \************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "rotate": () => (/* binding */ rotate),
@@ -10877,6 +16792,7 @@ function translate(
   \********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DEVICE_PIXEL_RATIO": () => (/* binding */ DEVICE_PIXEL_RATIO),
@@ -10981,12 +16897,2332 @@ const PASSIVE_EVENT_LISTENERS = (function () {
 
 /***/ }),
 
+/***/ "./node_modules/ol/interaction/DoubleClickZoom.js":
+/*!********************************************************!*\
+  !*** ./node_modules/ol/interaction/DoubleClickZoom.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Interaction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Interaction.js */ "./node_modules/ol/interaction/Interaction.js");
+/* harmony import */ var _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../MapBrowserEventType.js */ "./node_modules/ol/MapBrowserEventType.js");
+/**
+ * @module ol/interaction/DoubleClickZoom
+ */
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {number} [duration=250] Animation duration in milliseconds.
+ * @property {number} [delta=1] The zoom delta applied on each double click.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to zoom by double-clicking on the map.
+ * @api
+ */
+class DoubleClickZoom extends _Interaction_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    super();
+
+    options = options ? options : {};
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.delta_ = options.delta ? options.delta : 1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 250;
+  }
+
+  /**
+   * Handles the {@link module:ol/MapBrowserEvent~MapBrowserEvent map browser event} (if it was a
+   * doubleclick) and eventually zooms the map.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+   * @return {boolean} `false` to stop event propagation.
+   */
+  handleEvent(mapBrowserEvent) {
+    let stopEvent = false;
+    if (mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].DBLCLICK) {
+      const browserEvent = /** @type {MouseEvent} */ (
+        mapBrowserEvent.originalEvent
+      );
+      const map = mapBrowserEvent.map;
+      const anchor = mapBrowserEvent.coordinate;
+      const delta = browserEvent.shiftKey ? -this.delta_ : this.delta_;
+      const view = map.getView();
+      (0,_Interaction_js__WEBPACK_IMPORTED_MODULE_0__.zoomByDelta)(view, delta, anchor, this.duration_);
+      browserEvent.preventDefault();
+      stopEvent = true;
+    }
+    return !stopEvent;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DoubleClickZoom);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/DragBox.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/interaction/DragBox.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DragBoxEvent": () => (/* binding */ DragBoxEvent),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_Event_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Event.js */ "./node_modules/ol/events/Event.js");
+/* harmony import */ var _Pointer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Pointer.js */ "./node_modules/ol/interaction/Pointer.js");
+/* harmony import */ var _render_Box_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../render/Box.js */ "./node_modules/ol/render/Box.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/**
+ * @module ol/interaction/DragBox
+ */
+// FIXME draw drag box
+
+
+
+
+
+/**
+ * A function that takes a {@link module:ol/MapBrowserEvent~MapBrowserEvent} and two
+ * {@link module:ol/pixel~Pixel}s and returns a `{boolean}`. If the condition is met,
+ * true should be returned.
+ * @typedef {function(this: ?, import("../MapBrowserEvent.js").default, import("../pixel.js").Pixel, import("../pixel.js").Pixel):boolean} EndCondition
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {string} [className='ol-dragbox'] CSS class name for styling the box.
+ * @property {import("../events/condition.js").Condition} [condition] A function that takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a boolean
+ * to indicate whether that event should be handled.
+ * Default is {@link ol/events/condition~mouseActionButton}.
+ * @property {number} [minArea=64] The minimum area of the box in pixel, this value is used by the default
+ * `boxEndCondition` function.
+ * @property {EndCondition} [boxEndCondition] A function that takes a {@link module:ol/MapBrowserEvent~MapBrowserEvent} and two
+ * {@link module:ol/pixel~Pixel}s to indicate whether a `boxend` event should be fired.
+ * Default is `true` if the area of the box is bigger than the `minArea` option.
+ * @property {function(this:DragBox, import("../MapBrowserEvent.js").default):void} [onBoxEnd] Code to execute just
+ * before `boxend` is fired.
+ */
+
+/**
+ * @enum {string}
+ */
+const DragBoxEventType = {
+  /**
+   * Triggered upon drag box start.
+   * @event DragBoxEvent#boxstart
+   * @api
+   */
+  BOXSTART: 'boxstart',
+
+  /**
+   * Triggered on drag when box is active.
+   * @event DragBoxEvent#boxdrag
+   * @api
+   */
+  BOXDRAG: 'boxdrag',
+
+  /**
+   * Triggered upon drag box end.
+   * @event DragBoxEvent#boxend
+   * @api
+   */
+  BOXEND: 'boxend',
+
+  /**
+   * Triggered upon drag box canceled.
+   * @event DragBoxEvent#boxcancel
+   * @api
+   */
+  BOXCANCEL: 'boxcancel',
+};
+
+/**
+ * @classdesc
+ * Events emitted by {@link module:ol/interaction/DragBox~DragBox} instances are instances of
+ * this type.
+ */
+class DragBoxEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {string} type The event type.
+   * @param {import("../coordinate.js").Coordinate} coordinate The event coordinate.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Originating event.
+   */
+  constructor(type, coordinate, mapBrowserEvent) {
+    super(type);
+
+    /**
+     * The coordinate of the drag event.
+     * @const
+     * @type {import("../coordinate.js").Coordinate}
+     * @api
+     */
+    this.coordinate = coordinate;
+
+    /**
+     * @const
+     * @type {import("../MapBrowserEvent.js").default}
+     * @api
+     */
+    this.mapBrowserEvent = mapBrowserEvent;
+  }
+}
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("../ObjectEventType").Types|
+ *     'change:active', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").OnSignature<'boxcancel'|'boxdrag'|'boxend'|'boxstart', DragBoxEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("../ObjectEventType").Types|
+ *     'change:active'|'boxcancel'|'boxdrag'|'boxend', Return>} DragBoxOnSignature
+ */
+
+/**
+ * @classdesc
+ * Allows the user to draw a vector box by clicking and dragging on the map,
+ * normally combined with an {@link module:ol/events/condition} that limits
+ * it to when the shift or other key is held down. This is used, for example,
+ * for zooming to a specific area of the map
+ * (see {@link module:ol/interaction/DragZoom~DragZoom} and
+ * {@link module:ol/interaction/DragRotateAndZoom~DragRotateAndZoom}).
+ *
+ * @fires DragBoxEvent
+ * @api
+ */
+class DragBox extends _Pointer_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    super();
+
+    /***
+     * @type {DragBoxOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {DragBoxOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {DragBoxOnSignature<void>}
+     */
+    this.un;
+
+    options = options ? options : {};
+
+    /**
+     * @type {import("../render/Box.js").default}
+     * @private
+     */
+    this.box_ = new _render_Box_js__WEBPACK_IMPORTED_MODULE_2__["default"](options.className || 'ol-dragbox');
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.minArea_ = options.minArea !== undefined ? options.minArea : 64;
+
+    if (options.onBoxEnd) {
+      this.onBoxEnd = options.onBoxEnd;
+    }
+
+    /**
+     * @type {import("../pixel.js").Pixel}
+     * @private
+     */
+    this.startPixel_ = null;
+
+    /**
+     * @private
+     * @type {import("../events/condition.js").Condition}
+     */
+    this.condition_ = options.condition ? options.condition : _events_condition_js__WEBPACK_IMPORTED_MODULE_3__.mouseActionButton;
+
+    /**
+     * @private
+     * @type {EndCondition}
+     */
+    this.boxEndCondition_ = options.boxEndCondition
+      ? options.boxEndCondition
+      : this.defaultBoxEndCondition;
+  }
+
+  /**
+   * The default condition for determining whether the boxend event
+   * should fire.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent The originating MapBrowserEvent
+   *     leading to the box end.
+   * @param {import("../pixel.js").Pixel} startPixel The starting pixel of the box.
+   * @param {import("../pixel.js").Pixel} endPixel The end pixel of the box.
+   * @return {boolean} Whether or not the boxend condition should be fired.
+   */
+  defaultBoxEndCondition(mapBrowserEvent, startPixel, endPixel) {
+    const width = endPixel[0] - startPixel[0];
+    const height = endPixel[1] - startPixel[1];
+    return width * width + height * height >= this.minArea_;
+  }
+
+  /**
+   * Returns geometry of last drawn box.
+   * @return {import("../geom/Polygon.js").default} Geometry.
+   * @api
+   */
+  getGeometry() {
+    return this.box_.getGeometry();
+  }
+
+  /**
+   * Handle pointer drag events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   */
+  handleDragEvent(mapBrowserEvent) {
+    this.box_.setPixels(this.startPixel_, mapBrowserEvent.pixel);
+
+    this.dispatchEvent(
+      new DragBoxEvent(
+        DragBoxEventType.BOXDRAG,
+        mapBrowserEvent.coordinate,
+        mapBrowserEvent
+      )
+    );
+  }
+
+  /**
+   * Handle pointer up events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleUpEvent(mapBrowserEvent) {
+    this.box_.setMap(null);
+
+    const completeBox = this.boxEndCondition_(
+      mapBrowserEvent,
+      this.startPixel_,
+      mapBrowserEvent.pixel
+    );
+    if (completeBox) {
+      this.onBoxEnd(mapBrowserEvent);
+    }
+    this.dispatchEvent(
+      new DragBoxEvent(
+        completeBox ? DragBoxEventType.BOXEND : DragBoxEventType.BOXCANCEL,
+        mapBrowserEvent.coordinate,
+        mapBrowserEvent
+      )
+    );
+    return false;
+  }
+
+  /**
+   * Handle pointer down events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleDownEvent(mapBrowserEvent) {
+    if (this.condition_(mapBrowserEvent)) {
+      this.startPixel_ = mapBrowserEvent.pixel;
+      this.box_.setMap(mapBrowserEvent.map);
+      this.box_.setPixels(this.startPixel_, this.startPixel_);
+      this.dispatchEvent(
+        new DragBoxEvent(
+          DragBoxEventType.BOXSTART,
+          mapBrowserEvent.coordinate,
+          mapBrowserEvent
+        )
+      );
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Function to execute just before `onboxend` is fired
+   * @param {import("../MapBrowserEvent.js").default} event Event.
+   */
+  onBoxEnd(event) {}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DragBox);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/DragPan.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/interaction/DragPan.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Pointer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pointer.js */ "./node_modules/ol/interaction/Pointer.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/* harmony import */ var _easing_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../easing.js */ "./node_modules/ol/easing.js");
+/* harmony import */ var _coordinate_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../coordinate.js */ "./node_modules/ol/coordinate.js");
+/**
+ * @module ol/interaction/DragPan
+ */
+
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../events/condition.js").Condition} [condition] A function that takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a boolean
+ * to indicate whether that event should be handled.
+ * Default is {@link module:ol/events/condition.noModifierKeys} and {@link module:ol/events/condition.primaryAction}.
+ * @property {boolean} [onFocusOnly=false] When the map's target has a `tabindex` attribute set,
+ * the interaction will only handle events when the map has the focus.
+ * @property {import("../Kinetic.js").default} [kinetic] Kinetic inertia to apply to the pan.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to pan the map by dragging the map.
+ * @api
+ */
+class DragPan extends _Pointer_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    super({
+      stopDown: _functions_js__WEBPACK_IMPORTED_MODULE_1__.FALSE,
+    });
+
+    options = options ? options : {};
+
+    /**
+     * @private
+     * @type {import("../Kinetic.js").default|undefined}
+     */
+    this.kinetic_ = options.kinetic;
+
+    /**
+     * @type {import("../pixel.js").Pixel}
+     */
+    this.lastCentroid = null;
+
+    /**
+     * @type {number}
+     */
+    this.lastPointersCount_;
+
+    /**
+     * @type {boolean}
+     */
+    this.panning_ = false;
+
+    const condition = options.condition
+      ? options.condition
+      : (0,_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.all)(_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.noModifierKeys, _events_condition_js__WEBPACK_IMPORTED_MODULE_2__.primaryAction);
+
+    /**
+     * @private
+     * @type {import("../events/condition.js").Condition}
+     */
+    this.condition_ = options.onFocusOnly
+      ? (0,_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.all)(_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.focusWithTabindex, condition)
+      : condition;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.noKinetic_ = false;
+  }
+
+  /**
+   * Handle pointer drag events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   */
+  handleDragEvent(mapBrowserEvent) {
+    const map = mapBrowserEvent.map;
+    if (!this.panning_) {
+      this.panning_ = true;
+      map.getView().beginInteraction();
+    }
+    const targetPointers = this.targetPointers;
+    const centroid = map.getEventPixel((0,_Pointer_js__WEBPACK_IMPORTED_MODULE_0__.centroid)(targetPointers));
+    if (targetPointers.length == this.lastPointersCount_) {
+      if (this.kinetic_) {
+        this.kinetic_.update(centroid[0], centroid[1]);
+      }
+      if (this.lastCentroid) {
+        const delta = [
+          this.lastCentroid[0] - centroid[0],
+          centroid[1] - this.lastCentroid[1],
+        ];
+        const map = mapBrowserEvent.map;
+        const view = map.getView();
+        (0,_coordinate_js__WEBPACK_IMPORTED_MODULE_3__.scale)(delta, view.getResolution());
+        (0,_coordinate_js__WEBPACK_IMPORTED_MODULE_3__.rotate)(delta, view.getRotation());
+        view.adjustCenterInternal(delta);
+      }
+    } else if (this.kinetic_) {
+      // reset so we don't overestimate the kinetic energy after
+      // after one finger down, tiny drag, second finger down
+      this.kinetic_.begin();
+    }
+    this.lastCentroid = centroid;
+    this.lastPointersCount_ = targetPointers.length;
+    mapBrowserEvent.originalEvent.preventDefault();
+  }
+
+  /**
+   * Handle pointer up events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleUpEvent(mapBrowserEvent) {
+    const map = mapBrowserEvent.map;
+    const view = map.getView();
+    if (this.targetPointers.length === 0) {
+      if (!this.noKinetic_ && this.kinetic_ && this.kinetic_.end()) {
+        const distance = this.kinetic_.getDistance();
+        const angle = this.kinetic_.getAngle();
+        const center = view.getCenterInternal();
+        const centerpx = map.getPixelFromCoordinateInternal(center);
+        const dest = map.getCoordinateFromPixelInternal([
+          centerpx[0] - distance * Math.cos(angle),
+          centerpx[1] - distance * Math.sin(angle),
+        ]);
+        view.animateInternal({
+          center: view.getConstrainedCenter(dest),
+          duration: 500,
+          easing: _easing_js__WEBPACK_IMPORTED_MODULE_4__.easeOut,
+        });
+      }
+      if (this.panning_) {
+        this.panning_ = false;
+        view.endInteraction();
+      }
+      return false;
+    }
+    if (this.kinetic_) {
+      // reset so we don't overestimate the kinetic energy after
+      // after one finger up, tiny drag, second finger up
+      this.kinetic_.begin();
+    }
+    this.lastCentroid = null;
+    return true;
+  }
+
+  /**
+   * Handle pointer down events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleDownEvent(mapBrowserEvent) {
+    if (this.targetPointers.length > 0 && this.condition_(mapBrowserEvent)) {
+      const map = mapBrowserEvent.map;
+      const view = map.getView();
+      this.lastCentroid = null;
+      // stop any current animation
+      if (view.getAnimating()) {
+        view.cancelAnimations();
+      }
+      if (this.kinetic_) {
+        this.kinetic_.begin();
+      }
+      // No kinetic as soon as more than one pointer on the screen is
+      // detected. This is to prevent nasty pans after pinch.
+      this.noKinetic_ = this.targetPointers.length > 1;
+      return true;
+    }
+    return false;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DragPan);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/DragRotate.js":
+/*!***************************************************!*\
+  !*** ./node_modules/ol/interaction/DragRotate.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Pointer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pointer.js */ "./node_modules/ol/interaction/Pointer.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/* harmony import */ var _rotationconstraint_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../rotationconstraint.js */ "./node_modules/ol/rotationconstraint.js");
+/**
+ * @module ol/interaction/DragRotate
+ */
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../events/condition.js").Condition} [condition] A function that takes an
+ * {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a boolean
+ * to indicate whether that event should be handled.
+ * Default is {@link module:ol/events/condition.altShiftKeysOnly}.
+ * @property {number} [duration=250] Animation duration in milliseconds.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to rotate the map by clicking and dragging on the map,
+ * normally combined with an {@link module:ol/events/condition} that limits
+ * it to when the alt and shift keys are held down.
+ *
+ * This interaction is only supported for mouse devices.
+ * @api
+ */
+class DragRotate extends _Pointer_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super({
+      stopDown: _functions_js__WEBPACK_IMPORTED_MODULE_1__.FALSE,
+    });
+
+    /**
+     * @private
+     * @type {import("../events/condition.js").Condition}
+     */
+    this.condition_ = options.condition ? options.condition : _events_condition_js__WEBPACK_IMPORTED_MODULE_2__.altShiftKeysOnly;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.lastAngle_ = undefined;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 250;
+  }
+
+  /**
+   * Handle pointer drag events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   */
+  handleDragEvent(mapBrowserEvent) {
+    if (!(0,_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.mouseOnly)(mapBrowserEvent)) {
+      return;
+    }
+
+    const map = mapBrowserEvent.map;
+    const view = map.getView();
+    if (view.getConstraints().rotation === _rotationconstraint_js__WEBPACK_IMPORTED_MODULE_3__.disable) {
+      return;
+    }
+    const size = map.getSize();
+    const offset = mapBrowserEvent.pixel;
+    const theta = Math.atan2(size[1] / 2 - offset[1], offset[0] - size[0] / 2);
+    if (this.lastAngle_ !== undefined) {
+      const delta = theta - this.lastAngle_;
+      view.adjustRotationInternal(-delta);
+    }
+    this.lastAngle_ = theta;
+  }
+
+  /**
+   * Handle pointer up events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleUpEvent(mapBrowserEvent) {
+    if (!(0,_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.mouseOnly)(mapBrowserEvent)) {
+      return true;
+    }
+
+    const map = mapBrowserEvent.map;
+    const view = map.getView();
+    view.endInteraction(this.duration_);
+    return false;
+  }
+
+  /**
+   * Handle pointer down events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleDownEvent(mapBrowserEvent) {
+    if (!(0,_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.mouseOnly)(mapBrowserEvent)) {
+      return false;
+    }
+
+    if (
+      (0,_events_condition_js__WEBPACK_IMPORTED_MODULE_2__.mouseActionButton)(mapBrowserEvent) &&
+      this.condition_(mapBrowserEvent)
+    ) {
+      const map = mapBrowserEvent.map;
+      map.getView().beginInteraction();
+      this.lastAngle_ = undefined;
+      return true;
+    }
+    return false;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DragRotate);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/DragZoom.js":
+/*!*************************************************!*\
+  !*** ./node_modules/ol/interaction/DragZoom.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DragBox_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DragBox.js */ "./node_modules/ol/interaction/DragBox.js");
+/* harmony import */ var _easing_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../easing.js */ "./node_modules/ol/easing.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/**
+ * @module ol/interaction/DragZoom
+ */
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {string} [className='ol-dragzoom'] CSS class name for styling the
+ * box.
+ * @property {import("../events/condition.js").Condition} [condition] A function that
+ * takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a
+ * boolean to indicate whether that event should be handled.
+ * Default is {@link module:ol/events/condition.shiftKeyOnly}.
+ * @property {number} [duration=200] Animation duration in milliseconds.
+ * @property {boolean} [out=false] Use interaction for zooming out.
+ * @property {number} [minArea=64] The minimum area of the box in pixel, this value is used by the parent default
+ * `boxEndCondition` function.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to zoom the map by clicking and dragging on the map,
+ * normally combined with an {@link module:ol/events/condition} that limits
+ * it to when a key, shift by default, is held down.
+ *
+ * To change the style of the box, use CSS and the `.ol-dragzoom` selector, or
+ * your custom one configured with `className`.
+ * @api
+ */
+class DragZoom extends _DragBox_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    const condition = options.condition ? options.condition : _events_condition_js__WEBPACK_IMPORTED_MODULE_1__.shiftKeyOnly;
+
+    super({
+      condition: condition,
+      className: options.className || 'ol-dragzoom',
+      minArea: options.minArea,
+    });
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 200;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.out_ = options.out !== undefined ? options.out : false;
+  }
+
+  /**
+   * Function to execute just before `onboxend` is fired
+   * @param {import("../MapBrowserEvent.js").default} event Event.
+   */
+  onBoxEnd(event) {
+    const map = this.getMap();
+    const view = /** @type {!import("../View.js").default} */ (map.getView());
+    let geometry = this.getGeometry();
+
+    if (this.out_) {
+      const rotatedExtent = view.rotatedExtentForGeometry(geometry);
+      const resolution = view.getResolutionForExtentInternal(rotatedExtent);
+      const factor = view.getResolution() / resolution;
+      geometry = geometry.clone();
+      geometry.scale(factor * factor);
+    }
+
+    view.fitInternal(geometry, {
+      duration: this.duration_,
+      easing: _easing_js__WEBPACK_IMPORTED_MODULE_2__.easeOut,
+    });
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DragZoom);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/Interaction.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/interaction/Interaction.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "pan": () => (/* binding */ pan),
+/* harmony export */   "zoomByDelta": () => (/* binding */ zoomByDelta)
+/* harmony export */ });
+/* harmony import */ var _Object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Object.js */ "./node_modules/ol/Object.js");
+/* harmony import */ var _Property_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Property.js */ "./node_modules/ol/interaction/Property.js");
+/* harmony import */ var _easing_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../easing.js */ "./node_modules/ol/easing.js");
+/**
+ * @module ol/interaction/Interaction
+ */
+
+
+
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("../ObjectEventType").Types|
+ *     'change:active', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("../ObjectEventType").Types|
+ *     'change:active', Return>} InteractionOnSignature
+ */
+
+/**
+ * Object literal with config options for interactions.
+ * @typedef {Object} InteractionOptions
+ * @property {function(import("../MapBrowserEvent.js").default):boolean} handleEvent
+ * Method called by the map to notify the interaction that a browser event was
+ * dispatched to the map. If the function returns a falsy value, propagation of
+ * the event to other interactions in the map's interactions chain will be
+ * prevented (this includes functions with no explicit return). The interactions
+ * are traversed in reverse order of the interactions collection of the map.
+ */
+
+/**
+ * @classdesc
+ * Abstract base class; normally only used for creating subclasses and not
+ * instantiated in apps.
+ * User actions that change the state of the map. Some are similar to controls,
+ * but are not associated with a DOM element.
+ * For example, {@link module:ol/interaction/KeyboardZoom~KeyboardZoom} is
+ * functionally the same as {@link module:ol/control/Zoom~Zoom}, but triggered
+ * by a keyboard event not a button element event.
+ * Although interactions do not have a DOM element, some of them do render
+ * vectors and so are visible on the screen.
+ * @api
+ */
+class Interaction extends _Object_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {InteractionOptions} [options] Options.
+   */
+  constructor(options) {
+    super();
+
+    /***
+     * @type {InteractionOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {InteractionOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {InteractionOnSignature<void>}
+     */
+    this.un;
+
+    if (options && options.handleEvent) {
+      this.handleEvent = options.handleEvent;
+    }
+
+    /**
+     * @private
+     * @type {import("../Map.js").default|null}
+     */
+    this.map_ = null;
+
+    this.setActive(true);
+  }
+
+  /**
+   * Return whether the interaction is currently active.
+   * @return {boolean} `true` if the interaction is active, `false` otherwise.
+   * @observable
+   * @api
+   */
+  getActive() {
+    return /** @type {boolean} */ (this.get(_Property_js__WEBPACK_IMPORTED_MODULE_1__["default"].ACTIVE));
+  }
+
+  /**
+   * Get the map associated with this interaction.
+   * @return {import("../Map.js").default|null} Map.
+   * @api
+   */
+  getMap() {
+    return this.map_;
+  }
+
+  /**
+   * Handles the {@link module:ol/MapBrowserEvent~MapBrowserEvent map browser event}.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+   * @return {boolean} `false` to stop event propagation.
+   * @api
+   */
+  handleEvent(mapBrowserEvent) {
+    return true;
+  }
+
+  /**
+   * Activate or deactivate the interaction.
+   * @param {boolean} active Active.
+   * @observable
+   * @api
+   */
+  setActive(active) {
+    this.set(_Property_js__WEBPACK_IMPORTED_MODULE_1__["default"].ACTIVE, active);
+  }
+
+  /**
+   * Remove the interaction from its current map and attach it to the new map.
+   * Subclasses may set up event handlers to get notified about changes to
+   * the map here.
+   * @param {import("../Map.js").default|null} map Map.
+   */
+  setMap(map) {
+    this.map_ = map;
+  }
+}
+
+/**
+ * @param {import("../View.js").default} view View.
+ * @param {import("../coordinate.js").Coordinate} delta Delta.
+ * @param {number} [duration] Duration.
+ */
+function pan(view, delta, duration) {
+  const currentCenter = view.getCenterInternal();
+  if (currentCenter) {
+    const center = [currentCenter[0] + delta[0], currentCenter[1] + delta[1]];
+    view.animateInternal({
+      duration: duration !== undefined ? duration : 250,
+      easing: _easing_js__WEBPACK_IMPORTED_MODULE_2__.linear,
+      center: view.getConstrainedCenter(center),
+    });
+  }
+}
+
+/**
+ * @param {import("../View.js").default} view View.
+ * @param {number} delta Delta from previous zoom level.
+ * @param {import("../coordinate.js").Coordinate} [anchor] Anchor coordinate in the user projection.
+ * @param {number} [duration] Duration.
+ */
+function zoomByDelta(view, delta, anchor, duration) {
+  const currentZoom = view.getZoom();
+
+  if (currentZoom === undefined) {
+    return;
+  }
+
+  const newZoom = view.getConstrainedZoom(currentZoom + delta);
+  const newResolution = view.getResolutionForZoom(newZoom);
+
+  if (view.getAnimating()) {
+    view.cancelAnimations();
+  }
+  view.animate({
+    resolution: newResolution,
+    anchor: anchor,
+    duration: duration !== undefined ? duration : 250,
+    easing: _easing_js__WEBPACK_IMPORTED_MODULE_2__.easeOut,
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Interaction);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/KeyboardPan.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/interaction/KeyboardPan.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _Interaction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Interaction.js */ "./node_modules/ol/interaction/Interaction.js");
+/* harmony import */ var _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/KeyCode.js */ "./node_modules/ol/events/KeyCode.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/* harmony import */ var _coordinate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../coordinate.js */ "./node_modules/ol/coordinate.js");
+/**
+ * @module ol/interaction/KeyboardPan
+ */
+
+
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../events/condition.js").Condition} [condition] A function that
+ * takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a
+ * boolean to indicate whether that event should be handled. Default is
+ * {@link module:ol/events/condition.noModifierKeys} and
+ * {@link module:ol/events/condition.targetNotEditable}.
+ * @property {number} [duration=100] Animation duration in milliseconds.
+ * @property {number} [pixelDelta=128] The amount of pixels to pan on each key
+ * press.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to pan the map using keyboard arrows.
+ * Note that, although this interaction is by default included in maps,
+ * the keys can only be used when browser focus is on the element to which
+ * the keyboard events are attached. By default, this is the map div,
+ * though you can change this with the `keyboardEventTarget` in
+ * {@link module:ol/Map~Map}. `document` never loses focus but, for any other
+ * element, focus will have to be on, and returned to, this element if the keys
+ * are to function.
+ * See also {@link module:ol/interaction/KeyboardZoom~KeyboardZoom}.
+ * @api
+ */
+class KeyboardPan extends _Interaction_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    super();
+
+    options = options || {};
+
+    /**
+     * @private
+     * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Browser event.
+     * @return {boolean} Combined condition result.
+     */
+    this.defaultCondition_ = function (mapBrowserEvent) {
+      return (
+        (0,_events_condition_js__WEBPACK_IMPORTED_MODULE_1__.noModifierKeys)(mapBrowserEvent) && (0,_events_condition_js__WEBPACK_IMPORTED_MODULE_1__.targetNotEditable)(mapBrowserEvent)
+      );
+    };
+
+    /**
+     * @private
+     * @type {import("../events/condition.js").Condition}
+     */
+    this.condition_ =
+      options.condition !== undefined
+        ? options.condition
+        : this.defaultCondition_;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 100;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.pixelDelta_ =
+      options.pixelDelta !== undefined ? options.pixelDelta : 128;
+  }
+
+  /**
+   * Handles the {@link module:ol/MapBrowserEvent~MapBrowserEvent map browser event} if it was a
+   * `KeyEvent`, and decides the direction to pan to (if an arrow key was
+   * pressed).
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+   * @return {boolean} `false` to stop event propagation.
+   */
+  handleEvent(mapBrowserEvent) {
+    let stopEvent = false;
+    if (mapBrowserEvent.type == _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].KEYDOWN) {
+      const keyEvent = /** @type {KeyboardEvent} */ (
+        mapBrowserEvent.originalEvent
+      );
+      const keyCode = keyEvent.keyCode;
+      if (
+        this.condition_(mapBrowserEvent) &&
+        (keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].DOWN ||
+          keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].LEFT ||
+          keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].RIGHT ||
+          keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].UP)
+      ) {
+        const map = mapBrowserEvent.map;
+        const view = map.getView();
+        const mapUnitsDelta = view.getResolution() * this.pixelDelta_;
+        let deltaX = 0,
+          deltaY = 0;
+        if (keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].DOWN) {
+          deltaY = -mapUnitsDelta;
+        } else if (keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].LEFT) {
+          deltaX = -mapUnitsDelta;
+        } else if (keyCode == _events_KeyCode_js__WEBPACK_IMPORTED_MODULE_3__["default"].RIGHT) {
+          deltaX = mapUnitsDelta;
+        } else {
+          deltaY = mapUnitsDelta;
+        }
+        const delta = [deltaX, deltaY];
+        (0,_coordinate_js__WEBPACK_IMPORTED_MODULE_4__.rotate)(delta, view.getRotation());
+        (0,_Interaction_js__WEBPACK_IMPORTED_MODULE_0__.pan)(view, delta, this.duration_);
+        keyEvent.preventDefault();
+        stopEvent = true;
+      }
+    }
+    return !stopEvent;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KeyboardPan);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/KeyboardZoom.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/ol/interaction/KeyboardZoom.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _Interaction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Interaction.js */ "./node_modules/ol/interaction/Interaction.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/**
+ * @module ol/interaction/KeyboardZoom
+ */
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {number} [duration=100] Animation duration in milliseconds.
+ * @property {import("../events/condition.js").Condition} [condition] A function that
+ * takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a
+ * boolean to indicate whether that event should be handled. Default is
+ * {@link module:ol/events/condition.targetNotEditable}.
+ * @property {number} [delta=1] The zoom level delta on each key press.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to zoom the map using keyboard + and -.
+ * Note that, although this interaction is by default included in maps,
+ * the keys can only be used when browser focus is on the element to which
+ * the keyboard events are attached. By default, this is the map div,
+ * though you can change this with the `keyboardEventTarget` in
+ * {@link module:ol/Map~Map}. `document` never loses focus but, for any other
+ * element, focus will have to be on, and returned to, this element if the keys
+ * are to function.
+ * See also {@link module:ol/interaction/KeyboardPan~KeyboardPan}.
+ * @api
+ */
+class KeyboardZoom extends _Interaction_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    super();
+
+    options = options ? options : {};
+
+    /**
+     * @private
+     * @type {import("../events/condition.js").Condition}
+     */
+    this.condition_ = options.condition ? options.condition : _events_condition_js__WEBPACK_IMPORTED_MODULE_1__.targetNotEditable;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.delta_ = options.delta ? options.delta : 1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 100;
+  }
+
+  /**
+   * Handles the {@link module:ol/MapBrowserEvent~MapBrowserEvent map browser event} if it was a
+   * `KeyEvent`, and decides whether to zoom in or out (depending on whether the
+   * key pressed was '+' or '-').
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+   * @return {boolean} `false` to stop event propagation.
+   */
+  handleEvent(mapBrowserEvent) {
+    let stopEvent = false;
+    if (
+      mapBrowserEvent.type == _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].KEYDOWN ||
+      mapBrowserEvent.type == _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].KEYPRESS
+    ) {
+      const keyEvent = /** @type {KeyboardEvent} */ (
+        mapBrowserEvent.originalEvent
+      );
+      const key = keyEvent.key;
+      if (this.condition_(mapBrowserEvent) && (key === '+' || key === '-')) {
+        const map = mapBrowserEvent.map;
+        const delta = key === '+' ? this.delta_ : -this.delta_;
+        const view = map.getView();
+        (0,_Interaction_js__WEBPACK_IMPORTED_MODULE_0__.zoomByDelta)(view, delta, undefined, this.duration_);
+        keyEvent.preventDefault();
+        stopEvent = true;
+      }
+    }
+    return !stopEvent;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KeyboardZoom);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/MouseWheelZoom.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/ol/interaction/MouseWheelZoom.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _Interaction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Interaction.js */ "./node_modules/ol/interaction/Interaction.js");
+/* harmony import */ var _has_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../has.js */ "./node_modules/ol/has.js");
+/* harmony import */ var _events_condition_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/condition.js */ "./node_modules/ol/events/condition.js");
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math.js */ "./node_modules/ol/math.js");
+/**
+ * @module ol/interaction/MouseWheelZoom
+ */
+
+
+
+
+
+
+/**
+ * @typedef {'trackpad' | 'wheel'} Mode
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../events/condition.js").Condition} [condition] A function that
+ * takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a
+ * boolean to indicate whether that event should be handled. Default is
+ * {@link module:ol/events/condition.always}.
+ * @property {boolean} [onFocusOnly=false] When the map's target has a `tabindex` attribute set,
+ * the interaction will only handle events when the map has the focus.
+ * @property {number} [maxDelta=1] Maximum mouse wheel delta.
+ * @property {number} [duration=250] Animation duration in milliseconds.
+ * @property {number} [timeout=80] Mouse wheel timeout duration in milliseconds.
+ * @property {boolean} [useAnchor=true] Enable zooming using the mouse's
+ * location as the anchor. When set to `false`, zooming in and out will zoom to
+ * the center of the screen instead of zooming on the mouse's location.
+ * @property {boolean} [constrainResolution=false] If true, the mouse wheel zoom
+ * event will always animate to the closest zoom level after an interaction;
+ * false means intermediary zoom levels are allowed.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to zoom the map by scrolling the mouse wheel.
+ * @api
+ */
+class MouseWheelZoom extends _Interaction_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super(
+      /** @type {import("./Interaction.js").InteractionOptions} */ (options)
+    );
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.totalDelta_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.lastDelta_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDelta_ = options.maxDelta !== undefined ? options.maxDelta : 1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 250;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.timeout_ = options.timeout !== undefined ? options.timeout : 80;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.useAnchor_ =
+      options.useAnchor !== undefined ? options.useAnchor : true;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.constrainResolution_ =
+      options.constrainResolution !== undefined
+        ? options.constrainResolution
+        : false;
+
+    const condition = options.condition ? options.condition : _events_condition_js__WEBPACK_IMPORTED_MODULE_1__.always;
+
+    /**
+     * @private
+     * @type {import("../events/condition.js").Condition}
+     */
+    this.condition_ = options.onFocusOnly
+      ? (0,_events_condition_js__WEBPACK_IMPORTED_MODULE_1__.all)(_events_condition_js__WEBPACK_IMPORTED_MODULE_1__.focusWithTabindex, condition)
+      : condition;
+
+    /**
+     * @private
+     * @type {?import("../coordinate.js").Coordinate}
+     */
+    this.lastAnchor_ = null;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.startTime_ = undefined;
+
+    /**
+     * @private
+     * @type {?}
+     */
+    this.timeoutId_;
+
+    /**
+     * @private
+     * @type {Mode|undefined}
+     */
+    this.mode_ = undefined;
+
+    /**
+     * Trackpad events separated by this delay will be considered separate
+     * interactions.
+     * @type {number}
+     */
+    this.trackpadEventGap_ = 400;
+
+    /**
+     * @type {?}
+     */
+    this.trackpadTimeoutId_;
+
+    /**
+     * The number of delta values per zoom level
+     * @private
+     * @type {number}
+     */
+    this.deltaPerZoom_ = 300;
+  }
+
+  /**
+   * @private
+   */
+  endInteraction_() {
+    this.trackpadTimeoutId_ = undefined;
+    const map = this.getMap();
+    if (!map) {
+      return;
+    }
+    const view = map.getView();
+    view.endInteraction(
+      undefined,
+      this.lastDelta_ ? (this.lastDelta_ > 0 ? 1 : -1) : 0,
+      this.lastAnchor_
+    );
+  }
+
+  /**
+   * Handles the {@link module:ol/MapBrowserEvent~MapBrowserEvent map browser event} (if it was a mousewheel-event) and eventually
+   * zooms the map.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+   * @return {boolean} `false` to stop event propagation.
+   */
+  handleEvent(mapBrowserEvent) {
+    if (!this.condition_(mapBrowserEvent)) {
+      return true;
+    }
+    const type = mapBrowserEvent.type;
+    if (type !== _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].WHEEL) {
+      return true;
+    }
+
+    const map = mapBrowserEvent.map;
+    const wheelEvent = /** @type {WheelEvent} */ (
+      mapBrowserEvent.originalEvent
+    );
+    wheelEvent.preventDefault();
+
+    if (this.useAnchor_) {
+      this.lastAnchor_ = mapBrowserEvent.coordinate;
+    }
+
+    // Delta normalisation inspired by
+    // https://github.com/mapbox/mapbox-gl-js/blob/001c7b9/js/ui/handler/scroll_zoom.js
+    let delta;
+    if (mapBrowserEvent.type == _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].WHEEL) {
+      delta = wheelEvent.deltaY;
+      if (_has_js__WEBPACK_IMPORTED_MODULE_3__.FIREFOX && wheelEvent.deltaMode === WheelEvent.DOM_DELTA_PIXEL) {
+        delta /= _has_js__WEBPACK_IMPORTED_MODULE_3__.DEVICE_PIXEL_RATIO;
+      }
+      if (wheelEvent.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+        delta *= 40;
+      }
+    }
+
+    if (delta === 0) {
+      return false;
+    }
+    this.lastDelta_ = delta;
+
+    const now = Date.now();
+
+    if (this.startTime_ === undefined) {
+      this.startTime_ = now;
+    }
+
+    if (!this.mode_ || now - this.startTime_ > this.trackpadEventGap_) {
+      this.mode_ = Math.abs(delta) < 4 ? 'trackpad' : 'wheel';
+    }
+
+    const view = map.getView();
+    if (
+      this.mode_ === 'trackpad' &&
+      !(view.getConstrainResolution() || this.constrainResolution_)
+    ) {
+      if (this.trackpadTimeoutId_) {
+        clearTimeout(this.trackpadTimeoutId_);
+      } else {
+        if (view.getAnimating()) {
+          view.cancelAnimations();
+        }
+        view.beginInteraction();
+      }
+      this.trackpadTimeoutId_ = setTimeout(
+        this.endInteraction_.bind(this),
+        this.timeout_
+      );
+      view.adjustZoom(-delta / this.deltaPerZoom_, this.lastAnchor_);
+      this.startTime_ = now;
+      return false;
+    }
+
+    this.totalDelta_ += delta;
+
+    const timeLeft = Math.max(this.timeout_ - (now - this.startTime_), 0);
+
+    clearTimeout(this.timeoutId_);
+    this.timeoutId_ = setTimeout(
+      this.handleWheelZoom_.bind(this, map),
+      timeLeft
+    );
+
+    return false;
+  }
+
+  /**
+   * @private
+   * @param {import("../Map.js").default} map Map.
+   */
+  handleWheelZoom_(map) {
+    const view = map.getView();
+    if (view.getAnimating()) {
+      view.cancelAnimations();
+    }
+    let delta =
+      -(0,_math_js__WEBPACK_IMPORTED_MODULE_4__.clamp)(
+        this.totalDelta_,
+        -this.maxDelta_ * this.deltaPerZoom_,
+        this.maxDelta_ * this.deltaPerZoom_
+      ) / this.deltaPerZoom_;
+    if (view.getConstrainResolution() || this.constrainResolution_) {
+      // view has a zoom constraint, zoom by 1
+      delta = delta ? (delta > 0 ? 1 : -1) : 0;
+    }
+    (0,_Interaction_js__WEBPACK_IMPORTED_MODULE_0__.zoomByDelta)(view, delta, this.lastAnchor_, this.duration_);
+
+    this.mode_ = undefined;
+    this.totalDelta_ = 0;
+    this.lastAnchor_ = null;
+    this.startTime_ = undefined;
+    this.timeoutId_ = undefined;
+  }
+
+  /**
+   * Enable or disable using the mouse's location as an anchor when zooming
+   * @param {boolean} useAnchor true to zoom to the mouse's location, false
+   * to zoom to the center of the map
+   * @api
+   */
+  setMouseAnchor(useAnchor) {
+    this.useAnchor_ = useAnchor;
+    if (!useAnchor) {
+      this.lastAnchor_ = null;
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MouseWheelZoom);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/PinchRotate.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/interaction/PinchRotate.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Pointer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pointer.js */ "./node_modules/ol/interaction/Pointer.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _rotationconstraint_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../rotationconstraint.js */ "./node_modules/ol/rotationconstraint.js");
+/**
+ * @module ol/interaction/PinchRotate
+ */
+
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {number} [duration=250] The duration of the animation in
+ * milliseconds.
+ * @property {number} [threshold=0.3] Minimal angle in radians to start a rotation.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to rotate the map by twisting with two fingers
+ * on a touch screen.
+ * @api
+ */
+class PinchRotate extends _Pointer_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    const pointerOptions = /** @type {import("./Pointer.js").Options} */ (
+      options
+    );
+
+    if (!pointerOptions.stopDown) {
+      pointerOptions.stopDown = _functions_js__WEBPACK_IMPORTED_MODULE_1__.FALSE;
+    }
+
+    super(pointerOptions);
+
+    /**
+     * @private
+     * @type {import("../coordinate.js").Coordinate}
+     */
+    this.anchor_ = null;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.lastAngle_ = undefined;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.rotating_ = false;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.rotationDelta_ = 0.0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.threshold_ = options.threshold !== undefined ? options.threshold : 0.3;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 250;
+  }
+
+  /**
+   * Handle pointer drag events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   */
+  handleDragEvent(mapBrowserEvent) {
+    let rotationDelta = 0.0;
+
+    const touch0 = this.targetPointers[0];
+    const touch1 = this.targetPointers[1];
+
+    // angle between touches
+    const angle = Math.atan2(
+      touch1.clientY - touch0.clientY,
+      touch1.clientX - touch0.clientX
+    );
+
+    if (this.lastAngle_ !== undefined) {
+      const delta = angle - this.lastAngle_;
+      this.rotationDelta_ += delta;
+      if (!this.rotating_ && Math.abs(this.rotationDelta_) > this.threshold_) {
+        this.rotating_ = true;
+      }
+      rotationDelta = delta;
+    }
+    this.lastAngle_ = angle;
+
+    const map = mapBrowserEvent.map;
+    const view = map.getView();
+    if (view.getConstraints().rotation === _rotationconstraint_js__WEBPACK_IMPORTED_MODULE_2__.disable) {
+      return;
+    }
+
+    // rotate anchor point.
+    // FIXME: should be the intersection point between the lines:
+    //     touch0,touch1 and previousTouch0,previousTouch1
+    this.anchor_ = map.getCoordinateFromPixelInternal(
+      map.getEventPixel((0,_Pointer_js__WEBPACK_IMPORTED_MODULE_0__.centroid)(this.targetPointers))
+    );
+
+    // rotate
+    if (this.rotating_) {
+      map.render();
+      view.adjustRotationInternal(rotationDelta, this.anchor_);
+    }
+  }
+
+  /**
+   * Handle pointer up events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleUpEvent(mapBrowserEvent) {
+    if (this.targetPointers.length < 2) {
+      const map = mapBrowserEvent.map;
+      const view = map.getView();
+      view.endInteraction(this.duration_);
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Handle pointer down events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleDownEvent(mapBrowserEvent) {
+    if (this.targetPointers.length >= 2) {
+      const map = mapBrowserEvent.map;
+      this.anchor_ = null;
+      this.lastAngle_ = undefined;
+      this.rotating_ = false;
+      this.rotationDelta_ = 0.0;
+      if (!this.handlingDownUpSequence) {
+        map.getView().beginInteraction();
+      }
+      return true;
+    }
+    return false;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PinchRotate);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/PinchZoom.js":
+/*!**************************************************!*\
+  !*** ./node_modules/ol/interaction/PinchZoom.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Pointer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Pointer.js */ "./node_modules/ol/interaction/Pointer.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/**
+ * @module ol/interaction/PinchZoom
+ */
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {number} [duration=400] Animation duration in milliseconds.
+ */
+
+/**
+ * @classdesc
+ * Allows the user to zoom the map by pinching with two fingers
+ * on a touch screen.
+ * @api
+ */
+class PinchZoom extends _Pointer_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    const pointerOptions = /** @type {import("./Pointer.js").Options} */ (
+      options
+    );
+
+    if (!pointerOptions.stopDown) {
+      pointerOptions.stopDown = _functions_js__WEBPACK_IMPORTED_MODULE_1__.FALSE;
+    }
+
+    super(pointerOptions);
+
+    /**
+     * @private
+     * @type {import("../coordinate.js").Coordinate}
+     */
+    this.anchor_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.duration_ = options.duration !== undefined ? options.duration : 400;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.lastDistance_ = undefined;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.lastScaleDelta_ = 1;
+  }
+
+  /**
+   * Handle pointer drag events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   */
+  handleDragEvent(mapBrowserEvent) {
+    let scaleDelta = 1.0;
+
+    const touch0 = this.targetPointers[0];
+    const touch1 = this.targetPointers[1];
+    const dx = touch0.clientX - touch1.clientX;
+    const dy = touch0.clientY - touch1.clientY;
+
+    // distance between touches
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (this.lastDistance_ !== undefined) {
+      scaleDelta = this.lastDistance_ / distance;
+    }
+    this.lastDistance_ = distance;
+
+    const map = mapBrowserEvent.map;
+    const view = map.getView();
+
+    if (scaleDelta != 1.0) {
+      this.lastScaleDelta_ = scaleDelta;
+    }
+
+    // scale anchor point.
+    this.anchor_ = map.getCoordinateFromPixelInternal(
+      map.getEventPixel((0,_Pointer_js__WEBPACK_IMPORTED_MODULE_0__.centroid)(this.targetPointers))
+    );
+
+    // scale, bypass the resolution constraint
+    map.render();
+    view.adjustResolutionInternal(scaleDelta, this.anchor_);
+  }
+
+  /**
+   * Handle pointer up events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleUpEvent(mapBrowserEvent) {
+    if (this.targetPointers.length < 2) {
+      const map = mapBrowserEvent.map;
+      const view = map.getView();
+      const direction = this.lastScaleDelta_ > 1 ? 1 : -1;
+      view.endInteraction(this.duration_, direction);
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Handle pointer down events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   */
+  handleDownEvent(mapBrowserEvent) {
+    if (this.targetPointers.length >= 2) {
+      const map = mapBrowserEvent.map;
+      this.anchor_ = null;
+      this.lastDistance_ = undefined;
+      this.lastScaleDelta_ = 1;
+      if (!this.handlingDownUpSequence) {
+        map.getView().beginInteraction();
+      }
+      return true;
+    }
+    return false;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PinchZoom);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/Pointer.js":
+/*!************************************************!*\
+  !*** ./node_modules/ol/interaction/Pointer.js ***!
+  \************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "centroid": () => (/* binding */ centroid),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Interaction_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Interaction.js */ "./node_modules/ol/interaction/Interaction.js");
+/* harmony import */ var _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../MapBrowserEventType.js */ "./node_modules/ol/MapBrowserEventType.js");
+/**
+ * @module ol/interaction/Pointer
+ */
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {function(import("../MapBrowserEvent.js").default):boolean} [handleDownEvent]
+ * Function handling "down" events. If the function returns `true` then a drag
+ * sequence is started.
+ * @property {function(import("../MapBrowserEvent.js").default):void} [handleDragEvent]
+ * Function handling "drag" events. This function is called on "move" events
+ * during a drag sequence.
+ * @property {function(import("../MapBrowserEvent.js").default):boolean} [handleEvent]
+ * Method called by the map to notify the interaction that a browser event was
+ * dispatched to the map. The function may return `false` to prevent the
+ * propagation of the event to other interactions in the map's interactions
+ * chain.
+ * @property {function(import("../MapBrowserEvent.js").default):void} [handleMoveEvent]
+ * Function handling "move" events. This function is called on "move" events.
+ * This functions is also called during a drag sequence, so during a drag
+ * sequence both the `handleDragEvent` function and this function are called.
+ * If `handleDownEvent` is defined and it returns true this function will not
+ * be called during a drag sequence.
+ * @property {function(import("../MapBrowserEvent.js").default):boolean} [handleUpEvent]
+ *  Function handling "up" events. If the function returns `false` then the
+ * current drag sequence is stopped.
+ * @property {function(boolean):boolean} [stopDown]
+ * Should the down event be propagated to other interactions, or should be
+ * stopped?
+ */
+
+/**
+ * @classdesc
+ * Base class that calls user-defined functions on `down`, `move` and `up`
+ * events. This class also manages "drag sequences".
+ *
+ * When the `handleDownEvent` user function returns `true` a drag sequence is
+ * started. During a drag sequence the `handleDragEvent` user function is
+ * called on `move` events. The drag sequence ends when the `handleUpEvent`
+ * user function is called and returns `false`.
+ * @api
+ */
+class PointerInteraction extends _Interaction_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super(
+      /** @type {import("./Interaction.js").InteractionOptions} */ (options)
+    );
+
+    if (options.handleDownEvent) {
+      this.handleDownEvent = options.handleDownEvent;
+    }
+
+    if (options.handleDragEvent) {
+      this.handleDragEvent = options.handleDragEvent;
+    }
+
+    if (options.handleMoveEvent) {
+      this.handleMoveEvent = options.handleMoveEvent;
+    }
+
+    if (options.handleUpEvent) {
+      this.handleUpEvent = options.handleUpEvent;
+    }
+
+    if (options.stopDown) {
+      this.stopDown = options.stopDown;
+    }
+
+    /**
+     * @type {boolean}
+     * @protected
+     */
+    this.handlingDownUpSequence = false;
+
+    /**
+     * @type {Array<PointerEvent>}
+     * @protected
+     */
+    this.targetPointers = [];
+  }
+
+  /**
+   * Returns the current number of pointers involved in the interaction,
+   * e.g. `2` when two fingers are used.
+   * @return {number} The number of pointers.
+   * @api
+   */
+  getPointerCount() {
+    return this.targetPointers.length;
+  }
+
+  /**
+   * Handle pointer down events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   * @protected
+   */
+  handleDownEvent(mapBrowserEvent) {
+    return false;
+  }
+
+  /**
+   * Handle pointer drag events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @protected
+   */
+  handleDragEvent(mapBrowserEvent) {}
+
+  /**
+   * Handles the {@link module:ol/MapBrowserEvent~MapBrowserEvent map browser event} and may call into
+   * other functions, if event sequences like e.g. 'drag' or 'down-up' etc. are
+   * detected.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Map browser event.
+   * @return {boolean} `false` to stop event propagation.
+   * @api
+   */
+  handleEvent(mapBrowserEvent) {
+    if (!mapBrowserEvent.originalEvent) {
+      return true;
+    }
+
+    let stopEvent = false;
+    this.updateTrackedPointers_(mapBrowserEvent);
+    if (this.handlingDownUpSequence) {
+      if (mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].POINTERDRAG) {
+        this.handleDragEvent(mapBrowserEvent);
+        // prevent page scrolling during dragging
+        mapBrowserEvent.originalEvent.preventDefault();
+      } else if (mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].POINTERUP) {
+        const handledUp = this.handleUpEvent(mapBrowserEvent);
+        this.handlingDownUpSequence =
+          handledUp && this.targetPointers.length > 0;
+      }
+    } else {
+      if (mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].POINTERDOWN) {
+        const handled = this.handleDownEvent(mapBrowserEvent);
+        this.handlingDownUpSequence = handled;
+        stopEvent = this.stopDown(handled);
+      } else if (mapBrowserEvent.type == _MapBrowserEventType_js__WEBPACK_IMPORTED_MODULE_1__["default"].POINTERMOVE) {
+        this.handleMoveEvent(mapBrowserEvent);
+      }
+    }
+    return !stopEvent;
+  }
+
+  /**
+   * Handle pointer move events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @protected
+   */
+  handleMoveEvent(mapBrowserEvent) {}
+
+  /**
+   * Handle pointer up events.
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @return {boolean} If the event was consumed.
+   * @protected
+   */
+  handleUpEvent(mapBrowserEvent) {
+    return false;
+  }
+
+  /**
+   * This function is used to determine if "down" events should be propagated
+   * to other interactions or should be stopped.
+   * @param {boolean} handled Was the event handled by the interaction?
+   * @return {boolean} Should the `down` event be stopped?
+   */
+  stopDown(handled) {
+    return handled;
+  }
+
+  /**
+   * @param {import("../MapBrowserEvent.js").default} mapBrowserEvent Event.
+   * @private
+   */
+  updateTrackedPointers_(mapBrowserEvent) {
+    if (mapBrowserEvent.activePointers) {
+      this.targetPointers = mapBrowserEvent.activePointers;
+    }
+  }
+}
+
+/**
+ * @param {Array<PointerEvent>} pointerEvents List of events.
+ * @return {{clientX: number, clientY: number}} Centroid pixel.
+ */
+function centroid(pointerEvents) {
+  const length = pointerEvents.length;
+  let clientX = 0;
+  let clientY = 0;
+  for (let i = 0; i < length; i++) {
+    clientX += pointerEvents[i].clientX;
+    clientY += pointerEvents[i].clientY;
+  }
+  return {clientX: clientX / length, clientY: clientY / length};
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PointerInteraction);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/Property.js":
+/*!*************************************************!*\
+  !*** ./node_modules/ol/interaction/Property.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/interaction/Property
+ */
+
+/**
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  ACTIVE: 'active',
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/interaction/defaults.js":
+/*!*************************************************!*\
+  !*** ./node_modules/ol/interaction/defaults.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "defaults": () => (/* binding */ defaults)
+/* harmony export */ });
+/* harmony import */ var _Collection_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Collection.js */ "./node_modules/ol/Collection.js");
+/* harmony import */ var _DoubleClickZoom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DoubleClickZoom.js */ "./node_modules/ol/interaction/DoubleClickZoom.js");
+/* harmony import */ var _DragPan_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DragPan.js */ "./node_modules/ol/interaction/DragPan.js");
+/* harmony import */ var _DragRotate_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DragRotate.js */ "./node_modules/ol/interaction/DragRotate.js");
+/* harmony import */ var _DragZoom_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./DragZoom.js */ "./node_modules/ol/interaction/DragZoom.js");
+/* harmony import */ var _KeyboardPan_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./KeyboardPan.js */ "./node_modules/ol/interaction/KeyboardPan.js");
+/* harmony import */ var _KeyboardZoom_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./KeyboardZoom.js */ "./node_modules/ol/interaction/KeyboardZoom.js");
+/* harmony import */ var _Kinetic_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Kinetic.js */ "./node_modules/ol/Kinetic.js");
+/* harmony import */ var _MouseWheelZoom_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./MouseWheelZoom.js */ "./node_modules/ol/interaction/MouseWheelZoom.js");
+/* harmony import */ var _PinchRotate_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PinchRotate.js */ "./node_modules/ol/interaction/PinchRotate.js");
+/* harmony import */ var _PinchZoom_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PinchZoom.js */ "./node_modules/ol/interaction/PinchZoom.js");
+/**
+ * @module ol/interaction/defaults
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @typedef {Object} DefaultsOptions
+ * @property {boolean} [altShiftDragRotate=true] Whether Alt-Shift-drag rotate is
+ * desired.
+ * @property {boolean} [onFocusOnly=false] Interact only when the map has the
+ * focus. This affects the `MouseWheelZoom` and `DragPan` interactions and is
+ * useful when page scroll is desired for maps that do not have the browser's
+ * focus.
+ * @property {boolean} [doubleClickZoom=true] Whether double click zoom is
+ * desired.
+ * @property {boolean} [keyboard=true] Whether keyboard interaction is desired.
+ * @property {boolean} [mouseWheelZoom=true] Whether mousewheel zoom is desired.
+ * @property {boolean} [shiftDragZoom=true] Whether Shift-drag zoom is desired.
+ * @property {boolean} [dragPan=true] Whether drag pan is desired.
+ * @property {boolean} [pinchRotate=true] Whether pinch rotate is desired.
+ * @property {boolean} [pinchZoom=true] Whether pinch zoom is desired.
+ * @property {number} [zoomDelta] Zoom level delta when using keyboard or double click zoom.
+ * @property {number} [zoomDuration] Duration of the zoom animation in
+ * milliseconds.
+ */
+
+/**
+ * Set of interactions included in maps by default. Specific interactions can be
+ * excluded by setting the appropriate option to false in the constructor
+ * options, but the order of the interactions is fixed.  If you want to specify
+ * a different order for interactions, you will need to create your own
+ * {@link module:ol/interaction/Interaction~Interaction} instances and insert
+ * them into a {@link module:ol/Collection~Collection} in the order you want
+ * before creating your {@link module:ol/Map~Map} instance. Changing the order can
+ * be of interest if the event propagation needs to be stopped at a point.
+ * The default set of interactions, in sequence, is:
+ * * {@link module:ol/interaction/DragRotate~DragRotate}
+ * * {@link module:ol/interaction/DoubleClickZoom~DoubleClickZoom}
+ * * {@link module:ol/interaction/DragPan~DragPan}
+ * * {@link module:ol/interaction/PinchRotate~PinchRotate}
+ * * {@link module:ol/interaction/PinchZoom~PinchZoom}
+ * * {@link module:ol/interaction/KeyboardPan~KeyboardPan}
+ * * {@link module:ol/interaction/KeyboardZoom~KeyboardZoom}
+ * * {@link module:ol/interaction/MouseWheelZoom~MouseWheelZoom}
+ * * {@link module:ol/interaction/DragZoom~DragZoom}
+ *
+ * @param {DefaultsOptions} [options] Defaults options.
+ * @return {Collection<import("./Interaction.js").default>}
+ * A collection of interactions to be used with the {@link module:ol/Map~Map}
+ * constructor's `interactions` option.
+ * @api
+ */
+function defaults(options) {
+  options = options ? options : {};
+
+  /** @type {Collection<import("./Interaction.js").default>} */
+  const interactions = new _Collection_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+
+  const kinetic = new _Kinetic_js__WEBPACK_IMPORTED_MODULE_1__["default"](-0.005, 0.05, 100);
+
+  const altShiftDragRotate =
+    options.altShiftDragRotate !== undefined
+      ? options.altShiftDragRotate
+      : true;
+  if (altShiftDragRotate) {
+    interactions.push(new _DragRotate_js__WEBPACK_IMPORTED_MODULE_2__["default"]());
+  }
+
+  const doubleClickZoom =
+    options.doubleClickZoom !== undefined ? options.doubleClickZoom : true;
+  if (doubleClickZoom) {
+    interactions.push(
+      new _DoubleClickZoom_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+        delta: options.zoomDelta,
+        duration: options.zoomDuration,
+      })
+    );
+  }
+
+  const dragPan = options.dragPan !== undefined ? options.dragPan : true;
+  if (dragPan) {
+    interactions.push(
+      new _DragPan_js__WEBPACK_IMPORTED_MODULE_4__["default"]({
+        onFocusOnly: options.onFocusOnly,
+        kinetic: kinetic,
+      })
+    );
+  }
+
+  const pinchRotate =
+    options.pinchRotate !== undefined ? options.pinchRotate : true;
+  if (pinchRotate) {
+    interactions.push(new _PinchRotate_js__WEBPACK_IMPORTED_MODULE_5__["default"]());
+  }
+
+  const pinchZoom = options.pinchZoom !== undefined ? options.pinchZoom : true;
+  if (pinchZoom) {
+    interactions.push(
+      new _PinchZoom_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
+        duration: options.zoomDuration,
+      })
+    );
+  }
+
+  const keyboard = options.keyboard !== undefined ? options.keyboard : true;
+  if (keyboard) {
+    interactions.push(new _KeyboardPan_js__WEBPACK_IMPORTED_MODULE_7__["default"]());
+    interactions.push(
+      new _KeyboardZoom_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
+        delta: options.zoomDelta,
+        duration: options.zoomDuration,
+      })
+    );
+  }
+
+  const mouseWheelZoom =
+    options.mouseWheelZoom !== undefined ? options.mouseWheelZoom : true;
+  if (mouseWheelZoom) {
+    interactions.push(
+      new _MouseWheelZoom_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
+        onFocusOnly: options.onFocusOnly,
+        duration: options.zoomDuration,
+      })
+    );
+  }
+
+  const shiftDragZoom =
+    options.shiftDragZoom !== undefined ? options.shiftDragZoom : true;
+  if (shiftDragZoom) {
+    interactions.push(
+      new _DragZoom_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
+        duration: options.zoomDuration,
+      })
+    );
+  }
+
+  return interactions;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/layer/Base.js":
 /*!***************************************!*\
   !*** ./node_modules/ol/layer/Base.js ***!
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -11403,6 +19639,7 @@ class BaseLayer extends _Object_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \*******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -11573,12 +19810,708 @@ class BaseTileLayer extends _Layer_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 /***/ }),
 
+/***/ "./node_modules/ol/layer/BaseVector.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ol/layer/BaseVector.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Layer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer.js */ "./node_modules/ol/layer/Layer.js");
+/* harmony import */ var rbush__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rbush */ "./node_modules/rbush/rbush.min.js");
+/* harmony import */ var _style_Style_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../style/Style.js */ "./node_modules/ol/style/Style.js");
+/* harmony import */ var _style_flat_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../style/flat.js */ "./node_modules/ol/style/flat.js");
+/**
+ * @module ol/layer/BaseVector
+ */
+
+
+
+
+
+/**
+ * @template {import("../source/Vector.js").default|import("../source/VectorTile.js").default} VectorSourceType
+ * @typedef {Object} Options
+ * @property {string} [className='ol-layer'] A CSS class name to set to the layer element.
+ * @property {number} [opacity=1] Opacity (0, 1).
+ * @property {boolean} [visible=true] Visibility.
+ * @property {import("../extent.js").Extent} [extent] The bounding extent for layer rendering.  The layer will not be
+ * rendered outside of this extent.
+ * @property {number} [zIndex] The z-index for layer rendering.  At rendering time, the layers
+ * will be ordered, first by Z-index and then by position. When `undefined`, a `zIndex` of 0 is assumed
+ * for layers that are added to the map's `layers` collection, or `Infinity` when the layer's `setMap()`
+ * method was used.
+ * @property {number} [minResolution] The minimum resolution (inclusive) at which this layer will be
+ * visible.
+ * @property {number} [maxResolution] The maximum resolution (exclusive) below which this layer will
+ * be visible.
+ * @property {number} [minZoom] The minimum view zoom level (exclusive) above which this layer will be
+ * visible.
+ * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
+ * be visible.
+ * @property {import("../render.js").OrderFunction} [renderOrder] Render order. Function to be used when sorting
+ * features before rendering. By default features are drawn in the order that they are created. Use
+ * `null` to avoid the sort, but get an undefined draw order.
+ * @property {number} [renderBuffer=100] The buffer in pixels around the viewport extent used by the
+ * renderer when getting features from the vector source for the rendering or hit-detection.
+ * Recommended value: the size of the largest symbol, line width or label.
+ * @property {VectorSourceType} [source] Source.
+ * @property {import("../Map.js").default} [map] Sets the layer as overlay on a map. The map will not manage
+ * this layer in its layers collection, and the layer will be rendered on top. This is useful for
+ * temporary layers. The standard way to add a layer to a map and have it managed by the map is to
+ * use [map.addLayer()]{@link import("../Map.js").default#addLayer}.
+ * @property {boolean} [declutter=false] Declutter images and text. Decluttering is applied to all
+ * image and text styles of all Vector and VectorTile layers that have set this to `true`. The priority
+ * is defined by the z-index of the layer, the `zIndex` of the style and the render order of features.
+ * Higher z-index means higher priority. Within the same z-index, a feature rendered before another has
+ * higher priority.
+ *
+ * As an optimization decluttered features from layers with the same `className` are rendered above
+ * the fill and stroke styles of all of those layers regardless of z-index.  To opt out of this
+ * behavior and place declutterd features with their own layer configure the layer with a `className`
+ * other than `ol-layer`.
+ * @property {import("../style/Style.js").StyleLike|import("../style/flat.js").FlatStyleLike|null} [style] Layer style. When set to `null`, only
+ * features that have their own style will be rendered. See {@link module:ol/style/Style~Style} for the default style
+ * which will be used if this is not set.
+ * @property {import("./Base.js").BackgroundColor} [background] Background color for the layer. If not specified, no background
+ * will be rendered.
+ * @property {boolean} [updateWhileAnimating=false] When set to `true`, feature batches will
+ * be recreated during animations. This means that no vectors will be shown clipped, but the
+ * setting will have a performance impact for large amounts of vector data. When set to `false`,
+ * batches will be recreated when no animation is active.
+ * @property {boolean} [updateWhileInteracting=false] When set to `true`, feature batches will
+ * be recreated during interactions. See also `updateWhileAnimating`.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
+ */
+
+/**
+ * @enum {string}
+ * @private
+ */
+const Property = {
+  RENDER_ORDER: 'renderOrder',
+};
+
+/**
+ * @classdesc
+ * Vector data that is rendered client-side.
+ * Note that any property set in the options is set as a {@link module:ol/Object~BaseObject}
+ * property on the layer object; for example, setting `title: 'My Title'` in the
+ * options means that `title` is observable, and has get/set accessors.
+ *
+ * @template {import("../source/Vector.js").default|import("../source/VectorTile.js").default} VectorSourceType
+ * @template {import("../renderer/canvas/VectorLayer.js").default|import("../renderer/canvas/VectorTileLayer.js").default|import("../renderer/canvas/VectorImageLayer.js").default|import("../renderer/webgl/PointsLayer.js").default} RendererType
+ * @extends {Layer<VectorSourceType, RendererType>}
+ * @api
+ */
+class BaseVectorLayer extends _Layer_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {Options<VectorSourceType>} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    const baseOptions = Object.assign({}, options);
+
+    delete baseOptions.style;
+    delete baseOptions.renderBuffer;
+    delete baseOptions.updateWhileAnimating;
+    delete baseOptions.updateWhileInteracting;
+    super(baseOptions);
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.declutter_ =
+      options.declutter !== undefined ? options.declutter : false;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.renderBuffer_ =
+      options.renderBuffer !== undefined ? options.renderBuffer : 100;
+
+    /**
+     * User provided style.
+     * @type {import("../style/Style.js").StyleLike}
+     * @private
+     */
+    this.style_ = null;
+
+    /**
+     * Style function for use within the library.
+     * @type {import("../style/Style.js").StyleFunction|undefined}
+     * @private
+     */
+    this.styleFunction_ = undefined;
+
+    this.setStyle(options.style);
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.updateWhileAnimating_ =
+      options.updateWhileAnimating !== undefined
+        ? options.updateWhileAnimating
+        : false;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.updateWhileInteracting_ =
+      options.updateWhileInteracting !== undefined
+        ? options.updateWhileInteracting
+        : false;
+  }
+
+  /**
+   * @return {boolean} Declutter.
+   */
+  getDeclutter() {
+    return this.declutter_;
+  }
+
+  /**
+   * Get the topmost feature that intersects the given pixel on the viewport. Returns a promise
+   * that resolves with an array of features. The array will either contain the topmost feature
+   * when a hit was detected, or it will be empty.
+   *
+   * The hit detection algorithm used for this method is optimized for performance, but is less
+   * accurate than the one used in [map.getFeaturesAtPixel()]{@link import("../Map.js").default#getFeaturesAtPixel}.
+   * Text is not considered, and icons are only represented by their bounding box instead of the exact
+   * image.
+   *
+   * @param {import("../pixel.js").Pixel} pixel Pixel.
+   * @return {Promise<Array<import("../Feature").FeatureLike>>} Promise that resolves with an array of features.
+   * @api
+   */
+  getFeatures(pixel) {
+    return super.getFeatures(pixel);
+  }
+
+  /**
+   * @return {number|undefined} Render buffer.
+   */
+  getRenderBuffer() {
+    return this.renderBuffer_;
+  }
+
+  /**
+   * @return {function(import("../Feature.js").default, import("../Feature.js").default): number|null|undefined} Render
+   *     order.
+   */
+  getRenderOrder() {
+    return /** @type {import("../render.js").OrderFunction|null|undefined} */ (
+      this.get(Property.RENDER_ORDER)
+    );
+  }
+
+  /**
+   * Get the style for features.  This returns whatever was passed to the `style`
+   * option at construction or to the `setStyle` method.
+   * @return {import("../style/Style.js").StyleLike|null|undefined} Layer style.
+   * @api
+   */
+  getStyle() {
+    return this.style_;
+  }
+
+  /**
+   * Get the style function.
+   * @return {import("../style/Style.js").StyleFunction|undefined} Layer style function.
+   * @api
+   */
+  getStyleFunction() {
+    return this.styleFunction_;
+  }
+
+  /**
+   * @return {boolean} Whether the rendered layer should be updated while
+   *     animating.
+   */
+  getUpdateWhileAnimating() {
+    return this.updateWhileAnimating_;
+  }
+
+  /**
+   * @return {boolean} Whether the rendered layer should be updated while
+   *     interacting.
+   */
+  getUpdateWhileInteracting() {
+    return this.updateWhileInteracting_;
+  }
+
+  /**
+   * Render declutter items for this layer
+   * @param {import("../Map.js").FrameState} frameState Frame state.
+   */
+  renderDeclutter(frameState) {
+    if (!frameState.declutterTree) {
+      frameState.declutterTree = new rbush__WEBPACK_IMPORTED_MODULE_0__(9);
+    }
+    /** @type {*} */ (this.getRenderer()).renderDeclutter(frameState);
+  }
+
+  /**
+   * @param {import("../render.js").OrderFunction|null|undefined} renderOrder
+   *     Render order.
+   */
+  setRenderOrder(renderOrder) {
+    this.set(Property.RENDER_ORDER, renderOrder);
+  }
+
+  /**
+   * Set the style for features.  This can be a single style object, an array
+   * of styles, or a function that takes a feature and resolution and returns
+   * an array of styles. If set to `null`, the layer has no style (a `null` style),
+   * so only features that have their own styles will be rendered in the layer. Call
+   * `setStyle()` without arguments to reset to the default style. See
+   * [the ol/style/Style module]{@link module:ol/style/Style~Style} for information on the default style.
+   *
+   * If your layer has a static style, you can use "flat" style object literals instead of
+   * using the `Style` and symbolizer constructors (`Fill`, `Stroke`, etc.).  See the documentation
+   * for the [flat style types]{@link module:ol/style/flat~FlatStyle} to see what properties are supported.
+   *
+   * @param {import("../style/Style.js").StyleLike|import("../style/flat.js").FlatStyleLike|null} [style] Layer style.
+   * @api
+   */
+  setStyle(style) {
+    /**
+     * @type {import("../style/Style.js").StyleLike|null}
+     */
+    let styleLike;
+
+    if (style === undefined) {
+      styleLike = _style_Style_js__WEBPACK_IMPORTED_MODULE_2__.createDefaultStyle;
+    } else if (style === null) {
+      styleLike = null;
+    } else if (typeof style === 'function') {
+      styleLike = style;
+    } else if (style instanceof _style_Style_js__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+      styleLike = style;
+    } else if (Array.isArray(style)) {
+      const len = style.length;
+
+      /**
+       * @type {Array<Style>}
+       */
+      const styles = new Array(len);
+
+      for (let i = 0; i < len; ++i) {
+        const s = style[i];
+        if (s instanceof _style_Style_js__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+          styles[i] = s;
+        } else {
+          styles[i] = (0,_style_flat_js__WEBPACK_IMPORTED_MODULE_3__.toStyle)(s);
+        }
+      }
+      styleLike = styles;
+    } else {
+      styleLike = (0,_style_flat_js__WEBPACK_IMPORTED_MODULE_3__.toStyle)(style);
+    }
+
+    this.style_ = styleLike;
+    this.styleFunction_ =
+      style === null ? undefined : (0,_style_Style_js__WEBPACK_IMPORTED_MODULE_2__.toFunction)(this.style_);
+    this.changed();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BaseVectorLayer);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/layer/Group.js":
+/*!****************************************!*\
+  !*** ./node_modules/ol/layer/Group.js ***!
+  \****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "GroupEvent": () => (/* binding */ GroupEvent),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Base_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Base.js */ "./node_modules/ol/layer/Base.js");
+/* harmony import */ var _Collection_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Collection.js */ "./node_modules/ol/Collection.js");
+/* harmony import */ var _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../CollectionEventType.js */ "./node_modules/ol/CollectionEventType.js");
+/* harmony import */ var _events_Event_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Event.js */ "./node_modules/ol/events/Event.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../ObjectEventType.js */ "./node_modules/ol/ObjectEventType.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../obj.js */ "./node_modules/ol/obj.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../events.js */ "./node_modules/ol/events.js");
+/**
+ * @module ol/layer/Group
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @typedef {'addlayer'|'removelayer'} EventType
+ */
+
+/**
+ * @classdesc
+ * A layer group triggers 'addlayer' and 'removelayer' events when layers are added to or removed from
+ * the group or one of its child groups.  When a layer group is added to or removed from another layer group,
+ * a single event will be triggered (instead of one per layer in the group added or removed).
+ */
+class GroupEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {EventType} type The event type.
+   * @param {BaseLayer} layer The layer.
+   */
+  constructor(type, layer) {
+    super(type);
+
+    /**
+     * The added or removed layer.
+     * @type {BaseLayer}
+     * @api
+     */
+    this.layer = layer;
+  }
+}
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("./Base").BaseLayerObjectEventTypes|
+ *     'change:layers', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("./Base").BaseLayerObjectEventTypes|'change:layers', Return>} GroupOnSignature
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {number} [opacity=1] Opacity (0, 1).
+ * @property {boolean} [visible=true] Visibility.
+ * @property {import("../extent.js").Extent} [extent] The bounding extent for layer rendering.  The layer will not be
+ * rendered outside of this extent.
+ * @property {number} [zIndex] The z-index for layer rendering.  At rendering time, the layers
+ * will be ordered, first by Z-index and then by position. When `undefined`, a `zIndex` of 0 is assumed
+ * for layers that are added to the map's `layers` collection, or `Infinity` when the layer's `setMap()`
+ * method was used.
+ * @property {number} [minResolution] The minimum resolution (inclusive) at which this layer will be
+ * visible.
+ * @property {number} [maxResolution] The maximum resolution (exclusive) below which this layer will
+ * be visible.
+ * @property {number} [minZoom] The minimum view zoom level (exclusive) above which this layer will be
+ * visible.
+ * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
+ * be visible.
+ * @property {Array<import("./Base.js").default>|Collection<import("./Base.js").default>} [layers] Child layers.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
+ */
+
+/**
+ * @enum {string}
+ * @private
+ */
+const Property = {
+  LAYERS: 'layers',
+};
+
+/**
+ * @classdesc
+ * A {@link module:ol/Collection~Collection} of layers that are handled together.
+ *
+ * A generic `change` event is triggered when the group/Collection changes.
+ *
+ * @api
+ */
+class LayerGroup extends _Base_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {Options} [options] Layer options.
+   */
+  constructor(options) {
+    options = options || {};
+    const baseOptions = /** @type {Options} */ (Object.assign({}, options));
+    delete baseOptions.layers;
+
+    let layers = options.layers;
+
+    super(baseOptions);
+
+    /***
+     * @type {GroupOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {GroupOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {GroupOnSignature<void>}
+     */
+    this.un;
+
+    /**
+     * @private
+     * @type {Array<import("../events.js").EventsKey>}
+     */
+    this.layersListenerKeys_ = [];
+
+    /**
+     * @private
+     * @type {Object<string, Array<import("../events.js").EventsKey>>}
+     */
+    this.listenerKeys_ = {};
+
+    this.addChangeListener(Property.LAYERS, this.handleLayersChanged_);
+
+    if (layers) {
+      if (Array.isArray(layers)) {
+        layers = new _Collection_js__WEBPACK_IMPORTED_MODULE_2__["default"](layers.slice(), {unique: true});
+      } else {
+        (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(typeof (/** @type {?} */ (layers).getArray) === 'function', 43); // Expected `layers` to be an array or a `Collection`
+      }
+    } else {
+      layers = new _Collection_js__WEBPACK_IMPORTED_MODULE_2__["default"](undefined, {unique: true});
+    }
+
+    this.setLayers(layers);
+  }
+
+  /**
+   * @private
+   */
+  handleLayerChange_() {
+    this.changed();
+  }
+
+  /**
+   * @private
+   */
+  handleLayersChanged_() {
+    this.layersListenerKeys_.forEach(_events_js__WEBPACK_IMPORTED_MODULE_4__.unlistenByKey);
+    this.layersListenerKeys_.length = 0;
+
+    const layers = this.getLayers();
+    this.layersListenerKeys_.push(
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_4__.listen)(layers, _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_5__["default"].ADD, this.handleLayersAdd_, this),
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_4__.listen)(layers, _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_5__["default"].REMOVE, this.handleLayersRemove_, this)
+    );
+
+    for (const id in this.listenerKeys_) {
+      this.listenerKeys_[id].forEach(_events_js__WEBPACK_IMPORTED_MODULE_4__.unlistenByKey);
+    }
+    (0,_obj_js__WEBPACK_IMPORTED_MODULE_6__.clear)(this.listenerKeys_);
+
+    const layersArray = layers.getArray();
+    for (let i = 0, ii = layersArray.length; i < ii; i++) {
+      const layer = layersArray[i];
+      this.registerLayerListeners_(layer);
+      this.dispatchEvent(new GroupEvent('addlayer', layer));
+    }
+    this.changed();
+  }
+
+  /**
+   * @param {BaseLayer} layer The layer.
+   */
+  registerLayerListeners_(layer) {
+    const listenerKeys = [
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_4__.listen)(
+        layer,
+        _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_7__["default"].PROPERTYCHANGE,
+        this.handleLayerChange_,
+        this
+      ),
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_4__.listen)(layer, _events_EventType_js__WEBPACK_IMPORTED_MODULE_8__["default"].CHANGE, this.handleLayerChange_, this),
+    ];
+
+    if (layer instanceof LayerGroup) {
+      listenerKeys.push(
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_4__.listen)(layer, 'addlayer', this.handleLayerGroupAdd_, this),
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_4__.listen)(layer, 'removelayer', this.handleLayerGroupRemove_, this)
+      );
+    }
+
+    this.listenerKeys_[(0,_util_js__WEBPACK_IMPORTED_MODULE_9__.getUid)(layer)] = listenerKeys;
+  }
+
+  /**
+   * @param {GroupEvent} event The layer group event.
+   */
+  handleLayerGroupAdd_(event) {
+    this.dispatchEvent(new GroupEvent('addlayer', event.layer));
+  }
+
+  /**
+   * @param {GroupEvent} event The layer group event.
+   */
+  handleLayerGroupRemove_(event) {
+    this.dispatchEvent(new GroupEvent('removelayer', event.layer));
+  }
+
+  /**
+   * @param {import("../Collection.js").CollectionEvent<import("./Base.js").default>} collectionEvent CollectionEvent.
+   * @private
+   */
+  handleLayersAdd_(collectionEvent) {
+    const layer = collectionEvent.element;
+    this.registerLayerListeners_(layer);
+    this.dispatchEvent(new GroupEvent('addlayer', layer));
+    this.changed();
+  }
+
+  /**
+   * @param {import("../Collection.js").CollectionEvent<import("./Base.js").default>} collectionEvent CollectionEvent.
+   * @private
+   */
+  handleLayersRemove_(collectionEvent) {
+    const layer = collectionEvent.element;
+    const key = (0,_util_js__WEBPACK_IMPORTED_MODULE_9__.getUid)(layer);
+    this.listenerKeys_[key].forEach(_events_js__WEBPACK_IMPORTED_MODULE_4__.unlistenByKey);
+    delete this.listenerKeys_[key];
+    this.dispatchEvent(new GroupEvent('removelayer', layer));
+    this.changed();
+  }
+
+  /**
+   * Returns the {@link module:ol/Collection~Collection collection} of {@link module:ol/layer/Layer~Layer layers}
+   * in this group.
+   * @return {!Collection<import("./Base.js").default>} Collection of
+   *   {@link module:ol/layer/Base~BaseLayer layers} that are part of this group.
+   * @observable
+   * @api
+   */
+  getLayers() {
+    return /** @type {!Collection<import("./Base.js").default>} */ (
+      this.get(Property.LAYERS)
+    );
+  }
+
+  /**
+   * Set the {@link module:ol/Collection~Collection collection} of {@link module:ol/layer/Layer~Layer layers}
+   * in this group.
+   * @param {!Collection<import("./Base.js").default>} layers Collection of
+   *   {@link module:ol/layer/Base~BaseLayer layers} that are part of this group.
+   * @observable
+   * @api
+   */
+  setLayers(layers) {
+    const collection = this.getLayers();
+    if (collection) {
+      const currentLayers = collection.getArray();
+      for (let i = 0, ii = currentLayers.length; i < ii; ++i) {
+        this.dispatchEvent(new GroupEvent('removelayer', currentLayers[i]));
+      }
+    }
+
+    this.set(Property.LAYERS, layers);
+  }
+
+  /**
+   * @param {Array<import("./Layer.js").default>} [array] Array of layers (to be modified in place).
+   * @return {Array<import("./Layer.js").default>} Array of layers.
+   */
+  getLayersArray(array) {
+    array = array !== undefined ? array : [];
+    this.getLayers().forEach(function (layer) {
+      layer.getLayersArray(array);
+    });
+    return array;
+  }
+
+  /**
+   * Get the layer states list and use this groups z-index as the default
+   * for all layers in this and nested groups, if it is unset at this point.
+   * If dest is not provided and this group's z-index is undefined
+   * 0 is used a the default z-index.
+   * @param {Array<import("./Layer.js").State>} [dest] Optional list
+   * of layer states (to be modified in place).
+   * @return {Array<import("./Layer.js").State>} List of layer states.
+   */
+  getLayerStatesArray(dest) {
+    const states = dest !== undefined ? dest : [];
+    const pos = states.length;
+
+    this.getLayers().forEach(function (layer) {
+      layer.getLayerStatesArray(states);
+    });
+
+    const ownLayerState = this.getLayerState();
+    let defaultZIndex = ownLayerState.zIndex;
+    if (!dest && ownLayerState.zIndex === undefined) {
+      defaultZIndex = 0;
+    }
+    for (let i = pos, ii = states.length; i < ii; i++) {
+      const layerState = states[i];
+      layerState.opacity *= ownLayerState.opacity;
+      layerState.visible = layerState.visible && ownLayerState.visible;
+      layerState.maxResolution = Math.min(
+        layerState.maxResolution,
+        ownLayerState.maxResolution
+      );
+      layerState.minResolution = Math.max(
+        layerState.minResolution,
+        ownLayerState.minResolution
+      );
+      layerState.minZoom = Math.max(layerState.minZoom, ownLayerState.minZoom);
+      layerState.maxZoom = Math.min(layerState.maxZoom, ownLayerState.maxZoom);
+      if (ownLayerState.extent !== undefined) {
+        if (layerState.extent !== undefined) {
+          layerState.extent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_10__.getIntersection)(
+            layerState.extent,
+            ownLayerState.extent
+          );
+        } else {
+          layerState.extent = ownLayerState.extent;
+        }
+      }
+      if (layerState.zIndex === undefined) {
+        layerState.zIndex = defaultZIndex;
+      }
+    }
+
+    return states;
+  }
+
+  /**
+   * @return {import("../source/Source.js").State} Source state.
+   */
+  getSourceState() {
+    return 'ready';
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LayerGroup);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/layer/Layer.js":
 /*!****************************************!*\
   !*** ./node_modules/ol/layer/Layer.js ***!
   \****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
@@ -12106,6 +21039,7 @@ function inView(layerState, viewState) {
   \*******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -12139,6 +21073,7 @@ __webpack_require__.r(__webpack_exports__);
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -12187,6 +21122,7 @@ class TileLayer extends _BaseTile_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \***********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -12206,12 +21142,157 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/ol/layer/Vector.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol/layer/Vector.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _BaseVector_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseVector.js */ "./node_modules/ol/layer/BaseVector.js");
+/* harmony import */ var _renderer_canvas_VectorLayer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../renderer/canvas/VectorLayer.js */ "./node_modules/ol/renderer/canvas/VectorLayer.js");
+/**
+ * @module ol/layer/Vector
+ */
+
+
+
+/**
+ * @classdesc
+ * Vector data is rendered client-side, as vectors. This layer type provides most accurate rendering
+ * even during animations. Points and labels stay upright on rotated views. For very large
+ * amounts of vector data, performance may suffer during pan and zoom animations. In this case,
+ * try {@link module:ol/layer/VectorImage~VectorImageLayer}.
+ *
+ * Note that any property set in the options is set as a {@link module:ol/Object~BaseObject}
+ * property on the layer object; for example, setting `title: 'My Title'` in the
+ * options means that `title` is observable, and has get/set accessors.
+ *
+ * @template {import("../source/Vector.js").default} VectorSourceType
+ * @extends {BaseVectorLayer<VectorSourceType, CanvasVectorLayerRenderer>}
+ * @api
+ */
+class VectorLayer extends _BaseVector_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {import("./BaseVector.js").Options<VectorSourceType>} [options] Options.
+   */
+  constructor(options) {
+    super(options);
+  }
+
+  createRenderer() {
+    return new _renderer_canvas_VectorLayer_js__WEBPACK_IMPORTED_MODULE_1__["default"](this);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VectorLayer);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/loadingstrategy.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/loadingstrategy.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "all": () => (/* binding */ all),
+/* harmony export */   "bbox": () => (/* binding */ bbox),
+/* harmony export */   "tile": () => (/* binding */ tile)
+/* harmony export */ });
+/* harmony import */ var _proj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./proj.js */ "./node_modules/ol/proj.js");
+/**
+ * @module ol/loadingstrategy
+ */
+
+
+
+/**
+ * Strategy function for loading all features with a single request.
+ * @param {import("./extent.js").Extent} extent Extent.
+ * @param {number} resolution Resolution.
+ * @return {Array<import("./extent.js").Extent>} Extents.
+ * @api
+ */
+function all(extent, resolution) {
+  return [[-Infinity, -Infinity, Infinity, Infinity]];
+}
+
+/**
+ * Strategy function for loading features based on the view's extent and
+ * resolution.
+ * @param {import("./extent.js").Extent} extent Extent.
+ * @param {number} resolution Resolution.
+ * @return {Array<import("./extent.js").Extent>} Extents.
+ * @api
+ */
+function bbox(extent, resolution) {
+  return [extent];
+}
+
+/**
+ * Creates a strategy function for loading features based on a tile grid.
+ * @param {import("./tilegrid/TileGrid.js").default} tileGrid Tile grid.
+ * @return {function(import("./extent.js").Extent, number, import("./proj.js").Projection): Array<import("./extent.js").Extent>} Loading strategy.
+ * @api
+ */
+function tile(tileGrid) {
+  return (
+    /**
+     * @param {import("./extent.js").Extent} extent Extent.
+     * @param {number} resolution Resolution.
+     * @param {import("./proj.js").Projection} projection Projection.
+     * @return {Array<import("./extent.js").Extent>} Extents.
+     */
+    function (extent, resolution, projection) {
+      const z = tileGrid.getZForResolution(
+        (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.fromUserResolution)(resolution, projection)
+      );
+      const tileRange = tileGrid.getTileRangeForExtentAndZ(
+        (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.fromUserExtent)(extent, projection),
+        z
+      );
+      /** @type {Array<import("./extent.js").Extent>} */
+      const extents = [];
+      /** @type {import("./tilecoord.js").TileCoord} */
+      const tileCoord = [z, 0, 0];
+      for (
+        tileCoord[1] = tileRange.minX;
+        tileCoord[1] <= tileRange.maxX;
+        ++tileCoord[1]
+      ) {
+        for (
+          tileCoord[2] = tileRange.minY;
+          tileCoord[2] <= tileRange.maxY;
+          ++tileCoord[2]
+        ) {
+          extents.push(
+            (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.toUserExtent)(tileGrid.getTileCoordExtent(tileCoord), projection)
+          );
+        }
+      }
+      return extents;
+    }
+  );
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/math.js":
 /*!*********************************!*\
   !*** ./node_modules/ol/math.js ***!
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ceil": () => (/* binding */ ceil),
@@ -12436,6 +21517,7 @@ function ceil(n, decimals) {
   \********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "clear": () => (/* binding */ clear),
@@ -12471,12 +21553,46 @@ function isEmpty(object) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/pointer/EventType.js":
+/*!**********************************************!*\
+  !*** ./node_modules/ol/pointer/EventType.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/pointer/EventType
+ */
+
+/**
+ * Constants for event names.
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  POINTERMOVE: 'pointermove',
+  POINTERDOWN: 'pointerdown',
+  POINTERUP: 'pointerup',
+  POINTEROVER: 'pointerover',
+  POINTEROUT: 'pointerout',
+  POINTERENTER: 'pointerenter',
+  POINTERLEAVE: 'pointerleave',
+  POINTERCANCEL: 'pointercancel',
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/proj.js":
 /*!*********************************!*\
   !*** ./node_modules/ol/proj.js ***!
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "METERS_PER_UNIT": () => (/* reexport safe */ _proj_Units_js__WEBPACK_IMPORTED_MODULE_0__.METERS_PER_UNIT),
@@ -13274,6 +22390,7 @@ addCommon();
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -13560,6 +22677,7 @@ class Projection {
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "METERS_PER_UNIT": () => (/* binding */ METERS_PER_UNIT),
@@ -13627,6 +22745,7 @@ const METERS_PER_UNIT = {
   \******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EXTENT": () => (/* binding */ EXTENT),
@@ -13782,6 +22901,7 @@ function toEPSG4326(input, output, dimension) {
   \******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EXTENT": () => (/* binding */ EXTENT),
@@ -13868,6 +22988,7 @@ const PROJECTIONS = [
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add": () => (/* binding */ add),
@@ -13921,6 +23042,7 @@ function add(code, projection) {
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "add": () => (/* binding */ add),
@@ -14001,12 +23123,162 @@ function get(sourceCode, destinationCode) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/render/Box.js":
+/*!***************************************!*\
+  !*** ./node_modules/ol/render/Box.js ***!
+  \***************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Disposable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Disposable.js */ "./node_modules/ol/Disposable.js");
+/* harmony import */ var _geom_Polygon_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../geom/Polygon.js */ "./node_modules/ol/geom/Polygon.js");
+/**
+ * @module ol/render/Box
+ */
+
+
+
+
+class RenderBox extends _Disposable_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {string} className CSS class name.
+   */
+  constructor(className) {
+    super();
+
+    /**
+     * @type {import("../geom/Polygon.js").default}
+     * @private
+     */
+    this.geometry_ = null;
+
+    /**
+     * @type {HTMLDivElement}
+     * @private
+     */
+    this.element_ = document.createElement('div');
+    this.element_.style.position = 'absolute';
+    this.element_.style.pointerEvents = 'auto';
+    this.element_.className = 'ol-box ' + className;
+
+    /**
+     * @private
+     * @type {import("../Map.js").default|null}
+     */
+    this.map_ = null;
+
+    /**
+     * @private
+     * @type {import("../pixel.js").Pixel}
+     */
+    this.startPixel_ = null;
+
+    /**
+     * @private
+     * @type {import("../pixel.js").Pixel}
+     */
+    this.endPixel_ = null;
+  }
+
+  /**
+   * Clean up.
+   */
+  disposeInternal() {
+    this.setMap(null);
+  }
+
+  /**
+   * @private
+   */
+  render_() {
+    const startPixel = this.startPixel_;
+    const endPixel = this.endPixel_;
+    const px = 'px';
+    const style = this.element_.style;
+    style.left = Math.min(startPixel[0], endPixel[0]) + px;
+    style.top = Math.min(startPixel[1], endPixel[1]) + px;
+    style.width = Math.abs(endPixel[0] - startPixel[0]) + px;
+    style.height = Math.abs(endPixel[1] - startPixel[1]) + px;
+  }
+
+  /**
+   * @param {import("../Map.js").default|null} map Map.
+   */
+  setMap(map) {
+    if (this.map_) {
+      this.map_.getOverlayContainer().removeChild(this.element_);
+      const style = this.element_.style;
+      style.left = 'inherit';
+      style.top = 'inherit';
+      style.width = 'inherit';
+      style.height = 'inherit';
+    }
+    this.map_ = map;
+    if (this.map_) {
+      this.map_.getOverlayContainer().appendChild(this.element_);
+    }
+  }
+
+  /**
+   * @param {import("../pixel.js").Pixel} startPixel Start pixel.
+   * @param {import("../pixel.js").Pixel} endPixel End pixel.
+   */
+  setPixels(startPixel, endPixel) {
+    this.startPixel_ = startPixel;
+    this.endPixel_ = endPixel;
+    this.createOrUpdateGeometry();
+    this.render_();
+  }
+
+  /**
+   * Creates or updates the cached geometry.
+   */
+  createOrUpdateGeometry() {
+    const startPixel = this.startPixel_;
+    const endPixel = this.endPixel_;
+    const pixels = [
+      startPixel,
+      [startPixel[0], endPixel[1]],
+      endPixel,
+      [endPixel[0], startPixel[1]],
+    ];
+    const coordinates = pixels.map(
+      this.map_.getCoordinateFromPixelInternal,
+      this.map_
+    );
+    // close the polygon
+    coordinates[4] = coordinates[0].slice();
+    if (!this.geometry_) {
+      this.geometry_ = new _geom_Polygon_js__WEBPACK_IMPORTED_MODULE_1__["default"]([coordinates]);
+    } else {
+      this.geometry_.setCoordinates([coordinates]);
+    }
+  }
+
+  /**
+   * @return {import("../geom/Polygon.js").default} Geometry.
+   */
+  getGeometry() {
+    return this.geometry_;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RenderBox);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/render/Event.js":
 /*!*****************************************!*\
   !*** ./node_modules/ol/render/Event.js ***!
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -14066,6 +23338,7 @@ class RenderEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_0__["default
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -14131,12 +23404,6218 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/ol/render/VectorContext.js":
+/*!*************************************************!*\
+  !*** ./node_modules/ol/render/VectorContext.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/render/VectorContext
+ */
+
+/**
+ * @classdesc
+ * Context for drawing geometries.  A vector context is available on render
+ * events and does not need to be constructed directly.
+ * @api
+ */
+class VectorContext {
+  /**
+   * Render a geometry with a custom renderer.
+   *
+   * @param {import("../geom/SimpleGeometry.js").default} geometry Geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   * @param {Function} renderer Renderer.
+   * @param {Function} hitDetectionRenderer Renderer.
+   */
+  drawCustom(geometry, feature, renderer, hitDetectionRenderer) {}
+
+  /**
+   * Render a geometry.
+   *
+   * @param {import("../geom/Geometry.js").default} geometry The geometry to render.
+   */
+  drawGeometry(geometry) {}
+
+  /**
+   * Set the rendering style.
+   *
+   * @param {import("../style/Style.js").default} style The rendering style.
+   */
+  setStyle(style) {}
+
+  /**
+   * @param {import("../geom/Circle.js").default} circleGeometry Circle geometry.
+   * @param {import("../Feature.js").default} feature Feature.
+   */
+  drawCircle(circleGeometry, feature) {}
+
+  /**
+   * @param {import("../Feature.js").default} feature Feature.
+   * @param {import("../style/Style.js").default} style Style.
+   */
+  drawFeature(feature, style) {}
+
+  /**
+   * @param {import("../geom/GeometryCollection.js").default} geometryCollectionGeometry Geometry collection.
+   * @param {import("../Feature.js").default} feature Feature.
+   */
+  drawGeometryCollection(geometryCollectionGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/LineString.js").default|import("./Feature.js").default} lineStringGeometry Line string geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawLineString(lineStringGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/MultiLineString.js").default|import("./Feature.js").default} multiLineStringGeometry MultiLineString geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawMultiLineString(multiLineStringGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/MultiPoint.js").default|import("./Feature.js").default} multiPointGeometry MultiPoint geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawMultiPoint(multiPointGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/MultiPolygon.js").default} multiPolygonGeometry MultiPolygon geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawMultiPolygon(multiPolygonGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/Point.js").default|import("./Feature.js").default} pointGeometry Point geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawPoint(pointGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/Polygon.js").default|import("./Feature.js").default} polygonGeometry Polygon geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawPolygon(polygonGeometry, feature) {}
+
+  /**
+   * @param {import("../geom/SimpleGeometry.js").default|import("./Feature.js").default} geometry Geometry.
+   * @param {import("../Feature.js").FeatureLike} feature Feature.
+   */
+  drawText(geometry, feature) {}
+
+  /**
+   * @param {import("../style/Fill.js").default} fillStyle Fill style.
+   * @param {import("../style/Stroke.js").default} strokeStyle Stroke style.
+   */
+  setFillStrokeStyle(fillStyle, strokeStyle) {}
+
+  /**
+   * @param {import("../style/Image.js").default} imageStyle Image style.
+   * @param {import("../render/canvas.js").DeclutterImageWithText} [declutterImageWithText] Shared data for combined decluttering with a text style.
+   */
+  setImageStyle(imageStyle, declutterImageWithText) {}
+
+  /**
+   * @param {import("../style/Text.js").default} textStyle Text style.
+   * @param {import("../render/canvas.js").DeclutterImageWithText} [declutterImageWithText] Shared data for combined decluttering with an image style.
+   */
+  setTextStyle(textStyle, declutterImageWithText) {}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VectorContext);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas.js":
+/*!******************************************!*\
+  !*** ./node_modules/ol/render/canvas.js ***!
+  \******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "checkedFonts": () => (/* binding */ checkedFonts),
+/* harmony export */   "defaultFillStyle": () => (/* binding */ defaultFillStyle),
+/* harmony export */   "defaultFont": () => (/* binding */ defaultFont),
+/* harmony export */   "defaultLineCap": () => (/* binding */ defaultLineCap),
+/* harmony export */   "defaultLineDash": () => (/* binding */ defaultLineDash),
+/* harmony export */   "defaultLineDashOffset": () => (/* binding */ defaultLineDashOffset),
+/* harmony export */   "defaultLineJoin": () => (/* binding */ defaultLineJoin),
+/* harmony export */   "defaultLineWidth": () => (/* binding */ defaultLineWidth),
+/* harmony export */   "defaultMiterLimit": () => (/* binding */ defaultMiterLimit),
+/* harmony export */   "defaultPadding": () => (/* binding */ defaultPadding),
+/* harmony export */   "defaultStrokeStyle": () => (/* binding */ defaultStrokeStyle),
+/* harmony export */   "defaultTextAlign": () => (/* binding */ defaultTextAlign),
+/* harmony export */   "defaultTextBaseline": () => (/* binding */ defaultTextBaseline),
+/* harmony export */   "drawImageOrLabel": () => (/* binding */ drawImageOrLabel),
+/* harmony export */   "getTextDimensions": () => (/* binding */ getTextDimensions),
+/* harmony export */   "measureAndCacheTextWidth": () => (/* binding */ measureAndCacheTextWidth),
+/* harmony export */   "measureTextHeight": () => (/* binding */ measureTextHeight),
+/* harmony export */   "measureTextWidth": () => (/* binding */ measureTextWidth),
+/* harmony export */   "registerFont": () => (/* binding */ registerFont),
+/* harmony export */   "rotateAtOffset": () => (/* binding */ rotateAtOffset),
+/* harmony export */   "textHeights": () => (/* binding */ textHeights)
+/* harmony export */ });
+/* harmony import */ var _Object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Object.js */ "./node_modules/ol/Object.js");
+/* harmony import */ var _has_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../has.js */ "./node_modules/ol/has.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../obj.js */ "./node_modules/ol/obj.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _css_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css.js */ "./node_modules/ol/css.js");
+/**
+ * @module ol/render/canvas
+ */
+
+
+
+
+
+
+/**
+ * @typedef {'Circle' | 'Image' | 'LineString' | 'Polygon' | 'Text' | 'Default'} BuilderType
+ */
+
+/**
+ * @typedef {Object} FillState
+ * @property {import("../colorlike.js").ColorLike} fillStyle FillStyle.
+ */
+
+/**
+ * @typedef Label
+ * @property {number} width Width.
+ * @property {number} height Height.
+ * @property {Array<string|number>} contextInstructions ContextInstructions.
+ */
+
+/**
+ * @typedef {Object} FillStrokeState
+ * @property {import("../colorlike.js").ColorLike} [currentFillStyle] Current FillStyle.
+ * @property {import("../colorlike.js").ColorLike} [currentStrokeStyle] Current StrokeStyle.
+ * @property {CanvasLineCap} [currentLineCap] Current LineCap.
+ * @property {Array<number>} currentLineDash Current LineDash.
+ * @property {number} [currentLineDashOffset] Current LineDashOffset.
+ * @property {CanvasLineJoin} [currentLineJoin] Current LineJoin.
+ * @property {number} [currentLineWidth] Current LineWidth.
+ * @property {number} [currentMiterLimit] Current MiterLimit.
+ * @property {number} [lastStroke] Last stroke.
+ * @property {import("../colorlike.js").ColorLike} [fillStyle] FillStyle.
+ * @property {import("../colorlike.js").ColorLike} [strokeStyle] StrokeStyle.
+ * @property {CanvasLineCap} [lineCap] LineCap.
+ * @property {Array<number>} lineDash LineDash.
+ * @property {number} [lineDashOffset] LineDashOffset.
+ * @property {CanvasLineJoin} [lineJoin] LineJoin.
+ * @property {number} [lineWidth] LineWidth.
+ * @property {number} [miterLimit] MiterLimit.
+ */
+
+/**
+ * @typedef {Object} StrokeState
+ * @property {CanvasLineCap} lineCap LineCap.
+ * @property {Array<number>} lineDash LineDash.
+ * @property {number} lineDashOffset LineDashOffset.
+ * @property {CanvasLineJoin} lineJoin LineJoin.
+ * @property {number} lineWidth LineWidth.
+ * @property {number} miterLimit MiterLimit.
+ * @property {import("../colorlike.js").ColorLike} strokeStyle StrokeStyle.
+ */
+
+/**
+ * @typedef {Object} TextState
+ * @property {string} font Font.
+ * @property {CanvasTextAlign} [textAlign] TextAlign.
+ * @property {number} [repeat] Repeat.
+ * @property {import("../style/Text.js").TextJustify} [justify] Justify.
+ * @property {CanvasTextBaseline} textBaseline TextBaseline.
+ * @property {import("../style/Text.js").TextPlacement} [placement] Placement.
+ * @property {number} [maxAngle] MaxAngle.
+ * @property {boolean} [overflow] Overflow.
+ * @property {import("../style/Fill.js").default} [backgroundFill] BackgroundFill.
+ * @property {import("../style/Stroke.js").default} [backgroundStroke] BackgroundStroke.
+ * @property {import("../size.js").Size} [scale] Scale.
+ * @property {Array<number>} [padding] Padding.
+ */
+
+/**
+ * @typedef {Object} SerializableInstructions
+ * @property {Array<*>} instructions The rendering instructions.
+ * @property {Array<*>} hitDetectionInstructions The rendering hit detection instructions.
+ * @property {Array<number>} coordinates The array of all coordinates.
+ * @property {!Object<string, TextState>} [textStates] The text states (decluttering).
+ * @property {!Object<string, FillState>} [fillStates] The fill states (decluttering).
+ * @property {!Object<string, StrokeState>} [strokeStates] The stroke states (decluttering).
+ */
+
+/**
+ * @typedef {Object<number, import("./canvas/Executor.js").ReplayImageOrLabelArgs>} DeclutterImageWithText
+ */
+
+/**
+ * @const
+ * @type {string}
+ */
+const defaultFont = '10px sans-serif';
+
+/**
+ * @const
+ * @type {import("../colorlike.js").ColorLike}
+ */
+const defaultFillStyle = '#000';
+
+/**
+ * @const
+ * @type {CanvasLineCap}
+ */
+const defaultLineCap = 'round';
+
+/**
+ * @const
+ * @type {Array<number>}
+ */
+const defaultLineDash = [];
+
+/**
+ * @const
+ * @type {number}
+ */
+const defaultLineDashOffset = 0;
+
+/**
+ * @const
+ * @type {CanvasLineJoin}
+ */
+const defaultLineJoin = 'round';
+
+/**
+ * @const
+ * @type {number}
+ */
+const defaultMiterLimit = 10;
+
+/**
+ * @const
+ * @type {import("../colorlike.js").ColorLike}
+ */
+const defaultStrokeStyle = '#000';
+
+/**
+ * @const
+ * @type {CanvasTextAlign}
+ */
+const defaultTextAlign = 'center';
+
+/**
+ * @const
+ * @type {CanvasTextBaseline}
+ */
+const defaultTextBaseline = 'middle';
+
+/**
+ * @const
+ * @type {Array<number>}
+ */
+const defaultPadding = [0, 0, 0, 0];
+
+/**
+ * @const
+ * @type {number}
+ */
+const defaultLineWidth = 1;
+
+/**
+ * @type {BaseObject}
+ */
+const checkedFonts = new _Object_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+
+/**
+ * @type {CanvasRenderingContext2D}
+ */
+let measureContext = null;
+
+/**
+ * @type {string}
+ */
+let measureFont;
+
+/**
+ * @type {!Object<string, number>}
+ */
+const textHeights = {};
+
+/**
+ * Clears the label cache when a font becomes available.
+ * @param {string} fontSpec CSS font spec.
+ */
+const registerFont = (function () {
+  const retries = 100;
+  const size = '32px ';
+  const referenceFonts = ['monospace', 'serif'];
+  const len = referenceFonts.length;
+  const text = 'wmytzilWMYTZIL@#/&?$%10\uF013';
+  let interval, referenceWidth;
+
+  /**
+   * @param {string} fontStyle Css font-style
+   * @param {string} fontWeight Css font-weight
+   * @param {*} fontFamily Css font-family
+   * @return {boolean} Font with style and weight is available
+   */
+  function isAvailable(fontStyle, fontWeight, fontFamily) {
+    let available = true;
+    for (let i = 0; i < len; ++i) {
+      const referenceFont = referenceFonts[i];
+      referenceWidth = measureTextWidth(
+        fontStyle + ' ' + fontWeight + ' ' + size + referenceFont,
+        text
+      );
+      if (fontFamily != referenceFont) {
+        const width = measureTextWidth(
+          fontStyle +
+            ' ' +
+            fontWeight +
+            ' ' +
+            size +
+            fontFamily +
+            ',' +
+            referenceFont,
+          text
+        );
+        // If width and referenceWidth are the same, then the fallback was used
+        // instead of the font we wanted, so the font is not available.
+        available = available && width != referenceWidth;
+      }
+    }
+    if (available) {
+      return true;
+    }
+    return false;
+  }
+
+  function check() {
+    let done = true;
+    const fonts = checkedFonts.getKeys();
+    for (let i = 0, ii = fonts.length; i < ii; ++i) {
+      const font = fonts[i];
+      if (checkedFonts.get(font) < retries) {
+        if (isAvailable.apply(this, font.split('\n'))) {
+          (0,_obj_js__WEBPACK_IMPORTED_MODULE_1__.clear)(textHeights);
+          // Make sure that loaded fonts are picked up by Safari
+          measureContext = null;
+          measureFont = undefined;
+          checkedFonts.set(font, retries);
+        } else {
+          checkedFonts.set(font, checkedFonts.get(font) + 1, true);
+          done = false;
+        }
+      }
+    }
+    if (done) {
+      clearInterval(interval);
+      interval = undefined;
+    }
+  }
+
+  return function (fontSpec) {
+    const font = (0,_css_js__WEBPACK_IMPORTED_MODULE_2__.getFontParameters)(fontSpec);
+    if (!font) {
+      return;
+    }
+    const families = font.families;
+    for (let i = 0, ii = families.length; i < ii; ++i) {
+      const family = families[i];
+      const key = font.style + '\n' + font.weight + '\n' + family;
+      if (checkedFonts.get(key) === undefined) {
+        checkedFonts.set(key, retries, true);
+        if (!isAvailable(font.style, font.weight, family)) {
+          checkedFonts.set(key, 0, true);
+          if (interval === undefined) {
+            interval = setInterval(check, 32);
+          }
+        }
+      }
+    }
+  };
+})();
+
+/**
+ * @param {string} font Font to use for measuring.
+ * @return {import("../size.js").Size} Measurement.
+ */
+const measureTextHeight = (function () {
+  /**
+   * @type {HTMLDivElement}
+   */
+  let measureElement;
+  return function (fontSpec) {
+    let height = textHeights[fontSpec];
+    if (height == undefined) {
+      if (_has_js__WEBPACK_IMPORTED_MODULE_3__.WORKER_OFFSCREEN_CANVAS) {
+        const font = (0,_css_js__WEBPACK_IMPORTED_MODULE_2__.getFontParameters)(fontSpec);
+        const metrics = measureText(fontSpec, 'Žg');
+        const lineHeight = isNaN(Number(font.lineHeight))
+          ? 1.2
+          : Number(font.lineHeight);
+        height =
+          lineHeight *
+          (metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent);
+      } else {
+        if (!measureElement) {
+          measureElement = document.createElement('div');
+          measureElement.innerHTML = 'M';
+          measureElement.style.minHeight = '0';
+          measureElement.style.maxHeight = 'none';
+          measureElement.style.height = 'auto';
+          measureElement.style.padding = '0';
+          measureElement.style.border = 'none';
+          measureElement.style.position = 'absolute';
+          measureElement.style.display = 'block';
+          measureElement.style.left = '-99999px';
+        }
+        measureElement.style.font = fontSpec;
+        document.body.appendChild(measureElement);
+        height = measureElement.offsetHeight;
+        document.body.removeChild(measureElement);
+      }
+      textHeights[fontSpec] = height;
+    }
+    return height;
+  };
+})();
+
+/**
+ * @param {string} font Font.
+ * @param {string} text Text.
+ * @return {TextMetrics} Text metrics.
+ */
+function measureText(font, text) {
+  if (!measureContext) {
+    measureContext = (0,_dom_js__WEBPACK_IMPORTED_MODULE_4__.createCanvasContext2D)(1, 1);
+  }
+  if (font != measureFont) {
+    measureContext.font = font;
+    measureFont = measureContext.font;
+  }
+  return measureContext.measureText(text);
+}
+
+/**
+ * @param {string} font Font.
+ * @param {string} text Text.
+ * @return {number} Width.
+ */
+function measureTextWidth(font, text) {
+  return measureText(font, text).width;
+}
+
+/**
+ * Measure text width using a cache.
+ * @param {string} font The font.
+ * @param {string} text The text to measure.
+ * @param {Object<string, number>} cache A lookup of cached widths by text.
+ * @return {number} The text width.
+ */
+function measureAndCacheTextWidth(font, text, cache) {
+  if (text in cache) {
+    return cache[text];
+  }
+  const width = text
+    .split('\n')
+    .reduce((prev, curr) => Math.max(prev, measureTextWidth(font, curr)), 0);
+  cache[text] = width;
+  return width;
+}
+
+/**
+ * @param {TextState} baseStyle Base style.
+ * @param {Array<string>} chunks Text chunks to measure.
+ * @return {{width: number, height: number, widths: Array<number>, heights: Array<number>, lineWidths: Array<number>}}} Text metrics.
+ */
+function getTextDimensions(baseStyle, chunks) {
+  const widths = [];
+  const heights = [];
+  const lineWidths = [];
+  let width = 0;
+  let lineWidth = 0;
+  let height = 0;
+  let lineHeight = 0;
+  for (let i = 0, ii = chunks.length; i <= ii; i += 2) {
+    const text = chunks[i];
+    if (text === '\n' || i === ii) {
+      width = Math.max(width, lineWidth);
+      lineWidths.push(lineWidth);
+      lineWidth = 0;
+      height += lineHeight;
+      continue;
+    }
+    const font = chunks[i + 1] || baseStyle.font;
+    const currentWidth = measureTextWidth(font, text);
+    widths.push(currentWidth);
+    lineWidth += currentWidth;
+    const currentHeight = measureTextHeight(font);
+    heights.push(currentHeight);
+    lineHeight = Math.max(lineHeight, currentHeight);
+  }
+  return {width, height, widths, heights, lineWidths};
+}
+
+/**
+ * @param {CanvasRenderingContext2D} context Context.
+ * @param {number} rotation Rotation.
+ * @param {number} offsetX X offset.
+ * @param {number} offsetY Y offset.
+ */
+function rotateAtOffset(context, rotation, offsetX, offsetY) {
+  if (rotation !== 0) {
+    context.translate(offsetX, offsetY);
+    context.rotate(rotation);
+    context.translate(-offsetX, -offsetY);
+  }
+}
+
+/**
+ * @param {CanvasRenderingContext2D} context Context.
+ * @param {import("../transform.js").Transform|null} transform Transform.
+ * @param {number} opacity Opacity.
+ * @param {Label|HTMLCanvasElement|HTMLImageElement|HTMLVideoElement} labelOrImage Label.
+ * @param {number} originX Origin X.
+ * @param {number} originY Origin Y.
+ * @param {number} w Width.
+ * @param {number} h Height.
+ * @param {number} x X.
+ * @param {number} y Y.
+ * @param {import("../size.js").Size} scale Scale.
+ */
+function drawImageOrLabel(
+  context,
+  transform,
+  opacity,
+  labelOrImage,
+  originX,
+  originY,
+  w,
+  h,
+  x,
+  y,
+  scale
+) {
+  context.save();
+
+  if (opacity !== 1) {
+    context.globalAlpha *= opacity;
+  }
+  if (transform) {
+    context.setTransform.apply(context, transform);
+  }
+
+  if (/** @type {*} */ (labelOrImage).contextInstructions) {
+    // label
+    context.translate(x, y);
+    context.scale(scale[0], scale[1]);
+    executeLabelInstructions(/** @type {Label} */ (labelOrImage), context);
+  } else if (scale[0] < 0 || scale[1] < 0) {
+    // flipped image
+    context.translate(x, y);
+    context.scale(scale[0], scale[1]);
+    context.drawImage(
+      /** @type {HTMLCanvasElement|HTMLImageElement|HTMLVideoElement} */ (
+        labelOrImage
+      ),
+      originX,
+      originY,
+      w,
+      h,
+      0,
+      0,
+      w,
+      h
+    );
+  } else {
+    // if image not flipped translate and scale can be avoided
+    context.drawImage(
+      /** @type {HTMLCanvasElement|HTMLImageElement|HTMLVideoElement} */ (
+        labelOrImage
+      ),
+      originX,
+      originY,
+      w,
+      h,
+      x,
+      y,
+      w * scale[0],
+      h * scale[1]
+    );
+  }
+
+  context.restore();
+}
+
+/**
+ * @param {Label} label Label.
+ * @param {CanvasRenderingContext2D} context Context.
+ */
+function executeLabelInstructions(label, context) {
+  const contextInstructions = label.contextInstructions;
+  for (let i = 0, ii = contextInstructions.length; i < ii; i += 2) {
+    if (Array.isArray(contextInstructions[i + 1])) {
+      context[contextInstructions[i]].apply(
+        context,
+        contextInstructions[i + 1]
+      );
+    } else {
+      context[contextInstructions[i]] = contextInstructions[i + 1];
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/Builder.js":
+/*!**************************************************!*\
+  !*** ./node_modules/ol/render/canvas/Builder.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Instruction_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Instruction.js */ "./node_modules/ol/render/canvas/Instruction.js");
+/* harmony import */ var _extent_Relationship_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../extent/Relationship.js */ "./node_modules/ol/extent/Relationship.js");
+/* harmony import */ var _VectorContext_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../VectorContext.js */ "./node_modules/ol/render/VectorContext.js");
+/* harmony import */ var _colorlike_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../colorlike.js */ "./node_modules/ol/colorlike.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _canvas_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../canvas.js */ "./node_modules/ol/render/canvas.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../geom/flat/inflate.js */ "./node_modules/ol/geom/flat/inflate.js");
+/**
+ * @module ol/render/canvas/Builder
+ */
+
+
+
+
+
+
+
+
+
+class CanvasBuilder extends _VectorContext_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {number} tolerance Tolerance.
+   * @param {import("../../extent.js").Extent} maxExtent Maximum extent.
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   */
+  constructor(tolerance, maxExtent, resolution, pixelRatio) {
+    super();
+
+    /**
+     * @protected
+     * @type {number}
+     */
+    this.tolerance = tolerance;
+
+    /**
+     * @protected
+     * @const
+     * @type {import("../../extent.js").Extent}
+     */
+    this.maxExtent = maxExtent;
+
+    /**
+     * @protected
+     * @type {number}
+     */
+    this.pixelRatio = pixelRatio;
+
+    /**
+     * @protected
+     * @type {number}
+     */
+    this.maxLineWidth = 0;
+
+    /**
+     * @protected
+     * @const
+     * @type {number}
+     */
+    this.resolution = resolution;
+
+    /**
+     * @private
+     * @type {Array<*>}
+     */
+    this.beginGeometryInstruction1_ = null;
+
+    /**
+     * @private
+     * @type {Array<*>}
+     */
+    this.beginGeometryInstruction2_ = null;
+
+    /**
+     * @private
+     * @type {import("../../extent.js").Extent}
+     */
+    this.bufferedMaxExtent_ = null;
+
+    /**
+     * @protected
+     * @type {Array<*>}
+     */
+    this.instructions = [];
+
+    /**
+     * @protected
+     * @type {Array<number>}
+     */
+    this.coordinates = [];
+
+    /**
+     * @private
+     * @type {import("../../coordinate.js").Coordinate}
+     */
+    this.tmpCoordinate_ = [];
+
+    /**
+     * @protected
+     * @type {Array<*>}
+     */
+    this.hitDetectionInstructions = [];
+
+    /**
+     * @protected
+     * @type {import("../canvas.js").FillStrokeState}
+     */
+    this.state = /** @type {import("../canvas.js").FillStrokeState} */ ({});
+  }
+
+  /**
+   * @protected
+   * @param {Array<number>} dashArray Dash array.
+   * @return {Array<number>} Dash array with pixel ratio applied
+   */
+  applyPixelRatio(dashArray) {
+    const pixelRatio = this.pixelRatio;
+    return pixelRatio == 1
+      ? dashArray
+      : dashArray.map(function (dash) {
+          return dash * pixelRatio;
+        });
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} stride Stride.
+   * @protected
+   * @return {number} My end
+   */
+  appendFlatPointCoordinates(flatCoordinates, stride) {
+    const extent = this.getBufferedMaxExtent();
+    const tmpCoord = this.tmpCoordinate_;
+    const coordinates = this.coordinates;
+    let myEnd = coordinates.length;
+    for (let i = 0, ii = flatCoordinates.length; i < ii; i += stride) {
+      tmpCoord[0] = flatCoordinates[i];
+      tmpCoord[1] = flatCoordinates[i + 1];
+      if ((0,_extent_js__WEBPACK_IMPORTED_MODULE_1__.containsCoordinate)(extent, tmpCoord)) {
+        coordinates[myEnd++] = tmpCoord[0];
+        coordinates[myEnd++] = tmpCoord[1];
+      }
+    }
+    return myEnd;
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {number} end End.
+   * @param {number} stride Stride.
+   * @param {boolean} closed Last input coordinate equals first.
+   * @param {boolean} skipFirst Skip first coordinate.
+   * @protected
+   * @return {number} My end.
+   */
+  appendFlatLineCoordinates(
+    flatCoordinates,
+    offset,
+    end,
+    stride,
+    closed,
+    skipFirst
+  ) {
+    const coordinates = this.coordinates;
+    let myEnd = coordinates.length;
+    const extent = this.getBufferedMaxExtent();
+    if (skipFirst) {
+      offset += stride;
+    }
+    let lastXCoord = flatCoordinates[offset];
+    let lastYCoord = flatCoordinates[offset + 1];
+    const nextCoord = this.tmpCoordinate_;
+    let skipped = true;
+
+    let i, lastRel, nextRel;
+    for (i = offset + stride; i < end; i += stride) {
+      nextCoord[0] = flatCoordinates[i];
+      nextCoord[1] = flatCoordinates[i + 1];
+      nextRel = (0,_extent_js__WEBPACK_IMPORTED_MODULE_1__.coordinateRelationship)(extent, nextCoord);
+      if (nextRel !== lastRel) {
+        if (skipped) {
+          coordinates[myEnd++] = lastXCoord;
+          coordinates[myEnd++] = lastYCoord;
+          skipped = false;
+        }
+        coordinates[myEnd++] = nextCoord[0];
+        coordinates[myEnd++] = nextCoord[1];
+      } else if (nextRel === _extent_Relationship_js__WEBPACK_IMPORTED_MODULE_2__["default"].INTERSECTING) {
+        coordinates[myEnd++] = nextCoord[0];
+        coordinates[myEnd++] = nextCoord[1];
+        skipped = false;
+      } else {
+        skipped = true;
+      }
+      lastXCoord = nextCoord[0];
+      lastYCoord = nextCoord[1];
+      lastRel = nextRel;
+    }
+
+    // Last coordinate equals first or only one point to append:
+    if ((closed && skipped) || i === offset + stride) {
+      coordinates[myEnd++] = lastXCoord;
+      coordinates[myEnd++] = lastYCoord;
+    }
+    return myEnd;
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {Array<number>} ends Ends.
+   * @param {number} stride Stride.
+   * @param {Array<number>} builderEnds Builder ends.
+   * @return {number} Offset.
+   */
+  drawCustomCoordinates_(flatCoordinates, offset, ends, stride, builderEnds) {
+    for (let i = 0, ii = ends.length; i < ii; ++i) {
+      const end = ends[i];
+      const builderEnd = this.appendFlatLineCoordinates(
+        flatCoordinates,
+        offset,
+        end,
+        stride,
+        false,
+        false
+      );
+      builderEnds.push(builderEnd);
+      offset = end;
+    }
+    return offset;
+  }
+
+  /**
+   * @param {import("../../geom/SimpleGeometry.js").default} geometry Geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   * @param {Function} renderer Renderer.
+   * @param {Function} hitDetectionRenderer Renderer.
+   */
+  drawCustom(geometry, feature, renderer, hitDetectionRenderer) {
+    this.beginGeometry(geometry, feature);
+
+    const type = geometry.getType();
+    const stride = geometry.getStride();
+    const builderBegin = this.coordinates.length;
+
+    let flatCoordinates, builderEnd, builderEnds, builderEndss;
+    let offset;
+
+    switch (type) {
+      case 'MultiPolygon':
+        flatCoordinates =
+          /** @type {import("../../geom/MultiPolygon.js").default} */ (
+            geometry
+          ).getOrientedFlatCoordinates();
+        builderEndss = [];
+        const endss =
+          /** @type {import("../../geom/MultiPolygon.js").default} */ (
+            geometry
+          ).getEndss();
+        offset = 0;
+        for (let i = 0, ii = endss.length; i < ii; ++i) {
+          const myEnds = [];
+          offset = this.drawCustomCoordinates_(
+            flatCoordinates,
+            offset,
+            endss[i],
+            stride,
+            myEnds
+          );
+          builderEndss.push(myEnds);
+        }
+        this.instructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEndss,
+          geometry,
+          renderer,
+          _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateMultiCoordinatesArray,
+        ]);
+        this.hitDetectionInstructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEndss,
+          geometry,
+          hitDetectionRenderer || renderer,
+          _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateMultiCoordinatesArray,
+        ]);
+        break;
+      case 'Polygon':
+      case 'MultiLineString':
+        builderEnds = [];
+        flatCoordinates =
+          type == 'Polygon'
+            ? /** @type {import("../../geom/Polygon.js").default} */ (
+                geometry
+              ).getOrientedFlatCoordinates()
+            : geometry.getFlatCoordinates();
+        offset = this.drawCustomCoordinates_(
+          flatCoordinates,
+          0,
+          /** @type {import("../../geom/Polygon.js").default|import("../../geom/MultiLineString.js").default} */ (
+            geometry
+          ).getEnds(),
+          stride,
+          builderEnds
+        );
+        this.instructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEnds,
+          geometry,
+          renderer,
+          _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinatesArray,
+        ]);
+        this.hitDetectionInstructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEnds,
+          geometry,
+          hitDetectionRenderer || renderer,
+          _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinatesArray,
+        ]);
+        break;
+      case 'LineString':
+      case 'Circle':
+        flatCoordinates = geometry.getFlatCoordinates();
+        builderEnd = this.appendFlatLineCoordinates(
+          flatCoordinates,
+          0,
+          flatCoordinates.length,
+          stride,
+          false,
+          false
+        );
+        this.instructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEnd,
+          geometry,
+          renderer,
+          _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinates,
+        ]);
+        this.hitDetectionInstructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEnd,
+          geometry,
+          hitDetectionRenderer || renderer,
+          _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinates,
+        ]);
+        break;
+      case 'MultiPoint':
+        flatCoordinates = geometry.getFlatCoordinates();
+        builderEnd = this.appendFlatPointCoordinates(flatCoordinates, stride);
+
+        if (builderEnd > builderBegin) {
+          this.instructions.push([
+            _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+            builderBegin,
+            builderEnd,
+            geometry,
+            renderer,
+            _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinates,
+          ]);
+          this.hitDetectionInstructions.push([
+            _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+            builderBegin,
+            builderEnd,
+            geometry,
+            hitDetectionRenderer || renderer,
+            _geom_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinates,
+          ]);
+        }
+        break;
+      case 'Point':
+        flatCoordinates = geometry.getFlatCoordinates();
+        this.coordinates.push(flatCoordinates[0], flatCoordinates[1]);
+        builderEnd = this.coordinates.length;
+
+        this.instructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEnd,
+          geometry,
+          renderer,
+        ]);
+        this.hitDetectionInstructions.push([
+          _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].CUSTOM,
+          builderBegin,
+          builderEnd,
+          geometry,
+          hitDetectionRenderer || renderer,
+        ]);
+        break;
+      default:
+    }
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @protected
+   * @param {import("../../geom/Geometry").default|import("../Feature.js").default} geometry The geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  beginGeometry(geometry, feature) {
+    this.beginGeometryInstruction1_ = [
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].BEGIN_GEOMETRY,
+      feature,
+      0,
+      geometry,
+    ];
+    this.instructions.push(this.beginGeometryInstruction1_);
+    this.beginGeometryInstruction2_ = [
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].BEGIN_GEOMETRY,
+      feature,
+      0,
+      geometry,
+    ];
+    this.hitDetectionInstructions.push(this.beginGeometryInstruction2_);
+  }
+
+  /**
+   * @return {import("../canvas.js").SerializableInstructions} the serializable instructions.
+   */
+  finish() {
+    return {
+      instructions: this.instructions,
+      hitDetectionInstructions: this.hitDetectionInstructions,
+      coordinates: this.coordinates,
+    };
+  }
+
+  /**
+   * Reverse the hit detection instructions.
+   */
+  reverseHitDetectionInstructions() {
+    const hitDetectionInstructions = this.hitDetectionInstructions;
+    // step 1 - reverse array
+    hitDetectionInstructions.reverse();
+    // step 2 - reverse instructions within geometry blocks
+    let i;
+    const n = hitDetectionInstructions.length;
+    let instruction;
+    let type;
+    let begin = -1;
+    for (i = 0; i < n; ++i) {
+      instruction = hitDetectionInstructions[i];
+      type = /** @type {import("./Instruction.js").default} */ (instruction[0]);
+      if (type == _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].END_GEOMETRY) {
+        begin = i;
+      } else if (type == _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].BEGIN_GEOMETRY) {
+        instruction[2] = i;
+        (0,_array_js__WEBPACK_IMPORTED_MODULE_5__.reverseSubArray)(this.hitDetectionInstructions, begin, i);
+        begin = -1;
+      }
+    }
+  }
+
+  /**
+   * @param {import("../../style/Fill.js").default} fillStyle Fill style.
+   * @param {import("../../style/Stroke.js").default} strokeStyle Stroke style.
+   */
+  setFillStrokeStyle(fillStyle, strokeStyle) {
+    const state = this.state;
+    if (fillStyle) {
+      const fillStyleColor = fillStyle.getColor();
+      state.fillStyle = (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_6__.asColorLike)(
+        fillStyleColor ? fillStyleColor : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultFillStyle
+      );
+    } else {
+      state.fillStyle = undefined;
+    }
+    if (strokeStyle) {
+      const strokeStyleColor = strokeStyle.getColor();
+      state.strokeStyle = (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_6__.asColorLike)(
+        strokeStyleColor ? strokeStyleColor : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultStrokeStyle
+      );
+      const strokeStyleLineCap = strokeStyle.getLineCap();
+      state.lineCap =
+        strokeStyleLineCap !== undefined ? strokeStyleLineCap : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineCap;
+      const strokeStyleLineDash = strokeStyle.getLineDash();
+      state.lineDash = strokeStyleLineDash
+        ? strokeStyleLineDash.slice()
+        : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineDash;
+      const strokeStyleLineDashOffset = strokeStyle.getLineDashOffset();
+      state.lineDashOffset = strokeStyleLineDashOffset
+        ? strokeStyleLineDashOffset
+        : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineDashOffset;
+      const strokeStyleLineJoin = strokeStyle.getLineJoin();
+      state.lineJoin =
+        strokeStyleLineJoin !== undefined
+          ? strokeStyleLineJoin
+          : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineJoin;
+      const strokeStyleWidth = strokeStyle.getWidth();
+      state.lineWidth =
+        strokeStyleWidth !== undefined ? strokeStyleWidth : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineWidth;
+      const strokeStyleMiterLimit = strokeStyle.getMiterLimit();
+      state.miterLimit =
+        strokeStyleMiterLimit !== undefined
+          ? strokeStyleMiterLimit
+          : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultMiterLimit;
+
+      if (state.lineWidth > this.maxLineWidth) {
+        this.maxLineWidth = state.lineWidth;
+        // invalidate the buffered max extent cache
+        this.bufferedMaxExtent_ = null;
+      }
+    } else {
+      state.strokeStyle = undefined;
+      state.lineCap = undefined;
+      state.lineDash = null;
+      state.lineDashOffset = undefined;
+      state.lineJoin = undefined;
+      state.lineWidth = undefined;
+      state.miterLimit = undefined;
+    }
+  }
+
+  /**
+   * @param {import("../canvas.js").FillStrokeState} state State.
+   * @return {Array<*>} Fill instruction.
+   */
+  createFill(state) {
+    const fillStyle = state.fillStyle;
+    /** @type {Array<*>} */
+    const fillInstruction = [_Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].SET_FILL_STYLE, fillStyle];
+    if (typeof fillStyle !== 'string') {
+      // Fill is a pattern or gradient - align it!
+      fillInstruction.push(true);
+    }
+    return fillInstruction;
+  }
+
+  /**
+   * @param {import("../canvas.js").FillStrokeState} state State.
+   */
+  applyStroke(state) {
+    this.instructions.push(this.createStroke(state));
+  }
+
+  /**
+   * @param {import("../canvas.js").FillStrokeState} state State.
+   * @return {Array<*>} Stroke instruction.
+   */
+  createStroke(state) {
+    return [
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].SET_STROKE_STYLE,
+      state.strokeStyle,
+      state.lineWidth * this.pixelRatio,
+      state.lineCap,
+      state.lineJoin,
+      state.miterLimit,
+      this.applyPixelRatio(state.lineDash),
+      state.lineDashOffset * this.pixelRatio,
+    ];
+  }
+
+  /**
+   * @param {import("../canvas.js").FillStrokeState} state State.
+   * @param {function(this:CanvasBuilder, import("../canvas.js").FillStrokeState):Array<*>} createFill Create fill.
+   */
+  updateFillStyle(state, createFill) {
+    const fillStyle = state.fillStyle;
+    if (typeof fillStyle !== 'string' || state.currentFillStyle != fillStyle) {
+      if (fillStyle !== undefined) {
+        this.instructions.push(createFill.call(this, state));
+      }
+      state.currentFillStyle = fillStyle;
+    }
+  }
+
+  /**
+   * @param {import("../canvas.js").FillStrokeState} state State.
+   * @param {function(this:CanvasBuilder, import("../canvas.js").FillStrokeState): void} applyStroke Apply stroke.
+   */
+  updateStrokeStyle(state, applyStroke) {
+    const strokeStyle = state.strokeStyle;
+    const lineCap = state.lineCap;
+    const lineDash = state.lineDash;
+    const lineDashOffset = state.lineDashOffset;
+    const lineJoin = state.lineJoin;
+    const lineWidth = state.lineWidth;
+    const miterLimit = state.miterLimit;
+    if (
+      state.currentStrokeStyle != strokeStyle ||
+      state.currentLineCap != lineCap ||
+      (lineDash != state.currentLineDash &&
+        !(0,_array_js__WEBPACK_IMPORTED_MODULE_5__.equals)(state.currentLineDash, lineDash)) ||
+      state.currentLineDashOffset != lineDashOffset ||
+      state.currentLineJoin != lineJoin ||
+      state.currentLineWidth != lineWidth ||
+      state.currentMiterLimit != miterLimit
+    ) {
+      if (strokeStyle !== undefined) {
+        applyStroke.call(this, state);
+      }
+      state.currentStrokeStyle = strokeStyle;
+      state.currentLineCap = lineCap;
+      state.currentLineDash = lineDash;
+      state.currentLineDashOffset = lineDashOffset;
+      state.currentLineJoin = lineJoin;
+      state.currentLineWidth = lineWidth;
+      state.currentMiterLimit = miterLimit;
+    }
+  }
+
+  /**
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  endGeometry(feature) {
+    this.beginGeometryInstruction1_[2] = this.instructions.length;
+    this.beginGeometryInstruction1_ = null;
+    this.beginGeometryInstruction2_[2] = this.hitDetectionInstructions.length;
+    this.beginGeometryInstruction2_ = null;
+    const endGeometryInstruction = [_Instruction_js__WEBPACK_IMPORTED_MODULE_3__["default"].END_GEOMETRY, feature];
+    this.instructions.push(endGeometryInstruction);
+    this.hitDetectionInstructions.push(endGeometryInstruction);
+  }
+
+  /**
+   * Get the buffered rendering extent.  Rendering will be clipped to the extent
+   * provided to the constructor.  To account for symbolizers that may intersect
+   * this extent, we calculate a buffered extent (e.g. based on stroke width).
+   * @return {import("../../extent.js").Extent} The buffered rendering extent.
+   * @protected
+   */
+  getBufferedMaxExtent() {
+    if (!this.bufferedMaxExtent_) {
+      this.bufferedMaxExtent_ = (0,_extent_js__WEBPACK_IMPORTED_MODULE_1__.clone)(this.maxExtent);
+      if (this.maxLineWidth > 0) {
+        const width = (this.resolution * (this.maxLineWidth + 1)) / 2;
+        (0,_extent_js__WEBPACK_IMPORTED_MODULE_1__.buffer)(this.bufferedMaxExtent_, width, this.bufferedMaxExtent_);
+      }
+    }
+    return this.bufferedMaxExtent_;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasBuilder);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/BuilderGroup.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/ol/render/canvas/BuilderGroup.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Builder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Builder.js */ "./node_modules/ol/render/canvas/Builder.js");
+/* harmony import */ var _ImageBuilder_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ImageBuilder.js */ "./node_modules/ol/render/canvas/ImageBuilder.js");
+/* harmony import */ var _LineStringBuilder_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LineStringBuilder.js */ "./node_modules/ol/render/canvas/LineStringBuilder.js");
+/* harmony import */ var _PolygonBuilder_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PolygonBuilder.js */ "./node_modules/ol/render/canvas/PolygonBuilder.js");
+/* harmony import */ var _TextBuilder_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TextBuilder.js */ "./node_modules/ol/render/canvas/TextBuilder.js");
+/**
+ * @module ol/render/canvas/BuilderGroup
+ */
+
+
+
+
+
+
+
+/**
+ * @type {Object<import("../canvas.js").BuilderType, typeof Builder>}
+ */
+const BATCH_CONSTRUCTORS = {
+  'Circle': _PolygonBuilder_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  'Default': _Builder_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  'Image': _ImageBuilder_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+  'LineString': _LineStringBuilder_js__WEBPACK_IMPORTED_MODULE_3__["default"],
+  'Polygon': _PolygonBuilder_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  'Text': _TextBuilder_js__WEBPACK_IMPORTED_MODULE_4__["default"],
+};
+
+class BuilderGroup {
+  /**
+   * @param {number} tolerance Tolerance.
+   * @param {import("../../extent.js").Extent} maxExtent Max extent.
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   */
+  constructor(tolerance, maxExtent, resolution, pixelRatio) {
+    /**
+     * @private
+     * @type {number}
+     */
+    this.tolerance_ = tolerance;
+
+    /**
+     * @private
+     * @type {import("../../extent.js").Extent}
+     */
+    this.maxExtent_ = maxExtent;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.pixelRatio_ = pixelRatio;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.resolution_ = resolution;
+
+    /**
+     * @private
+     * @type {!Object<string, !Object<import("../canvas.js").BuilderType, Builder>>}
+     */
+    this.buildersByZIndex_ = {};
+  }
+
+  /**
+   * @return {!Object<string, !Object<import("../canvas.js").BuilderType, import("./Builder.js").SerializableInstructions>>} The serializable instructions
+   */
+  finish() {
+    const builderInstructions = {};
+    for (const zKey in this.buildersByZIndex_) {
+      builderInstructions[zKey] = builderInstructions[zKey] || {};
+      const builders = this.buildersByZIndex_[zKey];
+      for (const builderKey in builders) {
+        const builderInstruction = builders[builderKey].finish();
+        builderInstructions[zKey][builderKey] = builderInstruction;
+      }
+    }
+    return builderInstructions;
+  }
+
+  /**
+   * @param {number|undefined} zIndex Z index.
+   * @param {import("../canvas.js").BuilderType} builderType Replay type.
+   * @return {import("../VectorContext.js").default} Replay.
+   */
+  getBuilder(zIndex, builderType) {
+    const zIndexKey = zIndex !== undefined ? zIndex.toString() : '0';
+    let replays = this.buildersByZIndex_[zIndexKey];
+    if (replays === undefined) {
+      replays = {};
+      this.buildersByZIndex_[zIndexKey] = replays;
+    }
+    let replay = replays[builderType];
+    if (replay === undefined) {
+      const Constructor = BATCH_CONSTRUCTORS[builderType];
+      replay = new Constructor(
+        this.tolerance_,
+        this.maxExtent_,
+        this.resolution_,
+        this.pixelRatio_
+      );
+      replays[builderType] = replay;
+    }
+    return replay;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BuilderGroup);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/Executor.js":
+/*!***************************************************!*\
+  !*** ./node_modules/ol/render/canvas/Executor.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Instruction_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Instruction.js */ "./node_modules/ol/render/canvas/Instruction.js");
+/* harmony import */ var _TextBuilder_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TextBuilder.js */ "./node_modules/ol/render/canvas/TextBuilder.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../transform.js */ "./node_modules/ol/transform.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _canvas_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../canvas.js */ "./node_modules/ol/render/canvas.js");
+/* harmony import */ var _geom_flat_textpath_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../geom/flat/textpath.js */ "./node_modules/ol/geom/flat/textpath.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _geom_flat_length_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../geom/flat/length.js */ "./node_modules/ol/geom/flat/length.js");
+/* harmony import */ var _geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../geom/flat/transform.js */ "./node_modules/ol/geom/flat/transform.js");
+/**
+ * @module ol/render/canvas/Executor
+ */
+
+
+
+
+
+
+
+
+
+
+/**
+ * @typedef {Object} BBox
+ * @property {number} minX Minimal x.
+ * @property {number} minY Minimal y.
+ * @property {number} maxX Maximal x.
+ * @property {number} maxY Maximal y
+ * @property {*} value Value.
+ */
+
+/**
+ * @typedef {Object} ImageOrLabelDimensions
+ * @property {number} drawImageX DrawImageX.
+ * @property {number} drawImageY DrawImageY.
+ * @property {number} drawImageW DrawImageW.
+ * @property {number} drawImageH DrawImageH.
+ * @property {number} originX OriginX.
+ * @property {number} originY OriginY.
+ * @property {Array<number>} scale Scale.
+ * @property {BBox} declutterBox DeclutterBox.
+ * @property {import("../../transform.js").Transform} canvasTransform CanvasTransform.
+ */
+
+/**
+ * @typedef {{0: CanvasRenderingContext2D, 1: number, 2: import("../canvas.js").Label|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement, 3: ImageOrLabelDimensions, 4: number, 5: Array<*>, 6: Array<*>}} ReplayImageOrLabelArgs
+ */
+
+/**
+ * @template T
+ * @typedef {function(import("../../Feature.js").FeatureLike, import("../../geom/SimpleGeometry.js").default): T} FeatureCallback
+ */
+
+/**
+ * @type {import("../../extent.js").Extent}
+ */
+const tmpExtent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_0__.createEmpty)();
+
+/** @type {import("../../coordinate.js").Coordinate} */
+const p1 = [];
+/** @type {import("../../coordinate.js").Coordinate} */
+const p2 = [];
+/** @type {import("../../coordinate.js").Coordinate} */
+const p3 = [];
+/** @type {import("../../coordinate.js").Coordinate} */
+const p4 = [];
+
+/**
+ * @param {ReplayImageOrLabelArgs} replayImageOrLabelArgs Arguments to replayImageOrLabel
+ * @return {BBox} Declutter bbox.
+ */
+function getDeclutterBox(replayImageOrLabelArgs) {
+  return replayImageOrLabelArgs[3].declutterBox;
+}
+
+const rtlRegEx = new RegExp(
+  /* eslint-disable prettier/prettier */
+  '[' +
+    String.fromCharCode(0x00591) + '-' + String.fromCharCode(0x008ff) +
+    String.fromCharCode(0x0fb1d) + '-' + String.fromCharCode(0x0fdff) +
+    String.fromCharCode(0x0fe70) + '-' + String.fromCharCode(0x0fefc) +
+    String.fromCharCode(0x10800) + '-' + String.fromCharCode(0x10fff) +
+    String.fromCharCode(0x1e800) + '-' + String.fromCharCode(0x1efff) +
+  ']'
+  /* eslint-enable prettier/prettier */
+);
+
+/**
+ * @param {string} text Text.
+ * @param {CanvasTextAlign} align Alignment.
+ * @return {number} Text alignment.
+ */
+function horizontalTextAlign(text, align) {
+  if ((align === 'start' || align === 'end') && !rtlRegEx.test(text)) {
+    align = align === 'start' ? 'left' : 'right';
+  }
+  return _TextBuilder_js__WEBPACK_IMPORTED_MODULE_1__.TEXT_ALIGN[align];
+}
+
+/**
+ * @param {Array<string>} acc Accumulator.
+ * @param {string} line Line of text.
+ * @param {number} i Index
+ * @return {Array<string>} Accumulator.
+ */
+function createTextChunks(acc, line, i) {
+  if (i > 0) {
+    acc.push('\n', '');
+  }
+  acc.push(line, '');
+  return acc;
+}
+
+class Executor {
+  /**
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   * @param {boolean} overlaps The replay can have overlapping geometries.
+   * @param {import("../canvas.js").SerializableInstructions} instructions The serializable instructions
+   */
+  constructor(resolution, pixelRatio, overlaps, instructions) {
+    /**
+     * @protected
+     * @type {boolean}
+     */
+    this.overlaps = overlaps;
+
+    /**
+     * @protected
+     * @type {number}
+     */
+    this.pixelRatio = pixelRatio;
+
+    /**
+     * @protected
+     * @const
+     * @type {number}
+     */
+    this.resolution = resolution;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.alignFill_;
+
+    /**
+     * @protected
+     * @type {Array<*>}
+     */
+    this.instructions = instructions.instructions;
+
+    /**
+     * @protected
+     * @type {Array<number>}
+     */
+    this.coordinates = instructions.coordinates;
+
+    /**
+     * @private
+     * @type {!Object<number,import("../../coordinate.js").Coordinate|Array<import("../../coordinate.js").Coordinate>|Array<Array<import("../../coordinate.js").Coordinate>>>}
+     */
+    this.coordinateCache_ = {};
+
+    /**
+     * @private
+     * @type {!import("../../transform.js").Transform}
+     */
+    this.renderedTransform_ = (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.create)();
+
+    /**
+     * @protected
+     * @type {Array<*>}
+     */
+    this.hitDetectionInstructions = instructions.hitDetectionInstructions;
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.pixelCoordinates_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.viewRotation_ = 0;
+
+    /**
+     * @type {!Object<string, import("../canvas.js").FillState>}
+     */
+    this.fillStates = instructions.fillStates || {};
+
+    /**
+     * @type {!Object<string, import("../canvas.js").StrokeState>}
+     */
+    this.strokeStates = instructions.strokeStates || {};
+
+    /**
+     * @type {!Object<string, import("../canvas.js").TextState>}
+     */
+    this.textStates = instructions.textStates || {};
+
+    /**
+     * @private
+     * @type {Object<string, Object<string, number>>}
+     */
+    this.widths_ = {};
+
+    /**
+     * @private
+     * @type {Object<string, import("../canvas.js").Label>}
+     */
+    this.labels_ = {};
+  }
+
+  /**
+   * @param {string|Array<string>} text Text.
+   * @param {string} textKey Text style key.
+   * @param {string} fillKey Fill style key.
+   * @param {string} strokeKey Stroke style key.
+   * @return {import("../canvas.js").Label} Label.
+   */
+  createLabel(text, textKey, fillKey, strokeKey) {
+    const key = text + textKey + fillKey + strokeKey;
+    if (this.labels_[key]) {
+      return this.labels_[key];
+    }
+    const strokeState = strokeKey ? this.strokeStates[strokeKey] : null;
+    const fillState = fillKey ? this.fillStates[fillKey] : null;
+    const textState = this.textStates[textKey];
+    const pixelRatio = this.pixelRatio;
+    const scale = [
+      textState.scale[0] * pixelRatio,
+      textState.scale[1] * pixelRatio,
+    ];
+    const textIsArray = Array.isArray(text);
+    const align = textState.justify
+      ? _TextBuilder_js__WEBPACK_IMPORTED_MODULE_1__.TEXT_ALIGN[textState.justify]
+      : horizontalTextAlign(
+          Array.isArray(text) ? text[0] : text,
+          textState.textAlign || _canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultTextAlign
+        );
+    const strokeWidth =
+      strokeKey && strokeState.lineWidth ? strokeState.lineWidth : 0;
+
+    const chunks = textIsArray
+      ? text
+      : text.split('\n').reduce(createTextChunks, []);
+
+    const {width, height, widths, heights, lineWidths} = (0,_canvas_js__WEBPACK_IMPORTED_MODULE_3__.getTextDimensions)(
+      textState,
+      chunks
+    );
+    const renderWidth = width + strokeWidth;
+    const contextInstructions = [];
+    // make canvas 2 pixels wider to account for italic text width measurement errors
+    const w = (renderWidth + 2) * scale[0];
+    const h = (height + strokeWidth) * scale[1];
+    /** @type {import("../canvas.js").Label} */
+    const label = {
+      width: w < 0 ? Math.floor(w) : Math.ceil(w),
+      height: h < 0 ? Math.floor(h) : Math.ceil(h),
+      contextInstructions: contextInstructions,
+    };
+    if (scale[0] != 1 || scale[1] != 1) {
+      contextInstructions.push('scale', scale);
+    }
+    if (strokeKey) {
+      contextInstructions.push('strokeStyle', strokeState.strokeStyle);
+      contextInstructions.push('lineWidth', strokeWidth);
+      contextInstructions.push('lineCap', strokeState.lineCap);
+      contextInstructions.push('lineJoin', strokeState.lineJoin);
+      contextInstructions.push('miterLimit', strokeState.miterLimit);
+      contextInstructions.push('setLineDash', [strokeState.lineDash]);
+      contextInstructions.push('lineDashOffset', strokeState.lineDashOffset);
+    }
+    if (fillKey) {
+      contextInstructions.push('fillStyle', fillState.fillStyle);
+    }
+    contextInstructions.push('textBaseline', 'middle');
+    contextInstructions.push('textAlign', 'center');
+    const leftRight = 0.5 - align;
+    let x = align * renderWidth + leftRight * strokeWidth;
+    const strokeInstructions = [];
+    const fillInstructions = [];
+    let lineHeight = 0;
+    let lineOffset = 0;
+    let widthHeightIndex = 0;
+    let lineWidthIndex = 0;
+    let previousFont;
+    for (let i = 0, ii = chunks.length; i < ii; i += 2) {
+      const text = chunks[i];
+      if (text === '\n') {
+        lineOffset += lineHeight;
+        lineHeight = 0;
+        x = align * renderWidth + leftRight * strokeWidth;
+        ++lineWidthIndex;
+        continue;
+      }
+      const font = chunks[i + 1] || textState.font;
+      if (font !== previousFont) {
+        if (strokeKey) {
+          strokeInstructions.push('font', font);
+        }
+        if (fillKey) {
+          fillInstructions.push('font', font);
+        }
+        previousFont = font;
+      }
+      lineHeight = Math.max(lineHeight, heights[widthHeightIndex]);
+      const fillStrokeArgs = [
+        text,
+        x +
+          leftRight * widths[widthHeightIndex] +
+          align * (widths[widthHeightIndex] - lineWidths[lineWidthIndex]),
+        0.5 * (strokeWidth + lineHeight) + lineOffset,
+      ];
+      x += widths[widthHeightIndex];
+      if (strokeKey) {
+        strokeInstructions.push('strokeText', fillStrokeArgs);
+      }
+      if (fillKey) {
+        fillInstructions.push('fillText', fillStrokeArgs);
+      }
+      ++widthHeightIndex;
+    }
+    Array.prototype.push.apply(contextInstructions, strokeInstructions);
+    Array.prototype.push.apply(contextInstructions, fillInstructions);
+    this.labels_[key] = label;
+    return label;
+  }
+
+  /**
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {import("../../coordinate.js").Coordinate} p1 1st point of the background box.
+   * @param {import("../../coordinate.js").Coordinate} p2 2nd point of the background box.
+   * @param {import("../../coordinate.js").Coordinate} p3 3rd point of the background box.
+   * @param {import("../../coordinate.js").Coordinate} p4 4th point of the background box.
+   * @param {Array<*>} fillInstruction Fill instruction.
+   * @param {Array<*>} strokeInstruction Stroke instruction.
+   */
+  replayTextBackground_(
+    context,
+    p1,
+    p2,
+    p3,
+    p4,
+    fillInstruction,
+    strokeInstruction
+  ) {
+    context.beginPath();
+    context.moveTo.apply(context, p1);
+    context.lineTo.apply(context, p2);
+    context.lineTo.apply(context, p3);
+    context.lineTo.apply(context, p4);
+    context.lineTo.apply(context, p1);
+    if (fillInstruction) {
+      this.alignFill_ = /** @type {boolean} */ (fillInstruction[2]);
+      this.fill_(context);
+    }
+    if (strokeInstruction) {
+      this.setStrokeStyle_(
+        context,
+        /** @type {Array<*>} */ (strokeInstruction)
+      );
+      context.stroke();
+    }
+  }
+
+  /**
+   * @private
+   * @param {number} sheetWidth Width of the sprite sheet.
+   * @param {number} sheetHeight Height of the sprite sheet.
+   * @param {number} centerX X.
+   * @param {number} centerY Y.
+   * @param {number} width Width.
+   * @param {number} height Height.
+   * @param {number} anchorX Anchor X.
+   * @param {number} anchorY Anchor Y.
+   * @param {number} originX Origin X.
+   * @param {number} originY Origin Y.
+   * @param {number} rotation Rotation.
+   * @param {import("../../size.js").Size} scale Scale.
+   * @param {boolean} snapToPixel Snap to pixel.
+   * @param {Array<number>} padding Padding.
+   * @param {boolean} fillStroke Background fill or stroke.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   * @return {ImageOrLabelDimensions} Dimensions for positioning and decluttering the image or label.
+   */
+  calculateImageOrLabelDimensions_(
+    sheetWidth,
+    sheetHeight,
+    centerX,
+    centerY,
+    width,
+    height,
+    anchorX,
+    anchorY,
+    originX,
+    originY,
+    rotation,
+    scale,
+    snapToPixel,
+    padding,
+    fillStroke,
+    feature
+  ) {
+    anchorX *= scale[0];
+    anchorY *= scale[1];
+    let x = centerX - anchorX;
+    let y = centerY - anchorY;
+
+    const w = width + originX > sheetWidth ? sheetWidth - originX : width;
+    const h = height + originY > sheetHeight ? sheetHeight - originY : height;
+    const boxW = padding[3] + w * scale[0] + padding[1];
+    const boxH = padding[0] + h * scale[1] + padding[2];
+    const boxX = x - padding[3];
+    const boxY = y - padding[0];
+
+    if (fillStroke || rotation !== 0) {
+      p1[0] = boxX;
+      p4[0] = boxX;
+      p1[1] = boxY;
+      p2[1] = boxY;
+      p2[0] = boxX + boxW;
+      p3[0] = p2[0];
+      p3[1] = boxY + boxH;
+      p4[1] = p3[1];
+    }
+
+    let transform;
+    if (rotation !== 0) {
+      transform = (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.compose)(
+        (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.create)(),
+        centerX,
+        centerY,
+        1,
+        1,
+        rotation,
+        -centerX,
+        -centerY
+      );
+
+      (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.apply)(transform, p1);
+      (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.apply)(transform, p2);
+      (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.apply)(transform, p3);
+      (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.apply)(transform, p4);
+      (0,_extent_js__WEBPACK_IMPORTED_MODULE_0__.createOrUpdate)(
+        Math.min(p1[0], p2[0], p3[0], p4[0]),
+        Math.min(p1[1], p2[1], p3[1], p4[1]),
+        Math.max(p1[0], p2[0], p3[0], p4[0]),
+        Math.max(p1[1], p2[1], p3[1], p4[1]),
+        tmpExtent
+      );
+    } else {
+      (0,_extent_js__WEBPACK_IMPORTED_MODULE_0__.createOrUpdate)(
+        Math.min(boxX, boxX + boxW),
+        Math.min(boxY, boxY + boxH),
+        Math.max(boxX, boxX + boxW),
+        Math.max(boxY, boxY + boxH),
+        tmpExtent
+      );
+    }
+    if (snapToPixel) {
+      x = Math.round(x);
+      y = Math.round(y);
+    }
+    return {
+      drawImageX: x,
+      drawImageY: y,
+      drawImageW: w,
+      drawImageH: h,
+      originX: originX,
+      originY: originY,
+      declutterBox: {
+        minX: tmpExtent[0],
+        minY: tmpExtent[1],
+        maxX: tmpExtent[2],
+        maxY: tmpExtent[3],
+        value: feature,
+      },
+      canvasTransform: transform,
+      scale: scale,
+    };
+  }
+
+  /**
+   * @private
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {number} contextScale Scale of the context.
+   * @param {import("../canvas.js").Label|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement} imageOrLabel Image.
+   * @param {ImageOrLabelDimensions} dimensions Dimensions.
+   * @param {number} opacity Opacity.
+   * @param {Array<*>} fillInstruction Fill instruction.
+   * @param {Array<*>} strokeInstruction Stroke instruction.
+   * @return {boolean} The image or label was rendered.
+   */
+  replayImageOrLabel_(
+    context,
+    contextScale,
+    imageOrLabel,
+    dimensions,
+    opacity,
+    fillInstruction,
+    strokeInstruction
+  ) {
+    const fillStroke = !!(fillInstruction || strokeInstruction);
+
+    const box = dimensions.declutterBox;
+    const canvas = context.canvas;
+    const strokePadding = strokeInstruction
+      ? (strokeInstruction[2] * dimensions.scale[0]) / 2
+      : 0;
+    const intersects =
+      box.minX - strokePadding <= canvas.width / contextScale &&
+      box.maxX + strokePadding >= 0 &&
+      box.minY - strokePadding <= canvas.height / contextScale &&
+      box.maxY + strokePadding >= 0;
+
+    if (intersects) {
+      if (fillStroke) {
+        this.replayTextBackground_(
+          context,
+          p1,
+          p2,
+          p3,
+          p4,
+          /** @type {Array<*>} */ (fillInstruction),
+          /** @type {Array<*>} */ (strokeInstruction)
+        );
+      }
+      (0,_canvas_js__WEBPACK_IMPORTED_MODULE_3__.drawImageOrLabel)(
+        context,
+        dimensions.canvasTransform,
+        opacity,
+        imageOrLabel,
+        dimensions.originX,
+        dimensions.originY,
+        dimensions.drawImageW,
+        dimensions.drawImageH,
+        dimensions.drawImageX,
+        dimensions.drawImageY,
+        dimensions.scale
+      );
+    }
+    return true;
+  }
+
+  /**
+   * @private
+   * @param {CanvasRenderingContext2D} context Context.
+   */
+  fill_(context) {
+    if (this.alignFill_) {
+      const origin = (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.apply)(this.renderedTransform_, [0, 0]);
+      const repeatSize = 512 * this.pixelRatio;
+      context.save();
+      context.translate(origin[0] % repeatSize, origin[1] % repeatSize);
+      context.rotate(this.viewRotation_);
+    }
+    context.fill();
+    if (this.alignFill_) {
+      context.restore();
+    }
+  }
+
+  /**
+   * @private
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {Array<*>} instruction Instruction.
+   */
+  setStrokeStyle_(context, instruction) {
+    context['strokeStyle'] =
+      /** @type {import("../../colorlike.js").ColorLike} */ (instruction[1]);
+    context.lineWidth = /** @type {number} */ (instruction[2]);
+    context.lineCap = /** @type {CanvasLineCap} */ (instruction[3]);
+    context.lineJoin = /** @type {CanvasLineJoin} */ (instruction[4]);
+    context.miterLimit = /** @type {number} */ (instruction[5]);
+    context.lineDashOffset = /** @type {number} */ (instruction[7]);
+    context.setLineDash(/** @type {Array<number>} */ (instruction[6]));
+  }
+
+  /**
+   * @private
+   * @param {string|Array<string>} text The text to draw.
+   * @param {string} textKey The key of the text state.
+   * @param {string} strokeKey The key for the stroke state.
+   * @param {string} fillKey The key for the fill state.
+   * @return {{label: import("../canvas.js").Label, anchorX: number, anchorY: number}} The text image and its anchor.
+   */
+  drawLabelWithPointPlacement_(text, textKey, strokeKey, fillKey) {
+    const textState = this.textStates[textKey];
+
+    const label = this.createLabel(text, textKey, fillKey, strokeKey);
+
+    const strokeState = this.strokeStates[strokeKey];
+    const pixelRatio = this.pixelRatio;
+    const align = horizontalTextAlign(
+      Array.isArray(text) ? text[0] : text,
+      textState.textAlign || _canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultTextAlign
+    );
+    const baseline = _TextBuilder_js__WEBPACK_IMPORTED_MODULE_1__.TEXT_ALIGN[textState.textBaseline || _canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultTextBaseline];
+    const strokeWidth =
+      strokeState && strokeState.lineWidth ? strokeState.lineWidth : 0;
+
+    // Remove the 2 pixels we added in createLabel() for the anchor
+    const width = label.width / pixelRatio - 2 * textState.scale[0];
+    const anchorX = align * width + 2 * (0.5 - align) * strokeWidth;
+    const anchorY =
+      (baseline * label.height) / pixelRatio +
+      2 * (0.5 - baseline) * strokeWidth;
+
+    return {
+      label: label,
+      anchorX: anchorX,
+      anchorY: anchorY,
+    };
+  }
+
+  /**
+   * @private
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {number} contextScale Scale of the context.
+   * @param {import("../../transform.js").Transform} transform Transform.
+   * @param {Array<*>} instructions Instructions array.
+   * @param {boolean} snapToPixel Snap point symbols and text to integer pixels.
+   * @param {FeatureCallback<T>} [featureCallback] Feature callback.
+   * @param {import("../../extent.js").Extent} [hitExtent] Only check
+   *     features that intersect this extent.
+   * @param {import("rbush").default} [declutterTree] Declutter tree.
+   * @return {T|undefined} Callback result.
+   * @template T
+   */
+  execute_(
+    context,
+    contextScale,
+    transform,
+    instructions,
+    snapToPixel,
+    featureCallback,
+    hitExtent,
+    declutterTree
+  ) {
+    /** @type {Array<number>} */
+    let pixelCoordinates;
+    if (this.pixelCoordinates_ && (0,_array_js__WEBPACK_IMPORTED_MODULE_4__.equals)(transform, this.renderedTransform_)) {
+      pixelCoordinates = this.pixelCoordinates_;
+    } else {
+      if (!this.pixelCoordinates_) {
+        this.pixelCoordinates_ = [];
+      }
+      pixelCoordinates = (0,_geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_5__.transform2D)(
+        this.coordinates,
+        0,
+        this.coordinates.length,
+        2,
+        transform,
+        this.pixelCoordinates_
+      );
+      (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.setFromArray)(this.renderedTransform_, transform);
+    }
+    let i = 0; // instruction index
+    const ii = instructions.length; // end of instructions
+    let d = 0; // data index
+    let dd; // end of per-instruction data
+    let anchorX,
+      anchorY,
+      prevX,
+      prevY,
+      roundX,
+      roundY,
+      image,
+      text,
+      textKey,
+      strokeKey,
+      fillKey;
+    let pendingFill = 0;
+    let pendingStroke = 0;
+    let lastFillInstruction = null;
+    let lastStrokeInstruction = null;
+    const coordinateCache = this.coordinateCache_;
+    const viewRotation = this.viewRotation_;
+    const viewRotationFromTransform =
+      Math.round(Math.atan2(-transform[1], transform[0]) * 1e12) / 1e12;
+
+    const state = /** @type {import("../../render.js").State} */ ({
+      context: context,
+      pixelRatio: this.pixelRatio,
+      resolution: this.resolution,
+      rotation: viewRotation,
+    });
+
+    // When the batch size gets too big, performance decreases. 200 is a good
+    // balance between batch size and number of fill/stroke instructions.
+    const batchSize =
+      this.instructions != instructions || this.overlaps ? 0 : 200;
+    let /** @type {import("../../Feature.js").FeatureLike} */ feature;
+    let x, y, currentGeometry;
+    while (i < ii) {
+      const instruction = instructions[i];
+      const type = /** @type {import("./Instruction.js").default} */ (
+        instruction[0]
+      );
+      switch (type) {
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].BEGIN_GEOMETRY:
+          feature = /** @type {import("../../Feature.js").FeatureLike} */ (
+            instruction[1]
+          );
+          currentGeometry = instruction[3];
+          if (!feature.getGeometry()) {
+            i = /** @type {number} */ (instruction[2]);
+          } else if (
+            hitExtent !== undefined &&
+            !(0,_extent_js__WEBPACK_IMPORTED_MODULE_0__.intersects)(hitExtent, currentGeometry.getExtent())
+          ) {
+            i = /** @type {number} */ (instruction[2]) + 1;
+          } else {
+            ++i;
+          }
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].BEGIN_PATH:
+          if (pendingFill > batchSize) {
+            this.fill_(context);
+            pendingFill = 0;
+          }
+          if (pendingStroke > batchSize) {
+            context.stroke();
+            pendingStroke = 0;
+          }
+          if (!pendingFill && !pendingStroke) {
+            context.beginPath();
+            prevX = NaN;
+            prevY = NaN;
+          }
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].CIRCLE:
+          d = /** @type {number} */ (instruction[1]);
+          const x1 = pixelCoordinates[d];
+          const y1 = pixelCoordinates[d + 1];
+          const x2 = pixelCoordinates[d + 2];
+          const y2 = pixelCoordinates[d + 3];
+          const dx = x2 - x1;
+          const dy = y2 - y1;
+          const r = Math.sqrt(dx * dx + dy * dy);
+          context.moveTo(x1 + r, y1);
+          context.arc(x1, y1, r, 0, 2 * Math.PI, true);
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].CLOSE_PATH:
+          context.closePath();
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].CUSTOM:
+          d = /** @type {number} */ (instruction[1]);
+          dd = instruction[2];
+          const geometry =
+            /** @type {import("../../geom/SimpleGeometry.js").default} */ (
+              instruction[3]
+            );
+          const renderer = instruction[4];
+          const fn = instruction.length == 6 ? instruction[5] : undefined;
+          state.geometry = geometry;
+          state.feature = feature;
+          if (!(i in coordinateCache)) {
+            coordinateCache[i] = [];
+          }
+          const coords = coordinateCache[i];
+          if (fn) {
+            fn(pixelCoordinates, d, dd, 2, coords);
+          } else {
+            coords[0] = pixelCoordinates[d];
+            coords[1] = pixelCoordinates[d + 1];
+            coords.length = 2;
+          }
+          renderer(coords, state);
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].DRAW_IMAGE:
+          d = /** @type {number} */ (instruction[1]);
+          dd = /** @type {number} */ (instruction[2]);
+          image =
+            /** @type {HTMLCanvasElement|HTMLVideoElement|HTMLImageElement} */ (
+              instruction[3]
+            );
+
+          // Remaining arguments in DRAW_IMAGE are in alphabetical order
+          anchorX = /** @type {number} */ (instruction[4]);
+          anchorY = /** @type {number} */ (instruction[5]);
+          let height = /** @type {number} */ (instruction[6]);
+          const opacity = /** @type {number} */ (instruction[7]);
+          const originX = /** @type {number} */ (instruction[8]);
+          const originY = /** @type {number} */ (instruction[9]);
+          const rotateWithView = /** @type {boolean} */ (instruction[10]);
+          let rotation = /** @type {number} */ (instruction[11]);
+          const scale = /** @type {import("../../size.js").Size} */ (
+            instruction[12]
+          );
+          let width = /** @type {number} */ (instruction[13]);
+          const declutterMode =
+            /** @type {"declutter"|"obstacle"|"none"|undefined} */ (
+              instruction[14]
+            );
+          const declutterImageWithText =
+            /** @type {import("../canvas.js").DeclutterImageWithText} */ (
+              instruction[15]
+            );
+
+          if (!image && instruction.length >= 20) {
+            // create label images
+            text = /** @type {string} */ (instruction[19]);
+            textKey = /** @type {string} */ (instruction[20]);
+            strokeKey = /** @type {string} */ (instruction[21]);
+            fillKey = /** @type {string} */ (instruction[22]);
+            const labelWithAnchor = this.drawLabelWithPointPlacement_(
+              text,
+              textKey,
+              strokeKey,
+              fillKey
+            );
+            image = labelWithAnchor.label;
+            instruction[3] = image;
+            const textOffsetX = /** @type {number} */ (instruction[23]);
+            anchorX = (labelWithAnchor.anchorX - textOffsetX) * this.pixelRatio;
+            instruction[4] = anchorX;
+            const textOffsetY = /** @type {number} */ (instruction[24]);
+            anchorY = (labelWithAnchor.anchorY - textOffsetY) * this.pixelRatio;
+            instruction[5] = anchorY;
+            height = image.height;
+            instruction[6] = height;
+            width = image.width;
+            instruction[13] = width;
+          }
+
+          let geometryWidths;
+          if (instruction.length > 25) {
+            geometryWidths = /** @type {number} */ (instruction[25]);
+          }
+
+          let padding, backgroundFill, backgroundStroke;
+          if (instruction.length > 17) {
+            padding = /** @type {Array<number>} */ (instruction[16]);
+            backgroundFill = /** @type {boolean} */ (instruction[17]);
+            backgroundStroke = /** @type {boolean} */ (instruction[18]);
+          } else {
+            padding = _canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultPadding;
+            backgroundFill = false;
+            backgroundStroke = false;
+          }
+
+          if (rotateWithView && viewRotationFromTransform) {
+            // Canvas is expected to be rotated to reverse view rotation.
+            rotation += viewRotation;
+          } else if (!rotateWithView && !viewRotationFromTransform) {
+            // Canvas is not rotated, images need to be rotated back to be north-up.
+            rotation -= viewRotation;
+          }
+          let widthIndex = 0;
+          for (; d < dd; d += 2) {
+            if (
+              geometryWidths &&
+              geometryWidths[widthIndex++] < width / this.pixelRatio
+            ) {
+              continue;
+            }
+            const dimensions = this.calculateImageOrLabelDimensions_(
+              image.width,
+              image.height,
+              pixelCoordinates[d],
+              pixelCoordinates[d + 1],
+              width,
+              height,
+              anchorX,
+              anchorY,
+              originX,
+              originY,
+              rotation,
+              scale,
+              snapToPixel,
+              padding,
+              backgroundFill || backgroundStroke,
+              feature
+            );
+            /** @type {ReplayImageOrLabelArgs} */
+            const args = [
+              context,
+              contextScale,
+              image,
+              dimensions,
+              opacity,
+              backgroundFill
+                ? /** @type {Array<*>} */ (lastFillInstruction)
+                : null,
+              backgroundStroke
+                ? /** @type {Array<*>} */ (lastStrokeInstruction)
+                : null,
+            ];
+            if (declutterTree) {
+              if (declutterMode === 'none') {
+                // not rendered in declutter group
+                continue;
+              } else if (declutterMode === 'obstacle') {
+                // will always be drawn, thus no collision detection, but insert as obstacle
+                declutterTree.insert(dimensions.declutterBox);
+                continue;
+              } else {
+                let imageArgs;
+                let imageDeclutterBox;
+                if (declutterImageWithText) {
+                  const index = dd - d;
+                  if (!declutterImageWithText[index]) {
+                    // We now have the image for an image+text combination.
+                    declutterImageWithText[index] = args;
+                    // Don't render anything for now, wait for the text.
+                    continue;
+                  }
+                  imageArgs = declutterImageWithText[index];
+                  delete declutterImageWithText[index];
+                  imageDeclutterBox = getDeclutterBox(imageArgs);
+                  if (declutterTree.collides(imageDeclutterBox)) {
+                    continue;
+                  }
+                }
+                if (declutterTree.collides(dimensions.declutterBox)) {
+                  continue;
+                }
+                if (imageArgs) {
+                  // We now have image and text for an image+text combination.
+                  declutterTree.insert(imageDeclutterBox);
+                  // Render the image before we render the text.
+                  this.replayImageOrLabel_.apply(this, imageArgs);
+                }
+                declutterTree.insert(dimensions.declutterBox);
+              }
+            }
+            this.replayImageOrLabel_.apply(this, args);
+          }
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].DRAW_CHARS:
+          const begin = /** @type {number} */ (instruction[1]);
+          const end = /** @type {number} */ (instruction[2]);
+          const baseline = /** @type {number} */ (instruction[3]);
+          const overflow = /** @type {number} */ (instruction[4]);
+          fillKey = /** @type {string} */ (instruction[5]);
+          const maxAngle = /** @type {number} */ (instruction[6]);
+          const measurePixelRatio = /** @type {number} */ (instruction[7]);
+          const offsetY = /** @type {number} */ (instruction[8]);
+          strokeKey = /** @type {string} */ (instruction[9]);
+          const strokeWidth = /** @type {number} */ (instruction[10]);
+          text = /** @type {string} */ (instruction[11]);
+          textKey = /** @type {string} */ (instruction[12]);
+          const pixelRatioScale = [
+            /** @type {number} */ (instruction[13]),
+            /** @type {number} */ (instruction[13]),
+          ];
+
+          const textState = this.textStates[textKey];
+          const font = textState.font;
+          const textScale = [
+            textState.scale[0] * measurePixelRatio,
+            textState.scale[1] * measurePixelRatio,
+          ];
+
+          let cachedWidths;
+          if (font in this.widths_) {
+            cachedWidths = this.widths_[font];
+          } else {
+            cachedWidths = {};
+            this.widths_[font] = cachedWidths;
+          }
+
+          const pathLength = (0,_geom_flat_length_js__WEBPACK_IMPORTED_MODULE_7__.lineStringLength)(pixelCoordinates, begin, end, 2);
+          const textLength =
+            Math.abs(textScale[0]) *
+            (0,_canvas_js__WEBPACK_IMPORTED_MODULE_3__.measureAndCacheTextWidth)(font, text, cachedWidths);
+          if (overflow || textLength <= pathLength) {
+            const textAlign = this.textStates[textKey].textAlign;
+            const startM = (pathLength - textLength) * _TextBuilder_js__WEBPACK_IMPORTED_MODULE_1__.TEXT_ALIGN[textAlign];
+            const parts = (0,_geom_flat_textpath_js__WEBPACK_IMPORTED_MODULE_8__.drawTextOnPath)(
+              pixelCoordinates,
+              begin,
+              end,
+              2,
+              text,
+              startM,
+              maxAngle,
+              Math.abs(textScale[0]),
+              _canvas_js__WEBPACK_IMPORTED_MODULE_3__.measureAndCacheTextWidth,
+              font,
+              cachedWidths,
+              viewRotationFromTransform ? 0 : this.viewRotation_
+            );
+            drawChars: if (parts) {
+              /** @type {Array<ReplayImageOrLabelArgs>} */
+              const replayImageOrLabelArgs = [];
+              let c, cc, chars, label, part;
+              if (strokeKey) {
+                for (c = 0, cc = parts.length; c < cc; ++c) {
+                  part = parts[c]; // x, y, anchorX, rotation, chunk
+                  chars = /** @type {string} */ (part[4]);
+                  label = this.createLabel(chars, textKey, '', strokeKey);
+                  anchorX =
+                    /** @type {number} */ (part[2]) +
+                    (textScale[0] < 0 ? -strokeWidth : strokeWidth);
+                  anchorY =
+                    baseline * label.height +
+                    ((0.5 - baseline) * 2 * strokeWidth * textScale[1]) /
+                      textScale[0] -
+                    offsetY;
+                  const dimensions = this.calculateImageOrLabelDimensions_(
+                    label.width,
+                    label.height,
+                    part[0],
+                    part[1],
+                    label.width,
+                    label.height,
+                    anchorX,
+                    anchorY,
+                    0,
+                    0,
+                    part[3],
+                    pixelRatioScale,
+                    false,
+                    _canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultPadding,
+                    false,
+                    feature
+                  );
+                  if (
+                    declutterTree &&
+                    declutterTree.collides(dimensions.declutterBox)
+                  ) {
+                    break drawChars;
+                  }
+                  replayImageOrLabelArgs.push([
+                    context,
+                    contextScale,
+                    label,
+                    dimensions,
+                    1,
+                    null,
+                    null,
+                  ]);
+                }
+              }
+              if (fillKey) {
+                for (c = 0, cc = parts.length; c < cc; ++c) {
+                  part = parts[c]; // x, y, anchorX, rotation, chunk
+                  chars = /** @type {string} */ (part[4]);
+                  label = this.createLabel(chars, textKey, fillKey, '');
+                  anchorX = /** @type {number} */ (part[2]);
+                  anchorY = baseline * label.height - offsetY;
+                  const dimensions = this.calculateImageOrLabelDimensions_(
+                    label.width,
+                    label.height,
+                    part[0],
+                    part[1],
+                    label.width,
+                    label.height,
+                    anchorX,
+                    anchorY,
+                    0,
+                    0,
+                    part[3],
+                    pixelRatioScale,
+                    false,
+                    _canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultPadding,
+                    false,
+                    feature
+                  );
+                  if (
+                    declutterTree &&
+                    declutterTree.collides(dimensions.declutterBox)
+                  ) {
+                    break drawChars;
+                  }
+                  replayImageOrLabelArgs.push([
+                    context,
+                    contextScale,
+                    label,
+                    dimensions,
+                    1,
+                    null,
+                    null,
+                  ]);
+                }
+              }
+              if (declutterTree) {
+                declutterTree.load(replayImageOrLabelArgs.map(getDeclutterBox));
+              }
+              for (let i = 0, ii = replayImageOrLabelArgs.length; i < ii; ++i) {
+                this.replayImageOrLabel_.apply(this, replayImageOrLabelArgs[i]);
+              }
+            }
+          }
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].END_GEOMETRY:
+          if (featureCallback !== undefined) {
+            feature = /** @type {import("../../Feature.js").FeatureLike} */ (
+              instruction[1]
+            );
+            const result = featureCallback(feature, currentGeometry);
+            if (result) {
+              return result;
+            }
+          }
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].FILL:
+          if (batchSize) {
+            pendingFill++;
+          } else {
+            this.fill_(context);
+          }
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].MOVE_TO_LINE_TO:
+          d = /** @type {number} */ (instruction[1]);
+          dd = /** @type {number} */ (instruction[2]);
+          x = pixelCoordinates[d];
+          y = pixelCoordinates[d + 1];
+          roundX = (x + 0.5) | 0;
+          roundY = (y + 0.5) | 0;
+          if (roundX !== prevX || roundY !== prevY) {
+            context.moveTo(x, y);
+            prevX = roundX;
+            prevY = roundY;
+          }
+          for (d += 2; d < dd; d += 2) {
+            x = pixelCoordinates[d];
+            y = pixelCoordinates[d + 1];
+            roundX = (x + 0.5) | 0;
+            roundY = (y + 0.5) | 0;
+            if (d == dd - 2 || roundX !== prevX || roundY !== prevY) {
+              context.lineTo(x, y);
+              prevX = roundX;
+              prevY = roundY;
+            }
+          }
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].SET_FILL_STYLE:
+          lastFillInstruction = instruction;
+          this.alignFill_ = instruction[2];
+
+          if (pendingFill) {
+            this.fill_(context);
+            pendingFill = 0;
+            if (pendingStroke) {
+              context.stroke();
+              pendingStroke = 0;
+            }
+          }
+
+          context.fillStyle =
+            /** @type {import("../../colorlike.js").ColorLike} */ (
+              instruction[1]
+            );
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].SET_STROKE_STYLE:
+          lastStrokeInstruction = instruction;
+          if (pendingStroke) {
+            context.stroke();
+            pendingStroke = 0;
+          }
+          this.setStrokeStyle_(context, /** @type {Array<*>} */ (instruction));
+          ++i;
+          break;
+        case _Instruction_js__WEBPACK_IMPORTED_MODULE_6__["default"].STROKE:
+          if (batchSize) {
+            pendingStroke++;
+          } else {
+            context.stroke();
+          }
+          ++i;
+          break;
+        default: // consume the instruction anyway, to avoid an infinite loop
+          ++i;
+          break;
+      }
+    }
+    if (pendingFill) {
+      this.fill_(context);
+    }
+    if (pendingStroke) {
+      context.stroke();
+    }
+    return undefined;
+  }
+
+  /**
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {number} contextScale Scale of the context.
+   * @param {import("../../transform.js").Transform} transform Transform.
+   * @param {number} viewRotation View rotation.
+   * @param {boolean} snapToPixel Snap point symbols and text to integer pixels.
+   * @param {import("rbush").default} [declutterTree] Declutter tree.
+   */
+  execute(
+    context,
+    contextScale,
+    transform,
+    viewRotation,
+    snapToPixel,
+    declutterTree
+  ) {
+    this.viewRotation_ = viewRotation;
+    this.execute_(
+      context,
+      contextScale,
+      transform,
+      this.instructions,
+      snapToPixel,
+      undefined,
+      undefined,
+      declutterTree
+    );
+  }
+
+  /**
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {import("../../transform.js").Transform} transform Transform.
+   * @param {number} viewRotation View rotation.
+   * @param {FeatureCallback<T>} [featureCallback] Feature callback.
+   * @param {import("../../extent.js").Extent} [hitExtent] Only check
+   *     features that intersect this extent.
+   * @return {T|undefined} Callback result.
+   * @template T
+   */
+  executeHitDetection(
+    context,
+    transform,
+    viewRotation,
+    featureCallback,
+    hitExtent
+  ) {
+    this.viewRotation_ = viewRotation;
+    return this.execute_(
+      context,
+      1,
+      transform,
+      this.hitDetectionInstructions,
+      true,
+      featureCallback,
+      hitExtent
+    );
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Executor);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/ExecutorGroup.js":
+/*!********************************************************!*\
+  !*** ./node_modules/ol/render/canvas/ExecutorGroup.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "getPixelIndexArray": () => (/* binding */ getPixelIndexArray)
+/* harmony export */ });
+/* harmony import */ var _Executor_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Executor.js */ "./node_modules/ol/render/canvas/Executor.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../transform.js */ "./node_modules/ol/transform.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../obj.js */ "./node_modules/ol/obj.js");
+/* harmony import */ var _geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../geom/flat/transform.js */ "./node_modules/ol/geom/flat/transform.js");
+/**
+ * @module ol/render/canvas/ExecutorGroup
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * @const
+ * @type {Array<import("../canvas.js").BuilderType>}
+ */
+const ORDER = ['Polygon', 'Circle', 'LineString', 'Image', 'Text', 'Default'];
+
+class ExecutorGroup {
+  /**
+   * @param {import("../../extent.js").Extent} maxExtent Max extent for clipping. When a
+   * `maxExtent` was set on the Builder for this executor group, the same `maxExtent`
+   * should be set here, unless the target context does not exceed that extent (which
+   * can be the case when rendering to tiles).
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   * @param {boolean} overlaps The executor group can have overlapping geometries.
+   * @param {!Object<string, !Object<import("../canvas.js").BuilderType, import("../canvas.js").SerializableInstructions>>} allInstructions
+   * The serializable instructions.
+   * @param {number} [renderBuffer] Optional rendering buffer.
+   */
+  constructor(
+    maxExtent,
+    resolution,
+    pixelRatio,
+    overlaps,
+    allInstructions,
+    renderBuffer
+  ) {
+    /**
+     * @private
+     * @type {import("../../extent.js").Extent}
+     */
+    this.maxExtent_ = maxExtent;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.overlaps_ = overlaps;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.pixelRatio_ = pixelRatio;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.resolution_ = resolution;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.renderBuffer_ = renderBuffer;
+
+    /**
+     * @private
+     * @type {!Object<string, !Object<import("../canvas.js").BuilderType, import("./Executor").default>>}
+     */
+    this.executorsByZIndex_ = {};
+
+    /**
+     * @private
+     * @type {CanvasRenderingContext2D}
+     */
+    this.hitDetectionContext_ = null;
+
+    /**
+     * @private
+     * @type {import("../../transform.js").Transform}
+     */
+    this.hitDetectionTransform_ = (0,_transform_js__WEBPACK_IMPORTED_MODULE_0__.create)();
+
+    this.createExecutors_(allInstructions);
+  }
+
+  /**
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {import("../../transform.js").Transform} transform Transform.
+   */
+  clip(context, transform) {
+    const flatClipCoords = this.getClipCoords(transform);
+    context.beginPath();
+    context.moveTo(flatClipCoords[0], flatClipCoords[1]);
+    context.lineTo(flatClipCoords[2], flatClipCoords[3]);
+    context.lineTo(flatClipCoords[4], flatClipCoords[5]);
+    context.lineTo(flatClipCoords[6], flatClipCoords[7]);
+    context.clip();
+  }
+
+  /**
+   * Create executors and populate them using the provided instructions.
+   * @private
+   * @param {!Object<string, !Object<import("../canvas.js").BuilderType, import("../canvas.js").SerializableInstructions>>} allInstructions The serializable instructions
+   */
+  createExecutors_(allInstructions) {
+    for (const zIndex in allInstructions) {
+      let executors = this.executorsByZIndex_[zIndex];
+      if (executors === undefined) {
+        executors = {};
+        this.executorsByZIndex_[zIndex] = executors;
+      }
+      const instructionByZindex = allInstructions[zIndex];
+      for (const builderType in instructionByZindex) {
+        const instructions = instructionByZindex[builderType];
+        executors[builderType] = new _Executor_js__WEBPACK_IMPORTED_MODULE_1__["default"](
+          this.resolution_,
+          this.pixelRatio_,
+          this.overlaps_,
+          instructions
+        );
+      }
+    }
+  }
+
+  /**
+   * @param {Array<import("../canvas.js").BuilderType>} executors Executors.
+   * @return {boolean} Has executors of the provided types.
+   */
+  hasExecutors(executors) {
+    for (const zIndex in this.executorsByZIndex_) {
+      const candidates = this.executorsByZIndex_[zIndex];
+      for (let i = 0, ii = executors.length; i < ii; ++i) {
+        if (executors[i] in candidates) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @param {import("../../coordinate.js").Coordinate} coordinate Coordinate.
+   * @param {number} resolution Resolution.
+   * @param {number} rotation Rotation.
+   * @param {number} hitTolerance Hit tolerance in pixels.
+   * @param {function(import("../../Feature.js").FeatureLike, import("../../geom/SimpleGeometry.js").default, number): T} callback Feature callback.
+   * @param {Array<import("../../Feature.js").FeatureLike>} declutteredFeatures Decluttered features.
+   * @return {T|undefined} Callback result.
+   * @template T
+   */
+  forEachFeatureAtCoordinate(
+    coordinate,
+    resolution,
+    rotation,
+    hitTolerance,
+    callback,
+    declutteredFeatures
+  ) {
+    hitTolerance = Math.round(hitTolerance);
+    const contextSize = hitTolerance * 2 + 1;
+    const transform = (0,_transform_js__WEBPACK_IMPORTED_MODULE_0__.compose)(
+      this.hitDetectionTransform_,
+      hitTolerance + 0.5,
+      hitTolerance + 0.5,
+      1 / resolution,
+      -1 / resolution,
+      -rotation,
+      -coordinate[0],
+      -coordinate[1]
+    );
+
+    const newContext = !this.hitDetectionContext_;
+    if (newContext) {
+      this.hitDetectionContext_ = (0,_dom_js__WEBPACK_IMPORTED_MODULE_2__.createCanvasContext2D)(
+        contextSize,
+        contextSize,
+        undefined,
+        {willReadFrequently: true}
+      );
+    }
+    const context = this.hitDetectionContext_;
+
+    if (
+      context.canvas.width !== contextSize ||
+      context.canvas.height !== contextSize
+    ) {
+      context.canvas.width = contextSize;
+      context.canvas.height = contextSize;
+    } else if (!newContext) {
+      context.clearRect(0, 0, contextSize, contextSize);
+    }
+
+    /**
+     * @type {import("../../extent.js").Extent}
+     */
+    let hitExtent;
+    if (this.renderBuffer_ !== undefined) {
+      hitExtent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.createEmpty)();
+      (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.extendCoordinate)(hitExtent, coordinate);
+      (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.buffer)(
+        hitExtent,
+        resolution * (this.renderBuffer_ + hitTolerance),
+        hitExtent
+      );
+    }
+
+    const indexes = getPixelIndexArray(hitTolerance);
+
+    let builderType;
+
+    /**
+     * @param {import("../../Feature.js").FeatureLike} feature Feature.
+     * @param {import("../../geom/SimpleGeometry.js").default} geometry Geometry.
+     * @return {T|undefined} Callback result.
+     */
+    function featureCallback(feature, geometry) {
+      const imageData = context.getImageData(
+        0,
+        0,
+        contextSize,
+        contextSize
+      ).data;
+      for (let i = 0, ii = indexes.length; i < ii; i++) {
+        if (imageData[indexes[i]] > 0) {
+          if (
+            !declutteredFeatures ||
+            (builderType !== 'Image' && builderType !== 'Text') ||
+            declutteredFeatures.includes(feature)
+          ) {
+            const idx = (indexes[i] - 3) / 4;
+            const x = hitTolerance - (idx % contextSize);
+            const y = hitTolerance - ((idx / contextSize) | 0);
+            const result = callback(feature, geometry, x * x + y * y);
+            if (result) {
+              return result;
+            }
+          }
+          context.clearRect(0, 0, contextSize, contextSize);
+          break;
+        }
+      }
+      return undefined;
+    }
+
+    /** @type {Array<number>} */
+    const zs = Object.keys(this.executorsByZIndex_).map(Number);
+    zs.sort(_array_js__WEBPACK_IMPORTED_MODULE_4__.ascending);
+
+    let i, j, executors, executor, result;
+    for (i = zs.length - 1; i >= 0; --i) {
+      const zIndexKey = zs[i].toString();
+      executors = this.executorsByZIndex_[zIndexKey];
+      for (j = ORDER.length - 1; j >= 0; --j) {
+        builderType = ORDER[j];
+        executor = executors[builderType];
+        if (executor !== undefined) {
+          result = executor.executeHitDetection(
+            context,
+            transform,
+            rotation,
+            featureCallback,
+            hitExtent
+          );
+          if (result) {
+            return result;
+          }
+        }
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * @param {import("../../transform.js").Transform} transform Transform.
+   * @return {Array<number>|null} Clip coordinates.
+   */
+  getClipCoords(transform) {
+    const maxExtent = this.maxExtent_;
+    if (!maxExtent) {
+      return null;
+    }
+    const minX = maxExtent[0];
+    const minY = maxExtent[1];
+    const maxX = maxExtent[2];
+    const maxY = maxExtent[3];
+    const flatClipCoords = [minX, minY, minX, maxY, maxX, maxY, maxX, minY];
+    (0,_geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_5__.transform2D)(flatClipCoords, 0, 8, 2, transform, flatClipCoords);
+    return flatClipCoords;
+  }
+
+  /**
+   * @return {boolean} Is empty.
+   */
+  isEmpty() {
+    return (0,_obj_js__WEBPACK_IMPORTED_MODULE_6__.isEmpty)(this.executorsByZIndex_);
+  }
+
+  /**
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {number} contextScale Scale of the context.
+   * @param {import("../../transform.js").Transform} transform Transform.
+   * @param {number} viewRotation View rotation.
+   * @param {boolean} snapToPixel Snap point symbols and test to integer pixel.
+   * @param {Array<import("../canvas.js").BuilderType>} [builderTypes] Ordered replay types to replay.
+   *     Default is {@link module:ol/render/replay~ORDER}
+   * @param {import("rbush").default} [declutterTree] Declutter tree.
+   */
+  execute(
+    context,
+    contextScale,
+    transform,
+    viewRotation,
+    snapToPixel,
+    builderTypes,
+    declutterTree
+  ) {
+    /** @type {Array<number>} */
+    const zs = Object.keys(this.executorsByZIndex_).map(Number);
+    zs.sort(_array_js__WEBPACK_IMPORTED_MODULE_4__.ascending);
+
+    // setup clipping so that the parts of over-simplified geometries are not
+    // visible outside the current extent when panning
+    if (this.maxExtent_) {
+      context.save();
+      this.clip(context, transform);
+    }
+
+    builderTypes = builderTypes ? builderTypes : ORDER;
+    let i, ii, j, jj, replays, replay;
+    if (declutterTree) {
+      zs.reverse();
+    }
+    for (i = 0, ii = zs.length; i < ii; ++i) {
+      const zIndexKey = zs[i].toString();
+      replays = this.executorsByZIndex_[zIndexKey];
+      for (j = 0, jj = builderTypes.length; j < jj; ++j) {
+        const builderType = builderTypes[j];
+        replay = replays[builderType];
+        if (replay !== undefined) {
+          replay.execute(
+            context,
+            contextScale,
+            transform,
+            viewRotation,
+            snapToPixel,
+            declutterTree
+          );
+        }
+      }
+    }
+
+    if (this.maxExtent_) {
+      context.restore();
+    }
+  }
+}
+
+/**
+ * This cache is used to store arrays of indexes for calculated pixel circles
+ * to increase performance.
+ * It is a static property to allow each Replaygroup to access it.
+ * @type {Object<number, Array<number>>}
+ */
+const circlePixelIndexArrayCache = {};
+
+/**
+ * This methods creates an array with indexes of all pixels within a circle,
+ * ordered by how close they are to the center.
+ * A cache is used to increase performance.
+ * @param {number} radius Radius.
+ * @return {Array<number>} An array with indexes within a circle.
+ */
+function getPixelIndexArray(radius) {
+  if (circlePixelIndexArrayCache[radius] !== undefined) {
+    return circlePixelIndexArrayCache[radius];
+  }
+
+  const size = radius * 2 + 1;
+  const maxDistanceSq = radius * radius;
+  const distances = new Array(maxDistanceSq + 1);
+  for (let i = 0; i <= radius; ++i) {
+    for (let j = 0; j <= radius; ++j) {
+      const distanceSq = i * i + j * j;
+      if (distanceSq > maxDistanceSq) {
+        break;
+      }
+      let distance = distances[distanceSq];
+      if (!distance) {
+        distance = [];
+        distances[distanceSq] = distance;
+      }
+      distance.push(((radius + i) * size + (radius + j)) * 4 + 3);
+      if (i > 0) {
+        distance.push(((radius - i) * size + (radius + j)) * 4 + 3);
+      }
+      if (j > 0) {
+        distance.push(((radius + i) * size + (radius - j)) * 4 + 3);
+        if (i > 0) {
+          distance.push(((radius - i) * size + (radius - j)) * 4 + 3);
+        }
+      }
+    }
+  }
+
+  const pixelIndex = [];
+  for (let i = 0, ii = distances.length; i < ii; ++i) {
+    if (distances[i]) {
+      pixelIndex.push(...distances[i]);
+    }
+  }
+
+  circlePixelIndexArrayCache[radius] = pixelIndex;
+  return pixelIndex;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ExecutorGroup);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/ImageBuilder.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/ol/render/canvas/ImageBuilder.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Builder_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Builder.js */ "./node_modules/ol/render/canvas/Builder.js");
+/* harmony import */ var _Instruction_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Instruction.js */ "./node_modules/ol/render/canvas/Instruction.js");
+/**
+ * @module ol/render/canvas/ImageBuilder
+ */
+
+
+
+class CanvasImageBuilder extends _Builder_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {number} tolerance Tolerance.
+   * @param {import("../../extent.js").Extent} maxExtent Maximum extent.
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   */
+  constructor(tolerance, maxExtent, resolution, pixelRatio) {
+    super(tolerance, maxExtent, resolution, pixelRatio);
+
+    /**
+     * @private
+     * @type {HTMLCanvasElement|HTMLVideoElement|HTMLImageElement}
+     */
+    this.hitDetectionImage_ = null;
+
+    /**
+     * @private
+     * @type {HTMLCanvasElement|HTMLVideoElement|HTMLImageElement}
+     */
+    this.image_ = null;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.imagePixelRatio_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.anchorX_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.anchorY_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.height_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.opacity_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.originX_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.originY_ = undefined;
+
+    /**
+     * @private
+     * @type {boolean|undefined}
+     */
+    this.rotateWithView_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.rotation_ = undefined;
+
+    /**
+     * @private
+     * @type {import("../../size.js").Size|undefined}
+     */
+    this.scale_ = undefined;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.width_ = undefined;
+
+    /**
+     * @private
+     * @type {"declutter"|"obstacle"|"none"|undefined}
+     */
+    this.declutterMode_ = undefined;
+
+    /**
+     * Data shared with a text builder for combined decluttering.
+     * @private
+     * @type {import("../canvas.js").DeclutterImageWithText}
+     */
+    this.declutterImageWithText_ = undefined;
+  }
+
+  /**
+   * @param {import("../../geom/Point.js").default|import("../Feature.js").default} pointGeometry Point geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawPoint(pointGeometry, feature) {
+    if (!this.image_) {
+      return;
+    }
+    this.beginGeometry(pointGeometry, feature);
+    const flatCoordinates = pointGeometry.getFlatCoordinates();
+    const stride = pointGeometry.getStride();
+    const myBegin = this.coordinates.length;
+    const myEnd = this.appendFlatPointCoordinates(flatCoordinates, stride);
+    this.instructions.push([
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].DRAW_IMAGE,
+      myBegin,
+      myEnd,
+      this.image_,
+      // Remaining arguments to DRAW_IMAGE are in alphabetical order
+      this.anchorX_ * this.imagePixelRatio_,
+      this.anchorY_ * this.imagePixelRatio_,
+      Math.ceil(this.height_ * this.imagePixelRatio_),
+      this.opacity_,
+      this.originX_ * this.imagePixelRatio_,
+      this.originY_ * this.imagePixelRatio_,
+      this.rotateWithView_,
+      this.rotation_,
+      [
+        (this.scale_[0] * this.pixelRatio) / this.imagePixelRatio_,
+        (this.scale_[1] * this.pixelRatio) / this.imagePixelRatio_,
+      ],
+      Math.ceil(this.width_ * this.imagePixelRatio_),
+      this.declutterMode_,
+      this.declutterImageWithText_,
+    ]);
+    this.hitDetectionInstructions.push([
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].DRAW_IMAGE,
+      myBegin,
+      myEnd,
+      this.hitDetectionImage_,
+      // Remaining arguments to DRAW_IMAGE are in alphabetical order
+      this.anchorX_,
+      this.anchorY_,
+      this.height_,
+      this.opacity_,
+      this.originX_,
+      this.originY_,
+      this.rotateWithView_,
+      this.rotation_,
+      this.scale_,
+      this.width_,
+      this.declutterMode_,
+      this.declutterImageWithText_,
+    ]);
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @param {import("../../geom/MultiPoint.js").default|import("../Feature.js").default} multiPointGeometry MultiPoint geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawMultiPoint(multiPointGeometry, feature) {
+    if (!this.image_) {
+      return;
+    }
+    this.beginGeometry(multiPointGeometry, feature);
+    const flatCoordinates = multiPointGeometry.getFlatCoordinates();
+    const stride = multiPointGeometry.getStride();
+    const myBegin = this.coordinates.length;
+    const myEnd = this.appendFlatPointCoordinates(flatCoordinates, stride);
+    this.instructions.push([
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].DRAW_IMAGE,
+      myBegin,
+      myEnd,
+      this.image_,
+      // Remaining arguments to DRAW_IMAGE are in alphabetical order
+      this.anchorX_ * this.imagePixelRatio_,
+      this.anchorY_ * this.imagePixelRatio_,
+      Math.ceil(this.height_ * this.imagePixelRatio_),
+      this.opacity_,
+      this.originX_ * this.imagePixelRatio_,
+      this.originY_ * this.imagePixelRatio_,
+      this.rotateWithView_,
+      this.rotation_,
+      [
+        (this.scale_[0] * this.pixelRatio) / this.imagePixelRatio_,
+        (this.scale_[1] * this.pixelRatio) / this.imagePixelRatio_,
+      ],
+      Math.ceil(this.width_ * this.imagePixelRatio_),
+      this.declutterMode_,
+      this.declutterImageWithText_,
+    ]);
+    this.hitDetectionInstructions.push([
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].DRAW_IMAGE,
+      myBegin,
+      myEnd,
+      this.hitDetectionImage_,
+      // Remaining arguments to DRAW_IMAGE are in alphabetical order
+      this.anchorX_,
+      this.anchorY_,
+      this.height_,
+      this.opacity_,
+      this.originX_,
+      this.originY_,
+      this.rotateWithView_,
+      this.rotation_,
+      this.scale_,
+      this.width_,
+      this.declutterMode_,
+      this.declutterImageWithText_,
+    ]);
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @return {import("../canvas.js").SerializableInstructions} the serializable instructions.
+   */
+  finish() {
+    this.reverseHitDetectionInstructions();
+    // FIXME this doesn't really protect us against further calls to draw*Geometry
+    this.anchorX_ = undefined;
+    this.anchorY_ = undefined;
+    this.hitDetectionImage_ = null;
+    this.image_ = null;
+    this.imagePixelRatio_ = undefined;
+    this.height_ = undefined;
+    this.scale_ = undefined;
+    this.opacity_ = undefined;
+    this.originX_ = undefined;
+    this.originY_ = undefined;
+    this.rotateWithView_ = undefined;
+    this.rotation_ = undefined;
+    this.width_ = undefined;
+    return super.finish();
+  }
+
+  /**
+   * @param {import("../../style/Image.js").default} imageStyle Image style.
+   * @param {Object} [sharedData] Shared data.
+   */
+  setImageStyle(imageStyle, sharedData) {
+    const anchor = imageStyle.getAnchor();
+    const size = imageStyle.getSize();
+    const origin = imageStyle.getOrigin();
+    this.imagePixelRatio_ = imageStyle.getPixelRatio(this.pixelRatio);
+    this.anchorX_ = anchor[0];
+    this.anchorY_ = anchor[1];
+    this.hitDetectionImage_ = imageStyle.getHitDetectionImage();
+    this.image_ = imageStyle.getImage(this.pixelRatio);
+    this.height_ = size[1];
+    this.opacity_ = imageStyle.getOpacity();
+    this.originX_ = origin[0];
+    this.originY_ = origin[1];
+    this.rotateWithView_ = imageStyle.getRotateWithView();
+    this.rotation_ = imageStyle.getRotation();
+    this.scale_ = imageStyle.getScaleArray();
+    this.width_ = size[0];
+    this.declutterMode_ = imageStyle.getDeclutterMode();
+    this.declutterImageWithText_ = sharedData;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasImageBuilder);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/Immediate.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/render/canvas/Immediate.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _VectorContext_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../VectorContext.js */ "./node_modules/ol/render/VectorContext.js");
+/* harmony import */ var _colorlike_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../colorlike.js */ "./node_modules/ol/colorlike.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../transform.js */ "./node_modules/ol/transform.js");
+/* harmony import */ var _canvas_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../canvas.js */ "./node_modules/ol/render/canvas.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../math.js */ "./node_modules/ol/math.js");
+/* harmony import */ var _geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../geom/flat/transform.js */ "./node_modules/ol/geom/flat/transform.js");
+/* harmony import */ var _geom_SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../geom/SimpleGeometry.js */ "./node_modules/ol/geom/SimpleGeometry.js");
+/**
+ * @module ol/render/canvas/Immediate
+ */
+// FIXME test, especially polygons with holes and multipolygons
+// FIXME need to handle large thick features (where pixel size matters)
+// FIXME add offset and end to ol/geom/flat/transform~transform2D?
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * A concrete subclass of {@link module:ol/render/VectorContext~VectorContext} that implements
+ * direct rendering of features and geometries to an HTML5 Canvas context.
+ * Instances of this class are created internally by the library and
+ * provided to application code as vectorContext member of the
+ * {@link module:ol/render/Event~RenderEvent} object associated with postcompose, precompose and
+ * render events emitted by layers and maps.
+ */
+class CanvasImmediateRenderer extends _VectorContext_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {CanvasRenderingContext2D} context Context.
+   * @param {number} pixelRatio Pixel ratio.
+   * @param {import("../../extent.js").Extent} extent Extent.
+   * @param {import("../../transform.js").Transform} transform Transform.
+   * @param {number} viewRotation View rotation.
+   * @param {number} [squaredTolerance] Optional squared tolerance for simplification.
+   * @param {import("../../proj.js").TransformFunction} [userTransform] Transform from user to view projection.
+   */
+  constructor(
+    context,
+    pixelRatio,
+    extent,
+    transform,
+    viewRotation,
+    squaredTolerance,
+    userTransform
+  ) {
+    super();
+
+    /**
+     * @private
+     * @type {CanvasRenderingContext2D}
+     */
+    this.context_ = context;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.pixelRatio_ = pixelRatio;
+
+    /**
+     * @private
+     * @type {import("../../extent.js").Extent}
+     */
+    this.extent_ = extent;
+
+    /**
+     * @private
+     * @type {import("../../transform.js").Transform}
+     */
+    this.transform_ = transform;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.transformRotation_ = transform
+      ? (0,_math_js__WEBPACK_IMPORTED_MODULE_1__.toFixed)(Math.atan2(transform[1], transform[0]), 10)
+      : 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.viewRotation_ = viewRotation;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.squaredTolerance_ = squaredTolerance;
+
+    /**
+     * @private
+     * @type {import("../../proj.js").TransformFunction}
+     */
+    this.userTransform_ = userTransform;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").FillState}
+     */
+    this.contextFillState_ = null;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").StrokeState}
+     */
+    this.contextStrokeState_ = null;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").TextState}
+     */
+    this.contextTextState_ = null;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").FillState}
+     */
+    this.fillState_ = null;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").StrokeState}
+     */
+    this.strokeState_ = null;
+
+    /**
+     * @private
+     * @type {HTMLCanvasElement|HTMLVideoElement|HTMLImageElement}
+     */
+    this.image_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageAnchorX_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageAnchorY_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageHeight_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageOpacity_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageOriginX_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageOriginY_ = 0;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.imageRotateWithView_ = false;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageRotation_ = 0;
+
+    /**
+     * @private
+     * @type {import("../../size.js").Size}
+     */
+    this.imageScale_ = [0, 0];
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.imageWidth_ = 0;
+
+    /**
+     * @private
+     * @type {string}
+     */
+    this.text_ = '';
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.textOffsetX_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.textOffsetY_ = 0;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.textRotateWithView_ = false;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.textRotation_ = 0;
+
+    /**
+     * @private
+     * @type {import("../../size.js").Size}
+     */
+    this.textScale_ = [0, 0];
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").FillState}
+     */
+    this.textFillState_ = null;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").StrokeState}
+     */
+    this.textStrokeState_ = null;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").TextState}
+     */
+    this.textState_ = null;
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.pixelCoordinates_ = [];
+
+    /**
+     * @private
+     * @type {import("../../transform.js").Transform}
+     */
+    this.tmpLocalTransform_ = (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.create)();
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {number} end End.
+   * @param {number} stride Stride.
+   * @private
+   */
+  drawImages_(flatCoordinates, offset, end, stride) {
+    if (!this.image_) {
+      return;
+    }
+    const pixelCoordinates = (0,_geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_3__.transform2D)(
+      flatCoordinates,
+      offset,
+      end,
+      stride,
+      this.transform_,
+      this.pixelCoordinates_
+    );
+    const context = this.context_;
+    const localTransform = this.tmpLocalTransform_;
+    const alpha = context.globalAlpha;
+    if (this.imageOpacity_ != 1) {
+      context.globalAlpha = alpha * this.imageOpacity_;
+    }
+    let rotation = this.imageRotation_;
+    if (this.transformRotation_ === 0) {
+      rotation -= this.viewRotation_;
+    }
+    if (this.imageRotateWithView_) {
+      rotation += this.viewRotation_;
+    }
+    for (let i = 0, ii = pixelCoordinates.length; i < ii; i += 2) {
+      const x = pixelCoordinates[i] - this.imageAnchorX_;
+      const y = pixelCoordinates[i + 1] - this.imageAnchorY_;
+      if (
+        rotation !== 0 ||
+        this.imageScale_[0] != 1 ||
+        this.imageScale_[1] != 1
+      ) {
+        const centerX = x + this.imageAnchorX_;
+        const centerY = y + this.imageAnchorY_;
+        (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.compose)(
+          localTransform,
+          centerX,
+          centerY,
+          1,
+          1,
+          rotation,
+          -centerX,
+          -centerY
+        );
+        context.setTransform.apply(context, localTransform);
+        context.translate(centerX, centerY);
+        context.scale(this.imageScale_[0], this.imageScale_[1]);
+        context.drawImage(
+          this.image_,
+          this.imageOriginX_,
+          this.imageOriginY_,
+          this.imageWidth_,
+          this.imageHeight_,
+          -this.imageAnchorX_,
+          -this.imageAnchorY_,
+          this.imageWidth_,
+          this.imageHeight_
+        );
+        context.setTransform(1, 0, 0, 1, 0, 0);
+      } else {
+        context.drawImage(
+          this.image_,
+          this.imageOriginX_,
+          this.imageOriginY_,
+          this.imageWidth_,
+          this.imageHeight_,
+          x,
+          y,
+          this.imageWidth_,
+          this.imageHeight_
+        );
+      }
+    }
+    if (this.imageOpacity_ != 1) {
+      context.globalAlpha = alpha;
+    }
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {number} end End.
+   * @param {number} stride Stride.
+   * @private
+   */
+  drawText_(flatCoordinates, offset, end, stride) {
+    if (!this.textState_ || this.text_ === '') {
+      return;
+    }
+    if (this.textFillState_) {
+      this.setContextFillState_(this.textFillState_);
+    }
+    if (this.textStrokeState_) {
+      this.setContextStrokeState_(this.textStrokeState_);
+    }
+    this.setContextTextState_(this.textState_);
+    const pixelCoordinates = (0,_geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_3__.transform2D)(
+      flatCoordinates,
+      offset,
+      end,
+      stride,
+      this.transform_,
+      this.pixelCoordinates_
+    );
+    const context = this.context_;
+    let rotation = this.textRotation_;
+    if (this.transformRotation_ === 0) {
+      rotation -= this.viewRotation_;
+    }
+    if (this.textRotateWithView_) {
+      rotation += this.viewRotation_;
+    }
+    for (; offset < end; offset += stride) {
+      const x = pixelCoordinates[offset] + this.textOffsetX_;
+      const y = pixelCoordinates[offset + 1] + this.textOffsetY_;
+      if (
+        rotation !== 0 ||
+        this.textScale_[0] != 1 ||
+        this.textScale_[1] != 1
+      ) {
+        context.translate(x - this.textOffsetX_, y - this.textOffsetY_);
+        context.rotate(rotation);
+        context.translate(this.textOffsetX_, this.textOffsetY_);
+        context.scale(this.textScale_[0], this.textScale_[1]);
+        if (this.textStrokeState_) {
+          context.strokeText(this.text_, 0, 0);
+        }
+        if (this.textFillState_) {
+          context.fillText(this.text_, 0, 0);
+        }
+        context.setTransform(1, 0, 0, 1, 0, 0);
+      } else {
+        if (this.textStrokeState_) {
+          context.strokeText(this.text_, x, y);
+        }
+        if (this.textFillState_) {
+          context.fillText(this.text_, x, y);
+        }
+      }
+    }
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {number} end End.
+   * @param {number} stride Stride.
+   * @param {boolean} close Close.
+   * @private
+   * @return {number} end End.
+   */
+  moveToLineTo_(flatCoordinates, offset, end, stride, close) {
+    const context = this.context_;
+    const pixelCoordinates = (0,_geom_flat_transform_js__WEBPACK_IMPORTED_MODULE_3__.transform2D)(
+      flatCoordinates,
+      offset,
+      end,
+      stride,
+      this.transform_,
+      this.pixelCoordinates_
+    );
+    context.moveTo(pixelCoordinates[0], pixelCoordinates[1]);
+    let length = pixelCoordinates.length;
+    if (close) {
+      length -= 2;
+    }
+    for (let i = 2; i < length; i += 2) {
+      context.lineTo(pixelCoordinates[i], pixelCoordinates[i + 1]);
+    }
+    if (close) {
+      context.closePath();
+    }
+    return end;
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {Array<number>} ends Ends.
+   * @param {number} stride Stride.
+   * @private
+   * @return {number} End.
+   */
+  drawRings_(flatCoordinates, offset, ends, stride) {
+    for (let i = 0, ii = ends.length; i < ii; ++i) {
+      offset = this.moveToLineTo_(
+        flatCoordinates,
+        offset,
+        ends[i],
+        stride,
+        true
+      );
+    }
+    return offset;
+  }
+
+  /**
+   * Render a circle geometry into the canvas.  Rendering is immediate and uses
+   * the current fill and stroke styles.
+   *
+   * @param {import("../../geom/Circle.js").default} geometry Circle geometry.
+   * @api
+   */
+  drawCircle(geometry) {
+    if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.intersects)(this.extent_, geometry.getExtent())) {
+      return;
+    }
+    if (this.fillState_ || this.strokeState_) {
+      if (this.fillState_) {
+        this.setContextFillState_(this.fillState_);
+      }
+      if (this.strokeState_) {
+        this.setContextStrokeState_(this.strokeState_);
+      }
+      const pixelCoordinates = (0,_geom_SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_5__.transformGeom2D)(
+        geometry,
+        this.transform_,
+        this.pixelCoordinates_
+      );
+      const dx = pixelCoordinates[2] - pixelCoordinates[0];
+      const dy = pixelCoordinates[3] - pixelCoordinates[1];
+      const radius = Math.sqrt(dx * dx + dy * dy);
+      const context = this.context_;
+      context.beginPath();
+      context.arc(
+        pixelCoordinates[0],
+        pixelCoordinates[1],
+        radius,
+        0,
+        2 * Math.PI
+      );
+      if (this.fillState_) {
+        context.fill();
+      }
+      if (this.strokeState_) {
+        context.stroke();
+      }
+    }
+    if (this.text_ !== '') {
+      this.drawText_(geometry.getCenter(), 0, 2, 2);
+    }
+  }
+
+  /**
+   * Set the rendering style.  Note that since this is an immediate rendering API,
+   * any `zIndex` on the provided style will be ignored.
+   *
+   * @param {import("../../style/Style.js").default} style The rendering style.
+   * @api
+   */
+  setStyle(style) {
+    this.setFillStrokeStyle(style.getFill(), style.getStroke());
+    this.setImageStyle(style.getImage());
+    this.setTextStyle(style.getText());
+  }
+
+  /**
+   * @param {import("../../transform.js").Transform} transform Transform.
+   */
+  setTransform(transform) {
+    this.transform_ = transform;
+  }
+
+  /**
+   * Render a geometry into the canvas.  Call
+   * {@link module:ol/render/canvas/Immediate~CanvasImmediateRenderer#setStyle renderer.setStyle()} first to set the rendering style.
+   *
+   * @param {import("../../geom/Geometry.js").default|import("../Feature.js").default} geometry The geometry to render.
+   * @api
+   */
+  drawGeometry(geometry) {
+    const type = geometry.getType();
+    switch (type) {
+      case 'Point':
+        this.drawPoint(
+          /** @type {import("../../geom/Point.js").default} */ (geometry)
+        );
+        break;
+      case 'LineString':
+        this.drawLineString(
+          /** @type {import("../../geom/LineString.js").default} */ (geometry)
+        );
+        break;
+      case 'Polygon':
+        this.drawPolygon(
+          /** @type {import("../../geom/Polygon.js").default} */ (geometry)
+        );
+        break;
+      case 'MultiPoint':
+        this.drawMultiPoint(
+          /** @type {import("../../geom/MultiPoint.js").default} */ (geometry)
+        );
+        break;
+      case 'MultiLineString':
+        this.drawMultiLineString(
+          /** @type {import("../../geom/MultiLineString.js").default} */ (
+            geometry
+          )
+        );
+        break;
+      case 'MultiPolygon':
+        this.drawMultiPolygon(
+          /** @type {import("../../geom/MultiPolygon.js").default} */ (geometry)
+        );
+        break;
+      case 'GeometryCollection':
+        this.drawGeometryCollection(
+          /** @type {import("../../geom/GeometryCollection.js").default} */ (
+            geometry
+          )
+        );
+        break;
+      case 'Circle':
+        this.drawCircle(
+          /** @type {import("../../geom/Circle.js").default} */ (geometry)
+        );
+        break;
+      default:
+    }
+  }
+
+  /**
+   * Render a feature into the canvas.  Note that any `zIndex` on the provided
+   * style will be ignored - features are rendered immediately in the order that
+   * this method is called.  If you need `zIndex` support, you should be using an
+   * {@link module:ol/layer/Vector~VectorLayer} instead.
+   *
+   * @param {import("../../Feature.js").default} feature Feature.
+   * @param {import("../../style/Style.js").default} style Style.
+   * @api
+   */
+  drawFeature(feature, style) {
+    const geometry = style.getGeometryFunction()(feature);
+    if (!geometry || !(0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.intersects)(this.extent_, geometry.getExtent())) {
+      return;
+    }
+    this.setStyle(style);
+    this.drawGeometry(geometry);
+  }
+
+  /**
+   * Render a GeometryCollection to the canvas.  Rendering is immediate and
+   * uses the current styles appropriate for each geometry in the collection.
+   *
+   * @param {import("../../geom/GeometryCollection.js").default} geometry Geometry collection.
+   */
+  drawGeometryCollection(geometry) {
+    const geometries = geometry.getGeometriesArray();
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      this.drawGeometry(geometries[i]);
+    }
+  }
+
+  /**
+   * Render a Point geometry into the canvas.  Rendering is immediate and uses
+   * the current style.
+   *
+   * @param {import("../../geom/Point.js").default|import("../Feature.js").default} geometry Point geometry.
+   */
+  drawPoint(geometry) {
+    if (this.squaredTolerance_) {
+      geometry = /** @type {import("../../geom/Point.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
+    }
+    const flatCoordinates = geometry.getFlatCoordinates();
+    const stride = geometry.getStride();
+    if (this.image_) {
+      this.drawImages_(flatCoordinates, 0, flatCoordinates.length, stride);
+    }
+    if (this.text_ !== '') {
+      this.drawText_(flatCoordinates, 0, flatCoordinates.length, stride);
+    }
+  }
+
+  /**
+   * Render a MultiPoint geometry  into the canvas.  Rendering is immediate and
+   * uses the current style.
+   *
+   * @param {import("../../geom/MultiPoint.js").default|import("../Feature.js").default} geometry MultiPoint geometry.
+   */
+  drawMultiPoint(geometry) {
+    if (this.squaredTolerance_) {
+      geometry = /** @type {import("../../geom/MultiPoint.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
+    }
+    const flatCoordinates = geometry.getFlatCoordinates();
+    const stride = geometry.getStride();
+    if (this.image_) {
+      this.drawImages_(flatCoordinates, 0, flatCoordinates.length, stride);
+    }
+    if (this.text_ !== '') {
+      this.drawText_(flatCoordinates, 0, flatCoordinates.length, stride);
+    }
+  }
+
+  /**
+   * Render a LineString into the canvas.  Rendering is immediate and uses
+   * the current style.
+   *
+   * @param {import("../../geom/LineString.js").default|import("../Feature.js").default} geometry LineString geometry.
+   */
+  drawLineString(geometry) {
+    if (this.squaredTolerance_) {
+      geometry = /** @type {import("../../geom/LineString.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
+    }
+    if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.intersects)(this.extent_, geometry.getExtent())) {
+      return;
+    }
+    if (this.strokeState_) {
+      this.setContextStrokeState_(this.strokeState_);
+      const context = this.context_;
+      const flatCoordinates = geometry.getFlatCoordinates();
+      context.beginPath();
+      this.moveToLineTo_(
+        flatCoordinates,
+        0,
+        flatCoordinates.length,
+        geometry.getStride(),
+        false
+      );
+      context.stroke();
+    }
+    if (this.text_ !== '') {
+      const flatMidpoint = geometry.getFlatMidpoint();
+      this.drawText_(flatMidpoint, 0, 2, 2);
+    }
+  }
+
+  /**
+   * Render a MultiLineString geometry into the canvas.  Rendering is immediate
+   * and uses the current style.
+   *
+   * @param {import("../../geom/MultiLineString.js").default|import("../Feature.js").default} geometry MultiLineString geometry.
+   */
+  drawMultiLineString(geometry) {
+    if (this.squaredTolerance_) {
+      geometry =
+        /** @type {import("../../geom/MultiLineString.js").default} */ (
+          geometry.simplifyTransformed(
+            this.squaredTolerance_,
+            this.userTransform_
+          )
+        );
+    }
+    const geometryExtent = geometry.getExtent();
+    if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.intersects)(this.extent_, geometryExtent)) {
+      return;
+    }
+    if (this.strokeState_) {
+      this.setContextStrokeState_(this.strokeState_);
+      const context = this.context_;
+      const flatCoordinates = geometry.getFlatCoordinates();
+      let offset = 0;
+      const ends = /** @type {Array<number>} */ (geometry.getEnds());
+      const stride = geometry.getStride();
+      context.beginPath();
+      for (let i = 0, ii = ends.length; i < ii; ++i) {
+        offset = this.moveToLineTo_(
+          flatCoordinates,
+          offset,
+          ends[i],
+          stride,
+          false
+        );
+      }
+      context.stroke();
+    }
+    if (this.text_ !== '') {
+      const flatMidpoints = geometry.getFlatMidpoints();
+      this.drawText_(flatMidpoints, 0, flatMidpoints.length, 2);
+    }
+  }
+
+  /**
+   * Render a Polygon geometry into the canvas.  Rendering is immediate and uses
+   * the current style.
+   *
+   * @param {import("../../geom/Polygon.js").default|import("../Feature.js").default} geometry Polygon geometry.
+   */
+  drawPolygon(geometry) {
+    if (this.squaredTolerance_) {
+      geometry = /** @type {import("../../geom/Polygon.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
+    }
+    if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.intersects)(this.extent_, geometry.getExtent())) {
+      return;
+    }
+    if (this.strokeState_ || this.fillState_) {
+      if (this.fillState_) {
+        this.setContextFillState_(this.fillState_);
+      }
+      if (this.strokeState_) {
+        this.setContextStrokeState_(this.strokeState_);
+      }
+      const context = this.context_;
+      context.beginPath();
+      this.drawRings_(
+        geometry.getOrientedFlatCoordinates(),
+        0,
+        /** @type {Array<number>} */ (geometry.getEnds()),
+        geometry.getStride()
+      );
+      if (this.fillState_) {
+        context.fill();
+      }
+      if (this.strokeState_) {
+        context.stroke();
+      }
+    }
+    if (this.text_ !== '') {
+      const flatInteriorPoint = geometry.getFlatInteriorPoint();
+      this.drawText_(flatInteriorPoint, 0, 2, 2);
+    }
+  }
+
+  /**
+   * Render MultiPolygon geometry into the canvas.  Rendering is immediate and
+   * uses the current style.
+   * @param {import("../../geom/MultiPolygon.js").default} geometry MultiPolygon geometry.
+   */
+  drawMultiPolygon(geometry) {
+    if (this.squaredTolerance_) {
+      geometry = /** @type {import("../../geom/MultiPolygon.js").default} */ (
+        geometry.simplifyTransformed(
+          this.squaredTolerance_,
+          this.userTransform_
+        )
+      );
+    }
+    if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.intersects)(this.extent_, geometry.getExtent())) {
+      return;
+    }
+    if (this.strokeState_ || this.fillState_) {
+      if (this.fillState_) {
+        this.setContextFillState_(this.fillState_);
+      }
+      if (this.strokeState_) {
+        this.setContextStrokeState_(this.strokeState_);
+      }
+      const context = this.context_;
+      const flatCoordinates = geometry.getOrientedFlatCoordinates();
+      let offset = 0;
+      const endss = geometry.getEndss();
+      const stride = geometry.getStride();
+      context.beginPath();
+      for (let i = 0, ii = endss.length; i < ii; ++i) {
+        const ends = endss[i];
+        offset = this.drawRings_(flatCoordinates, offset, ends, stride);
+      }
+      if (this.fillState_) {
+        context.fill();
+      }
+      if (this.strokeState_) {
+        context.stroke();
+      }
+    }
+    if (this.text_ !== '') {
+      const flatInteriorPoints = geometry.getFlatInteriorPoints();
+      this.drawText_(flatInteriorPoints, 0, flatInteriorPoints.length, 2);
+    }
+  }
+
+  /**
+   * @param {import("../canvas.js").FillState} fillState Fill state.
+   * @private
+   */
+  setContextFillState_(fillState) {
+    const context = this.context_;
+    const contextFillState = this.contextFillState_;
+    if (!contextFillState) {
+      context.fillStyle = fillState.fillStyle;
+      this.contextFillState_ = {
+        fillStyle: fillState.fillStyle,
+      };
+    } else {
+      if (contextFillState.fillStyle != fillState.fillStyle) {
+        contextFillState.fillStyle = fillState.fillStyle;
+        context.fillStyle = fillState.fillStyle;
+      }
+    }
+  }
+
+  /**
+   * @param {import("../canvas.js").StrokeState} strokeState Stroke state.
+   * @private
+   */
+  setContextStrokeState_(strokeState) {
+    const context = this.context_;
+    const contextStrokeState = this.contextStrokeState_;
+    if (!contextStrokeState) {
+      context.lineCap = strokeState.lineCap;
+      context.setLineDash(strokeState.lineDash);
+      context.lineDashOffset = strokeState.lineDashOffset;
+      context.lineJoin = strokeState.lineJoin;
+      context.lineWidth = strokeState.lineWidth;
+      context.miterLimit = strokeState.miterLimit;
+      context.strokeStyle = strokeState.strokeStyle;
+      this.contextStrokeState_ = {
+        lineCap: strokeState.lineCap,
+        lineDash: strokeState.lineDash,
+        lineDashOffset: strokeState.lineDashOffset,
+        lineJoin: strokeState.lineJoin,
+        lineWidth: strokeState.lineWidth,
+        miterLimit: strokeState.miterLimit,
+        strokeStyle: strokeState.strokeStyle,
+      };
+    } else {
+      if (contextStrokeState.lineCap != strokeState.lineCap) {
+        contextStrokeState.lineCap = strokeState.lineCap;
+        context.lineCap = strokeState.lineCap;
+      }
+      if (!(0,_array_js__WEBPACK_IMPORTED_MODULE_6__.equals)(contextStrokeState.lineDash, strokeState.lineDash)) {
+        context.setLineDash(
+          (contextStrokeState.lineDash = strokeState.lineDash)
+        );
+      }
+      if (contextStrokeState.lineDashOffset != strokeState.lineDashOffset) {
+        contextStrokeState.lineDashOffset = strokeState.lineDashOffset;
+        context.lineDashOffset = strokeState.lineDashOffset;
+      }
+      if (contextStrokeState.lineJoin != strokeState.lineJoin) {
+        contextStrokeState.lineJoin = strokeState.lineJoin;
+        context.lineJoin = strokeState.lineJoin;
+      }
+      if (contextStrokeState.lineWidth != strokeState.lineWidth) {
+        contextStrokeState.lineWidth = strokeState.lineWidth;
+        context.lineWidth = strokeState.lineWidth;
+      }
+      if (contextStrokeState.miterLimit != strokeState.miterLimit) {
+        contextStrokeState.miterLimit = strokeState.miterLimit;
+        context.miterLimit = strokeState.miterLimit;
+      }
+      if (contextStrokeState.strokeStyle != strokeState.strokeStyle) {
+        contextStrokeState.strokeStyle = strokeState.strokeStyle;
+        context.strokeStyle = strokeState.strokeStyle;
+      }
+    }
+  }
+
+  /**
+   * @param {import("../canvas.js").TextState} textState Text state.
+   * @private
+   */
+  setContextTextState_(textState) {
+    const context = this.context_;
+    const contextTextState = this.contextTextState_;
+    const textAlign = textState.textAlign
+      ? textState.textAlign
+      : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultTextAlign;
+    if (!contextTextState) {
+      context.font = textState.font;
+      context.textAlign = textAlign;
+      context.textBaseline = textState.textBaseline;
+      this.contextTextState_ = {
+        font: textState.font,
+        textAlign: textAlign,
+        textBaseline: textState.textBaseline,
+      };
+    } else {
+      if (contextTextState.font != textState.font) {
+        contextTextState.font = textState.font;
+        context.font = textState.font;
+      }
+      if (contextTextState.textAlign != textAlign) {
+        contextTextState.textAlign = textAlign;
+        context.textAlign = textAlign;
+      }
+      if (contextTextState.textBaseline != textState.textBaseline) {
+        contextTextState.textBaseline = textState.textBaseline;
+        context.textBaseline = textState.textBaseline;
+      }
+    }
+  }
+
+  /**
+   * Set the fill and stroke style for subsequent draw operations.  To clear
+   * either fill or stroke styles, pass null for the appropriate parameter.
+   *
+   * @param {import("../../style/Fill.js").default} fillStyle Fill style.
+   * @param {import("../../style/Stroke.js").default} strokeStyle Stroke style.
+   */
+  setFillStrokeStyle(fillStyle, strokeStyle) {
+    if (!fillStyle) {
+      this.fillState_ = null;
+    } else {
+      const fillStyleColor = fillStyle.getColor();
+      this.fillState_ = {
+        fillStyle: (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_8__.asColorLike)(
+          fillStyleColor ? fillStyleColor : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultFillStyle
+        ),
+      };
+    }
+    if (!strokeStyle) {
+      this.strokeState_ = null;
+    } else {
+      const strokeStyleColor = strokeStyle.getColor();
+      const strokeStyleLineCap = strokeStyle.getLineCap();
+      const strokeStyleLineDash = strokeStyle.getLineDash();
+      const strokeStyleLineDashOffset = strokeStyle.getLineDashOffset();
+      const strokeStyleLineJoin = strokeStyle.getLineJoin();
+      const strokeStyleWidth = strokeStyle.getWidth();
+      const strokeStyleMiterLimit = strokeStyle.getMiterLimit();
+      const lineDash = strokeStyleLineDash
+        ? strokeStyleLineDash
+        : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineDash;
+      this.strokeState_ = {
+        lineCap:
+          strokeStyleLineCap !== undefined
+            ? strokeStyleLineCap
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineCap,
+        lineDash:
+          this.pixelRatio_ === 1
+            ? lineDash
+            : lineDash.map((n) => n * this.pixelRatio_),
+        lineDashOffset:
+          (strokeStyleLineDashOffset
+            ? strokeStyleLineDashOffset
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineDashOffset) * this.pixelRatio_,
+        lineJoin:
+          strokeStyleLineJoin !== undefined
+            ? strokeStyleLineJoin
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineJoin,
+        lineWidth:
+          (strokeStyleWidth !== undefined
+            ? strokeStyleWidth
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineWidth) * this.pixelRatio_,
+        miterLimit:
+          strokeStyleMiterLimit !== undefined
+            ? strokeStyleMiterLimit
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultMiterLimit,
+        strokeStyle: (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_8__.asColorLike)(
+          strokeStyleColor ? strokeStyleColor : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultStrokeStyle
+        ),
+      };
+    }
+  }
+
+  /**
+   * Set the image style for subsequent draw operations.  Pass null to remove
+   * the image style.
+   *
+   * @param {import("../../style/Image.js").default} imageStyle Image style.
+   */
+  setImageStyle(imageStyle) {
+    let imageSize;
+    if (!imageStyle || !(imageSize = imageStyle.getSize())) {
+      this.image_ = null;
+      return;
+    }
+    const imagePixelRatio = imageStyle.getPixelRatio(this.pixelRatio_);
+    const imageAnchor = imageStyle.getAnchor();
+    const imageOrigin = imageStyle.getOrigin();
+    this.image_ = imageStyle.getImage(this.pixelRatio_);
+    this.imageAnchorX_ = imageAnchor[0] * imagePixelRatio;
+    this.imageAnchorY_ = imageAnchor[1] * imagePixelRatio;
+    this.imageHeight_ = imageSize[1] * imagePixelRatio;
+    this.imageOpacity_ = imageStyle.getOpacity();
+    this.imageOriginX_ = imageOrigin[0];
+    this.imageOriginY_ = imageOrigin[1];
+    this.imageRotateWithView_ = imageStyle.getRotateWithView();
+    this.imageRotation_ = imageStyle.getRotation();
+    const imageScale = imageStyle.getScaleArray();
+    this.imageScale_ = [
+      (imageScale[0] * this.pixelRatio_) / imagePixelRatio,
+      (imageScale[1] * this.pixelRatio_) / imagePixelRatio,
+    ];
+    this.imageWidth_ = imageSize[0] * imagePixelRatio;
+  }
+
+  /**
+   * Set the text style for subsequent draw operations.  Pass null to
+   * remove the text style.
+   *
+   * @param {import("../../style/Text.js").default} textStyle Text style.
+   */
+  setTextStyle(textStyle) {
+    if (!textStyle) {
+      this.text_ = '';
+    } else {
+      const textFillStyle = textStyle.getFill();
+      if (!textFillStyle) {
+        this.textFillState_ = null;
+      } else {
+        const textFillStyleColor = textFillStyle.getColor();
+        this.textFillState_ = {
+          fillStyle: (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_8__.asColorLike)(
+            textFillStyleColor ? textFillStyleColor : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultFillStyle
+          ),
+        };
+      }
+      const textStrokeStyle = textStyle.getStroke();
+      if (!textStrokeStyle) {
+        this.textStrokeState_ = null;
+      } else {
+        const textStrokeStyleColor = textStrokeStyle.getColor();
+        const textStrokeStyleLineCap = textStrokeStyle.getLineCap();
+        const textStrokeStyleLineDash = textStrokeStyle.getLineDash();
+        const textStrokeStyleLineDashOffset =
+          textStrokeStyle.getLineDashOffset();
+        const textStrokeStyleLineJoin = textStrokeStyle.getLineJoin();
+        const textStrokeStyleWidth = textStrokeStyle.getWidth();
+        const textStrokeStyleMiterLimit = textStrokeStyle.getMiterLimit();
+        this.textStrokeState_ = {
+          lineCap:
+            textStrokeStyleLineCap !== undefined
+              ? textStrokeStyleLineCap
+              : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineCap,
+          lineDash: textStrokeStyleLineDash
+            ? textStrokeStyleLineDash
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineDash,
+          lineDashOffset: textStrokeStyleLineDashOffset
+            ? textStrokeStyleLineDashOffset
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineDashOffset,
+          lineJoin:
+            textStrokeStyleLineJoin !== undefined
+              ? textStrokeStyleLineJoin
+              : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineJoin,
+          lineWidth:
+            textStrokeStyleWidth !== undefined
+              ? textStrokeStyleWidth
+              : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultLineWidth,
+          miterLimit:
+            textStrokeStyleMiterLimit !== undefined
+              ? textStrokeStyleMiterLimit
+              : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultMiterLimit,
+          strokeStyle: (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_8__.asColorLike)(
+            textStrokeStyleColor ? textStrokeStyleColor : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultStrokeStyle
+          ),
+        };
+      }
+      const textFont = textStyle.getFont();
+      const textOffsetX = textStyle.getOffsetX();
+      const textOffsetY = textStyle.getOffsetY();
+      const textRotateWithView = textStyle.getRotateWithView();
+      const textRotation = textStyle.getRotation();
+      const textScale = textStyle.getScaleArray();
+      const textText = textStyle.getText();
+      const textTextAlign = textStyle.getTextAlign();
+      const textTextBaseline = textStyle.getTextBaseline();
+      this.textState_ = {
+        font: textFont !== undefined ? textFont : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultFont,
+        textAlign:
+          textTextAlign !== undefined ? textTextAlign : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultTextAlign,
+        textBaseline:
+          textTextBaseline !== undefined
+            ? textTextBaseline
+            : _canvas_js__WEBPACK_IMPORTED_MODULE_7__.defaultTextBaseline,
+      };
+      this.text_ =
+        textText !== undefined
+          ? Array.isArray(textText)
+            ? textText.reduce((acc, t, i) => (acc += i % 2 ? ' ' : t), '')
+            : textText
+          : '';
+      this.textOffsetX_ =
+        textOffsetX !== undefined ? this.pixelRatio_ * textOffsetX : 0;
+      this.textOffsetY_ =
+        textOffsetY !== undefined ? this.pixelRatio_ * textOffsetY : 0;
+      this.textRotateWithView_ =
+        textRotateWithView !== undefined ? textRotateWithView : false;
+      this.textRotation_ = textRotation !== undefined ? textRotation : 0;
+      this.textScale_ = [
+        this.pixelRatio_ * textScale[0],
+        this.pixelRatio_ * textScale[1],
+      ];
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasImmediateRenderer);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/Instruction.js":
+/*!******************************************************!*\
+  !*** ./node_modules/ol/render/canvas/Instruction.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "beginPathInstruction": () => (/* binding */ beginPathInstruction),
+/* harmony export */   "closePathInstruction": () => (/* binding */ closePathInstruction),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "fillInstruction": () => (/* binding */ fillInstruction),
+/* harmony export */   "strokeInstruction": () => (/* binding */ strokeInstruction)
+/* harmony export */ });
+/**
+ * @module ol/render/canvas/Instruction
+ */
+
+/**
+ * @enum {number}
+ */
+const Instruction = {
+  BEGIN_GEOMETRY: 0,
+  BEGIN_PATH: 1,
+  CIRCLE: 2,
+  CLOSE_PATH: 3,
+  CUSTOM: 4,
+  DRAW_CHARS: 5,
+  DRAW_IMAGE: 6,
+  END_GEOMETRY: 7,
+  FILL: 8,
+  MOVE_TO_LINE_TO: 9,
+  SET_FILL_STYLE: 10,
+  SET_STROKE_STYLE: 11,
+  STROKE: 12,
+};
+
+/**
+ * @type {Array<Instruction>}
+ */
+const fillInstruction = [Instruction.FILL];
+
+/**
+ * @type {Array<Instruction>}
+ */
+const strokeInstruction = [Instruction.STROKE];
+
+/**
+ * @type {Array<Instruction>}
+ */
+const beginPathInstruction = [Instruction.BEGIN_PATH];
+
+/**
+ * @type {Array<Instruction>}
+ */
+const closePathInstruction = [Instruction.CLOSE_PATH];
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Instruction);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/LineStringBuilder.js":
+/*!************************************************************!*\
+  !*** ./node_modules/ol/render/canvas/LineStringBuilder.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Builder_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Builder.js */ "./node_modules/ol/render/canvas/Builder.js");
+/* harmony import */ var _Instruction_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Instruction.js */ "./node_modules/ol/render/canvas/Instruction.js");
+/* harmony import */ var _canvas_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../canvas.js */ "./node_modules/ol/render/canvas.js");
+/**
+ * @module ol/render/canvas/LineStringBuilder
+ */
+
+
+
+
+class CanvasLineStringBuilder extends _Builder_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {number} tolerance Tolerance.
+   * @param {import("../../extent.js").Extent} maxExtent Maximum extent.
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   */
+  constructor(tolerance, maxExtent, resolution, pixelRatio) {
+    super(tolerance, maxExtent, resolution, pixelRatio);
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {number} end End.
+   * @param {number} stride Stride.
+   * @private
+   * @return {number} end.
+   */
+  drawFlatCoordinates_(flatCoordinates, offset, end, stride) {
+    const myBegin = this.coordinates.length;
+    const myEnd = this.appendFlatLineCoordinates(
+      flatCoordinates,
+      offset,
+      end,
+      stride,
+      false,
+      false
+    );
+    const moveToLineToInstruction = [
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].MOVE_TO_LINE_TO,
+      myBegin,
+      myEnd,
+    ];
+    this.instructions.push(moveToLineToInstruction);
+    this.hitDetectionInstructions.push(moveToLineToInstruction);
+    return end;
+  }
+
+  /**
+   * @param {import("../../geom/LineString.js").default|import("../Feature.js").default} lineStringGeometry Line string geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawLineString(lineStringGeometry, feature) {
+    const state = this.state;
+    const strokeStyle = state.strokeStyle;
+    const lineWidth = state.lineWidth;
+    if (strokeStyle === undefined || lineWidth === undefined) {
+      return;
+    }
+    this.updateStrokeStyle(state, this.applyStroke);
+    this.beginGeometry(lineStringGeometry, feature);
+    this.hitDetectionInstructions.push(
+      [
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_STROKE_STYLE,
+        state.strokeStyle,
+        state.lineWidth,
+        state.lineCap,
+        state.lineJoin,
+        state.miterLimit,
+        _canvas_js__WEBPACK_IMPORTED_MODULE_2__.defaultLineDash,
+        _canvas_js__WEBPACK_IMPORTED_MODULE_2__.defaultLineDashOffset,
+      ],
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction
+    );
+    const flatCoordinates = lineStringGeometry.getFlatCoordinates();
+    const stride = lineStringGeometry.getStride();
+    this.drawFlatCoordinates_(
+      flatCoordinates,
+      0,
+      flatCoordinates.length,
+      stride
+    );
+    this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @param {import("../../geom/MultiLineString.js").default|import("../Feature.js").default} multiLineStringGeometry MultiLineString geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawMultiLineString(multiLineStringGeometry, feature) {
+    const state = this.state;
+    const strokeStyle = state.strokeStyle;
+    const lineWidth = state.lineWidth;
+    if (strokeStyle === undefined || lineWidth === undefined) {
+      return;
+    }
+    this.updateStrokeStyle(state, this.applyStroke);
+    this.beginGeometry(multiLineStringGeometry, feature);
+    this.hitDetectionInstructions.push(
+      [
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_STROKE_STYLE,
+        state.strokeStyle,
+        state.lineWidth,
+        state.lineCap,
+        state.lineJoin,
+        state.miterLimit,
+        state.lineDash,
+        state.lineDashOffset,
+      ],
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction
+    );
+    const ends = multiLineStringGeometry.getEnds();
+    const flatCoordinates = multiLineStringGeometry.getFlatCoordinates();
+    const stride = multiLineStringGeometry.getStride();
+    let offset = 0;
+    for (let i = 0, ii = ends.length; i < ii; ++i) {
+      offset = this.drawFlatCoordinates_(
+        flatCoordinates,
+        offset,
+        /** @type {number} */ (ends[i]),
+        stride
+      );
+    }
+    this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @return {import("../canvas.js").SerializableInstructions} the serializable instructions.
+   */
+  finish() {
+    const state = this.state;
+    if (
+      state.lastStroke != undefined &&
+      state.lastStroke != this.coordinates.length
+    ) {
+      this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+    }
+    this.reverseHitDetectionInstructions();
+    this.state = null;
+    return super.finish();
+  }
+
+  /**
+   * @param {import("../canvas.js").FillStrokeState} state State.
+   */
+  applyStroke(state) {
+    if (
+      state.lastStroke != undefined &&
+      state.lastStroke != this.coordinates.length
+    ) {
+      this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+      state.lastStroke = this.coordinates.length;
+    }
+    state.lastStroke = 0;
+    super.applyStroke(state);
+    this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasLineStringBuilder);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/PolygonBuilder.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/ol/render/canvas/PolygonBuilder.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Builder_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Builder.js */ "./node_modules/ol/render/canvas/Builder.js");
+/* harmony import */ var _Instruction_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Instruction.js */ "./node_modules/ol/render/canvas/Instruction.js");
+/* harmony import */ var _canvas_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../canvas.js */ "./node_modules/ol/render/canvas.js");
+/* harmony import */ var _geom_flat_simplify_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../geom/flat/simplify.js */ "./node_modules/ol/geom/flat/simplify.js");
+/**
+ * @module ol/render/canvas/PolygonBuilder
+ */
+
+
+
+
+
+class CanvasPolygonBuilder extends _Builder_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {number} tolerance Tolerance.
+   * @param {import("../../extent.js").Extent} maxExtent Maximum extent.
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   */
+  constructor(tolerance, maxExtent, resolution, pixelRatio) {
+    super(tolerance, maxExtent, resolution, pixelRatio);
+  }
+
+  /**
+   * @param {Array<number>} flatCoordinates Flat coordinates.
+   * @param {number} offset Offset.
+   * @param {Array<number>} ends Ends.
+   * @param {number} stride Stride.
+   * @private
+   * @return {number} End.
+   */
+  drawFlatCoordinatess_(flatCoordinates, offset, ends, stride) {
+    const state = this.state;
+    const fill = state.fillStyle !== undefined;
+    const stroke = state.strokeStyle !== undefined;
+    const numEnds = ends.length;
+    this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction);
+    this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction);
+    for (let i = 0; i < numEnds; ++i) {
+      const end = ends[i];
+      const myBegin = this.coordinates.length;
+      const myEnd = this.appendFlatLineCoordinates(
+        flatCoordinates,
+        offset,
+        end,
+        stride,
+        true,
+        !stroke
+      );
+      const moveToLineToInstruction = [
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].MOVE_TO_LINE_TO,
+        myBegin,
+        myEnd,
+      ];
+      this.instructions.push(moveToLineToInstruction);
+      this.hitDetectionInstructions.push(moveToLineToInstruction);
+      if (stroke) {
+        // Performance optimization: only call closePath() when we have a stroke.
+        // Otherwise the ring is closed already (see appendFlatLineCoordinates above).
+        this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.closePathInstruction);
+        this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.closePathInstruction);
+      }
+      offset = end;
+    }
+    if (fill) {
+      this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.fillInstruction);
+      this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.fillInstruction);
+    }
+    if (stroke) {
+      this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+      this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+    }
+    return offset;
+  }
+
+  /**
+   * @param {import("../../geom/Circle.js").default} circleGeometry Circle geometry.
+   * @param {import("../../Feature.js").default} feature Feature.
+   */
+  drawCircle(circleGeometry, feature) {
+    const state = this.state;
+    const fillStyle = state.fillStyle;
+    const strokeStyle = state.strokeStyle;
+    if (fillStyle === undefined && strokeStyle === undefined) {
+      return;
+    }
+    this.setFillStrokeStyles_();
+    this.beginGeometry(circleGeometry, feature);
+    if (state.fillStyle !== undefined) {
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_FILL_STYLE,
+        _canvas_js__WEBPACK_IMPORTED_MODULE_2__.defaultFillStyle,
+      ]);
+    }
+    if (state.strokeStyle !== undefined) {
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_STROKE_STYLE,
+        state.strokeStyle,
+        state.lineWidth,
+        state.lineCap,
+        state.lineJoin,
+        state.miterLimit,
+        state.lineDash,
+        state.lineDashOffset,
+      ]);
+    }
+    const flatCoordinates = circleGeometry.getFlatCoordinates();
+    const stride = circleGeometry.getStride();
+    const myBegin = this.coordinates.length;
+    this.appendFlatLineCoordinates(
+      flatCoordinates,
+      0,
+      flatCoordinates.length,
+      stride,
+      false,
+      false
+    );
+    const circleInstruction = [_Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].CIRCLE, myBegin];
+    this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction, circleInstruction);
+    this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.beginPathInstruction, circleInstruction);
+    if (state.fillStyle !== undefined) {
+      this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.fillInstruction);
+      this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.fillInstruction);
+    }
+    if (state.strokeStyle !== undefined) {
+      this.instructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+      this.hitDetectionInstructions.push(_Instruction_js__WEBPACK_IMPORTED_MODULE_1__.strokeInstruction);
+    }
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @param {import("../../geom/Polygon.js").default|import("../Feature.js").default} polygonGeometry Polygon geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawPolygon(polygonGeometry, feature) {
+    const state = this.state;
+    const fillStyle = state.fillStyle;
+    const strokeStyle = state.strokeStyle;
+    if (fillStyle === undefined && strokeStyle === undefined) {
+      return;
+    }
+    this.setFillStrokeStyles_();
+    this.beginGeometry(polygonGeometry, feature);
+    if (state.fillStyle !== undefined) {
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_FILL_STYLE,
+        _canvas_js__WEBPACK_IMPORTED_MODULE_2__.defaultFillStyle,
+      ]);
+    }
+    if (state.strokeStyle !== undefined) {
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_STROKE_STYLE,
+        state.strokeStyle,
+        state.lineWidth,
+        state.lineCap,
+        state.lineJoin,
+        state.miterLimit,
+        state.lineDash,
+        state.lineDashOffset,
+      ]);
+    }
+    const ends = polygonGeometry.getEnds();
+    const flatCoordinates = polygonGeometry.getOrientedFlatCoordinates();
+    const stride = polygonGeometry.getStride();
+    this.drawFlatCoordinatess_(
+      flatCoordinates,
+      0,
+      /** @type {Array<number>} */ (ends),
+      stride
+    );
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @param {import("../../geom/MultiPolygon.js").default} multiPolygonGeometry MultiPolygon geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawMultiPolygon(multiPolygonGeometry, feature) {
+    const state = this.state;
+    const fillStyle = state.fillStyle;
+    const strokeStyle = state.strokeStyle;
+    if (fillStyle === undefined && strokeStyle === undefined) {
+      return;
+    }
+    this.setFillStrokeStyles_();
+    this.beginGeometry(multiPolygonGeometry, feature);
+    if (state.fillStyle !== undefined) {
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_FILL_STYLE,
+        _canvas_js__WEBPACK_IMPORTED_MODULE_2__.defaultFillStyle,
+      ]);
+    }
+    if (state.strokeStyle !== undefined) {
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_1__["default"].SET_STROKE_STYLE,
+        state.strokeStyle,
+        state.lineWidth,
+        state.lineCap,
+        state.lineJoin,
+        state.miterLimit,
+        state.lineDash,
+        state.lineDashOffset,
+      ]);
+    }
+    const endss = multiPolygonGeometry.getEndss();
+    const flatCoordinates = multiPolygonGeometry.getOrientedFlatCoordinates();
+    const stride = multiPolygonGeometry.getStride();
+    let offset = 0;
+    for (let i = 0, ii = endss.length; i < ii; ++i) {
+      offset = this.drawFlatCoordinatess_(
+        flatCoordinates,
+        offset,
+        endss[i],
+        stride
+      );
+    }
+    this.endGeometry(feature);
+  }
+
+  /**
+   * @return {import("../canvas.js").SerializableInstructions} the serializable instructions.
+   */
+  finish() {
+    this.reverseHitDetectionInstructions();
+    this.state = null;
+    // We want to preserve topology when drawing polygons.  Polygons are
+    // simplified using quantization and point elimination. However, we might
+    // have received a mix of quantized and non-quantized geometries, so ensure
+    // that all are quantized by quantizing all coordinates in the batch.
+    const tolerance = this.tolerance;
+    if (tolerance !== 0) {
+      const coordinates = this.coordinates;
+      for (let i = 0, ii = coordinates.length; i < ii; ++i) {
+        coordinates[i] = (0,_geom_flat_simplify_js__WEBPACK_IMPORTED_MODULE_3__.snap)(coordinates[i], tolerance);
+      }
+    }
+    return super.finish();
+  }
+
+  /**
+   * @private
+   */
+  setFillStrokeStyles_() {
+    const state = this.state;
+    const fillStyle = state.fillStyle;
+    if (fillStyle !== undefined) {
+      this.updateFillStyle(state, this.createFill);
+    }
+    if (state.strokeStyle !== undefined) {
+      this.updateStrokeStyle(state, this.applyStroke);
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasPolygonBuilder);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/TextBuilder.js":
+/*!******************************************************!*\
+  !*** ./node_modules/ol/render/canvas/TextBuilder.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TEXT_ALIGN": () => (/* binding */ TEXT_ALIGN),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Builder_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Builder.js */ "./node_modules/ol/render/canvas/Builder.js");
+/* harmony import */ var _Instruction_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Instruction.js */ "./node_modules/ol/render/canvas/Instruction.js");
+/* harmony import */ var _colorlike_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../colorlike.js */ "./node_modules/ol/colorlike.js");
+/* harmony import */ var _canvas_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../canvas.js */ "./node_modules/ol/render/canvas.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _geom_flat_linechunk_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../geom/flat/linechunk.js */ "./node_modules/ol/geom/flat/linechunk.js");
+/* harmony import */ var _geom_flat_straightchunk_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../geom/flat/straightchunk.js */ "./node_modules/ol/geom/flat/straightchunk.js");
+/**
+ * @module ol/render/canvas/TextBuilder
+ */
+
+
+
+
+
+
+
+
+/**
+ * @const
+ * @enum {number}
+ */
+const TEXT_ALIGN = {
+  'left': 0,
+  'end': 0,
+  'center': 0.5,
+  'right': 1,
+  'start': 1,
+  'top': 0,
+  'middle': 0.5,
+  'hanging': 0.2,
+  'alphabetic': 0.8,
+  'ideographic': 0.8,
+  'bottom': 1,
+};
+
+class CanvasTextBuilder extends _Builder_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {number} tolerance Tolerance.
+   * @param {import("../../extent.js").Extent} maxExtent Maximum extent.
+   * @param {number} resolution Resolution.
+   * @param {number} pixelRatio Pixel ratio.
+   */
+  constructor(tolerance, maxExtent, resolution, pixelRatio) {
+    super(tolerance, maxExtent, resolution, pixelRatio);
+
+    /**
+     * @private
+     * @type {Array<HTMLCanvasElement>}
+     */
+    this.labels_ = null;
+
+    /**
+     * @private
+     * @type {string|Array<string>}
+     */
+    this.text_ = '';
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.textOffsetX_ = 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.textOffsetY_ = 0;
+
+    /**
+     * @private
+     * @type {boolean|undefined}
+     */
+    this.textRotateWithView_ = undefined;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.textRotation_ = 0;
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").FillState}
+     */
+    this.textFillState_ = null;
+
+    /**
+     * @type {!Object<string, import("../canvas.js").FillState>}
+     */
+    this.fillStates = {};
+
+    /**
+     * @private
+     * @type {?import("../canvas.js").StrokeState}
+     */
+    this.textStrokeState_ = null;
+
+    /**
+     * @type {!Object<string, import("../canvas.js").StrokeState>}
+     */
+    this.strokeStates = {};
+
+    /**
+     * @private
+     * @type {import("../canvas.js").TextState}
+     */
+    this.textState_ = /** @type {import("../canvas.js").TextState} */ ({});
+
+    /**
+     * @type {!Object<string, import("../canvas.js").TextState>}
+     */
+    this.textStates = {};
+
+    /**
+     * @private
+     * @type {string}
+     */
+    this.textKey_ = '';
+
+    /**
+     * @private
+     * @type {string}
+     */
+    this.fillKey_ = '';
+
+    /**
+     * @private
+     * @type {string}
+     */
+    this.strokeKey_ = '';
+
+    /**
+     * Data shared with an image builder for combined decluttering.
+     * @private
+     * @type {import("../canvas.js").DeclutterImageWithText}
+     */
+    this.declutterImageWithText_ = undefined;
+  }
+
+  /**
+   * @return {import("../canvas.js").SerializableInstructions} the serializable instructions.
+   */
+  finish() {
+    const instructions = super.finish();
+    instructions.textStates = this.textStates;
+    instructions.fillStates = this.fillStates;
+    instructions.strokeStates = this.strokeStates;
+    return instructions;
+  }
+
+  /**
+   * @param {import("../../geom/SimpleGeometry.js").default|import("../Feature.js").default} geometry Geometry.
+   * @param {import("../../Feature.js").FeatureLike} feature Feature.
+   */
+  drawText(geometry, feature) {
+    const fillState = this.textFillState_;
+    const strokeState = this.textStrokeState_;
+    const textState = this.textState_;
+    if (this.text_ === '' || !textState || (!fillState && !strokeState)) {
+      return;
+    }
+
+    const coordinates = this.coordinates;
+    let begin = coordinates.length;
+
+    const geometryType = geometry.getType();
+    let flatCoordinates = null;
+    let stride = geometry.getStride();
+
+    if (
+      textState.placement === 'line' &&
+      (geometryType == 'LineString' ||
+        geometryType == 'MultiLineString' ||
+        geometryType == 'Polygon' ||
+        geometryType == 'MultiPolygon')
+    ) {
+      if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_1__.intersects)(this.getBufferedMaxExtent(), geometry.getExtent())) {
+        return;
+      }
+      let ends;
+      flatCoordinates = geometry.getFlatCoordinates();
+      if (geometryType == 'LineString') {
+        ends = [flatCoordinates.length];
+      } else if (geometryType == 'MultiLineString') {
+        ends = /** @type {import("../../geom/MultiLineString.js").default} */ (
+          geometry
+        ).getEnds();
+      } else if (geometryType == 'Polygon') {
+        ends = /** @type {import("../../geom/Polygon.js").default} */ (geometry)
+          .getEnds()
+          .slice(0, 1);
+      } else if (geometryType == 'MultiPolygon') {
+        const endss =
+          /** @type {import("../../geom/MultiPolygon.js").default} */ (
+            geometry
+          ).getEndss();
+        ends = [];
+        for (let i = 0, ii = endss.length; i < ii; ++i) {
+          ends.push(endss[i][0]);
+        }
+      }
+      this.beginGeometry(geometry, feature);
+      const repeat = textState.repeat;
+      const textAlign = repeat ? undefined : textState.textAlign;
+      // No `justify` support for line placement.
+      let flatOffset = 0;
+      for (let o = 0, oo = ends.length; o < oo; ++o) {
+        let chunks;
+        if (repeat) {
+          chunks = (0,_geom_flat_linechunk_js__WEBPACK_IMPORTED_MODULE_2__.lineChunk)(
+            repeat * this.resolution,
+            flatCoordinates,
+            flatOffset,
+            ends[o],
+            stride
+          );
+        } else {
+          chunks = [flatCoordinates.slice(flatOffset, ends[o])];
+        }
+        for (let c = 0, cc = chunks.length; c < cc; ++c) {
+          const chunk = chunks[c];
+          let chunkBegin = 0;
+          let chunkEnd = chunk.length;
+          if (textAlign == undefined) {
+            const range = (0,_geom_flat_straightchunk_js__WEBPACK_IMPORTED_MODULE_3__.matchingChunk)(
+              textState.maxAngle,
+              chunk,
+              0,
+              chunk.length,
+              2
+            );
+            chunkBegin = range[0];
+            chunkEnd = range[1];
+          }
+          for (let i = chunkBegin; i < chunkEnd; i += stride) {
+            coordinates.push(chunk[i], chunk[i + 1]);
+          }
+          const end = coordinates.length;
+          flatOffset = ends[o];
+          this.drawChars_(begin, end);
+          begin = end;
+        }
+      }
+      this.endGeometry(feature);
+    } else {
+      let geometryWidths = textState.overflow ? null : [];
+      switch (geometryType) {
+        case 'Point':
+        case 'MultiPoint':
+          flatCoordinates =
+            /** @type {import("../../geom/MultiPoint.js").default} */ (
+              geometry
+            ).getFlatCoordinates();
+          break;
+        case 'LineString':
+          flatCoordinates =
+            /** @type {import("../../geom/LineString.js").default} */ (
+              geometry
+            ).getFlatMidpoint();
+          break;
+        case 'Circle':
+          flatCoordinates =
+            /** @type {import("../../geom/Circle.js").default} */ (
+              geometry
+            ).getCenter();
+          break;
+        case 'MultiLineString':
+          flatCoordinates =
+            /** @type {import("../../geom/MultiLineString.js").default} */ (
+              geometry
+            ).getFlatMidpoints();
+          stride = 2;
+          break;
+        case 'Polygon':
+          flatCoordinates =
+            /** @type {import("../../geom/Polygon.js").default} */ (
+              geometry
+            ).getFlatInteriorPoint();
+          if (!textState.overflow) {
+            geometryWidths.push(flatCoordinates[2] / this.resolution);
+          }
+          stride = 3;
+          break;
+        case 'MultiPolygon':
+          const interiorPoints =
+            /** @type {import("../../geom/MultiPolygon.js").default} */ (
+              geometry
+            ).getFlatInteriorPoints();
+          flatCoordinates = [];
+          for (let i = 0, ii = interiorPoints.length; i < ii; i += 3) {
+            if (!textState.overflow) {
+              geometryWidths.push(interiorPoints[i + 2] / this.resolution);
+            }
+            flatCoordinates.push(interiorPoints[i], interiorPoints[i + 1]);
+          }
+          if (flatCoordinates.length === 0) {
+            return;
+          }
+          stride = 2;
+          break;
+        default:
+      }
+      const end = this.appendFlatPointCoordinates(flatCoordinates, stride);
+      if (end === begin) {
+        return;
+      }
+      if (
+        geometryWidths &&
+        (end - begin) / 2 !== flatCoordinates.length / stride
+      ) {
+        let beg = begin / 2;
+        geometryWidths = geometryWidths.filter((w, i) => {
+          const keep =
+            coordinates[(beg + i) * 2] === flatCoordinates[i * stride] &&
+            coordinates[(beg + i) * 2 + 1] === flatCoordinates[i * stride + 1];
+          if (!keep) {
+            --beg;
+          }
+          return keep;
+        });
+      }
+
+      this.saveTextStates_();
+
+      if (textState.backgroundFill || textState.backgroundStroke) {
+        this.setFillStrokeStyle(
+          textState.backgroundFill,
+          textState.backgroundStroke
+        );
+        if (textState.backgroundFill) {
+          this.updateFillStyle(this.state, this.createFill);
+          this.hitDetectionInstructions.push(this.createFill(this.state));
+        }
+        if (textState.backgroundStroke) {
+          this.updateStrokeStyle(this.state, this.applyStroke);
+          this.hitDetectionInstructions.push(this.createStroke(this.state));
+        }
+      }
+
+      this.beginGeometry(geometry, feature);
+
+      // adjust padding for negative scale
+      let padding = textState.padding;
+      if (
+        padding != _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultPadding &&
+        (textState.scale[0] < 0 || textState.scale[1] < 0)
+      ) {
+        let p0 = textState.padding[0];
+        let p1 = textState.padding[1];
+        let p2 = textState.padding[2];
+        let p3 = textState.padding[3];
+        if (textState.scale[0] < 0) {
+          p1 = -p1;
+          p3 = -p3;
+        }
+        if (textState.scale[1] < 0) {
+          p0 = -p0;
+          p2 = -p2;
+        }
+        padding = [p0, p1, p2, p3];
+      }
+
+      // The image is unknown at this stage so we pass null; it will be computed at render time.
+      // For clarity, we pass NaN for offsetX, offsetY, width and height, which will be computed at
+      // render time.
+      const pixelRatio = this.pixelRatio;
+      this.instructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_5__["default"].DRAW_IMAGE,
+        begin,
+        end,
+        null,
+        NaN,
+        NaN,
+        NaN,
+        1,
+        0,
+        0,
+        this.textRotateWithView_,
+        this.textRotation_,
+        [1, 1],
+        NaN,
+        undefined,
+        this.declutterImageWithText_,
+        padding == _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultPadding
+          ? _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultPadding
+          : padding.map(function (p) {
+              return p * pixelRatio;
+            }),
+        !!textState.backgroundFill,
+        !!textState.backgroundStroke,
+        this.text_,
+        this.textKey_,
+        this.strokeKey_,
+        this.fillKey_,
+        this.textOffsetX_,
+        this.textOffsetY_,
+        geometryWidths,
+      ]);
+      const scale = 1 / pixelRatio;
+      this.hitDetectionInstructions.push([
+        _Instruction_js__WEBPACK_IMPORTED_MODULE_5__["default"].DRAW_IMAGE,
+        begin,
+        end,
+        null,
+        NaN,
+        NaN,
+        NaN,
+        1,
+        0,
+        0,
+        this.textRotateWithView_,
+        this.textRotation_,
+        [scale, scale],
+        NaN,
+        undefined,
+        this.declutterImageWithText_,
+        padding,
+        !!textState.backgroundFill,
+        !!textState.backgroundStroke,
+        this.text_,
+        this.textKey_,
+        this.strokeKey_,
+        this.fillKey_,
+        this.textOffsetX_,
+        this.textOffsetY_,
+        geometryWidths,
+      ]);
+
+      this.endGeometry(feature);
+    }
+  }
+
+  /**
+   * @private
+   */
+  saveTextStates_() {
+    const strokeState = this.textStrokeState_;
+    const textState = this.textState_;
+    const fillState = this.textFillState_;
+
+    const strokeKey = this.strokeKey_;
+    if (strokeState) {
+      if (!(strokeKey in this.strokeStates)) {
+        this.strokeStates[strokeKey] = {
+          strokeStyle: strokeState.strokeStyle,
+          lineCap: strokeState.lineCap,
+          lineDashOffset: strokeState.lineDashOffset,
+          lineWidth: strokeState.lineWidth,
+          lineJoin: strokeState.lineJoin,
+          miterLimit: strokeState.miterLimit,
+          lineDash: strokeState.lineDash,
+        };
+      }
+    }
+    const textKey = this.textKey_;
+    if (!(textKey in this.textStates)) {
+      this.textStates[textKey] = {
+        font: textState.font,
+        textAlign: textState.textAlign || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultTextAlign,
+        justify: textState.justify,
+        textBaseline: textState.textBaseline || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultTextBaseline,
+        scale: textState.scale,
+      };
+    }
+    const fillKey = this.fillKey_;
+    if (fillState) {
+      if (!(fillKey in this.fillStates)) {
+        this.fillStates[fillKey] = {
+          fillStyle: fillState.fillStyle,
+        };
+      }
+    }
+  }
+
+  /**
+   * @private
+   * @param {number} begin Begin.
+   * @param {number} end End.
+   */
+  drawChars_(begin, end) {
+    const strokeState = this.textStrokeState_;
+    const textState = this.textState_;
+
+    const strokeKey = this.strokeKey_;
+    const textKey = this.textKey_;
+    const fillKey = this.fillKey_;
+    this.saveTextStates_();
+
+    const pixelRatio = this.pixelRatio;
+    const baseline = TEXT_ALIGN[textState.textBaseline];
+
+    const offsetY = this.textOffsetY_ * pixelRatio;
+    const text = this.text_;
+    const strokeWidth = strokeState
+      ? (strokeState.lineWidth * Math.abs(textState.scale[0])) / 2
+      : 0;
+
+    this.instructions.push([
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_5__["default"].DRAW_CHARS,
+      begin,
+      end,
+      baseline,
+      textState.overflow,
+      fillKey,
+      textState.maxAngle,
+      pixelRatio,
+      offsetY,
+      strokeKey,
+      strokeWidth * pixelRatio,
+      text,
+      textKey,
+      1,
+    ]);
+    this.hitDetectionInstructions.push([
+      _Instruction_js__WEBPACK_IMPORTED_MODULE_5__["default"].DRAW_CHARS,
+      begin,
+      end,
+      baseline,
+      textState.overflow,
+      fillKey,
+      textState.maxAngle,
+      1,
+      offsetY,
+      strokeKey,
+      strokeWidth,
+      text,
+      textKey,
+      1 / pixelRatio,
+    ]);
+  }
+
+  /**
+   * @param {import("../../style/Text.js").default} textStyle Text style.
+   * @param {Object} [sharedData] Shared data.
+   */
+  setTextStyle(textStyle, sharedData) {
+    let textState, fillState, strokeState;
+    if (!textStyle) {
+      this.text_ = '';
+    } else {
+      const textFillStyle = textStyle.getFill();
+      if (!textFillStyle) {
+        fillState = null;
+        this.textFillState_ = fillState;
+      } else {
+        fillState = this.textFillState_;
+        if (!fillState) {
+          fillState = /** @type {import("../canvas.js").FillState} */ ({});
+          this.textFillState_ = fillState;
+        }
+        fillState.fillStyle = (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_6__.asColorLike)(
+          textFillStyle.getColor() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultFillStyle
+        );
+      }
+
+      const textStrokeStyle = textStyle.getStroke();
+      if (!textStrokeStyle) {
+        strokeState = null;
+        this.textStrokeState_ = strokeState;
+      } else {
+        strokeState = this.textStrokeState_;
+        if (!strokeState) {
+          strokeState = /** @type {import("../canvas.js").StrokeState} */ ({});
+          this.textStrokeState_ = strokeState;
+        }
+        const lineDash = textStrokeStyle.getLineDash();
+        const lineDashOffset = textStrokeStyle.getLineDashOffset();
+        const lineWidth = textStrokeStyle.getWidth();
+        const miterLimit = textStrokeStyle.getMiterLimit();
+        strokeState.lineCap = textStrokeStyle.getLineCap() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultLineCap;
+        strokeState.lineDash = lineDash ? lineDash.slice() : _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultLineDash;
+        strokeState.lineDashOffset =
+          lineDashOffset === undefined ? _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultLineDashOffset : lineDashOffset;
+        strokeState.lineJoin = textStrokeStyle.getLineJoin() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultLineJoin;
+        strokeState.lineWidth =
+          lineWidth === undefined ? _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultLineWidth : lineWidth;
+        strokeState.miterLimit =
+          miterLimit === undefined ? _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultMiterLimit : miterLimit;
+        strokeState.strokeStyle = (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_6__.asColorLike)(
+          textStrokeStyle.getColor() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultStrokeStyle
+        );
+      }
+
+      textState = this.textState_;
+      const font = textStyle.getFont() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultFont;
+      (0,_canvas_js__WEBPACK_IMPORTED_MODULE_4__.registerFont)(font);
+      const textScale = textStyle.getScaleArray();
+      textState.overflow = textStyle.getOverflow();
+      textState.font = font;
+      textState.maxAngle = textStyle.getMaxAngle();
+      textState.placement = textStyle.getPlacement();
+      textState.textAlign = textStyle.getTextAlign();
+      textState.repeat = textStyle.getRepeat();
+      textState.justify = textStyle.getJustify();
+      textState.textBaseline =
+        textStyle.getTextBaseline() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultTextBaseline;
+      textState.backgroundFill = textStyle.getBackgroundFill();
+      textState.backgroundStroke = textStyle.getBackgroundStroke();
+      textState.padding = textStyle.getPadding() || _canvas_js__WEBPACK_IMPORTED_MODULE_4__.defaultPadding;
+      textState.scale = textScale === undefined ? [1, 1] : textScale;
+
+      const textOffsetX = textStyle.getOffsetX();
+      const textOffsetY = textStyle.getOffsetY();
+      const textRotateWithView = textStyle.getRotateWithView();
+      const textRotation = textStyle.getRotation();
+      this.text_ = textStyle.getText() || '';
+      this.textOffsetX_ = textOffsetX === undefined ? 0 : textOffsetX;
+      this.textOffsetY_ = textOffsetY === undefined ? 0 : textOffsetY;
+      this.textRotateWithView_ =
+        textRotateWithView === undefined ? false : textRotateWithView;
+      this.textRotation_ = textRotation === undefined ? 0 : textRotation;
+
+      this.strokeKey_ = strokeState
+        ? (typeof strokeState.strokeStyle == 'string'
+            ? strokeState.strokeStyle
+            : (0,_util_js__WEBPACK_IMPORTED_MODULE_7__.getUid)(strokeState.strokeStyle)) +
+          strokeState.lineCap +
+          strokeState.lineDashOffset +
+          '|' +
+          strokeState.lineWidth +
+          strokeState.lineJoin +
+          strokeState.miterLimit +
+          '[' +
+          strokeState.lineDash.join() +
+          ']'
+        : '';
+      this.textKey_ =
+        textState.font +
+        textState.scale +
+        (textState.textAlign || '?') +
+        (textState.repeat || '?') +
+        (textState.justify || '?') +
+        (textState.textBaseline || '?');
+      this.fillKey_ = fillState
+        ? typeof fillState.fillStyle == 'string'
+          ? fillState.fillStyle
+          : '|' + (0,_util_js__WEBPACK_IMPORTED_MODULE_7__.getUid)(fillState.fillStyle)
+        : '';
+    }
+    this.declutterImageWithText_ = sharedData;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasTextBuilder);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/render/canvas/hitdetect.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/render/canvas/hitdetect.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HIT_DETECT_RESOLUTION": () => (/* binding */ HIT_DETECT_RESOLUTION),
+/* harmony export */   "createHitDetectionImageData": () => (/* binding */ createHitDetectionImageData),
+/* harmony export */   "hitDetect": () => (/* binding */ hitDetect)
+/* harmony export */ });
+/* harmony import */ var _Immediate_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Immediate.js */ "./node_modules/ol/render/canvas/Immediate.js");
+/* harmony import */ var _style_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../style.js */ "./node_modules/ol/style/Icon.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../math.js */ "./node_modules/ol/math.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/**
+ * @module ol/render/canvas/hitdetect
+ */
+
+
+
+
+
+
+
+
+const HIT_DETECT_RESOLUTION = 0.5;
+
+/**
+ * @param {import("../../size.js").Size} size Canvas size in css pixels.
+ * @param {Array<import("../../transform.js").Transform>} transforms Transforms
+ * for rendering features to all worlds of the viewport, from coordinates to css
+ * pixels.
+ * @param {Array<import("../../Feature.js").FeatureLike>} features
+ * Features to consider for hit detection.
+ * @param {import("../../style/Style.js").StyleFunction|undefined} styleFunction
+ * Layer style function.
+ * @param {import("../../extent.js").Extent} extent Extent.
+ * @param {number} resolution Resolution.
+ * @param {number} rotation Rotation.
+ * @return {ImageData} Hit detection image data.
+ */
+function createHitDetectionImageData(
+  size,
+  transforms,
+  features,
+  styleFunction,
+  extent,
+  resolution,
+  rotation
+) {
+  const width = size[0] * HIT_DETECT_RESOLUTION;
+  const height = size[1] * HIT_DETECT_RESOLUTION;
+  const context = (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.createCanvasContext2D)(width, height);
+  context.imageSmoothingEnabled = false;
+  const canvas = context.canvas;
+  const renderer = new _Immediate_js__WEBPACK_IMPORTED_MODULE_1__["default"](
+    context,
+    HIT_DETECT_RESOLUTION,
+    extent,
+    null,
+    rotation
+  );
+  const featureCount = features.length;
+  // Stretch hit detection index to use the whole available color range
+  const indexFactor = Math.floor((256 * 256 * 256 - 1) / featureCount);
+  const featuresByZIndex = {};
+  for (let i = 1; i <= featureCount; ++i) {
+    const feature = features[i - 1];
+    const featureStyleFunction = feature.getStyleFunction() || styleFunction;
+    if (!styleFunction) {
+      continue;
+    }
+    let styles = featureStyleFunction(feature, resolution);
+    if (!styles) {
+      continue;
+    }
+    if (!Array.isArray(styles)) {
+      styles = [styles];
+    }
+    const index = i * indexFactor;
+    const color = index.toString(16).padStart(7, '#00000');
+    for (let j = 0, jj = styles.length; j < jj; ++j) {
+      const originalStyle = styles[j];
+      const geometry = originalStyle.getGeometryFunction()(feature);
+      if (!geometry || !(0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.intersects)(extent, geometry.getExtent())) {
+        continue;
+      }
+      const style = originalStyle.clone();
+      const fill = style.getFill();
+      if (fill) {
+        fill.setColor(color);
+      }
+      const stroke = style.getStroke();
+      if (stroke) {
+        stroke.setColor(color);
+        stroke.setLineDash(null);
+      }
+      style.setText(undefined);
+      const image = originalStyle.getImage();
+      if (image && image.getOpacity() !== 0) {
+        const imgSize = image.getImageSize();
+        if (!imgSize) {
+          continue;
+        }
+
+        const imgContext = (0,_dom_js__WEBPACK_IMPORTED_MODULE_0__.createCanvasContext2D)(
+          imgSize[0],
+          imgSize[1],
+          undefined,
+          {alpha: false}
+        );
+        const img = imgContext.canvas;
+        imgContext.fillStyle = color;
+        imgContext.fillRect(0, 0, img.width, img.height);
+        style.setImage(
+          new _style_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+            img: img,
+            imgSize: imgSize,
+            anchor: image.getAnchor(),
+            anchorXUnits: 'pixels',
+            anchorYUnits: 'pixels',
+            offset: image.getOrigin(),
+            opacity: 1,
+            size: image.getSize(),
+            scale: image.getScale(),
+            rotation: image.getRotation(),
+            rotateWithView: image.getRotateWithView(),
+          })
+        );
+      }
+      const zIndex = style.getZIndex() || 0;
+      let byGeometryType = featuresByZIndex[zIndex];
+      if (!byGeometryType) {
+        byGeometryType = {};
+        featuresByZIndex[zIndex] = byGeometryType;
+        byGeometryType['Polygon'] = [];
+        byGeometryType['Circle'] = [];
+        byGeometryType['LineString'] = [];
+        byGeometryType['Point'] = [];
+      }
+      const type = geometry.getType();
+      if (type === 'GeometryCollection') {
+        const geometries =
+          /** @type {import("../../geom/GeometryCollection.js").default} */ (
+            geometry
+          ).getGeometriesArrayRecursive();
+        for (let i = 0, ii = geometries.length; i < ii; ++i) {
+          const geometry = geometries[i];
+          byGeometryType[geometry.getType().replace('Multi', '')].push(
+            geometry,
+            style
+          );
+        }
+      } else {
+        byGeometryType[type.replace('Multi', '')].push(geometry, style);
+      }
+    }
+  }
+
+  const zIndexKeys = Object.keys(featuresByZIndex).map(Number).sort(_array_js__WEBPACK_IMPORTED_MODULE_4__.ascending);
+  for (let i = 0, ii = zIndexKeys.length; i < ii; ++i) {
+    const byGeometryType = featuresByZIndex[zIndexKeys[i]];
+    for (const type in byGeometryType) {
+      const geomAndStyle = byGeometryType[type];
+      for (let j = 0, jj = geomAndStyle.length; j < jj; j += 2) {
+        renderer.setStyle(geomAndStyle[j + 1]);
+        for (let k = 0, kk = transforms.length; k < kk; ++k) {
+          renderer.setTransform(transforms[k]);
+          renderer.drawGeometry(geomAndStyle[j]);
+        }
+      }
+    }
+  }
+  return context.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+/**
+ * @param {import("../../pixel").Pixel} pixel Pixel coordinate on the hit
+ * detection canvas in css pixels.
+ * @param {Array<F>} features Features. Has to
+ * match the `features` array that was passed to `createHitDetectionImageData()`.
+ * @param {ImageData} imageData Hit detection image data generated by
+ * `createHitDetectionImageData()`.
+ * @return {Array<F>} Features.
+ * @template {import("../../Feature.js").FeatureLike} F
+ */
+function hitDetect(pixel, features, imageData) {
+  const resultFeatures = [];
+  if (imageData) {
+    const x = Math.floor(Math.round(pixel[0]) * HIT_DETECT_RESOLUTION);
+    const y = Math.floor(Math.round(pixel[1]) * HIT_DETECT_RESOLUTION);
+    // The pixel coordinate is clamped down to the hit-detect canvas' size to account
+    // for browsers returning coordinates slightly larger than the actual canvas size
+    // due to a non-integer pixel ratio.
+    const index =
+      ((0,_math_js__WEBPACK_IMPORTED_MODULE_5__.clamp)(x, 0, imageData.width - 1) +
+        (0,_math_js__WEBPACK_IMPORTED_MODULE_5__.clamp)(y, 0, imageData.height - 1) * imageData.width) *
+      4;
+    const r = imageData.data[index];
+    const g = imageData.data[index + 1];
+    const b = imageData.data[index + 2];
+    const i = b + 256 * (g + 256 * r);
+    const indexFactor = Math.floor((256 * 256 * 256 - 1) / features.length);
+    if (i && i % indexFactor === 0) {
+      resultFeatures.push(features[i / indexFactor - 1]);
+    }
+  }
+  // @ts-ignore Features are copied from `features` to `resultFeatures` so the type should be the same
+  return resultFeatures;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/renderer/Composite.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ol/renderer/Composite.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Map_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Map.js */ "./node_modules/ol/renderer/Map.js");
+/* harmony import */ var _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ObjectEventType.js */ "./node_modules/ol/ObjectEventType.js");
+/* harmony import */ var _render_Event_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../render/Event.js */ "./node_modules/ol/render/Event.js");
+/* harmony import */ var _render_EventType_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../render/EventType.js */ "./node_modules/ol/render/EventType.js");
+/* harmony import */ var _css_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../css.js */ "./node_modules/ol/css.js");
+/* harmony import */ var _render_canvas_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../render/canvas.js */ "./node_modules/ol/render/canvas.js");
+/* harmony import */ var _layer_Layer_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../layer/Layer.js */ "./node_modules/ol/layer/Layer.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events.js */ "./node_modules/ol/events.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../dom.js */ "./node_modules/ol/dom.js");
+/**
+ * @module ol/renderer/Composite
+ */
+
+
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * Canvas map renderer.
+ * @api
+ */
+class CompositeMapRenderer extends _Map_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {import("../Map.js").default} map Map.
+   */
+  constructor(map) {
+    super(map);
+
+    /**
+     * @type {import("../events.js").EventsKey}
+     */
+    this.fontChangeListenerKey_ = (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(
+      _render_canvas_js__WEBPACK_IMPORTED_MODULE_2__.checkedFonts,
+      _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_3__["default"].PROPERTYCHANGE,
+      map.redrawText.bind(map)
+    );
+
+    /**
+     * @private
+     * @type {HTMLDivElement}
+     */
+    this.element_ = document.createElement('div');
+    const style = this.element_.style;
+    style.position = 'absolute';
+    style.width = '100%';
+    style.height = '100%';
+    style.zIndex = '0';
+
+    this.element_.className = _css_js__WEBPACK_IMPORTED_MODULE_4__.CLASS_UNSELECTABLE + ' ol-layers';
+
+    const container = map.getViewport();
+    container.insertBefore(this.element_, container.firstChild || null);
+
+    /**
+     * @private
+     * @type {Array<HTMLElement>}
+     */
+    this.children_ = [];
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.renderedVisible_ = true;
+  }
+
+  /**
+   * @param {import("../render/EventType.js").default} type Event type.
+   * @param {import("../Map.js").FrameState} frameState Frame state.
+   */
+  dispatchRenderEvent(type, frameState) {
+    const map = this.getMap();
+    if (map.hasListener(type)) {
+      const event = new _render_Event_js__WEBPACK_IMPORTED_MODULE_5__["default"](type, undefined, frameState);
+      map.dispatchEvent(event);
+    }
+  }
+
+  disposeInternal() {
+    (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey)(this.fontChangeListenerKey_);
+    this.element_.parentNode.removeChild(this.element_);
+    super.disposeInternal();
+  }
+
+  /**
+   * Render.
+   * @param {?import("../Map.js").FrameState} frameState Frame state.
+   */
+  renderFrame(frameState) {
+    if (!frameState) {
+      if (this.renderedVisible_) {
+        this.element_.style.display = 'none';
+        this.renderedVisible_ = false;
+      }
+      return;
+    }
+
+    this.calculateMatrices2D(frameState);
+    this.dispatchRenderEvent(_render_EventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].PRECOMPOSE, frameState);
+
+    const layerStatesArray = frameState.layerStatesArray.sort(function (a, b) {
+      return a.zIndex - b.zIndex;
+    });
+    const viewState = frameState.viewState;
+
+    this.children_.length = 0;
+    /**
+     * @type {Array<import("../layer/BaseVector.js").default>}
+     */
+    const declutterLayers = [];
+    let previousElement = null;
+    for (let i = 0, ii = layerStatesArray.length; i < ii; ++i) {
+      const layerState = layerStatesArray[i];
+      frameState.layerIndex = i;
+
+      const layer = layerState.layer;
+      const sourceState = layer.getSourceState();
+      if (
+        !(0,_layer_Layer_js__WEBPACK_IMPORTED_MODULE_7__.inView)(layerState, viewState) ||
+        (sourceState != 'ready' && sourceState != 'undefined')
+      ) {
+        layer.unrender();
+        continue;
+      }
+
+      const element = layer.render(frameState, previousElement);
+      if (!element) {
+        continue;
+      }
+      if (element !== previousElement) {
+        this.children_.push(element);
+        previousElement = element;
+      }
+      if ('getDeclutter' in layer) {
+        declutterLayers.push(
+          /** @type {import("../layer/BaseVector.js").default} */ (layer)
+        );
+      }
+    }
+    for (let i = declutterLayers.length - 1; i >= 0; --i) {
+      declutterLayers[i].renderDeclutter(frameState);
+    }
+
+    (0,_dom_js__WEBPACK_IMPORTED_MODULE_8__.replaceChildren)(this.element_, this.children_);
+
+    this.dispatchRenderEvent(_render_EventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].POSTCOMPOSE, frameState);
+
+    if (!this.renderedVisible_) {
+      this.element_.style.display = '';
+      this.renderedVisible_ = true;
+    }
+
+    this.scheduleExpireIconCache(frameState);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CompositeMapRenderer);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/renderer/Layer.js":
 /*!*******************************************!*\
   !*** ./node_modules/ol/renderer/Layer.js ***!
   \*******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -14347,12 +29826,279 @@ class LayerRenderer extends _Observable_js__WEBPACK_IMPORTED_MODULE_0__["default
 
 /***/ }),
 
+/***/ "./node_modules/ol/renderer/Map.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol/renderer/Map.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Disposable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Disposable.js */ "./node_modules/ol/Disposable.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../transform.js */ "./node_modules/ol/transform.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _style_IconImageCache_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../style/IconImageCache.js */ "./node_modules/ol/style/IconImageCache.js");
+/* harmony import */ var _layer_Layer_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../layer/Layer.js */ "./node_modules/ol/layer/Layer.js");
+/* harmony import */ var _coordinate_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../coordinate.js */ "./node_modules/ol/coordinate.js");
+/**
+ * @module ol/renderer/Map
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * @typedef HitMatch
+ * @property {import("../Feature.js").FeatureLike} feature Feature.
+ * @property {import("../layer/Layer.js").default} layer Layer.
+ * @property {import("../geom/SimpleGeometry.js").default} geometry Geometry.
+ * @property {number} distanceSq Squared distance.
+ * @property {import("./vector.js").FeatureCallback<T>} callback Callback.
+ * @template T
+ */
+
+/**
+ * @abstract
+ */
+class MapRenderer extends _Disposable_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {import("../Map.js").default} map Map.
+   */
+  constructor(map) {
+    super();
+
+    /**
+     * @private
+     * @type {import("../Map.js").default}
+     */
+    this.map_ = map;
+  }
+
+  /**
+   * @abstract
+   * @param {import("../render/EventType.js").default} type Event type.
+   * @param {import("../Map.js").FrameState} frameState Frame state.
+   */
+  dispatchRenderEvent(type, frameState) {
+    (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * @param {import("../Map.js").FrameState} frameState FrameState.
+   * @protected
+   */
+  calculateMatrices2D(frameState) {
+    const viewState = frameState.viewState;
+    const coordinateToPixelTransform = frameState.coordinateToPixelTransform;
+    const pixelToCoordinateTransform = frameState.pixelToCoordinateTransform;
+
+    (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.compose)(
+      coordinateToPixelTransform,
+      frameState.size[0] / 2,
+      frameState.size[1] / 2,
+      1 / viewState.resolution,
+      -1 / viewState.resolution,
+      -viewState.rotation,
+      -viewState.center[0],
+      -viewState.center[1]
+    );
+
+    (0,_transform_js__WEBPACK_IMPORTED_MODULE_2__.makeInverse)(pixelToCoordinateTransform, coordinateToPixelTransform);
+  }
+
+  /**
+   * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
+   * @param {import("../Map.js").FrameState} frameState FrameState.
+   * @param {number} hitTolerance Hit tolerance in pixels.
+   * @param {boolean} checkWrapped Check for wrapped geometries.
+   * @param {import("./vector.js").FeatureCallback<T>} callback Feature callback.
+   * @param {S} thisArg Value to use as `this` when executing `callback`.
+   * @param {function(this: U, import("../layer/Layer.js").default): boolean} layerFilter Layer filter
+   *     function, only layers which are visible and for which this function
+   *     returns `true` will be tested for features.  By default, all visible
+   *     layers will be tested.
+   * @param {U} thisArg2 Value to use as `this` when executing `layerFilter`.
+   * @return {T|undefined} Callback result.
+   * @template S,T,U
+   */
+  forEachFeatureAtCoordinate(
+    coordinate,
+    frameState,
+    hitTolerance,
+    checkWrapped,
+    callback,
+    thisArg,
+    layerFilter,
+    thisArg2
+  ) {
+    let result;
+    const viewState = frameState.viewState;
+
+    /**
+     * @param {boolean} managed Managed layer.
+     * @param {import("../Feature.js").FeatureLike} feature Feature.
+     * @param {import("../layer/Layer.js").default} layer Layer.
+     * @param {import("../geom/Geometry.js").default} geometry Geometry.
+     * @return {T|undefined} Callback result.
+     */
+    function forEachFeatureAtCoordinate(managed, feature, layer, geometry) {
+      return callback.call(thisArg, feature, managed ? layer : null, geometry);
+    }
+
+    const projection = viewState.projection;
+
+    const translatedCoordinate = (0,_coordinate_js__WEBPACK_IMPORTED_MODULE_3__.wrapX)(coordinate.slice(), projection);
+    const offsets = [[0, 0]];
+    if (projection.canWrapX() && checkWrapped) {
+      const projectionExtent = projection.getExtent();
+      const worldWidth = (0,_extent_js__WEBPACK_IMPORTED_MODULE_4__.getWidth)(projectionExtent);
+      offsets.push([-worldWidth, 0], [worldWidth, 0]);
+    }
+
+    const layerStates = frameState.layerStatesArray;
+    const numLayers = layerStates.length;
+
+    const matches = /** @type {Array<HitMatch<T>>} */ ([]);
+    const tmpCoord = [];
+    for (let i = 0; i < offsets.length; i++) {
+      for (let j = numLayers - 1; j >= 0; --j) {
+        const layerState = layerStates[j];
+        const layer = layerState.layer;
+        if (
+          layer.hasRenderer() &&
+          (0,_layer_Layer_js__WEBPACK_IMPORTED_MODULE_5__.inView)(layerState, viewState) &&
+          layerFilter.call(thisArg2, layer)
+        ) {
+          const layerRenderer = layer.getRenderer();
+          const source = layer.getSource();
+          if (layerRenderer && source) {
+            const coordinates = source.getWrapX()
+              ? translatedCoordinate
+              : coordinate;
+            const callback = forEachFeatureAtCoordinate.bind(
+              null,
+              layerState.managed
+            );
+            tmpCoord[0] = coordinates[0] + offsets[i][0];
+            tmpCoord[1] = coordinates[1] + offsets[i][1];
+            result = layerRenderer.forEachFeatureAtCoordinate(
+              tmpCoord,
+              frameState,
+              hitTolerance,
+              callback,
+              matches
+            );
+          }
+          if (result) {
+            return result;
+          }
+        }
+      }
+    }
+    if (matches.length === 0) {
+      return undefined;
+    }
+    const order = 1 / matches.length;
+    matches.forEach((m, i) => (m.distanceSq += i * order));
+    matches.sort((a, b) => a.distanceSq - b.distanceSq);
+    matches.some((m) => {
+      return (result = m.callback(m.feature, m.layer, m.geometry));
+    });
+    return result;
+  }
+
+  /**
+   * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
+   * @param {import("../Map.js").FrameState} frameState FrameState.
+   * @param {number} hitTolerance Hit tolerance in pixels.
+   * @param {boolean} checkWrapped Check for wrapped geometries.
+   * @param {function(this: U, import("../layer/Layer.js").default): boolean} layerFilter Layer filter
+   *     function, only layers which are visible and for which this function
+   *     returns `true` will be tested for features.  By default, all visible
+   *     layers will be tested.
+   * @param {U} thisArg Value to use as `this` when executing `layerFilter`.
+   * @return {boolean} Is there a feature at the given coordinate?
+   * @template U
+   */
+  hasFeatureAtCoordinate(
+    coordinate,
+    frameState,
+    hitTolerance,
+    checkWrapped,
+    layerFilter,
+    thisArg
+  ) {
+    const hasFeature = this.forEachFeatureAtCoordinate(
+      coordinate,
+      frameState,
+      hitTolerance,
+      checkWrapped,
+      _functions_js__WEBPACK_IMPORTED_MODULE_6__.TRUE,
+      this,
+      layerFilter,
+      thisArg
+    );
+
+    return hasFeature !== undefined;
+  }
+
+  /**
+   * @return {import("../Map.js").default} Map.
+   */
+  getMap() {
+    return this.map_;
+  }
+
+  /**
+   * Render.
+   * @abstract
+   * @param {?import("../Map.js").FrameState} frameState Frame state.
+   */
+  renderFrame(frameState) {
+    (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * @param {import("../Map.js").FrameState} frameState Frame state.
+   * @protected
+   */
+  scheduleExpireIconCache(frameState) {
+    if (_style_IconImageCache_js__WEBPACK_IMPORTED_MODULE_7__.shared.canExpireCache()) {
+      frameState.postRenderFunctions.push(expireIconCache);
+    }
+  }
+}
+
+/**
+ * @param {import("../Map.js").default} map Map.
+ * @param {import("../Map.js").FrameState} frameState Frame state.
+ */
+function expireIconCache(map, frameState) {
+  _style_IconImageCache_js__WEBPACK_IMPORTED_MODULE_7__.shared.expire();
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MapRenderer);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/renderer/canvas/Layer.js":
 /*!**************************************************!*\
   !*** ./node_modules/ol/renderer/canvas/Layer.js ***!
   \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "canvasPool": () => (/* binding */ canvasPool),
@@ -14692,6 +30438,7 @@ class CanvasLayerRenderer extends _Layer_js__WEBPACK_IMPORTED_MODULE_1__["defaul
   \******************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -15466,12 +31213,1312 @@ class CanvasTileLayerRenderer extends _Layer_js__WEBPACK_IMPORTED_MODULE_1__["de
 
 /***/ }),
 
+/***/ "./node_modules/ol/renderer/canvas/VectorLayer.js":
+/*!********************************************************!*\
+  !*** ./node_modules/ol/renderer/canvas/VectorLayer.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _render_canvas_BuilderGroup_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../render/canvas/BuilderGroup.js */ "./node_modules/ol/render/canvas/BuilderGroup.js");
+/* harmony import */ var _Layer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer.js */ "./node_modules/ol/renderer/canvas/Layer.js");
+/* harmony import */ var _render_canvas_ExecutorGroup_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../render/canvas/ExecutorGroup.js */ "./node_modules/ol/render/canvas/ExecutorGroup.js");
+/* harmony import */ var _ViewHint_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../ViewHint.js */ "./node_modules/ol/ViewHint.js");
+/* harmony import */ var _render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../render/canvas/hitdetect.js */ "./node_modules/ol/render/canvas/hitdetect.js");
+/* harmony import */ var _transform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../transform.js */ "./node_modules/ol/transform.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _vector_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../vector.js */ "./node_modules/ol/renderer/vector.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _proj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../proj.js */ "./node_modules/ol/proj.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _coordinate_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../coordinate.js */ "./node_modules/ol/coordinate.js");
+/**
+ * @module ol/renderer/canvas/VectorLayer
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * Canvas renderer for vector layers.
+ * @api
+ */
+class CanvasVectorLayerRenderer extends _Layer_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {import("../../layer/BaseVector.js").default} vectorLayer Vector layer.
+   */
+  constructor(vectorLayer) {
+    super(vectorLayer);
+
+    /** @private */
+    this.boundHandleStyleImageChange_ = this.handleStyleImageChange_.bind(this);
+
+    /**
+     * @type {boolean}
+     */
+    this.animatingOrInteracting_;
+
+    /**
+     * @type {ImageData|null}
+     */
+    this.hitDetectionImageData_ = null;
+
+    /**
+     * @type {Array<import("../../Feature.js").default>}
+     */
+    this.renderedFeatures_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.renderedRevision_ = -1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.renderedResolution_ = NaN;
+
+    /**
+     * @private
+     * @type {import("../../extent.js").Extent}
+     */
+    this.renderedExtent_ = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.createEmpty)();
+
+    /**
+     * @private
+     * @type {import("../../extent.js").Extent}
+     */
+    this.wrappedRenderedExtent_ = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.createEmpty)();
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.renderedRotation_;
+
+    /**
+     * @private
+     * @type {import("../../coordinate").Coordinate}
+     */
+    this.renderedCenter_ = null;
+
+    /**
+     * @private
+     * @type {import("../../proj/Projection").default}
+     */
+    this.renderedProjection_ = null;
+
+    /**
+     * @private
+     * @type {function(import("../../Feature.js").default, import("../../Feature.js").default): number|null}
+     */
+    this.renderedRenderOrder_ = null;
+
+    /**
+     * @private
+     * @type {import("../../render/canvas/ExecutorGroup").default}
+     */
+    this.replayGroup_ = null;
+
+    /**
+     * A new replay group had to be created by `prepareFrame()`
+     * @type {boolean}
+     */
+    this.replayGroupChanged = true;
+
+    /**
+     * @type {import("../../render/canvas/ExecutorGroup").default}
+     */
+    this.declutterExecutorGroup = null;
+
+    /**
+     * Clipping to be performed by `renderFrame()`
+     * @type {boolean}
+     */
+    this.clipping = true;
+
+    /**
+     * @private
+     * @type {CanvasRenderingContext2D}
+     */
+    this.compositionContext_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.opacity_ = 1;
+  }
+
+  /**
+   * @param {ExecutorGroup} executorGroup Executor group.
+   * @param {import("../../Map.js").FrameState} frameState Frame state.
+   * @param {import("rbush").default} [declutterTree] Declutter tree.
+   */
+  renderWorlds(executorGroup, frameState, declutterTree) {
+    const extent = frameState.extent;
+    const viewState = frameState.viewState;
+    const center = viewState.center;
+    const resolution = viewState.resolution;
+    const projection = viewState.projection;
+    const rotation = viewState.rotation;
+    const projectionExtent = projection.getExtent();
+    const vectorSource = this.getLayer().getSource();
+    const pixelRatio = frameState.pixelRatio;
+    const viewHints = frameState.viewHints;
+    const snapToPixel = !(
+      viewHints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_3__["default"].ANIMATING] || viewHints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_3__["default"].INTERACTING]
+    );
+    const context = this.compositionContext_;
+    const width = Math.round(frameState.size[0] * pixelRatio);
+    const height = Math.round(frameState.size[1] * pixelRatio);
+
+    const multiWorld = vectorSource.getWrapX() && projection.canWrapX();
+    const worldWidth = multiWorld ? (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.getWidth)(projectionExtent) : null;
+    const endWorld = multiWorld
+      ? Math.ceil((extent[2] - projectionExtent[2]) / worldWidth) + 1
+      : 1;
+    let world = multiWorld
+      ? Math.floor((extent[0] - projectionExtent[0]) / worldWidth)
+      : 0;
+    do {
+      const transform = this.getRenderTransform(
+        center,
+        resolution,
+        rotation,
+        pixelRatio,
+        width,
+        height,
+        world * worldWidth
+      );
+      executorGroup.execute(
+        context,
+        1,
+        transform,
+        rotation,
+        snapToPixel,
+        undefined,
+        declutterTree
+      );
+    } while (++world < endWorld);
+  }
+
+  setupCompositionContext_() {
+    if (this.opacity_ !== 1) {
+      const compositionContext = (0,_dom_js__WEBPACK_IMPORTED_MODULE_4__.createCanvasContext2D)(
+        this.context.canvas.width,
+        this.context.canvas.height,
+        _Layer_js__WEBPACK_IMPORTED_MODULE_1__.canvasPool
+      );
+      this.compositionContext_ = compositionContext;
+    } else {
+      this.compositionContext_ = this.context;
+    }
+  }
+
+  releaseCompositionContext_() {
+    if (this.opacity_ !== 1) {
+      const alpha = this.context.globalAlpha;
+      this.context.globalAlpha = this.opacity_;
+      this.context.drawImage(this.compositionContext_.canvas, 0, 0);
+      this.context.globalAlpha = alpha;
+      (0,_dom_js__WEBPACK_IMPORTED_MODULE_4__.releaseCanvas)(this.compositionContext_);
+      _Layer_js__WEBPACK_IMPORTED_MODULE_1__.canvasPool.push(this.compositionContext_.canvas);
+      this.compositionContext_ = null;
+    }
+  }
+
+  /**
+   * Render declutter items for this layer
+   * @param {import("../../Map.js").FrameState} frameState Frame state.
+   */
+  renderDeclutter(frameState) {
+    if (this.declutterExecutorGroup) {
+      this.setupCompositionContext_();
+      this.renderWorlds(
+        this.declutterExecutorGroup,
+        frameState,
+        frameState.declutterTree
+      );
+      this.releaseCompositionContext_();
+    }
+  }
+
+  /**
+   * Render the layer.
+   * @param {import("../../Map.js").FrameState} frameState Frame state.
+   * @param {HTMLElement} target Target that may be used to render content to.
+   * @return {HTMLElement} The rendered element.
+   */
+  renderFrame(frameState, target) {
+    const pixelRatio = frameState.pixelRatio;
+    const layerState = frameState.layerStatesArray[frameState.layerIndex];
+
+    // set forward and inverse pixel transforms
+    (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.makeScale)(this.pixelTransform, 1 / pixelRatio, 1 / pixelRatio);
+    (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.makeInverse)(this.inversePixelTransform, this.pixelTransform);
+
+    const canvasTransform = (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.toString)(this.pixelTransform);
+
+    this.useContainer(target, canvasTransform, this.getBackground(frameState));
+    const context = this.context;
+    const canvas = context.canvas;
+
+    const replayGroup = this.replayGroup_;
+    const declutterExecutorGroup = this.declutterExecutorGroup;
+    if (
+      (!replayGroup || replayGroup.isEmpty()) &&
+      (!declutterExecutorGroup || declutterExecutorGroup.isEmpty())
+    ) {
+      return null;
+    }
+
+    // resize and clear
+    const width = Math.round(frameState.size[0] * pixelRatio);
+    const height = Math.round(frameState.size[1] * pixelRatio);
+    if (canvas.width != width || canvas.height != height) {
+      canvas.width = width;
+      canvas.height = height;
+      if (canvas.style.transform !== canvasTransform) {
+        canvas.style.transform = canvasTransform;
+      }
+    } else if (!this.containerReused) {
+      context.clearRect(0, 0, width, height);
+    }
+
+    this.preRender(context, frameState);
+
+    const viewState = frameState.viewState;
+    const projection = viewState.projection;
+
+    this.opacity_ = layerState.opacity;
+    this.setupCompositionContext_();
+
+    // clipped rendering if layer extent is set
+    let clipped = false;
+    let render = true;
+    if (layerState.extent && this.clipping) {
+      const layerExtent = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.fromUserExtent)(layerState.extent, projection);
+      render = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.intersects)(layerExtent, frameState.extent);
+      clipped = render && !(0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.containsExtent)(layerExtent, frameState.extent);
+      if (clipped) {
+        this.clipUnrotated(this.compositionContext_, frameState, layerExtent);
+      }
+    }
+
+    if (render) {
+      this.renderWorlds(replayGroup, frameState);
+    }
+
+    if (clipped) {
+      this.compositionContext_.restore();
+    }
+
+    this.releaseCompositionContext_();
+
+    this.postRender(context, frameState);
+
+    if (this.renderedRotation_ !== viewState.rotation) {
+      this.renderedRotation_ = viewState.rotation;
+      this.hitDetectionImageData_ = null;
+    }
+    return this.container;
+  }
+
+  /**
+   * Asynchronous layer level hit detection.
+   * @param {import("../../pixel.js").Pixel} pixel Pixel.
+   * @return {Promise<Array<import("../../Feature").default>>} Promise
+   * that resolves with an array of features.
+   */
+  getFeatures(pixel) {
+    return new Promise((resolve) => {
+      if (!this.hitDetectionImageData_ && !this.animatingOrInteracting_) {
+        const size = [this.context.canvas.width, this.context.canvas.height];
+        (0,_transform_js__WEBPACK_IMPORTED_MODULE_5__.apply)(this.pixelTransform, size);
+        const center = this.renderedCenter_;
+        const resolution = this.renderedResolution_;
+        const rotation = this.renderedRotation_;
+        const projection = this.renderedProjection_;
+        const extent = this.wrappedRenderedExtent_;
+        const layer = this.getLayer();
+        const transforms = [];
+        const width = size[0] * _render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.HIT_DETECT_RESOLUTION;
+        const height = size[1] * _render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.HIT_DETECT_RESOLUTION;
+        transforms.push(
+          this.getRenderTransform(
+            center,
+            resolution,
+            rotation,
+            _render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.HIT_DETECT_RESOLUTION,
+            width,
+            height,
+            0
+          ).slice()
+        );
+        const source = layer.getSource();
+        const projectionExtent = projection.getExtent();
+        if (
+          source.getWrapX() &&
+          projection.canWrapX() &&
+          !(0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.containsExtent)(projectionExtent, extent)
+        ) {
+          let startX = extent[0];
+          const worldWidth = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.getWidth)(projectionExtent);
+          let world = 0;
+          let offsetX;
+          while (startX < projectionExtent[0]) {
+            --world;
+            offsetX = worldWidth * world;
+            transforms.push(
+              this.getRenderTransform(
+                center,
+                resolution,
+                rotation,
+                _render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.HIT_DETECT_RESOLUTION,
+                width,
+                height,
+                offsetX
+              ).slice()
+            );
+            startX += worldWidth;
+          }
+          world = 0;
+          startX = extent[2];
+          while (startX > projectionExtent[2]) {
+            ++world;
+            offsetX = worldWidth * world;
+            transforms.push(
+              this.getRenderTransform(
+                center,
+                resolution,
+                rotation,
+                _render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.HIT_DETECT_RESOLUTION,
+                width,
+                height,
+                offsetX
+              ).slice()
+            );
+            startX -= worldWidth;
+          }
+        }
+
+        this.hitDetectionImageData_ = (0,_render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.createHitDetectionImageData)(
+          size,
+          transforms,
+          this.renderedFeatures_,
+          layer.getStyleFunction(),
+          extent,
+          resolution,
+          rotation
+        );
+      }
+      resolve(
+        (0,_render_canvas_hitdetect_js__WEBPACK_IMPORTED_MODULE_6__.hitDetect)(pixel, this.renderedFeatures_, this.hitDetectionImageData_)
+      );
+    });
+  }
+
+  /**
+   * @param {import("../../coordinate.js").Coordinate} coordinate Coordinate.
+   * @param {import("../../Map.js").FrameState} frameState Frame state.
+   * @param {number} hitTolerance Hit tolerance in pixels.
+   * @param {import("../vector.js").FeatureCallback<T>} callback Feature callback.
+   * @param {Array<import("../Map.js").HitMatch<T>>} matches The hit detected matches with tolerance.
+   * @return {T|undefined} Callback result.
+   * @template T
+   */
+  forEachFeatureAtCoordinate(
+    coordinate,
+    frameState,
+    hitTolerance,
+    callback,
+    matches
+  ) {
+    if (!this.replayGroup_) {
+      return undefined;
+    }
+    const resolution = frameState.viewState.resolution;
+    const rotation = frameState.viewState.rotation;
+    const layer = this.getLayer();
+
+    /** @type {!Object<string, import("../Map.js").HitMatch<T>|true>} */
+    const features = {};
+
+    /**
+     * @param {import("../../Feature.js").FeatureLike} feature Feature.
+     * @param {import("../../geom/SimpleGeometry.js").default} geometry Geometry.
+     * @param {number} distanceSq The squared distance to the click position
+     * @return {T|undefined} Callback result.
+     */
+    const featureCallback = function (feature, geometry, distanceSq) {
+      const key = (0,_util_js__WEBPACK_IMPORTED_MODULE_7__.getUid)(feature);
+      const match = features[key];
+      if (!match) {
+        if (distanceSq === 0) {
+          features[key] = true;
+          return callback(feature, layer, geometry);
+        }
+        matches.push(
+          (features[key] = {
+            feature: feature,
+            layer: layer,
+            geometry: geometry,
+            distanceSq: distanceSq,
+            callback: callback,
+          })
+        );
+      } else if (match !== true && distanceSq < match.distanceSq) {
+        if (distanceSq === 0) {
+          features[key] = true;
+          matches.splice(matches.lastIndexOf(match), 1);
+          return callback(feature, layer, geometry);
+        }
+        match.geometry = geometry;
+        match.distanceSq = distanceSq;
+      }
+      return undefined;
+    };
+
+    let result;
+    const executorGroups = [this.replayGroup_];
+    if (this.declutterExecutorGroup) {
+      executorGroups.push(this.declutterExecutorGroup);
+    }
+    executorGroups.some((executorGroup) => {
+      return (result = executorGroup.forEachFeatureAtCoordinate(
+        coordinate,
+        resolution,
+        rotation,
+        hitTolerance,
+        featureCallback,
+        executorGroup === this.declutterExecutorGroup &&
+          frameState.declutterTree
+          ? frameState.declutterTree.all().map((item) => item.value)
+          : null
+      ));
+    });
+
+    return result;
+  }
+
+  /**
+   * Perform action necessary to get the layer rendered after new fonts have loaded
+   */
+  handleFontsChanged() {
+    const layer = this.getLayer();
+    if (layer.getVisible() && this.replayGroup_) {
+      layer.changed();
+    }
+  }
+
+  /**
+   * Handle changes in image style state.
+   * @param {import("../../events/Event.js").default} event Image style change event.
+   * @private
+   */
+  handleStyleImageChange_(event) {
+    this.renderIfReadyAndVisible();
+  }
+
+  /**
+   * Determine whether render should be called.
+   * @param {import("../../Map.js").FrameState} frameState Frame state.
+   * @return {boolean} Layer is ready to be rendered.
+   */
+  prepareFrame(frameState) {
+    const vectorLayer = this.getLayer();
+    const vectorSource = vectorLayer.getSource();
+    if (!vectorSource) {
+      return false;
+    }
+
+    const animating = frameState.viewHints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_3__["default"].ANIMATING];
+    const interacting = frameState.viewHints[_ViewHint_js__WEBPACK_IMPORTED_MODULE_3__["default"].INTERACTING];
+    const updateWhileAnimating = vectorLayer.getUpdateWhileAnimating();
+    const updateWhileInteracting = vectorLayer.getUpdateWhileInteracting();
+
+    if (
+      (this.ready && !updateWhileAnimating && animating) ||
+      (!updateWhileInteracting && interacting)
+    ) {
+      this.animatingOrInteracting_ = true;
+      return true;
+    }
+    this.animatingOrInteracting_ = false;
+
+    const frameStateExtent = frameState.extent;
+    const viewState = frameState.viewState;
+    const projection = viewState.projection;
+    const resolution = viewState.resolution;
+    const pixelRatio = frameState.pixelRatio;
+    const vectorLayerRevision = vectorLayer.getRevision();
+    const vectorLayerRenderBuffer = vectorLayer.getRenderBuffer();
+    let vectorLayerRenderOrder = vectorLayer.getRenderOrder();
+
+    if (vectorLayerRenderOrder === undefined) {
+      vectorLayerRenderOrder = _vector_js__WEBPACK_IMPORTED_MODULE_8__.defaultOrder;
+    }
+
+    const center = viewState.center.slice();
+    const extent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.buffer)(
+      frameStateExtent,
+      vectorLayerRenderBuffer * resolution
+    );
+    const renderedExtent = extent.slice();
+    const loadExtents = [extent.slice()];
+    const projectionExtent = projection.getExtent();
+
+    if (
+      vectorSource.getWrapX() &&
+      projection.canWrapX() &&
+      !(0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.containsExtent)(projectionExtent, frameState.extent)
+    ) {
+      // For the replay group, we need an extent that intersects the real world
+      // (-180° to +180°). To support geometries in a coordinate range from -540°
+      // to +540°, we add at least 1 world width on each side of the projection
+      // extent. If the viewport is wider than the world, we need to add half of
+      // the viewport width to make sure we cover the whole viewport.
+      const worldWidth = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.getWidth)(projectionExtent);
+      const gutter = Math.max((0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.getWidth)(extent) / 2, worldWidth);
+      extent[0] = projectionExtent[0] - gutter;
+      extent[2] = projectionExtent[2] + gutter;
+      (0,_coordinate_js__WEBPACK_IMPORTED_MODULE_9__.wrapX)(center, projection);
+      const loadExtent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.wrapX)(loadExtents[0], projection);
+      // If the extent crosses the date line, we load data for both edges of the worlds
+      if (
+        loadExtent[0] < projectionExtent[0] &&
+        loadExtent[2] < projectionExtent[2]
+      ) {
+        loadExtents.push([
+          loadExtent[0] + worldWidth,
+          loadExtent[1],
+          loadExtent[2] + worldWidth,
+          loadExtent[3],
+        ]);
+      } else if (
+        loadExtent[0] > projectionExtent[0] &&
+        loadExtent[2] > projectionExtent[2]
+      ) {
+        loadExtents.push([
+          loadExtent[0] - worldWidth,
+          loadExtent[1],
+          loadExtent[2] - worldWidth,
+          loadExtent[3],
+        ]);
+      }
+    }
+
+    if (
+      this.ready &&
+      this.renderedResolution_ == resolution &&
+      this.renderedRevision_ == vectorLayerRevision &&
+      this.renderedRenderOrder_ == vectorLayerRenderOrder &&
+      (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.containsExtent)(this.wrappedRenderedExtent_, extent)
+    ) {
+      if (!(0,_array_js__WEBPACK_IMPORTED_MODULE_10__.equals)(this.renderedExtent_, renderedExtent)) {
+        this.hitDetectionImageData_ = null;
+        this.renderedExtent_ = renderedExtent;
+      }
+      this.renderedCenter_ = center;
+      this.replayGroupChanged = false;
+      return true;
+    }
+
+    this.replayGroup_ = null;
+
+    const replayGroup = new _render_canvas_BuilderGroup_js__WEBPACK_IMPORTED_MODULE_11__["default"](
+      (0,_vector_js__WEBPACK_IMPORTED_MODULE_8__.getTolerance)(resolution, pixelRatio),
+      extent,
+      resolution,
+      pixelRatio
+    );
+
+    let declutterBuilderGroup;
+    if (this.getLayer().getDeclutter()) {
+      declutterBuilderGroup = new _render_canvas_BuilderGroup_js__WEBPACK_IMPORTED_MODULE_11__["default"](
+        (0,_vector_js__WEBPACK_IMPORTED_MODULE_8__.getTolerance)(resolution, pixelRatio),
+        extent,
+        resolution,
+        pixelRatio
+      );
+    }
+
+    const userProjection = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.getUserProjection)();
+    let userTransform;
+    if (userProjection) {
+      for (let i = 0, ii = loadExtents.length; i < ii; ++i) {
+        const extent = loadExtents[i];
+        const userExtent = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.toUserExtent)(extent, projection);
+        vectorSource.loadFeatures(
+          userExtent,
+          (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.toUserResolution)(resolution, projection),
+          userProjection
+        );
+      }
+      userTransform = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.getTransformFromProjections)(userProjection, projection);
+    } else {
+      for (let i = 0, ii = loadExtents.length; i < ii; ++i) {
+        vectorSource.loadFeatures(loadExtents[i], resolution, projection);
+      }
+    }
+
+    const squaredTolerance = (0,_vector_js__WEBPACK_IMPORTED_MODULE_8__.getSquaredTolerance)(resolution, pixelRatio);
+    let ready = true;
+    const render =
+      /**
+       * @param {import("../../Feature.js").default} feature Feature.
+       */
+      (feature) => {
+        let styles;
+        const styleFunction =
+          feature.getStyleFunction() || vectorLayer.getStyleFunction();
+        if (styleFunction) {
+          styles = styleFunction(feature, resolution);
+        }
+        if (styles) {
+          const dirty = this.renderFeature(
+            feature,
+            squaredTolerance,
+            styles,
+            replayGroup,
+            userTransform,
+            declutterBuilderGroup
+          );
+          ready = ready && !dirty;
+        }
+      };
+
+    const userExtent = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.toUserExtent)(extent, projection);
+    /** @type {Array<import("../../Feature.js").default>} */
+    const features = vectorSource.getFeaturesInExtent(userExtent);
+    if (vectorLayerRenderOrder) {
+      features.sort(vectorLayerRenderOrder);
+    }
+    for (let i = 0, ii = features.length; i < ii; ++i) {
+      render(features[i]);
+    }
+    this.renderedFeatures_ = features;
+    this.ready = ready;
+
+    const replayGroupInstructions = replayGroup.finish();
+    const executorGroup = new _render_canvas_ExecutorGroup_js__WEBPACK_IMPORTED_MODULE_12__["default"](
+      extent,
+      resolution,
+      pixelRatio,
+      vectorSource.getOverlaps(),
+      replayGroupInstructions,
+      vectorLayer.getRenderBuffer()
+    );
+
+    if (declutterBuilderGroup) {
+      this.declutterExecutorGroup = new _render_canvas_ExecutorGroup_js__WEBPACK_IMPORTED_MODULE_12__["default"](
+        extent,
+        resolution,
+        pixelRatio,
+        vectorSource.getOverlaps(),
+        declutterBuilderGroup.finish(),
+        vectorLayer.getRenderBuffer()
+      );
+    }
+
+    this.renderedResolution_ = resolution;
+    this.renderedRevision_ = vectorLayerRevision;
+    this.renderedRenderOrder_ = vectorLayerRenderOrder;
+    this.renderedExtent_ = renderedExtent;
+    this.wrappedRenderedExtent_ = extent;
+    this.renderedCenter_ = center;
+    this.renderedProjection_ = projection;
+    this.replayGroup_ = executorGroup;
+    this.hitDetectionImageData_ = null;
+
+    this.replayGroupChanged = true;
+    return true;
+  }
+
+  /**
+   * @param {import("../../Feature.js").default} feature Feature.
+   * @param {number} squaredTolerance Squared render tolerance.
+   * @param {import("../../style/Style.js").default|Array<import("../../style/Style.js").default>} styles The style or array of styles.
+   * @param {import("../../render/canvas/BuilderGroup.js").default} builderGroup Builder group.
+   * @param {import("../../proj.js").TransformFunction} [transform] Transform from user to view projection.
+   * @param {import("../../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+   * @return {boolean} `true` if an image is loading.
+   */
+  renderFeature(
+    feature,
+    squaredTolerance,
+    styles,
+    builderGroup,
+    transform,
+    declutterBuilderGroup
+  ) {
+    if (!styles) {
+      return false;
+    }
+    let loading = false;
+    if (Array.isArray(styles)) {
+      for (let i = 0, ii = styles.length; i < ii; ++i) {
+        loading =
+          (0,_vector_js__WEBPACK_IMPORTED_MODULE_8__.renderFeature)(
+            builderGroup,
+            feature,
+            styles[i],
+            squaredTolerance,
+            this.boundHandleStyleImageChange_,
+            transform,
+            declutterBuilderGroup
+          ) || loading;
+      }
+    } else {
+      loading = (0,_vector_js__WEBPACK_IMPORTED_MODULE_8__.renderFeature)(
+        builderGroup,
+        feature,
+        styles,
+        squaredTolerance,
+        this.boundHandleStyleImageChange_,
+        transform,
+        declutterBuilderGroup
+      );
+    }
+    return loading;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasVectorLayerRenderer);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/renderer/vector.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/renderer/vector.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "defaultOrder": () => (/* binding */ defaultOrder),
+/* harmony export */   "getSquaredTolerance": () => (/* binding */ getSquaredTolerance),
+/* harmony export */   "getTolerance": () => (/* binding */ getTolerance),
+/* harmony export */   "renderFeature": () => (/* binding */ renderFeature)
+/* harmony export */ });
+/* harmony import */ var _ImageState_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ImageState.js */ "./node_modules/ol/ImageState.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/**
+ * @module ol/renderer/vector
+ */
+
+
+
+/**
+ * Feature callback. The callback will be called with three arguments. The first
+ * argument is one {@link module:ol/Feature~Feature feature} or {@link module:ol/render/Feature~RenderFeature render feature}
+ * at the pixel, the second is the {@link module:ol/layer/Layer~Layer layer} of the feature and will be null for
+ * unmanaged layers. The third is the {@link module:ol/geom/SimpleGeometry~SimpleGeometry} of the feature. For features
+ * with a GeometryCollection geometry, it will be the first detected geometry from the collection.
+ * @template T
+ * @typedef {function(import("../Feature.js").FeatureLike, import("../layer/Layer.js").default<import("../source/Source").default>, import("../geom/SimpleGeometry.js").default): T} FeatureCallback
+ */
+
+/**
+ * Tolerance for geometry simplification in device pixels.
+ * @type {number}
+ */
+const SIMPLIFY_TOLERANCE = 0.5;
+
+/**
+ * @const
+ * @type {Object<import("../geom/Geometry.js").Type,
+ *                function(import("../render/canvas/BuilderGroup.js").default, import("../geom/Geometry.js").default,
+ *                         import("../style/Style.js").default, Object): void>}
+ */
+const GEOMETRY_RENDERERS = {
+  'Point': renderPointGeometry,
+  'LineString': renderLineStringGeometry,
+  'Polygon': renderPolygonGeometry,
+  'MultiPoint': renderMultiPointGeometry,
+  'MultiLineString': renderMultiLineStringGeometry,
+  'MultiPolygon': renderMultiPolygonGeometry,
+  'GeometryCollection': renderGeometryCollectionGeometry,
+  'Circle': renderCircleGeometry,
+};
+
+/**
+ * @param {import("../Feature.js").FeatureLike} feature1 Feature 1.
+ * @param {import("../Feature.js").FeatureLike} feature2 Feature 2.
+ * @return {number} Order.
+ */
+function defaultOrder(feature1, feature2) {
+  return parseInt((0,_util_js__WEBPACK_IMPORTED_MODULE_0__.getUid)(feature1), 10) - parseInt((0,_util_js__WEBPACK_IMPORTED_MODULE_0__.getUid)(feature2), 10);
+}
+
+/**
+ * @param {number} resolution Resolution.
+ * @param {number} pixelRatio Pixel ratio.
+ * @return {number} Squared pixel tolerance.
+ */
+function getSquaredTolerance(resolution, pixelRatio) {
+  const tolerance = getTolerance(resolution, pixelRatio);
+  return tolerance * tolerance;
+}
+
+/**
+ * @param {number} resolution Resolution.
+ * @param {number} pixelRatio Pixel ratio.
+ * @return {number} Pixel tolerance.
+ */
+function getTolerance(resolution, pixelRatio) {
+  return (SIMPLIFY_TOLERANCE * resolution) / pixelRatio;
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Builder group.
+ * @param {import("../geom/Circle.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").default} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderCircleGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const fillStyle = style.getFill();
+  const strokeStyle = style.getStroke();
+  if (fillStyle || strokeStyle) {
+    const circleReplay = builderGroup.getBuilder(style.getZIndex(), 'Circle');
+    circleReplay.setFillStrokeStyle(fillStyle, strokeStyle);
+    circleReplay.drawCircle(geometry, feature);
+  }
+  const textStyle = style.getText();
+  if (textStyle && textStyle.getText()) {
+    const textReplay = (declutterBuilderGroup || builderGroup).getBuilder(
+      style.getZIndex(),
+      'Text'
+    );
+    textReplay.setTextStyle(textStyle);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} replayGroup Replay group.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {number} squaredTolerance Squared tolerance.
+ * @param {function(import("../events/Event.js").default): void} listener Listener function.
+ * @param {import("../proj.js").TransformFunction} [transform] Transform from user to view projection.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ * @return {boolean} `true` if style is loading.
+ */
+function renderFeature(
+  replayGroup,
+  feature,
+  style,
+  squaredTolerance,
+  listener,
+  transform,
+  declutterBuilderGroup
+) {
+  let loading = false;
+  const imageStyle = style.getImage();
+  if (imageStyle) {
+    const imageState = imageStyle.getImageState();
+    if (imageState == _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADED || imageState == _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].ERROR) {
+      imageStyle.unlistenImageChange(listener);
+    } else {
+      if (imageState == _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].IDLE) {
+        imageStyle.load();
+      }
+      imageStyle.listenImageChange(listener);
+      loading = true;
+    }
+  }
+  renderFeatureInternal(
+    replayGroup,
+    feature,
+    style,
+    squaredTolerance,
+    transform,
+    declutterBuilderGroup
+  );
+
+  return loading;
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} replayGroup Replay group.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {number} squaredTolerance Squared tolerance.
+ * @param {import("../proj.js").TransformFunction} [transform] Optional transform function.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderFeatureInternal(
+  replayGroup,
+  feature,
+  style,
+  squaredTolerance,
+  transform,
+  declutterBuilderGroup
+) {
+  const geometry = style.getGeometryFunction()(feature);
+  if (!geometry) {
+    return;
+  }
+  const simplifiedGeometry = geometry.simplifyTransformed(
+    squaredTolerance,
+    transform
+  );
+  const renderer = style.getRenderer();
+  if (renderer) {
+    renderGeometry(replayGroup, simplifiedGeometry, style, feature);
+  } else {
+    const geometryRenderer = GEOMETRY_RENDERERS[simplifiedGeometry.getType()];
+    geometryRenderer(
+      replayGroup,
+      simplifiedGeometry,
+      style,
+      feature,
+      declutterBuilderGroup
+    );
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} replayGroup Replay group.
+ * @param {import("../geom/Geometry.js").default|import("../render/Feature.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ */
+function renderGeometry(replayGroup, geometry, style, feature) {
+  if (geometry.getType() == 'GeometryCollection') {
+    const geometries =
+      /** @type {import("../geom/GeometryCollection.js").default} */ (
+        geometry
+      ).getGeometries();
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      renderGeometry(replayGroup, geometries[i], style, feature);
+    }
+    return;
+  }
+  const replay = replayGroup.getBuilder(style.getZIndex(), 'Default');
+  replay.drawCustom(
+    /** @type {import("../geom/SimpleGeometry.js").default} */ (geometry),
+    feature,
+    style.getRenderer(),
+    style.getHitDetectionRenderer()
+  );
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} replayGroup Replay group.
+ * @param {import("../geom/GeometryCollection.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").default} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderGeometryCollectionGeometry(
+  replayGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const geometries = geometry.getGeometriesArray();
+  let i, ii;
+  for (i = 0, ii = geometries.length; i < ii; ++i) {
+    const geometryRenderer = GEOMETRY_RENDERERS[geometries[i].getType()];
+    geometryRenderer(
+      replayGroup,
+      geometries[i],
+      style,
+      feature,
+      declutterBuilderGroup
+    );
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Replay group.
+ * @param {import("../geom/LineString.js").default|import("../render/Feature.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderLineStringGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const strokeStyle = style.getStroke();
+  if (strokeStyle) {
+    const lineStringReplay = builderGroup.getBuilder(
+      style.getZIndex(),
+      'LineString'
+    );
+    lineStringReplay.setFillStrokeStyle(null, strokeStyle);
+    lineStringReplay.drawLineString(geometry, feature);
+  }
+  const textStyle = style.getText();
+  if (textStyle && textStyle.getText()) {
+    const textReplay = (declutterBuilderGroup || builderGroup).getBuilder(
+      style.getZIndex(),
+      'Text'
+    );
+    textReplay.setTextStyle(textStyle);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Replay group.
+ * @param {import("../geom/MultiLineString.js").default|import("../render/Feature.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderMultiLineStringGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const strokeStyle = style.getStroke();
+  if (strokeStyle) {
+    const lineStringReplay = builderGroup.getBuilder(
+      style.getZIndex(),
+      'LineString'
+    );
+    lineStringReplay.setFillStrokeStyle(null, strokeStyle);
+    lineStringReplay.drawMultiLineString(geometry, feature);
+  }
+  const textStyle = style.getText();
+  if (textStyle && textStyle.getText()) {
+    const textReplay = (declutterBuilderGroup || builderGroup).getBuilder(
+      style.getZIndex(),
+      'Text'
+    );
+    textReplay.setTextStyle(textStyle);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Replay group.
+ * @param {import("../geom/MultiPolygon.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").default} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderMultiPolygonGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const fillStyle = style.getFill();
+  const strokeStyle = style.getStroke();
+  if (strokeStyle || fillStyle) {
+    const polygonReplay = builderGroup.getBuilder(style.getZIndex(), 'Polygon');
+    polygonReplay.setFillStrokeStyle(fillStyle, strokeStyle);
+    polygonReplay.drawMultiPolygon(geometry, feature);
+  }
+  const textStyle = style.getText();
+  if (textStyle && textStyle.getText()) {
+    const textReplay = (declutterBuilderGroup || builderGroup).getBuilder(
+      style.getZIndex(),
+      'Text'
+    );
+    textReplay.setTextStyle(textStyle);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Replay group.
+ * @param {import("../geom/Point.js").default|import("../render/Feature.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderPointGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const imageStyle = style.getImage();
+  const textStyle = style.getText();
+  /** @type {import("../render/canvas.js").DeclutterImageWithText} */
+  let declutterImageWithText;
+  if (imageStyle) {
+    if (imageStyle.getImageState() != _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADED) {
+      return;
+    }
+    let imageBuilderGroup = builderGroup;
+    if (declutterBuilderGroup) {
+      const declutterMode = imageStyle.getDeclutterMode();
+      if (declutterMode !== 'none') {
+        imageBuilderGroup = declutterBuilderGroup;
+        if (declutterMode === 'obstacle') {
+          // draw in non-declutter group:
+          const imageReplay = builderGroup.getBuilder(
+            style.getZIndex(),
+            'Image'
+          );
+          imageReplay.setImageStyle(imageStyle, declutterImageWithText);
+          imageReplay.drawPoint(geometry, feature);
+        } else if (textStyle && textStyle.getText()) {
+          declutterImageWithText = {};
+        }
+      }
+    }
+    const imageReplay = imageBuilderGroup.getBuilder(
+      style.getZIndex(),
+      'Image'
+    );
+    imageReplay.setImageStyle(imageStyle, declutterImageWithText);
+    imageReplay.drawPoint(geometry, feature);
+  }
+  if (textStyle && textStyle.getText()) {
+    let textBuilderGroup = builderGroup;
+    if (declutterBuilderGroup) {
+      textBuilderGroup = declutterBuilderGroup;
+    }
+    const textReplay = textBuilderGroup.getBuilder(style.getZIndex(), 'Text');
+    textReplay.setTextStyle(textStyle, declutterImageWithText);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Replay group.
+ * @param {import("../geom/MultiPoint.js").default|import("../render/Feature.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderMultiPointGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const imageStyle = style.getImage();
+  const textStyle = style.getText();
+  /** @type {import("../render/canvas.js").DeclutterImageWithText} */
+  let declutterImageWithText;
+  if (imageStyle) {
+    if (imageStyle.getImageState() != _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADED) {
+      return;
+    }
+    let imageBuilderGroup = builderGroup;
+    if (declutterBuilderGroup) {
+      const declutterMode = imageStyle.getDeclutterMode();
+      if (declutterMode !== 'none') {
+        imageBuilderGroup = declutterBuilderGroup;
+        if (declutterMode === 'obstacle') {
+          // draw in non-declutter group:
+          const imageReplay = builderGroup.getBuilder(
+            style.getZIndex(),
+            'Image'
+          );
+          imageReplay.setImageStyle(imageStyle, declutterImageWithText);
+          imageReplay.drawMultiPoint(geometry, feature);
+        } else if (textStyle && textStyle.getText()) {
+          declutterImageWithText = {};
+        }
+      }
+    }
+    const imageReplay = imageBuilderGroup.getBuilder(
+      style.getZIndex(),
+      'Image'
+    );
+    imageReplay.setImageStyle(imageStyle, declutterImageWithText);
+    imageReplay.drawMultiPoint(geometry, feature);
+  }
+  if (textStyle && textStyle.getText()) {
+    let textBuilderGroup = builderGroup;
+    if (declutterBuilderGroup) {
+      textBuilderGroup = declutterBuilderGroup;
+    }
+    const textReplay = textBuilderGroup.getBuilder(style.getZIndex(), 'Text');
+    textReplay.setTextStyle(textStyle, declutterImageWithText);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+/**
+ * @param {import("../render/canvas/BuilderGroup.js").default} builderGroup Replay group.
+ * @param {import("../geom/Polygon.js").default|import("../render/Feature.js").default} geometry Geometry.
+ * @param {import("../style/Style.js").default} style Style.
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {import("../render/canvas/BuilderGroup.js").default} [declutterBuilderGroup] Builder for decluttering.
+ */
+function renderPolygonGeometry(
+  builderGroup,
+  geometry,
+  style,
+  feature,
+  declutterBuilderGroup
+) {
+  const fillStyle = style.getFill();
+  const strokeStyle = style.getStroke();
+  if (fillStyle || strokeStyle) {
+    const polygonReplay = builderGroup.getBuilder(style.getZIndex(), 'Polygon');
+    polygonReplay.setFillStrokeStyle(fillStyle, strokeStyle);
+    polygonReplay.drawPolygon(geometry, feature);
+  }
+  const textStyle = style.getText();
+  if (textStyle && textStyle.getText()) {
+    const textReplay = (declutterBuilderGroup || builderGroup).getBuilder(
+      style.getZIndex(),
+      'Text'
+    );
+    textReplay.setTextStyle(textStyle);
+    textReplay.drawText(geometry, feature);
+  }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/reproj.js":
 /*!***********************************!*\
   !*** ./node_modules/ol/reproj.js ***!
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "calculateSourceExtentResolution": () => (/* binding */ calculateSourceExtentResolution),
@@ -15925,6 +32972,7 @@ function render(
   \****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -16309,6 +33357,7 @@ class ReprojTile extends _Tile_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \*************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -16817,6 +33866,7 @@ class Triangulation {
   \******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ERROR_THRESHOLD": () => (/* binding */ ERROR_THRESHOLD)
@@ -16841,6 +33891,7 @@ const ERROR_THRESHOLD = 0.5;
   \*************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createMinMaxResolution": () => (/* binding */ createMinMaxResolution),
@@ -17101,6 +34152,7 @@ function createMinMaxResolution(
   \***********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createSnapToN": () => (/* binding */ createSnapToN),
@@ -17203,6 +34255,7 @@ function createSnapToZero(tolerance) {
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "buffer": () => (/* binding */ buffer),
@@ -17292,6 +34345,7 @@ function toSize(size, dest) {
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ATTRIBUTION": () => (/* binding */ ATTRIBUTION),
@@ -17401,6 +34455,7 @@ class OSM extends _XYZ_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -17662,6 +34717,7 @@ function adaptAttributions(attributionLike) {
   \****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TileSourceEvent": () => (/* binding */ TileSourceEvent),
@@ -18082,6 +35138,7 @@ class TileSourceEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_9__["def
   \*************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -18132,6 +35189,7 @@ __webpack_require__.r(__webpack_exports__);
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -18599,6 +35657,7 @@ function defaultTileLoadFunction(imageTile, src) {
   \*******************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -18844,12 +35903,1247 @@ class UrlTile extends _Tile_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 /***/ }),
 
+/***/ "./node_modules/ol/source/Vector.js":
+/*!******************************************!*\
+  !*** ./node_modules/ol/source/Vector.js ***!
+  \******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "VectorSourceEvent": () => (/* binding */ VectorSourceEvent),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Collection_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Collection.js */ "./node_modules/ol/Collection.js");
+/* harmony import */ var _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../CollectionEventType.js */ "./node_modules/ol/CollectionEventType.js");
+/* harmony import */ var _events_Event_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Event.js */ "./node_modules/ol/events/Event.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../ObjectEventType.js */ "./node_modules/ol/ObjectEventType.js");
+/* harmony import */ var _structs_RBush_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../structs/RBush.js */ "./node_modules/ol/structs/RBush.js");
+/* harmony import */ var _Source_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Source.js */ "./node_modules/ol/source/Source.js");
+/* harmony import */ var _VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./VectorEventType.js */ "./node_modules/ol/source/VectorEventType.js");
+/* harmony import */ var _functions_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions.js */ "./node_modules/ol/functions.js");
+/* harmony import */ var _loadingstrategy_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../loadingstrategy.js */ "./node_modules/ol/loadingstrategy.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../obj.js */ "./node_modules/ol/obj.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../events.js */ "./node_modules/ol/events.js");
+/* harmony import */ var _featureloader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../featureloader.js */ "./node_modules/ol/featureloader.js");
+/**
+ * @module ol/source/Vector
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * A function that takes an {@link module:ol/extent~Extent} and a resolution as arguments, and
+ * returns an array of {@link module:ol/extent~Extent} with the extents to load. Usually this
+ * is one of the standard {@link module:ol/loadingstrategy} strategies.
+ *
+ * @typedef {function(import("../extent.js").Extent, number, import("../proj/Projection.js").default): Array<import("../extent.js").Extent>} LoadingStrategy
+ * @api
+ */
+
+/**
+ * @classdesc
+ * Events emitted by {@link module:ol/source/Vector~VectorSource} instances are instances of this
+ * type.
+ * @template {import("../geom/Geometry.js").default} [Geometry=import("../geom/Geometry.js").default]
+ */
+class VectorSourceEvent extends _events_Event_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {string} type Type.
+   * @param {import("../Feature.js").default<Geometry>} [feature] Feature.
+   * @param {Array<import("../Feature.js").default<Geometry>>} [features] Features.
+   */
+  constructor(type, feature, features) {
+    super(type);
+
+    /**
+     * The added or removed feature for the `ADDFEATURE` and `REMOVEFEATURE` events, `undefined` otherwise.
+     * @type {import("../Feature.js").default<Geometry>|undefined}
+     * @api
+     */
+    this.feature = feature;
+
+    /**
+     * The loaded features for the `FEATURESLOADED` event, `undefined` otherwise.
+     * @type {Array<import("../Feature.js").default<Geometry>>|undefined}
+     * @api
+     */
+    this.features = features;
+  }
+}
+
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("../ObjectEventType").Types, import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").OnSignature<import("./VectorEventType").VectorSourceEventTypes, VectorSourceEvent, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("../ObjectEventType").Types|
+ *     import("./VectorEventType").VectorSourceEventTypes, Return>} VectorSourceOnSignature
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {import("./Source.js").AttributionLike} [attributions] Attributions.
+ * @property {Array<import("../Feature.js").default<Geometry>>|Collection<import("../Feature.js").default<Geometry>>} [features]
+ * Features. If provided as {@link module:ol/Collection~Collection}, the features in the source
+ * and the collection will stay in sync.
+ * @property {import("../format/Feature.js").default} [format] The feature format used by the XHR
+ * feature loader when `url` is set. Required if `url` is set, otherwise ignored.
+ * @property {import("../featureloader.js").FeatureLoader} [loader]
+ * The loader function used to load features, from a remote source for example.
+ * If this is not set and `url` is set, the source will create and use an XHR
+ * feature loader. The `'featuresloadend'` and `'featuresloaderror'` events
+ * will only fire if the `success` and `failure` callbacks are used.
+ *
+ * Example:
+ *
+ * ```js
+ * import Vector from 'ol/source/Vector.js';
+ * import GeoJSON from 'ol/format/GeoJSON.js';
+ * import {bbox} from 'ol/loadingstrategy.js';
+ *
+ * const vectorSource = new Vector({
+ *   format: new GeoJSON(),
+ *   loader: function(extent, resolution, projection, success, failure) {
+ *      const proj = projection.getCode();
+ *      const url = 'https://ahocevar.com/geoserver/wfs?service=WFS&' +
+ *          'version=1.1.0&request=GetFeature&typename=osm:water_areas&' +
+ *          'outputFormat=application/json&srsname=' + proj + '&' +
+ *          'bbox=' + extent.join(',') + ',' + proj;
+ *      const xhr = new XMLHttpRequest();
+ *      xhr.open('GET', url);
+ *      const onError = function() {
+ *        vectorSource.removeLoadedExtent(extent);
+ *        failure();
+ *      }
+ *      xhr.onerror = onError;
+ *      xhr.onload = function() {
+ *        if (xhr.status == 200) {
+ *          const features = vectorSource.getFormat().readFeatures(xhr.responseText);
+ *          vectorSource.addFeatures(features);
+ *          success(features);
+ *        } else {
+ *          onError();
+ *        }
+ *      }
+ *      xhr.send();
+ *    },
+ *    strategy: bbox,
+ *  });
+ * ```
+ * @property {boolean} [overlaps=true] This source may have overlapping geometries.
+ * Setting this to `false` (e.g. for sources with polygons that represent administrative
+ * boundaries or TopoJSON sources) allows the renderer to optimise fill and
+ * stroke operations.
+ * @property {LoadingStrategy} [strategy] The loading strategy to use.
+ * By default an {@link module:ol/loadingstrategy.all}
+ * strategy is used, a one-off strategy which loads all features at once.
+ * @property {string|import("../featureloader.js").FeatureUrlFunction} [url]
+ * Setting this option instructs the source to load features using an XHR loader
+ * (see {@link module:ol/featureloader.xhr}). Use a `string` and an
+ * {@link module:ol/loadingstrategy.all} for a one-off download of all features from
+ * the given URL. Use a {@link module:ol/featureloader~FeatureUrlFunction} to generate the url with
+ * other loading strategies.
+ * Requires `format` to be set as well.
+ * When default XHR feature loader is provided, the features will
+ * be transformed from the data projection to the view projection
+ * during parsing. If your remote data source does not advertise its projection
+ * properly, this transformation will be incorrect. For some formats, the
+ * default projection (usually EPSG:4326) can be overridden by setting the
+ * dataProjection constructor option on the format.
+ * Note that if a source contains non-feature data, such as a GeoJSON geometry
+ * or a KML NetworkLink, these will be ignored. Use a custom loader to load these.
+ * @property {boolean} [useSpatialIndex=true]
+ * By default, an RTree is used as spatial index. When features are removed and
+ * added frequently, and the total number of features is low, setting this to
+ * `false` may improve performance.
+ *
+ * Note that
+ * {@link module:ol/source/Vector~VectorSource#getFeaturesInExtent},
+ * {@link module:ol/source/Vector~VectorSource#getClosestFeatureToCoordinate} and
+ * {@link module:ol/source/Vector~VectorSource#getExtent} cannot be used when `useSpatialIndex` is
+ * set to `false`, and {@link module:ol/source/Vector~VectorSource#forEachFeatureInExtent} will loop
+ * through all features.
+ *
+ * When set to `false`, the features will be maintained in an
+ * {@link module:ol/Collection~Collection}, which can be retrieved through
+ * {@link module:ol/source/Vector~VectorSource#getFeaturesCollection}.
+ * @property {boolean} [wrapX=true] Wrap the world horizontally. For vector editing across the
+ * -180° and 180° meridians to work properly, this should be set to `false`. The
+ * resulting geometry coordinates will then exceed the world bounds.
+ * @template {import("../geom/Geometry.js").default} [Geometry=import("../geom/Geometry.js").default]
+ */
+
+/**
+ * @classdesc
+ * Provides a source of features for vector layers. Vector features provided
+ * by this source are suitable for editing. See {@link module:ol/source/VectorTile~VectorTile} for
+ * vector data that is optimized for rendering.
+ *
+ * @fires VectorSourceEvent
+ * @api
+ * @template {import("../geom/Geometry.js").default} [Geometry=import("../geom/Geometry.js").default]
+ */
+class VectorSource extends _Source_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {Options<Geometry>} [options] Vector source options.
+   */
+  constructor(options) {
+    options = options || {};
+
+    super({
+      attributions: options.attributions,
+      interpolate: true,
+      projection: undefined,
+      state: 'ready',
+      wrapX: options.wrapX !== undefined ? options.wrapX : true,
+    });
+
+    /***
+     * @type {VectorSourceOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {VectorSourceOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {VectorSourceOnSignature<void>}
+     */
+    this.un;
+
+    /**
+     * @private
+     * @type {import("../featureloader.js").FeatureLoader}
+     */
+    this.loader_ = _functions_js__WEBPACK_IMPORTED_MODULE_2__.VOID;
+
+    /**
+     * @private
+     * @type {import("../format/Feature.js").default|undefined}
+     */
+    this.format_ = options.format;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.overlaps_ = options.overlaps === undefined ? true : options.overlaps;
+
+    /**
+     * @private
+     * @type {string|import("../featureloader.js").FeatureUrlFunction|undefined}
+     */
+    this.url_ = options.url;
+
+    if (options.loader !== undefined) {
+      this.loader_ = options.loader;
+    } else if (this.url_ !== undefined) {
+      (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(this.format_, 7); // `format` must be set when `url` is set
+      // create a XHR feature loader for "url" and "format"
+      this.loader_ = (0,_featureloader_js__WEBPACK_IMPORTED_MODULE_4__.xhr)(
+        this.url_,
+        /** @type {import("../format/Feature.js").default} */ (this.format_)
+      );
+    }
+
+    /**
+     * @private
+     * @type {LoadingStrategy}
+     */
+    this.strategy_ =
+      options.strategy !== undefined ? options.strategy : _loadingstrategy_js__WEBPACK_IMPORTED_MODULE_5__.all;
+
+    const useSpatialIndex =
+      options.useSpatialIndex !== undefined ? options.useSpatialIndex : true;
+
+    /**
+     * @private
+     * @type {RBush<import("../Feature.js").default<Geometry>>}
+     */
+    this.featuresRtree_ = useSpatialIndex ? new _structs_RBush_js__WEBPACK_IMPORTED_MODULE_6__["default"]() : null;
+
+    /**
+     * @private
+     * @type {RBush<{extent: import("../extent.js").Extent}>}
+     */
+    this.loadedExtentsRtree_ = new _structs_RBush_js__WEBPACK_IMPORTED_MODULE_6__["default"]();
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.loadingExtentsCount_ = 0;
+
+    /**
+     * @private
+     * @type {!Object<string, import("../Feature.js").default<Geometry>>}
+     */
+    this.nullGeometryFeatures_ = {};
+
+    /**
+     * A lookup of features by id (the return from feature.getId()).
+     * @private
+     * @type {!Object<string, import("../Feature.js").default<Geometry>>}
+     */
+    this.idIndex_ = {};
+
+    /**
+     * A lookup of features by uid (using getUid(feature)).
+     * @private
+     * @type {!Object<string, import("../Feature.js").default<Geometry>>}
+     */
+    this.uidIndex_ = {};
+
+    /**
+     * @private
+     * @type {Object<string, Array<import("../events.js").EventsKey>>}
+     */
+    this.featureChangeKeys_ = {};
+
+    /**
+     * @private
+     * @type {Collection<import("../Feature.js").default<Geometry>>|null}
+     */
+    this.featuresCollection_ = null;
+
+    /** @type {Collection<import("../Feature.js").default<Geometry>>} */
+    let collection;
+    /** @type {Array<import("../Feature.js").default<Geometry>>} */
+    let features;
+    if (Array.isArray(options.features)) {
+      features = options.features;
+    } else if (options.features) {
+      collection = options.features;
+      features = collection.getArray();
+    }
+    if (!useSpatialIndex && collection === undefined) {
+      collection = new _Collection_js__WEBPACK_IMPORTED_MODULE_7__["default"](features);
+    }
+    if (features !== undefined) {
+      this.addFeaturesInternal(features);
+    }
+    if (collection !== undefined) {
+      this.bindFeaturesCollection_(collection);
+    }
+  }
+
+  /**
+   * Add a single feature to the source.  If you want to add a batch of features
+   * at once, call {@link module:ol/source/Vector~VectorSource#addFeatures #addFeatures()}
+   * instead. A feature will not be added to the source if feature with
+   * the same id is already there. The reason for this behavior is to avoid
+   * feature duplication when using bbox or tile loading strategies.
+   * Note: this also applies if an {@link module:ol/Collection~Collection} is used for features,
+   * meaning that if a feature with a duplicate id is added in the collection, it will
+   * be removed from it right away.
+   * @param {import("../Feature.js").default<Geometry>} feature Feature to add.
+   * @api
+   */
+  addFeature(feature) {
+    this.addFeatureInternal(feature);
+    this.changed();
+  }
+
+  /**
+   * Add a feature without firing a `change` event.
+   * @param {import("../Feature.js").default<Geometry>} feature Feature.
+   * @protected
+   */
+  addFeatureInternal(feature) {
+    const featureKey = (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature);
+
+    if (!this.addToIndex_(featureKey, feature)) {
+      if (this.featuresCollection_) {
+        this.featuresCollection_.remove(feature);
+      }
+      return;
+    }
+
+    this.setupChangeEvents_(featureKey, feature);
+
+    const geometry = feature.getGeometry();
+    if (geometry) {
+      const extent = geometry.getExtent();
+      if (this.featuresRtree_) {
+        this.featuresRtree_.insert(extent, feature);
+      }
+    } else {
+      this.nullGeometryFeatures_[featureKey] = feature;
+    }
+
+    this.dispatchEvent(
+      new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].ADDFEATURE, feature)
+    );
+  }
+
+  /**
+   * @param {string} featureKey Unique identifier for the feature.
+   * @param {import("../Feature.js").default<Geometry>} feature The feature.
+   * @private
+   */
+  setupChangeEvents_(featureKey, feature) {
+    this.featureChangeKeys_[featureKey] = [
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_10__.listen)(feature, _events_EventType_js__WEBPACK_IMPORTED_MODULE_11__["default"].CHANGE, this.handleFeatureChange_, this),
+      (0,_events_js__WEBPACK_IMPORTED_MODULE_10__.listen)(
+        feature,
+        _ObjectEventType_js__WEBPACK_IMPORTED_MODULE_12__["default"].PROPERTYCHANGE,
+        this.handleFeatureChange_,
+        this
+      ),
+    ];
+  }
+
+  /**
+   * @param {string} featureKey Unique identifier for the feature.
+   * @param {import("../Feature.js").default<Geometry>} feature The feature.
+   * @return {boolean} The feature is "valid", in the sense that it is also a
+   *     candidate for insertion into the Rtree.
+   * @private
+   */
+  addToIndex_(featureKey, feature) {
+    let valid = true;
+    const id = feature.getId();
+    if (id !== undefined) {
+      if (!(id.toString() in this.idIndex_)) {
+        this.idIndex_[id.toString()] = feature;
+      } else {
+        valid = false;
+      }
+    }
+    if (valid) {
+      (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(!(featureKey in this.uidIndex_), 30); // The passed `feature` was already added to the source
+      this.uidIndex_[featureKey] = feature;
+    }
+    return valid;
+  }
+
+  /**
+   * Add a batch of features to the source.
+   * @param {Array<import("../Feature.js").default<Geometry>>} features Features to add.
+   * @api
+   */
+  addFeatures(features) {
+    this.addFeaturesInternal(features);
+    this.changed();
+  }
+
+  /**
+   * Add features without firing a `change` event.
+   * @param {Array<import("../Feature.js").default<Geometry>>} features Features.
+   * @protected
+   */
+  addFeaturesInternal(features) {
+    const extents = [];
+    const newFeatures = [];
+    const geometryFeatures = [];
+
+    for (let i = 0, length = features.length; i < length; i++) {
+      const feature = features[i];
+      const featureKey = (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature);
+      if (this.addToIndex_(featureKey, feature)) {
+        newFeatures.push(feature);
+      }
+    }
+
+    for (let i = 0, length = newFeatures.length; i < length; i++) {
+      const feature = newFeatures[i];
+      const featureKey = (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature);
+      this.setupChangeEvents_(featureKey, feature);
+
+      const geometry = feature.getGeometry();
+      if (geometry) {
+        const extent = geometry.getExtent();
+        extents.push(extent);
+        geometryFeatures.push(feature);
+      } else {
+        this.nullGeometryFeatures_[featureKey] = feature;
+      }
+    }
+    if (this.featuresRtree_) {
+      this.featuresRtree_.load(extents, geometryFeatures);
+    }
+
+    if (this.hasListener(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].ADDFEATURE)) {
+      for (let i = 0, length = newFeatures.length; i < length; i++) {
+        this.dispatchEvent(
+          new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].ADDFEATURE, newFeatures[i])
+        );
+      }
+    }
+  }
+
+  /**
+   * @param {!Collection<import("../Feature.js").default<Geometry>>} collection Collection.
+   * @private
+   */
+  bindFeaturesCollection_(collection) {
+    let modifyingCollection = false;
+    this.addEventListener(
+      _VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].ADDFEATURE,
+      /**
+       * @param {VectorSourceEvent<Geometry>} evt The vector source event
+       */
+      function (evt) {
+        if (!modifyingCollection) {
+          modifyingCollection = true;
+          collection.push(evt.feature);
+          modifyingCollection = false;
+        }
+      }
+    );
+    this.addEventListener(
+      _VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].REMOVEFEATURE,
+      /**
+       * @param {VectorSourceEvent<Geometry>} evt The vector source event
+       */
+      function (evt) {
+        if (!modifyingCollection) {
+          modifyingCollection = true;
+          collection.remove(evt.feature);
+          modifyingCollection = false;
+        }
+      }
+    );
+    collection.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_13__["default"].ADD,
+      /**
+       * @param {import("../Collection.js").CollectionEvent<import("../Feature.js").default<Geometry>>} evt The collection event
+       */
+      (evt) => {
+        if (!modifyingCollection) {
+          modifyingCollection = true;
+          this.addFeature(evt.element);
+          modifyingCollection = false;
+        }
+      }
+    );
+    collection.addEventListener(
+      _CollectionEventType_js__WEBPACK_IMPORTED_MODULE_13__["default"].REMOVE,
+      /**
+       * @param {import("../Collection.js").CollectionEvent<import("../Feature.js").default<Geometry>>} evt The collection event
+       */
+      (evt) => {
+        if (!modifyingCollection) {
+          modifyingCollection = true;
+          this.removeFeature(evt.element);
+          modifyingCollection = false;
+        }
+      }
+    );
+    this.featuresCollection_ = collection;
+  }
+
+  /**
+   * Remove all features from the source.
+   * @param {boolean} [fast] Skip dispatching of {@link module:ol/source/Vector.VectorSourceEvent#event:removefeature} events.
+   * @api
+   */
+  clear(fast) {
+    if (fast) {
+      for (const featureId in this.featureChangeKeys_) {
+        const keys = this.featureChangeKeys_[featureId];
+        keys.forEach(_events_js__WEBPACK_IMPORTED_MODULE_10__.unlistenByKey);
+      }
+      if (!this.featuresCollection_) {
+        this.featureChangeKeys_ = {};
+        this.idIndex_ = {};
+        this.uidIndex_ = {};
+      }
+    } else {
+      if (this.featuresRtree_) {
+        const removeAndIgnoreReturn = (feature) => {
+          this.removeFeatureInternal(feature);
+        };
+        this.featuresRtree_.forEach(removeAndIgnoreReturn);
+        for (const id in this.nullGeometryFeatures_) {
+          this.removeFeatureInternal(this.nullGeometryFeatures_[id]);
+        }
+      }
+    }
+    if (this.featuresCollection_) {
+      this.featuresCollection_.clear();
+    }
+
+    if (this.featuresRtree_) {
+      this.featuresRtree_.clear();
+    }
+    this.nullGeometryFeatures_ = {};
+
+    const clearEvent = new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].CLEAR);
+    this.dispatchEvent(clearEvent);
+    this.changed();
+  }
+
+  /**
+   * Iterate through all features on the source, calling the provided callback
+   * with each one.  If the callback returns any "truthy" value, iteration will
+   * stop and the function will return the same value.
+   * Note: this function only iterate through the feature that have a defined geometry.
+   *
+   * @param {function(import("../Feature.js").default<Geometry>): T} callback Called with each feature
+   *     on the source.  Return a truthy value to stop iteration.
+   * @return {T|undefined} The return value from the last call to the callback.
+   * @template T
+   * @api
+   */
+  forEachFeature(callback) {
+    if (this.featuresRtree_) {
+      return this.featuresRtree_.forEach(callback);
+    } else if (this.featuresCollection_) {
+      this.featuresCollection_.forEach(callback);
+    }
+  }
+
+  /**
+   * Iterate through all features whose geometries contain the provided
+   * coordinate, calling the callback with each feature.  If the callback returns
+   * a "truthy" value, iteration will stop and the function will return the same
+   * value.
+   *
+   * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
+   * @param {function(import("../Feature.js").default<Geometry>): T} callback Called with each feature
+   *     whose goemetry contains the provided coordinate.
+   * @return {T|undefined} The return value from the last call to the callback.
+   * @template T
+   */
+  forEachFeatureAtCoordinateDirect(coordinate, callback) {
+    const extent = [coordinate[0], coordinate[1], coordinate[0], coordinate[1]];
+    return this.forEachFeatureInExtent(extent, function (feature) {
+      const geometry = feature.getGeometry();
+      if (geometry.intersectsCoordinate(coordinate)) {
+        return callback(feature);
+      }
+      return undefined;
+    });
+  }
+
+  /**
+   * Iterate through all features whose bounding box intersects the provided
+   * extent (note that the feature's geometry may not intersect the extent),
+   * calling the callback with each feature.  If the callback returns a "truthy"
+   * value, iteration will stop and the function will return the same value.
+   *
+   * If you are interested in features whose geometry intersects an extent, call
+   * the {@link module:ol/source/Vector~VectorSource#forEachFeatureIntersectingExtent #forEachFeatureIntersectingExtent()} method instead.
+   *
+   * When `useSpatialIndex` is set to false, this method will loop through all
+   * features, equivalent to {@link module:ol/source/Vector~VectorSource#forEachFeature #forEachFeature()}.
+   *
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {function(import("../Feature.js").default<Geometry>): T} callback Called with each feature
+   *     whose bounding box intersects the provided extent.
+   * @return {T|undefined} The return value from the last call to the callback.
+   * @template T
+   * @api
+   */
+  forEachFeatureInExtent(extent, callback) {
+    if (this.featuresRtree_) {
+      return this.featuresRtree_.forEachInExtent(extent, callback);
+    } else if (this.featuresCollection_) {
+      this.featuresCollection_.forEach(callback);
+    }
+  }
+
+  /**
+   * Iterate through all features whose geometry intersects the provided extent,
+   * calling the callback with each feature.  If the callback returns a "truthy"
+   * value, iteration will stop and the function will return the same value.
+   *
+   * If you only want to test for bounding box intersection, call the
+   * {@link module:ol/source/Vector~VectorSource#forEachFeatureInExtent #forEachFeatureInExtent()} method instead.
+   *
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {function(import("../Feature.js").default<Geometry>): T} callback Called with each feature
+   *     whose geometry intersects the provided extent.
+   * @return {T|undefined} The return value from the last call to the callback.
+   * @template T
+   * @api
+   */
+  forEachFeatureIntersectingExtent(extent, callback) {
+    return this.forEachFeatureInExtent(
+      extent,
+      /**
+       * @param {import("../Feature.js").default<Geometry>} feature Feature.
+       * @return {T|undefined} The return value from the last call to the callback.
+       */
+      function (feature) {
+        const geometry = feature.getGeometry();
+        if (geometry.intersectsExtent(extent)) {
+          const result = callback(feature);
+          if (result) {
+            return result;
+          }
+        }
+      }
+    );
+  }
+
+  /**
+   * Get the features collection associated with this source. Will be `null`
+   * unless the source was configured with `useSpatialIndex` set to `false`, or
+   * with an {@link module:ol/Collection~Collection} as `features`.
+   * @return {Collection<import("../Feature.js").default<Geometry>>|null} The collection of features.
+   * @api
+   */
+  getFeaturesCollection() {
+    return this.featuresCollection_;
+  }
+
+  /**
+   * Get a snapshot of the features currently on the source in random order. The returned array
+   * is a copy, the features are references to the features in the source.
+   * @return {Array<import("../Feature.js").default<Geometry>>} Features.
+   * @api
+   */
+  getFeatures() {
+    let features;
+    if (this.featuresCollection_) {
+      features = this.featuresCollection_.getArray().slice(0);
+    } else if (this.featuresRtree_) {
+      features = this.featuresRtree_.getAll();
+      if (!(0,_obj_js__WEBPACK_IMPORTED_MODULE_14__.isEmpty)(this.nullGeometryFeatures_)) {
+        (0,_array_js__WEBPACK_IMPORTED_MODULE_15__.extend)(features, Object.values(this.nullGeometryFeatures_));
+      }
+    }
+    return /** @type {Array<import("../Feature.js").default<Geometry>>} */ (
+      features
+    );
+  }
+
+  /**
+   * Get all features whose geometry intersects the provided coordinate.
+   * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
+   * @return {Array<import("../Feature.js").default<Geometry>>} Features.
+   * @api
+   */
+  getFeaturesAtCoordinate(coordinate) {
+    const features = [];
+    this.forEachFeatureAtCoordinateDirect(coordinate, function (feature) {
+      features.push(feature);
+    });
+    return features;
+  }
+
+  /**
+   * Get all features whose bounding box intersects the provided extent.  Note that this returns an array of
+   * all features intersecting the given extent in random order (so it may include
+   * features whose geometries do not intersect the extent).
+   *
+   * When `useSpatialIndex` is set to false, this method will return all
+   * features.
+   *
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {import("../proj/Projection.js").default} [projection] Include features
+   * where `extent` exceeds the x-axis bounds of `projection` and wraps around the world.
+   * @return {Array<import("../Feature.js").default<Geometry>>} Features.
+   * @api
+   */
+  getFeaturesInExtent(extent, projection) {
+    if (this.featuresRtree_) {
+      const multiWorld = projection && projection.canWrapX() && this.getWrapX();
+
+      if (!multiWorld) {
+        return this.featuresRtree_.getInExtent(extent);
+      }
+
+      const extents = (0,_extent_js__WEBPACK_IMPORTED_MODULE_16__.wrapAndSliceX)(extent, projection);
+
+      return [].concat(
+        ...extents.map((anExtent) => this.featuresRtree_.getInExtent(anExtent))
+      );
+    } else if (this.featuresCollection_) {
+      return this.featuresCollection_.getArray().slice(0);
+    }
+    return [];
+  }
+
+  /**
+   * Get the closest feature to the provided coordinate.
+   *
+   * This method is not available when the source is configured with
+   * `useSpatialIndex` set to `false`.
+   * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
+   * @param {function(import("../Feature.js").default<Geometry>):boolean} [filter] Feature filter function.
+   *     The filter function will receive one argument, the {@link module:ol/Feature~Feature feature}
+   *     and it should return a boolean value. By default, no filtering is made.
+   * @return {import("../Feature.js").default<Geometry>} Closest feature.
+   * @api
+   */
+  getClosestFeatureToCoordinate(coordinate, filter) {
+    // Find the closest feature using branch and bound.  We start searching an
+    // infinite extent, and find the distance from the first feature found.  This
+    // becomes the closest feature.  We then compute a smaller extent which any
+    // closer feature must intersect.  We continue searching with this smaller
+    // extent, trying to find a closer feature.  Every time we find a closer
+    // feature, we update the extent being searched so that any even closer
+    // feature must intersect it.  We continue until we run out of features.
+    const x = coordinate[0];
+    const y = coordinate[1];
+    let closestFeature = null;
+    const closestPoint = [NaN, NaN];
+    let minSquaredDistance = Infinity;
+    const extent = [-Infinity, -Infinity, Infinity, Infinity];
+    filter = filter ? filter : _functions_js__WEBPACK_IMPORTED_MODULE_2__.TRUE;
+    this.featuresRtree_.forEachInExtent(
+      extent,
+      /**
+       * @param {import("../Feature.js").default<Geometry>} feature Feature.
+       */
+      function (feature) {
+        if (filter(feature)) {
+          const geometry = feature.getGeometry();
+          const previousMinSquaredDistance = minSquaredDistance;
+          minSquaredDistance = geometry.closestPointXY(
+            x,
+            y,
+            closestPoint,
+            minSquaredDistance
+          );
+          if (minSquaredDistance < previousMinSquaredDistance) {
+            closestFeature = feature;
+            // This is sneaky.  Reduce the extent that it is currently being
+            // searched while the R-Tree traversal using this same extent object
+            // is still in progress.  This is safe because the new extent is
+            // strictly contained by the old extent.
+            const minDistance = Math.sqrt(minSquaredDistance);
+            extent[0] = x - minDistance;
+            extent[1] = y - minDistance;
+            extent[2] = x + minDistance;
+            extent[3] = y + minDistance;
+          }
+        }
+      }
+    );
+    return closestFeature;
+  }
+
+  /**
+   * Get the extent of the features currently in the source.
+   *
+   * This method is not available when the source is configured with
+   * `useSpatialIndex` set to `false`.
+   * @param {import("../extent.js").Extent} [extent] Destination extent. If provided, no new extent
+   *     will be created. Instead, that extent's coordinates will be overwritten.
+   * @return {import("../extent.js").Extent} Extent.
+   * @api
+   */
+  getExtent(extent) {
+    return this.featuresRtree_.getExtent(extent);
+  }
+
+  /**
+   * Get a feature by its identifier (the value returned by feature.getId()).
+   * Note that the index treats string and numeric identifiers as the same.  So
+   * `source.getFeatureById(2)` will return a feature with id `'2'` or `2`.
+   *
+   * @param {string|number} id Feature identifier.
+   * @return {import("../Feature.js").default<Geometry>|null} The feature (or `null` if not found).
+   * @api
+   */
+  getFeatureById(id) {
+    const feature = this.idIndex_[id.toString()];
+    return feature !== undefined ? feature : null;
+  }
+
+  /**
+   * Get a feature by its internal unique identifier (using `getUid`).
+   *
+   * @param {string} uid Feature identifier.
+   * @return {import("../Feature.js").default<Geometry>|null} The feature (or `null` if not found).
+   */
+  getFeatureByUid(uid) {
+    const feature = this.uidIndex_[uid];
+    return feature !== undefined ? feature : null;
+  }
+
+  /**
+   * Get the format associated with this source.
+   *
+   * @return {import("../format/Feature.js").default|undefined} The feature format.
+   * @api
+   */
+  getFormat() {
+    return this.format_;
+  }
+
+  /**
+   * @return {boolean} The source can have overlapping geometries.
+   */
+  getOverlaps() {
+    return this.overlaps_;
+  }
+
+  /**
+   * Get the url associated with this source.
+   *
+   * @return {string|import("../featureloader.js").FeatureUrlFunction|undefined} The url.
+   * @api
+   */
+  getUrl() {
+    return this.url_;
+  }
+
+  /**
+   * @param {Event} event Event.
+   * @private
+   */
+  handleFeatureChange_(event) {
+    const feature = /** @type {import("../Feature.js").default<Geometry>} */ (
+      event.target
+    );
+    const featureKey = (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature);
+    const geometry = feature.getGeometry();
+    if (!geometry) {
+      if (!(featureKey in this.nullGeometryFeatures_)) {
+        if (this.featuresRtree_) {
+          this.featuresRtree_.remove(feature);
+        }
+        this.nullGeometryFeatures_[featureKey] = feature;
+      }
+    } else {
+      const extent = geometry.getExtent();
+      if (featureKey in this.nullGeometryFeatures_) {
+        delete this.nullGeometryFeatures_[featureKey];
+        if (this.featuresRtree_) {
+          this.featuresRtree_.insert(extent, feature);
+        }
+      } else {
+        if (this.featuresRtree_) {
+          this.featuresRtree_.update(extent, feature);
+        }
+      }
+    }
+    const id = feature.getId();
+    if (id !== undefined) {
+      const sid = id.toString();
+      if (this.idIndex_[sid] !== feature) {
+        this.removeFromIdIndex_(feature);
+        this.idIndex_[sid] = feature;
+      }
+    } else {
+      this.removeFromIdIndex_(feature);
+      this.uidIndex_[featureKey] = feature;
+    }
+    this.changed();
+    this.dispatchEvent(
+      new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].CHANGEFEATURE, feature)
+    );
+  }
+
+  /**
+   * Returns true if the feature is contained within the source.
+   * @param {import("../Feature.js").default<Geometry>} feature Feature.
+   * @return {boolean} Has feature.
+   * @api
+   */
+  hasFeature(feature) {
+    const id = feature.getId();
+    if (id !== undefined) {
+      return id in this.idIndex_;
+    }
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature) in this.uidIndex_;
+  }
+
+  /**
+   * @return {boolean} Is empty.
+   */
+  isEmpty() {
+    if (this.featuresRtree_) {
+      return (
+        this.featuresRtree_.isEmpty() && (0,_obj_js__WEBPACK_IMPORTED_MODULE_14__.isEmpty)(this.nullGeometryFeatures_)
+      );
+    }
+    if (this.featuresCollection_) {
+      return this.featuresCollection_.getLength() === 0;
+    }
+    return true;
+  }
+
+  /**
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {number} resolution Resolution.
+   * @param {import("../proj/Projection.js").default} projection Projection.
+   */
+  loadFeatures(extent, resolution, projection) {
+    const loadedExtentsRtree = this.loadedExtentsRtree_;
+    const extentsToLoad = this.strategy_(extent, resolution, projection);
+    for (let i = 0, ii = extentsToLoad.length; i < ii; ++i) {
+      const extentToLoad = extentsToLoad[i];
+      const alreadyLoaded = loadedExtentsRtree.forEachInExtent(
+        extentToLoad,
+        /**
+         * @param {{extent: import("../extent.js").Extent}} object Object.
+         * @return {boolean} Contains.
+         */
+        function (object) {
+          return (0,_extent_js__WEBPACK_IMPORTED_MODULE_16__.containsExtent)(object.extent, extentToLoad);
+        }
+      );
+      if (!alreadyLoaded) {
+        ++this.loadingExtentsCount_;
+        this.dispatchEvent(
+          new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].FEATURESLOADSTART)
+        );
+        this.loader_.call(
+          this,
+          extentToLoad,
+          resolution,
+          projection,
+          (features) => {
+            --this.loadingExtentsCount_;
+            this.dispatchEvent(
+              new VectorSourceEvent(
+                _VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].FEATURESLOADEND,
+                undefined,
+                features
+              )
+            );
+          },
+          () => {
+            --this.loadingExtentsCount_;
+            this.dispatchEvent(
+              new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].FEATURESLOADERROR)
+            );
+          }
+        );
+        loadedExtentsRtree.insert(extentToLoad, {extent: extentToLoad.slice()});
+      }
+    }
+    this.loading =
+      this.loader_.length < 4 ? false : this.loadingExtentsCount_ > 0;
+  }
+
+  refresh() {
+    this.clear(true);
+    this.loadedExtentsRtree_.clear();
+    super.refresh();
+  }
+
+  /**
+   * Remove an extent from the list of loaded extents.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @api
+   */
+  removeLoadedExtent(extent) {
+    const loadedExtentsRtree = this.loadedExtentsRtree_;
+    let obj;
+    loadedExtentsRtree.forEachInExtent(extent, function (object) {
+      if ((0,_extent_js__WEBPACK_IMPORTED_MODULE_16__.equals)(object.extent, extent)) {
+        obj = object;
+        return true;
+      }
+    });
+    if (obj) {
+      loadedExtentsRtree.remove(obj);
+    }
+  }
+
+  /**
+   * Remove a single feature from the source.  If you want to remove all features
+   * at once, use the {@link module:ol/source/Vector~VectorSource#clear #clear()} method
+   * instead.
+   * @param {import("../Feature.js").default<Geometry>} feature Feature to remove.
+   * @api
+   */
+  removeFeature(feature) {
+    if (!feature) {
+      return;
+    }
+    const featureKey = (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature);
+    if (featureKey in this.nullGeometryFeatures_) {
+      delete this.nullGeometryFeatures_[featureKey];
+    } else {
+      if (this.featuresRtree_) {
+        this.featuresRtree_.remove(feature);
+      }
+    }
+    const result = this.removeFeatureInternal(feature);
+    if (result) {
+      this.changed();
+    }
+  }
+
+  /**
+   * Remove feature without firing a `change` event.
+   * @param {import("../Feature.js").default<Geometry>} feature Feature.
+   * @return {import("../Feature.js").default<Geometry>|undefined} The removed feature
+   *     (or undefined if the feature was not found).
+   * @protected
+   */
+  removeFeatureInternal(feature) {
+    const featureKey = (0,_util_js__WEBPACK_IMPORTED_MODULE_8__.getUid)(feature);
+    const featureChangeKeys = this.featureChangeKeys_[featureKey];
+    if (!featureChangeKeys) {
+      return;
+    }
+    featureChangeKeys.forEach(_events_js__WEBPACK_IMPORTED_MODULE_10__.unlistenByKey);
+    delete this.featureChangeKeys_[featureKey];
+    const id = feature.getId();
+    if (id !== undefined) {
+      delete this.idIndex_[id.toString()];
+    }
+    delete this.uidIndex_[featureKey];
+    this.dispatchEvent(
+      new VectorSourceEvent(_VectorEventType_js__WEBPACK_IMPORTED_MODULE_9__["default"].REMOVEFEATURE, feature)
+    );
+    return feature;
+  }
+
+  /**
+   * Remove a feature from the id index.  Called internally when the feature id
+   * may have changed.
+   * @param {import("../Feature.js").default<Geometry>} feature The feature.
+   * @return {boolean} Removed the feature from the index.
+   * @private
+   */
+  removeFromIdIndex_(feature) {
+    let removed = false;
+    for (const id in this.idIndex_) {
+      if (this.idIndex_[id] === feature) {
+        delete this.idIndex_[id];
+        removed = true;
+        break;
+      }
+    }
+    return removed;
+  }
+
+  /**
+   * Set the new loader of the source. The next render cycle will use the
+   * new loader.
+   * @param {import("../featureloader.js").FeatureLoader} loader The loader to set.
+   * @api
+   */
+  setLoader(loader) {
+    this.loader_ = loader;
+  }
+
+  /**
+   * Points the source to a new url. The next render cycle will use the new url.
+   * @param {string|import("../featureloader.js").FeatureUrlFunction} url Url.
+   * @api
+   */
+  setUrl(url) {
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(this.format_, 7); // `format` must be set when `url` is set
+    this.url_ = url;
+    this.setLoader((0,_featureloader_js__WEBPACK_IMPORTED_MODULE_4__.xhr)(url, this.format_));
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VectorSource);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/source/VectorEventType.js":
+/*!***************************************************!*\
+  !*** ./node_modules/ol/source/VectorEventType.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/source/VectorEventType
+ */
+
+/**
+ * @enum {string}
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * Triggered when a feature is added to the source.
+   * @event module:ol/source/Vector.VectorSourceEvent#addfeature
+   * @api
+   */
+  ADDFEATURE: 'addfeature',
+
+  /**
+   * Triggered when a feature is updated.
+   * @event module:ol/source/Vector.VectorSourceEvent#changefeature
+   * @api
+   */
+  CHANGEFEATURE: 'changefeature',
+
+  /**
+   * Triggered when the clear method is called on the source.
+   * @event module:ol/source/Vector.VectorSourceEvent#clear
+   * @api
+   */
+  CLEAR: 'clear',
+
+  /**
+   * Triggered when a feature is removed from the source.
+   * See {@link module:ol/source/Vector~VectorSource#clear source.clear()} for exceptions.
+   * @event module:ol/source/Vector.VectorSourceEvent#removefeature
+   * @api
+   */
+  REMOVEFEATURE: 'removefeature',
+
+  /**
+   * Triggered when features starts loading.
+   * @event module:ol/source/Vector.VectorSourceEvent#featuresloadstart
+   * @api
+   */
+  FEATURESLOADSTART: 'featuresloadstart',
+
+  /**
+   * Triggered when features finishes loading.
+   * @event module:ol/source/Vector.VectorSourceEvent#featuresloadend
+   * @api
+   */
+  FEATURESLOADEND: 'featuresloadend',
+
+  /**
+   * Triggered if feature loading results in an error.
+   * @event module:ol/source/Vector.VectorSourceEvent#featuresloaderror
+   * @api
+   */
+  FEATURESLOADERROR: 'featuresloaderror',
+});
+
+/**
+ * @typedef {'addfeature'|'changefeature'|'clear'|'removefeature'|'featuresloadstart'|'featuresloadend'|'featuresloaderror'} VectorSourceEventTypes
+ */
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/source/XYZ.js":
 /*!***************************************!*\
   !*** ./node_modules/ol/source/XYZ.js ***!
   \***************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -18995,6 +37289,7 @@ class XYZ extends _TileImage_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DEFAULT_RADIUS": () => (/* binding */ DEFAULT_RADIUS),
@@ -19277,6 +37572,7 @@ function offset(c1, distance, bearing, radius) {
   \***********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "compareVersions": () => (/* binding */ compareVersions),
@@ -19336,6 +37632,7 @@ function compareVersions(v1, v2) {
   \*********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -19631,12 +37928,4543 @@ class LRUCache {
 
 /***/ }),
 
+/***/ "./node_modules/ol/structs/PriorityQueue.js":
+/*!**************************************************!*\
+  !*** ./node_modules/ol/structs/PriorityQueue.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DROP": () => (/* binding */ DROP),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../obj.js */ "./node_modules/ol/obj.js");
+/**
+ * @module ol/structs/PriorityQueue
+ */
+
+
+
+/**
+ * @type {number}
+ */
+const DROP = Infinity;
+
+/**
+ * @classdesc
+ * Priority queue.
+ *
+ * The implementation is inspired from the Closure Library's Heap class and
+ * Python's heapq module.
+ *
+ * See https://github.com/google/closure-library/blob/master/closure/goog/structs/heap.js
+ * and https://hg.python.org/cpython/file/2.7/Lib/heapq.py.
+ *
+ * @template T
+ */
+class PriorityQueue {
+  /**
+   * @param {function(T): number} priorityFunction Priority function.
+   * @param {function(T): string} keyFunction Key function.
+   */
+  constructor(priorityFunction, keyFunction) {
+    /**
+     * @type {function(T): number}
+     * @private
+     */
+    this.priorityFunction_ = priorityFunction;
+
+    /**
+     * @type {function(T): string}
+     * @private
+     */
+    this.keyFunction_ = keyFunction;
+
+    /**
+     * @type {Array<T>}
+     * @private
+     */
+    this.elements_ = [];
+
+    /**
+     * @type {Array<number>}
+     * @private
+     */
+    this.priorities_ = [];
+
+    /**
+     * @type {!Object<string, boolean>}
+     * @private
+     */
+    this.queuedElements_ = {};
+  }
+
+  /**
+   * FIXME empty description for jsdoc
+   */
+  clear() {
+    this.elements_.length = 0;
+    this.priorities_.length = 0;
+    (0,_obj_js__WEBPACK_IMPORTED_MODULE_0__.clear)(this.queuedElements_);
+  }
+
+  /**
+   * Remove and return the highest-priority element. O(log N).
+   * @return {T} Element.
+   */
+  dequeue() {
+    const elements = this.elements_;
+    const priorities = this.priorities_;
+    const element = elements[0];
+    if (elements.length == 1) {
+      elements.length = 0;
+      priorities.length = 0;
+    } else {
+      elements[0] = elements.pop();
+      priorities[0] = priorities.pop();
+      this.siftUp_(0);
+    }
+    const elementKey = this.keyFunction_(element);
+    delete this.queuedElements_[elementKey];
+    return element;
+  }
+
+  /**
+   * Enqueue an element. O(log N).
+   * @param {T} element Element.
+   * @return {boolean} The element was added to the queue.
+   */
+  enqueue(element) {
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_1__.assert)(!(this.keyFunction_(element) in this.queuedElements_), 31); // Tried to enqueue an `element` that was already added to the queue
+    const priority = this.priorityFunction_(element);
+    if (priority != DROP) {
+      this.elements_.push(element);
+      this.priorities_.push(priority);
+      this.queuedElements_[this.keyFunction_(element)] = true;
+      this.siftDown_(0, this.elements_.length - 1);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @return {number} Count.
+   */
+  getCount() {
+    return this.elements_.length;
+  }
+
+  /**
+   * Gets the index of the left child of the node at the given index.
+   * @param {number} index The index of the node to get the left child for.
+   * @return {number} The index of the left child.
+   * @private
+   */
+  getLeftChildIndex_(index) {
+    return index * 2 + 1;
+  }
+
+  /**
+   * Gets the index of the right child of the node at the given index.
+   * @param {number} index The index of the node to get the right child for.
+   * @return {number} The index of the right child.
+   * @private
+   */
+  getRightChildIndex_(index) {
+    return index * 2 + 2;
+  }
+
+  /**
+   * Gets the index of the parent of the node at the given index.
+   * @param {number} index The index of the node to get the parent for.
+   * @return {number} The index of the parent.
+   * @private
+   */
+  getParentIndex_(index) {
+    return (index - 1) >> 1;
+  }
+
+  /**
+   * Make this a heap. O(N).
+   * @private
+   */
+  heapify_() {
+    let i;
+    for (i = (this.elements_.length >> 1) - 1; i >= 0; i--) {
+      this.siftUp_(i);
+    }
+  }
+
+  /**
+   * @return {boolean} Is empty.
+   */
+  isEmpty() {
+    return this.elements_.length === 0;
+  }
+
+  /**
+   * @param {string} key Key.
+   * @return {boolean} Is key queued.
+   */
+  isKeyQueued(key) {
+    return key in this.queuedElements_;
+  }
+
+  /**
+   * @param {T} element Element.
+   * @return {boolean} Is queued.
+   */
+  isQueued(element) {
+    return this.isKeyQueued(this.keyFunction_(element));
+  }
+
+  /**
+   * @param {number} index The index of the node to move down.
+   * @private
+   */
+  siftUp_(index) {
+    const elements = this.elements_;
+    const priorities = this.priorities_;
+    const count = elements.length;
+    const element = elements[index];
+    const priority = priorities[index];
+    const startIndex = index;
+
+    while (index < count >> 1) {
+      const lIndex = this.getLeftChildIndex_(index);
+      const rIndex = this.getRightChildIndex_(index);
+
+      const smallerChildIndex =
+        rIndex < count && priorities[rIndex] < priorities[lIndex]
+          ? rIndex
+          : lIndex;
+
+      elements[index] = elements[smallerChildIndex];
+      priorities[index] = priorities[smallerChildIndex];
+      index = smallerChildIndex;
+    }
+
+    elements[index] = element;
+    priorities[index] = priority;
+    this.siftDown_(startIndex, index);
+  }
+
+  /**
+   * @param {number} startIndex The index of the root.
+   * @param {number} index The index of the node to move up.
+   * @private
+   */
+  siftDown_(startIndex, index) {
+    const elements = this.elements_;
+    const priorities = this.priorities_;
+    const element = elements[index];
+    const priority = priorities[index];
+
+    while (index > startIndex) {
+      const parentIndex = this.getParentIndex_(index);
+      if (priorities[parentIndex] > priority) {
+        elements[index] = elements[parentIndex];
+        priorities[index] = priorities[parentIndex];
+        index = parentIndex;
+      } else {
+        break;
+      }
+    }
+    elements[index] = element;
+    priorities[index] = priority;
+  }
+
+  /**
+   * FIXME empty description for jsdoc
+   */
+  reprioritize() {
+    const priorityFunction = this.priorityFunction_;
+    const elements = this.elements_;
+    const priorities = this.priorities_;
+    let index = 0;
+    const n = elements.length;
+    let element, i, priority;
+    for (i = 0; i < n; ++i) {
+      element = elements[i];
+      priority = priorityFunction(element);
+      if (priority == DROP) {
+        delete this.queuedElements_[this.keyFunction_(element)];
+      } else {
+        priorities[index] = priority;
+        elements[index++] = element;
+      }
+    }
+    elements.length = index;
+    priorities.length = index;
+    this.heapify_();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PriorityQueue);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/structs/RBush.js":
+/*!******************************************!*\
+  !*** ./node_modules/ol/structs/RBush.js ***!
+  \******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var rbush__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rbush */ "./node_modules/rbush/rbush.min.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../obj.js */ "./node_modules/ol/obj.js");
+/**
+ * @module ol/structs/RBush
+ */
+
+
+
+
+
+/**
+ * @typedef {Object} Entry
+ * @property {number} minX MinX.
+ * @property {number} minY MinY.
+ * @property {number} maxX MaxX.
+ * @property {number} maxY MaxY.
+ * @property {Object} [value] Value.
+ */
+
+/**
+ * @classdesc
+ * Wrapper around the RBush by Vladimir Agafonkin.
+ * See https://github.com/mourner/rbush.
+ *
+ * @template T
+ */
+class RBush {
+  /**
+   * @param {number} [maxEntries] Max entries.
+   */
+  constructor(maxEntries) {
+    /**
+     * @private
+     */
+    this.rbush_ = new rbush__WEBPACK_IMPORTED_MODULE_0__(maxEntries);
+
+    /**
+     * A mapping between the objects added to this rbush wrapper
+     * and the objects that are actually added to the internal rbush.
+     * @private
+     * @type {Object<string, Entry>}
+     */
+    this.items_ = {};
+  }
+
+  /**
+   * Insert a value into the RBush.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {T} value Value.
+   */
+  insert(extent, value) {
+    /** @type {Entry} */
+    const item = {
+      minX: extent[0],
+      minY: extent[1],
+      maxX: extent[2],
+      maxY: extent[3],
+      value: value,
+    };
+
+    this.rbush_.insert(item);
+    this.items_[(0,_util_js__WEBPACK_IMPORTED_MODULE_1__.getUid)(value)] = item;
+  }
+
+  /**
+   * Bulk-insert values into the RBush.
+   * @param {Array<import("../extent.js").Extent>} extents Extents.
+   * @param {Array<T>} values Values.
+   */
+  load(extents, values) {
+    const items = new Array(values.length);
+    for (let i = 0, l = values.length; i < l; i++) {
+      const extent = extents[i];
+      const value = values[i];
+
+      /** @type {Entry} */
+      const item = {
+        minX: extent[0],
+        minY: extent[1],
+        maxX: extent[2],
+        maxY: extent[3],
+        value: value,
+      };
+      items[i] = item;
+      this.items_[(0,_util_js__WEBPACK_IMPORTED_MODULE_1__.getUid)(value)] = item;
+    }
+    this.rbush_.load(items);
+  }
+
+  /**
+   * Remove a value from the RBush.
+   * @param {T} value Value.
+   * @return {boolean} Removed.
+   */
+  remove(value) {
+    const uid = (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.getUid)(value);
+
+    // get the object in which the value was wrapped when adding to the
+    // internal rbush. then use that object to do the removal.
+    const item = this.items_[uid];
+    delete this.items_[uid];
+    return this.rbush_.remove(item) !== null;
+  }
+
+  /**
+   * Update the extent of a value in the RBush.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {T} value Value.
+   */
+  update(extent, value) {
+    const item = this.items_[(0,_util_js__WEBPACK_IMPORTED_MODULE_1__.getUid)(value)];
+    const bbox = [item.minX, item.minY, item.maxX, item.maxY];
+    if (!(0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.equals)(bbox, extent)) {
+      this.remove(value);
+      this.insert(extent, value);
+    }
+  }
+
+  /**
+   * Return all values in the RBush.
+   * @return {Array<T>} All.
+   */
+  getAll() {
+    const items = this.rbush_.all();
+    return items.map(function (item) {
+      return item.value;
+    });
+  }
+
+  /**
+   * Return all values in the given extent.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @return {Array<T>} All in extent.
+   */
+  getInExtent(extent) {
+    /** @type {Entry} */
+    const bbox = {
+      minX: extent[0],
+      minY: extent[1],
+      maxX: extent[2],
+      maxY: extent[3],
+    };
+    const items = this.rbush_.search(bbox);
+    return items.map(function (item) {
+      return item.value;
+    });
+  }
+
+  /**
+   * Calls a callback function with each value in the tree.
+   * If the callback returns a truthy value, this value is returned without
+   * checking the rest of the tree.
+   * @param {function(T): *} callback Callback.
+   * @return {*} Callback return value.
+   */
+  forEach(callback) {
+    return this.forEach_(this.getAll(), callback);
+  }
+
+  /**
+   * Calls a callback function with each value in the provided extent.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @param {function(T): *} callback Callback.
+   * @return {*} Callback return value.
+   */
+  forEachInExtent(extent, callback) {
+    return this.forEach_(this.getInExtent(extent), callback);
+  }
+
+  /**
+   * @param {Array<T>} values Values.
+   * @param {function(T): *} callback Callback.
+   * @private
+   * @return {*} Callback return value.
+   */
+  forEach_(values, callback) {
+    let result;
+    for (let i = 0, l = values.length; i < l; i++) {
+      result = callback(values[i]);
+      if (result) {
+        return result;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @return {boolean} Is empty.
+   */
+  isEmpty() {
+    return (0,_obj_js__WEBPACK_IMPORTED_MODULE_3__.isEmpty)(this.items_);
+  }
+
+  /**
+   * Remove all values from the RBush.
+   */
+  clear() {
+    this.rbush_.clear();
+    this.items_ = {};
+  }
+
+  /**
+   * @param {import("../extent.js").Extent} [extent] Extent.
+   * @return {import("../extent.js").Extent} Extent.
+   */
+  getExtent(extent) {
+    const data = this.rbush_.toJSON();
+    return (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.createOrUpdate)(data.minX, data.minY, data.maxX, data.maxY, extent);
+  }
+
+  /**
+   * @param {RBush} rbush R-Tree.
+   */
+  concat(rbush) {
+    this.rbush_.load(rbush.rbush_.all());
+    for (const i in rbush.items_) {
+      this.items_[i] = rbush.items_[i];
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RBush);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Circle.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol/style/Circle.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RegularShape_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegularShape.js */ "./node_modules/ol/style/RegularShape.js");
+/**
+ * @module ol/style/Circle
+ */
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {import("./Fill.js").default} [fill] Fill style.
+ * @property {number} radius Circle radius.
+ * @property {import("./Stroke.js").default} [stroke] Stroke style.
+ * @property {Array<number>} [displacement=[0,0]] displacement
+ * @property {number|import("../size.js").Size} [scale=1] Scale. A two dimensional scale will produce an ellipse.
+ * Unless two dimensional scaling is required a better result may be obtained with an appropriate setting for `radius`.
+ * @property {number} [rotation=0] Rotation in radians
+ * (positive rotation clockwise, meaningful only when used in conjunction with a two dimensional scale).
+ * @property {boolean} [rotateWithView=false] Whether to rotate the shape with the view
+ * (meaningful only when used in conjunction with a two dimensional scale).
+ * @property {"declutter"|"obstacle"|"none"|undefined} [declutterMode] Declutter mode
+ */
+
+/**
+ * @classdesc
+ * Set circle style for vector features.
+ * @api
+ */
+class CircleStyle extends _RegularShape_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {radius: 5};
+
+    super({
+      points: Infinity,
+      fill: options.fill,
+      radius: options.radius,
+      stroke: options.stroke,
+      scale: options.scale !== undefined ? options.scale : 1,
+      rotation: options.rotation !== undefined ? options.rotation : 0,
+      rotateWithView:
+        options.rotateWithView !== undefined ? options.rotateWithView : false,
+      displacement:
+        options.displacement !== undefined ? options.displacement : [0, 0],
+      declutterMode: options.declutterMode,
+    });
+  }
+
+  /**
+   * Clones the style.
+   * @return {CircleStyle} The cloned style.
+   * @api
+   */
+  clone() {
+    const scale = this.getScale();
+    const style = new CircleStyle({
+      fill: this.getFill() ? this.getFill().clone() : undefined,
+      stroke: this.getStroke() ? this.getStroke().clone() : undefined,
+      radius: this.getRadius(),
+      scale: Array.isArray(scale) ? scale.slice() : scale,
+      rotation: this.getRotation(),
+      rotateWithView: this.getRotateWithView(),
+      displacement: this.getDisplacement().slice(),
+      declutterMode: this.getDeclutterMode(),
+    });
+    style.setOpacity(this.getOpacity());
+    return style;
+  }
+
+  /**
+   * Set the circle radius.
+   *
+   * @param {number} radius Circle radius.
+   * @api
+   */
+  setRadius(radius) {
+    this.radius_ = radius;
+    this.render();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CircleStyle);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Fill.js":
+/*!***************************************!*\
+  !*** ./node_modules/ol/style/Fill.js ***!
+  \***************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/style/Fill
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike|null} [color=null] A color, gradient or pattern.
+ * See {@link module:ol/color~Color} and {@link module:ol/colorlike~ColorLike} for possible formats.
+ * Default null; if null, the Canvas/renderer default black will be used.
+ */
+
+/**
+ * @classdesc
+ * Set fill style for vector features.
+ * @api
+ */
+class Fill {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options || {};
+
+    /**
+     * @private
+     * @type {import("../color.js").Color|import("../colorlike.js").ColorLike|null}
+     */
+    this.color_ = options.color !== undefined ? options.color : null;
+  }
+
+  /**
+   * Clones the style. The color is not cloned if it is an {@link module:ol/colorlike~ColorLike}.
+   * @return {Fill} The cloned style.
+   * @api
+   */
+  clone() {
+    const color = this.getColor();
+    return new Fill({
+      color: Array.isArray(color) ? color.slice() : color || undefined,
+    });
+  }
+
+  /**
+   * Get the fill color.
+   * @return {import("../color.js").Color|import("../colorlike.js").ColorLike|null} Color.
+   * @api
+   */
+  getColor() {
+    return this.color_;
+  }
+
+  /**
+   * Set the color.
+   *
+   * @param {import("../color.js").Color|import("../colorlike.js").ColorLike|null} color Color.
+   * @api
+   */
+  setColor(color) {
+    this.color_ = color;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Fill);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Icon.js":
+/*!***************************************!*\
+  !*** ./node_modules/ol/style/Icon.js ***!
+  \***************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _ImageState_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ImageState.js */ "./node_modules/ol/ImageState.js");
+/* harmony import */ var _Image_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Image.js */ "./node_modules/ol/style/Image.js");
+/* harmony import */ var _color_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../color.js */ "./node_modules/ol/color.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _IconImage_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./IconImage.js */ "./node_modules/ol/style/IconImage.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/**
+ * @module ol/style/Icon
+ */
+
+
+
+
+
+
+
+
+/**
+ * @typedef {'fraction' | 'pixels'} IconAnchorUnits
+ * Anchor unit can be either a fraction of the icon size or in pixels.
+ */
+
+/**
+ * @typedef {'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'} IconOrigin
+ * Icon origin. One of 'bottom-left', 'bottom-right', 'top-left', 'top-right'.
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {Array<number>} [anchor=[0.5, 0.5]] Anchor. Default value is the icon center.
+ * @property {IconOrigin} [anchorOrigin='top-left'] Origin of the anchor: `bottom-left`, `bottom-right`,
+ * `top-left` or `top-right`.
+ * @property {IconAnchorUnits} [anchorXUnits='fraction'] Units in which the anchor x value is
+ * specified. A value of `'fraction'` indicates the x value is a fraction of the icon. A value of `'pixels'` indicates
+ * the x value in pixels.
+ * @property {IconAnchorUnits} [anchorYUnits='fraction'] Units in which the anchor y value is
+ * specified. A value of `'fraction'` indicates the y value is a fraction of the icon. A value of `'pixels'` indicates
+ * the y value in pixels.
+ * @property {import("../color.js").Color|string} [color] Color to tint the icon. If not specified,
+ * the icon will be left as is.
+ * @property {null|string} [crossOrigin] The `crossOrigin` attribute for loaded images. Note that you must provide a
+ * `crossOrigin` value if you want to access pixel data with the Canvas renderer.
+ * See https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image for more detail.
+ * @property {HTMLImageElement|HTMLCanvasElement} [img] Image object for the icon. If the `src` option is not provided then the
+ * provided image must already be loaded. And in that case, it is required
+ * to provide the size of the image, with the `imgSize` option.
+ * @property {import("../size.js").Size} [imgSize] Image size in pixels. Only required if `img` is set and `src` is not.
+ * The provided `imgSize` needs to match the actual size of the image.
+ * @property {Array<number>} [displacement=[0, 0]] Displacement of the icon in pixels.
+ * Positive values will shift the icon right and up.
+ * @property {number} [opacity=1] Opacity of the icon.
+ * @property {number} [width] The width of the icon in pixels. This can't be used together with `scale`.
+ * @property {number} [height] The height of the icon in pixels. This can't be used together with `scale`.
+ * @property {number|import("../size.js").Size} [scale=1] Scale.
+ * @property {boolean} [rotateWithView=false] Whether to rotate the icon with the view.
+ * @property {number} [rotation=0] Rotation in radians (positive rotation clockwise).
+ * @property {Array<number>} [offset=[0, 0]] Offset which, together with `size` and `offsetOrigin`, defines the
+ * sub-rectangle to use from the original (sprite) image.
+ * @property {IconOrigin} [offsetOrigin='top-left'] Origin of the offset: `bottom-left`, `bottom-right`,
+ * `top-left` or `top-right`.
+ * @property {import("../size.js").Size} [size] Icon size in pixels. Used together with `offset` to define the
+ * sub-rectangle to use from the original (sprite) image.
+ * @property {string} [src] Image source URI.
+ * @property {"declutter"|"obstacle"|"none"|undefined} [declutterMode] Declutter mode.
+ */
+
+/**
+ * @classdesc
+ * Set icon style for vector features.
+ * @api
+ */
+class Icon extends _Image_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options || {};
+
+    /**
+     * @type {number}
+     */
+    const opacity = options.opacity !== undefined ? options.opacity : 1;
+
+    /**
+     * @type {number}
+     */
+    const rotation = options.rotation !== undefined ? options.rotation : 0;
+
+    /**
+     * @type {number|import("../size.js").Size}
+     */
+    const scale = options.scale !== undefined ? options.scale : 1;
+
+    /**
+     * @type {boolean}
+     */
+    const rotateWithView =
+      options.rotateWithView !== undefined ? options.rotateWithView : false;
+
+    super({
+      opacity: opacity,
+      rotation: rotation,
+      scale: scale,
+      displacement:
+        options.displacement !== undefined ? options.displacement : [0, 0],
+      rotateWithView: rotateWithView,
+      declutterMode: options.declutterMode,
+    });
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.anchor_ = options.anchor !== undefined ? options.anchor : [0.5, 0.5];
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.normalizedAnchor_ = null;
+
+    /**
+     * @private
+     * @type {IconOrigin}
+     */
+    this.anchorOrigin_ =
+      options.anchorOrigin !== undefined ? options.anchorOrigin : 'top-left';
+
+    /**
+     * @private
+     * @type {IconAnchorUnits}
+     */
+    this.anchorXUnits_ =
+      options.anchorXUnits !== undefined ? options.anchorXUnits : 'fraction';
+
+    /**
+     * @private
+     * @type {IconAnchorUnits}
+     */
+    this.anchorYUnits_ =
+      options.anchorYUnits !== undefined ? options.anchorYUnits : 'fraction';
+
+    /**
+     * @private
+     * @type {?string}
+     */
+    this.crossOrigin_ =
+      options.crossOrigin !== undefined ? options.crossOrigin : null;
+
+    /**
+     * @type {HTMLImageElement|HTMLCanvasElement}
+     */
+    const image = options.img !== undefined ? options.img : null;
+
+    /**
+     * @private
+     * @type {import("../size.js").Size|undefined}
+     */
+    this.imgSize_ = options.imgSize;
+
+    /**
+     * @type {string|undefined}
+     */
+    let src = options.src;
+
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_1__.assert)(!(src !== undefined && image), 4); // `image` and `src` cannot be provided at the same time
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_1__.assert)(!image || (image && this.imgSize_), 5); // `imgSize` must be set when `image` is provided
+
+    if ((src === undefined || src.length === 0) && image) {
+      src = /** @type {HTMLImageElement} */ (image).src || (0,_util_js__WEBPACK_IMPORTED_MODULE_2__.getUid)(image);
+    }
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_1__.assert)(src !== undefined && src.length > 0, 6); // A defined and non-empty `src` or `image` must be provided
+
+    // `width` or `height` cannot be provided together with `scale`
+    (0,_asserts_js__WEBPACK_IMPORTED_MODULE_1__.assert)(
+      !(
+        (options.width !== undefined || options.height !== undefined) &&
+        options.scale !== undefined
+      ),
+      69
+    );
+
+    /**
+     * @type {import("../ImageState.js").default}
+     */
+    const imageState =
+      options.src !== undefined ? _ImageState_js__WEBPACK_IMPORTED_MODULE_3__["default"].IDLE : _ImageState_js__WEBPACK_IMPORTED_MODULE_3__["default"].LOADED;
+
+    /**
+     * @private
+     * @type {import("../color.js").Color}
+     */
+    this.color_ = options.color !== undefined ? (0,_color_js__WEBPACK_IMPORTED_MODULE_4__.asArray)(options.color) : null;
+
+    /**
+     * @private
+     * @type {import("./IconImage.js").default}
+     */
+    this.iconImage_ = (0,_IconImage_js__WEBPACK_IMPORTED_MODULE_5__.get)(
+      image,
+      /** @type {string} */ (src),
+      this.imgSize_ !== undefined ? this.imgSize_ : null,
+      this.crossOrigin_,
+      imageState,
+      this.color_
+    );
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.offset_ = options.offset !== undefined ? options.offset : [0, 0];
+    /**
+     * @private
+     * @type {IconOrigin}
+     */
+    this.offsetOrigin_ =
+      options.offsetOrigin !== undefined ? options.offsetOrigin : 'top-left';
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.origin_ = null;
+
+    /**
+     * @private
+     * @type {import("../size.js").Size}
+     */
+    this.size_ = options.size !== undefined ? options.size : null;
+
+    /**
+     * @type {number|undefined}
+     */
+    this.width_ = options.width;
+
+    /**
+     * @type {number|undefined}
+     */
+    this.height_ = options.height;
+
+    /**
+     * Recalculate the scale if width or height were given.
+     */
+    if (this.width_ !== undefined || this.height_ !== undefined) {
+      const image = this.getImage(1);
+      const setScale = () => {
+        this.updateScaleFromWidthAndHeight(this.width_, this.height_);
+      };
+      if (image.width > 0) {
+        this.updateScaleFromWidthAndHeight(this.width_, this.height_);
+      } else {
+        image.addEventListener('load', setScale);
+      }
+    }
+  }
+
+  /**
+   * Clones the style. The underlying Image/HTMLCanvasElement is not cloned.
+   * @return {Icon} The cloned style.
+   * @api
+   */
+  clone() {
+    let scale = this.getScale();
+    scale = Array.isArray(scale) ? scale.slice() : scale;
+    // if either width or height are defined, do not pass scale.
+    if (this.width_ !== undefined || this.height_ !== undefined) {
+      scale = undefined;
+    }
+    return new Icon({
+      anchor: this.anchor_.slice(),
+      anchorOrigin: this.anchorOrigin_,
+      anchorXUnits: this.anchorXUnits_,
+      anchorYUnits: this.anchorYUnits_,
+      color:
+        this.color_ && this.color_.slice
+          ? this.color_.slice()
+          : this.color_ || undefined,
+      crossOrigin: this.crossOrigin_,
+      imgSize: this.imgSize_,
+      offset: this.offset_.slice(),
+      offsetOrigin: this.offsetOrigin_,
+      opacity: this.getOpacity(),
+      rotateWithView: this.getRotateWithView(),
+      rotation: this.getRotation(),
+      scale: scale,
+      size: this.size_ !== null ? this.size_.slice() : undefined,
+      src: this.getSrc(),
+      displacement: this.getDisplacement().slice(),
+      declutterMode: this.getDeclutterMode(),
+      width: this.width_,
+      height: this.height_,
+    });
+  }
+
+  /**
+   * Set the scale of the Icon by calculating it from given width and height and the
+   * width and height of the image.
+   *
+   * @private
+   * @param {number} width The width.
+   * @param {number} height The height.
+   */
+  updateScaleFromWidthAndHeight(width, height) {
+    const image = this.getImage(1);
+    if (width !== undefined && height !== undefined) {
+      super.setScale([width / image.width, height / image.height]);
+    } else if (width !== undefined) {
+      super.setScale([width / image.width, width / image.width]);
+    } else if (height !== undefined) {
+      super.setScale([height / image.height, height / image.height]);
+    } else {
+      super.setScale([1, 1]);
+    }
+  }
+
+  /**
+   * Get the anchor point in pixels. The anchor determines the center point for the
+   * symbolizer.
+   * @return {Array<number>} Anchor.
+   * @api
+   */
+  getAnchor() {
+    let anchor = this.normalizedAnchor_;
+    if (!anchor) {
+      anchor = this.anchor_;
+      const size = this.getSize();
+      if (
+        this.anchorXUnits_ == 'fraction' ||
+        this.anchorYUnits_ == 'fraction'
+      ) {
+        if (!size) {
+          return null;
+        }
+        anchor = this.anchor_.slice();
+        if (this.anchorXUnits_ == 'fraction') {
+          anchor[0] *= size[0];
+        }
+        if (this.anchorYUnits_ == 'fraction') {
+          anchor[1] *= size[1];
+        }
+      }
+
+      if (this.anchorOrigin_ != 'top-left') {
+        if (!size) {
+          return null;
+        }
+        if (anchor === this.anchor_) {
+          anchor = this.anchor_.slice();
+        }
+        if (
+          this.anchorOrigin_ == 'top-right' ||
+          this.anchorOrigin_ == 'bottom-right'
+        ) {
+          anchor[0] = -anchor[0] + size[0];
+        }
+        if (
+          this.anchorOrigin_ == 'bottom-left' ||
+          this.anchorOrigin_ == 'bottom-right'
+        ) {
+          anchor[1] = -anchor[1] + size[1];
+        }
+      }
+      this.normalizedAnchor_ = anchor;
+    }
+    const displacement = this.getDisplacement();
+    const scale = this.getScaleArray();
+    // anchor is scaled by renderer but displacement should not be scaled
+    // so divide by scale here
+    return [
+      anchor[0] - displacement[0] / scale[0],
+      anchor[1] + displacement[1] / scale[1],
+    ];
+  }
+
+  /**
+   * Set the anchor point. The anchor determines the center point for the
+   * symbolizer.
+   *
+   * @param {Array<number>} anchor Anchor.
+   * @api
+   */
+  setAnchor(anchor) {
+    this.anchor_ = anchor;
+    this.normalizedAnchor_ = null;
+  }
+
+  /**
+   * Get the icon color.
+   * @return {import("../color.js").Color} Color.
+   * @api
+   */
+  getColor() {
+    return this.color_;
+  }
+
+  /**
+   * Get the image icon.
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {HTMLImageElement|HTMLCanvasElement} Image or Canvas element.
+   * @api
+   */
+  getImage(pixelRatio) {
+    return this.iconImage_.getImage(pixelRatio);
+  }
+
+  /**
+   * Get the pixel ratio.
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {number} The pixel ratio of the image.
+   * @api
+   */
+  getPixelRatio(pixelRatio) {
+    return this.iconImage_.getPixelRatio(pixelRatio);
+  }
+
+  /**
+   * @return {import("../size.js").Size} Image size.
+   */
+  getImageSize() {
+    return this.iconImage_.getSize();
+  }
+
+  /**
+   * @return {import("../ImageState.js").default} Image state.
+   */
+  getImageState() {
+    return this.iconImage_.getImageState();
+  }
+
+  /**
+   * @return {HTMLImageElement|HTMLCanvasElement} Image element.
+   */
+  getHitDetectionImage() {
+    return this.iconImage_.getHitDetectionImage();
+  }
+
+  /**
+   * Get the origin of the symbolizer.
+   * @return {Array<number>} Origin.
+   * @api
+   */
+  getOrigin() {
+    if (this.origin_) {
+      return this.origin_;
+    }
+    let offset = this.offset_;
+
+    if (this.offsetOrigin_ != 'top-left') {
+      const size = this.getSize();
+      const iconImageSize = this.iconImage_.getSize();
+      if (!size || !iconImageSize) {
+        return null;
+      }
+      offset = offset.slice();
+      if (
+        this.offsetOrigin_ == 'top-right' ||
+        this.offsetOrigin_ == 'bottom-right'
+      ) {
+        offset[0] = iconImageSize[0] - size[0] - offset[0];
+      }
+      if (
+        this.offsetOrigin_ == 'bottom-left' ||
+        this.offsetOrigin_ == 'bottom-right'
+      ) {
+        offset[1] = iconImageSize[1] - size[1] - offset[1];
+      }
+    }
+    this.origin_ = offset;
+    return this.origin_;
+  }
+
+  /**
+   * Get the image URL.
+   * @return {string|undefined} Image src.
+   * @api
+   */
+  getSrc() {
+    return this.iconImage_.getSrc();
+  }
+
+  /**
+   * Get the size of the icon (in pixels).
+   * @return {import("../size.js").Size} Image size.
+   * @api
+   */
+  getSize() {
+    return !this.size_ ? this.iconImage_.getSize() : this.size_;
+  }
+
+  /**
+   * Get the width of the icon (in pixels).
+   * @return {number} Icon width (in pixels).
+   * @api
+   */
+  getWidth() {
+    return this.width_;
+  }
+
+  /**
+   * Get the height of the icon (in pixels).
+   * @return {number} Icon height (in pixels).
+   * @api
+   */
+  getHeight() {
+    return this.height_;
+  }
+
+  /**
+   * Set the width of the icon in pixels.
+   *
+   * @param {number} width The width to set.
+   */
+  setWidth(width) {
+    this.width_ = width;
+    this.updateScaleFromWidthAndHeight(width, this.height_);
+  }
+
+  /**
+   * Set the height of the icon in pixels.
+   *
+   * @param {number} height The height to set.
+   */
+  setHeight(height) {
+    this.height_ = height;
+    this.updateScaleFromWidthAndHeight(this.width_, height);
+  }
+
+  /**
+   * Set the scale and updates the width and height correspondingly.
+   *
+   * @param {number|import("../size.js").Size} scale Scale.
+   * @override
+   * @api
+   */
+  setScale(scale) {
+    super.setScale(scale);
+    const image = this.getImage(1);
+    if (image) {
+      const widthScale = Array.isArray(scale) ? scale[0] : scale;
+      if (widthScale !== undefined) {
+        this.width_ = widthScale * image.width;
+      }
+      const heightScale = Array.isArray(scale) ? scale[1] : scale;
+      if (heightScale !== undefined) {
+        this.height_ = heightScale * image.height;
+      }
+    }
+  }
+
+  /**
+   * @param {function(import("../events/Event.js").default): void} listener Listener function.
+   */
+  listenImageChange(listener) {
+    this.iconImage_.addEventListener(_events_EventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].CHANGE, listener);
+  }
+
+  /**
+   * Load not yet loaded URI.
+   * When rendering a feature with an icon style, the vector renderer will
+   * automatically call this method. However, you might want to call this
+   * method yourself for preloading or other purposes.
+   * @api
+   */
+  load() {
+    this.iconImage_.load();
+  }
+
+  /**
+   * @param {function(import("../events/Event.js").default): void} listener Listener function.
+   */
+  unlistenImageChange(listener) {
+    this.iconImage_.removeEventListener(_events_EventType_js__WEBPACK_IMPORTED_MODULE_6__["default"].CHANGE, listener);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Icon);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/IconImage.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/style/IconImage.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "get": () => (/* binding */ get)
+/* harmony export */ });
+/* harmony import */ var _events_Target_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Target.js */ "./node_modules/ol/events/Target.js");
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _ImageState_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ImageState.js */ "./node_modules/ol/ImageState.js");
+/* harmony import */ var _color_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../color.js */ "./node_modules/ol/color.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _IconImageCache_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./IconImageCache.js */ "./node_modules/ol/style/IconImageCache.js");
+/* harmony import */ var _Image_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Image.js */ "./node_modules/ol/Image.js");
+/**
+ * @module ol/style/IconImage
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * @type {CanvasRenderingContext2D}
+ */
+let taintedTestContext = null;
+
+class IconImage extends _events_Target_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {HTMLImageElement|HTMLCanvasElement} image Image.
+   * @param {string|undefined} src Src.
+   * @param {import("../size.js").Size} size Size.
+   * @param {?string} crossOrigin Cross origin.
+   * @param {import("../ImageState.js").default} imageState Image state.
+   * @param {import("../color.js").Color} color Color.
+   */
+  constructor(image, src, size, crossOrigin, imageState, color) {
+    super();
+
+    /**
+     * @private
+     * @type {HTMLImageElement|HTMLCanvasElement}
+     */
+    this.hitDetectionImage_ = null;
+
+    /**
+     * @private
+     * @type {HTMLImageElement|HTMLCanvasElement}
+     */
+    this.image_ = image;
+
+    /**
+     * @private
+     * @type {string|null}
+     */
+    this.crossOrigin_ = crossOrigin;
+
+    /**
+     * @private
+     * @type {Object<number, HTMLCanvasElement>}
+     */
+    this.canvas_ = {};
+
+    /**
+     * @private
+     * @type {import("../color.js").Color}
+     */
+    this.color_ = color;
+
+    /**
+     * @private
+     * @type {?function():void}
+     */
+    this.unlisten_ = null;
+
+    /**
+     * @private
+     * @type {import("../ImageState.js").default}
+     */
+    this.imageState_ = imageState;
+
+    /**
+     * @private
+     * @type {import("../size.js").Size}
+     */
+    this.size_ = size;
+
+    /**
+     * @private
+     * @type {string|undefined}
+     */
+    this.src_ = src;
+
+    /**
+     * @private
+     */
+    this.tainted_;
+  }
+
+  /**
+   * @private
+   */
+  initializeImage_() {
+    this.image_ = new Image();
+    if (this.crossOrigin_ !== null) {
+      this.image_.crossOrigin = this.crossOrigin_;
+    }
+  }
+
+  /**
+   * @private
+   * @return {boolean} The image canvas is tainted.
+   */
+  isTainted_() {
+    if (this.tainted_ === undefined && this.imageState_ === _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADED) {
+      if (!taintedTestContext) {
+        taintedTestContext = (0,_dom_js__WEBPACK_IMPORTED_MODULE_2__.createCanvasContext2D)(1, 1, undefined, {
+          willReadFrequently: true,
+        });
+      }
+      taintedTestContext.drawImage(this.image_, 0, 0);
+      try {
+        taintedTestContext.getImageData(0, 0, 1, 1);
+        this.tainted_ = false;
+      } catch (e) {
+        taintedTestContext = null;
+        this.tainted_ = true;
+      }
+    }
+    return this.tainted_ === true;
+  }
+
+  /**
+   * @private
+   */
+  dispatchChangeEvent_() {
+    this.dispatchEvent(_events_EventType_js__WEBPACK_IMPORTED_MODULE_3__["default"].CHANGE);
+  }
+
+  /**
+   * @private
+   */
+  handleImageError_() {
+    this.imageState_ = _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].ERROR;
+    this.unlistenImage_();
+    this.dispatchChangeEvent_();
+  }
+
+  /**
+   * @private
+   */
+  handleImageLoad_() {
+    this.imageState_ = _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADED;
+    if (this.size_) {
+      this.image_.width = this.size_[0];
+      this.image_.height = this.size_[1];
+    } else {
+      this.size_ = [this.image_.width, this.image_.height];
+    }
+    this.unlistenImage_();
+    this.dispatchChangeEvent_();
+  }
+
+  /**
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {HTMLImageElement|HTMLCanvasElement} Image or Canvas element.
+   */
+  getImage(pixelRatio) {
+    if (!this.image_) {
+      this.initializeImage_();
+    }
+    this.replaceColor_(pixelRatio);
+    return this.canvas_[pixelRatio] ? this.canvas_[pixelRatio] : this.image_;
+  }
+
+  /**
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {number} Image or Canvas element.
+   */
+  getPixelRatio(pixelRatio) {
+    this.replaceColor_(pixelRatio);
+    return this.canvas_[pixelRatio] ? pixelRatio : 1;
+  }
+
+  /**
+   * @return {import("../ImageState.js").default} Image state.
+   */
+  getImageState() {
+    return this.imageState_;
+  }
+
+  /**
+   * @return {HTMLImageElement|HTMLCanvasElement} Image element.
+   */
+  getHitDetectionImage() {
+    if (!this.image_) {
+      this.initializeImage_();
+    }
+    if (!this.hitDetectionImage_) {
+      if (this.isTainted_()) {
+        const width = this.size_[0];
+        const height = this.size_[1];
+        const context = (0,_dom_js__WEBPACK_IMPORTED_MODULE_2__.createCanvasContext2D)(width, height);
+        context.fillRect(0, 0, width, height);
+        this.hitDetectionImage_ = context.canvas;
+      } else {
+        this.hitDetectionImage_ = this.image_;
+      }
+    }
+    return this.hitDetectionImage_;
+  }
+
+  /**
+   * Get the size of the icon (in pixels).
+   * @return {import("../size.js").Size} Image size.
+   */
+  getSize() {
+    return this.size_;
+  }
+
+  /**
+   * @return {string|undefined} Image src.
+   */
+  getSrc() {
+    return this.src_;
+  }
+
+  /**
+   * Load not yet loaded URI.
+   */
+  load() {
+    if (this.imageState_ !== _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].IDLE) {
+      return;
+    }
+    if (!this.image_) {
+      this.initializeImage_();
+    }
+
+    this.imageState_ = _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADING;
+    try {
+      /** @type {HTMLImageElement} */ (this.image_).src = this.src_;
+    } catch (e) {
+      this.handleImageError_();
+    }
+    this.unlisten_ = (0,_Image_js__WEBPACK_IMPORTED_MODULE_4__.listenImage)(
+      this.image_,
+      this.handleImageLoad_.bind(this),
+      this.handleImageError_.bind(this)
+    );
+  }
+
+  /**
+   * @param {number} pixelRatio Pixel ratio.
+   * @private
+   */
+  replaceColor_(pixelRatio) {
+    if (
+      !this.color_ ||
+      this.canvas_[pixelRatio] ||
+      this.imageState_ !== _ImageState_js__WEBPACK_IMPORTED_MODULE_1__["default"].LOADED
+    ) {
+      return;
+    }
+
+    const image = this.image_;
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.ceil(image.width * pixelRatio);
+    canvas.height = Math.ceil(image.height * pixelRatio);
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(pixelRatio, pixelRatio);
+    ctx.drawImage(image, 0, 0);
+
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = (0,_color_js__WEBPACK_IMPORTED_MODULE_5__.asString)(this.color_);
+    ctx.fillRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
+
+    ctx.globalCompositeOperation = 'destination-in';
+    ctx.drawImage(image, 0, 0);
+
+    this.canvas_[pixelRatio] = canvas;
+  }
+
+  /**
+   * Discards event handlers which listen for load completion or errors.
+   *
+   * @private
+   */
+  unlistenImage_() {
+    if (this.unlisten_) {
+      this.unlisten_();
+      this.unlisten_ = null;
+    }
+  }
+}
+
+/**
+ * @param {HTMLImageElement|HTMLCanvasElement} image Image.
+ * @param {string} src Src.
+ * @param {import("../size.js").Size} size Size.
+ * @param {?string} crossOrigin Cross origin.
+ * @param {import("../ImageState.js").default} imageState Image state.
+ * @param {import("../color.js").Color} color Color.
+ * @return {IconImage} Icon image.
+ */
+function get(image, src, size, crossOrigin, imageState, color) {
+  let iconImage = _IconImageCache_js__WEBPACK_IMPORTED_MODULE_6__.shared.get(src, crossOrigin, color);
+  if (!iconImage) {
+    iconImage = new IconImage(image, src, size, crossOrigin, imageState, color);
+    _IconImageCache_js__WEBPACK_IMPORTED_MODULE_6__.shared.set(src, crossOrigin, color, iconImage);
+  }
+  return iconImage;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (IconImage);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/IconImageCache.js":
+/*!*************************************************!*\
+  !*** ./node_modules/ol/style/IconImageCache.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "shared": () => (/* binding */ shared)
+/* harmony export */ });
+/* harmony import */ var _color_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../color.js */ "./node_modules/ol/color.js");
+/**
+ * @module ol/style/IconImageCache
+ */
+
+
+/**
+ * @classdesc
+ * Singleton class. Available through {@link module:ol/style/IconImageCache.shared}.
+ */
+class IconImageCache {
+  constructor() {
+    /**
+     * @type {!Object<string, import("./IconImage.js").default>}
+     * @private
+     */
+    this.cache_ = {};
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.cacheSize_ = 0;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.maxCacheSize_ = 32;
+  }
+
+  /**
+   * FIXME empty description for jsdoc
+   */
+  clear() {
+    this.cache_ = {};
+    this.cacheSize_ = 0;
+  }
+
+  /**
+   * @return {boolean} Can expire cache.
+   */
+  canExpireCache() {
+    return this.cacheSize_ > this.maxCacheSize_;
+  }
+
+  /**
+   * FIXME empty description for jsdoc
+   */
+  expire() {
+    if (this.canExpireCache()) {
+      let i = 0;
+      for (const key in this.cache_) {
+        const iconImage = this.cache_[key];
+        if ((i++ & 3) === 0 && !iconImage.hasListener()) {
+          delete this.cache_[key];
+          --this.cacheSize_;
+        }
+      }
+    }
+  }
+
+  /**
+   * @param {string} src Src.
+   * @param {?string} crossOrigin Cross origin.
+   * @param {import("../color.js").Color} color Color.
+   * @return {import("./IconImage.js").default} Icon image.
+   */
+  get(src, crossOrigin, color) {
+    const key = getKey(src, crossOrigin, color);
+    return key in this.cache_ ? this.cache_[key] : null;
+  }
+
+  /**
+   * @param {string} src Src.
+   * @param {?string} crossOrigin Cross origin.
+   * @param {import("../color.js").Color} color Color.
+   * @param {import("./IconImage.js").default} iconImage Icon image.
+   */
+  set(src, crossOrigin, color, iconImage) {
+    const key = getKey(src, crossOrigin, color);
+    this.cache_[key] = iconImage;
+    ++this.cacheSize_;
+  }
+
+  /**
+   * Set the cache size of the icon cache. Default is `32`. Change this value when
+   * your map uses more than 32 different icon images and you are not caching icon
+   * styles on the application level.
+   * @param {number} maxCacheSize Cache max size.
+   * @api
+   */
+  setSize(maxCacheSize) {
+    this.maxCacheSize_ = maxCacheSize;
+    this.expire();
+  }
+}
+
+/**
+ * @param {string} src Src.
+ * @param {?string} crossOrigin Cross origin.
+ * @param {import("../color.js").Color} color Color.
+ * @return {string} Cache key.
+ */
+function getKey(src, crossOrigin, color) {
+  const colorString = color ? (0,_color_js__WEBPACK_IMPORTED_MODULE_0__.asString)(color) : 'null';
+  return crossOrigin + ':' + src + ':' + colorString;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (IconImageCache);
+
+/**
+ * The {@link module:ol/style/IconImageCache~IconImageCache} for
+ * {@link module:ol/style/Icon~Icon} images.
+ * @api
+ */
+const shared = new IconImageCache();
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Image.js":
+/*!****************************************!*\
+  !*** ./node_modules/ol/style/Image.js ***!
+  \****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _size_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../size.js */ "./node_modules/ol/size.js");
+/**
+ * @module ol/style/Image
+ */
+
+
+
+/**
+ * @typedef {Object} Options
+ * @property {number} opacity Opacity.
+ * @property {boolean} rotateWithView If the image should get rotated with the view.
+ * @property {number} rotation Rotation.
+ * @property {number|import("../size.js").Size} scale Scale.
+ * @property {Array<number>} displacement Displacement.
+ * @property {"declutter"|"obstacle"|"none"|undefined} declutterMode Declutter mode: `declutter`, `obstacle`, 'none */
+
+/**
+ * @classdesc
+ * A base class used for creating subclasses and not instantiated in
+ * apps. Base class for {@link module:ol/style/Icon~Icon}, {@link module:ol/style/Circle~CircleStyle} and
+ * {@link module:ol/style/RegularShape~RegularShape}.
+ * @abstract
+ * @api
+ */
+class ImageStyle {
+  /**
+   * @param {Options} options Options.
+   */
+  constructor(options) {
+    /**
+     * @private
+     * @type {number}
+     */
+    this.opacity_ = options.opacity;
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.rotateWithView_ = options.rotateWithView;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.rotation_ = options.rotation;
+
+    /**
+     * @private
+     * @type {number|import("../size.js").Size}
+     */
+    this.scale_ = options.scale;
+
+    /**
+     * @private
+     * @type {import("../size.js").Size}
+     */
+    this.scaleArray_ = (0,_size_js__WEBPACK_IMPORTED_MODULE_0__.toSize)(options.scale);
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.displacement_ = options.displacement;
+
+    /**
+     * @private
+     * @type {"declutter"|"obstacle"|"none"|undefined}
+     */
+    this.declutterMode_ = options.declutterMode;
+  }
+
+  /**
+   * Clones the style.
+   * @return {ImageStyle} The cloned style.
+   * @api
+   */
+  clone() {
+    const scale = this.getScale();
+    return new ImageStyle({
+      opacity: this.getOpacity(),
+      scale: Array.isArray(scale) ? scale.slice() : scale,
+      rotation: this.getRotation(),
+      rotateWithView: this.getRotateWithView(),
+      displacement: this.getDisplacement().slice(),
+      declutterMode: this.getDeclutterMode(),
+    });
+  }
+
+  /**
+   * Get the symbolizer opacity.
+   * @return {number} Opacity.
+   * @api
+   */
+  getOpacity() {
+    return this.opacity_;
+  }
+
+  /**
+   * Determine whether the symbolizer rotates with the map.
+   * @return {boolean} Rotate with map.
+   * @api
+   */
+  getRotateWithView() {
+    return this.rotateWithView_;
+  }
+
+  /**
+   * Get the symoblizer rotation.
+   * @return {number} Rotation.
+   * @api
+   */
+  getRotation() {
+    return this.rotation_;
+  }
+
+  /**
+   * Get the symbolizer scale.
+   * @return {number|import("../size.js").Size} Scale.
+   * @api
+   */
+  getScale() {
+    return this.scale_;
+  }
+
+  /**
+   * Get the symbolizer scale array.
+   * @return {import("../size.js").Size} Scale array.
+   */
+  getScaleArray() {
+    return this.scaleArray_;
+  }
+
+  /**
+   * Get the displacement of the shape
+   * @return {Array<number>} Shape's center displacement
+   * @api
+   */
+  getDisplacement() {
+    return this.displacement_;
+  }
+
+  /**
+   * Get the declutter mode of the shape
+   * @return {"declutter"|"obstacle"|"none"|undefined} Shape's declutter mode
+   * @api
+   */
+  getDeclutterMode() {
+    return this.declutterMode_;
+  }
+
+  /**
+   * Get the anchor point in pixels. The anchor determines the center point for the
+   * symbolizer.
+   * @abstract
+   * @return {Array<number>} Anchor.
+   */
+  getAnchor() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Get the image element for the symbolizer.
+   * @abstract
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {HTMLCanvasElement|HTMLVideoElement|HTMLImageElement} Image element.
+   */
+  getImage(pixelRatio) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * @abstract
+   * @return {HTMLCanvasElement|HTMLVideoElement|HTMLImageElement} Image element.
+   */
+  getHitDetectionImage() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Get the image pixel ratio.
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {number} Pixel ratio.
+   */
+  getPixelRatio(pixelRatio) {
+    return 1;
+  }
+
+  /**
+   * @abstract
+   * @return {import("../ImageState.js").default} Image state.
+   */
+  getImageState() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * @abstract
+   * @return {import("../size.js").Size} Image size.
+   */
+  getImageSize() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Get the origin of the symbolizer.
+   * @abstract
+   * @return {Array<number>} Origin.
+   */
+  getOrigin() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Get the size of the symbolizer (in pixels).
+   * @abstract
+   * @return {import("../size.js").Size} Size.
+   */
+  getSize() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Set the displacement.
+   *
+   * @param {Array<number>} displacement Displacement.
+   * @api
+   */
+  setDisplacement(displacement) {
+    this.displacement_ = displacement;
+  }
+
+  /**
+   * Set the opacity.
+   *
+   * @param {number} opacity Opacity.
+   * @api
+   */
+  setOpacity(opacity) {
+    this.opacity_ = opacity;
+  }
+
+  /**
+   * Set whether to rotate the style with the view.
+   *
+   * @param {boolean} rotateWithView Rotate with map.
+   * @api
+   */
+  setRotateWithView(rotateWithView) {
+    this.rotateWithView_ = rotateWithView;
+  }
+
+  /**
+   * Set the rotation.
+   *
+   * @param {number} rotation Rotation.
+   * @api
+   */
+  setRotation(rotation) {
+    this.rotation_ = rotation;
+  }
+
+  /**
+   * Set the scale.
+   *
+   * @param {number|import("../size.js").Size} scale Scale.
+   * @api
+   */
+  setScale(scale) {
+    this.scale_ = scale;
+    this.scaleArray_ = (0,_size_js__WEBPACK_IMPORTED_MODULE_0__.toSize)(scale);
+  }
+
+  /**
+   * @abstract
+   * @param {function(import("../events/Event.js").default): void} listener Listener function.
+   */
+  listenImageChange(listener) {
+    (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Load not yet loaded URI.
+   * @abstract
+   */
+  load() {
+    (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * @abstract
+   * @param {function(import("../events/Event.js").default): void} listener Listener function.
+   */
+  unlistenImageChange(listener) {
+    (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ImageStyle);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/RegularShape.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ol/style/RegularShape.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ImageState_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ImageState.js */ "./node_modules/ol/ImageState.js");
+/* harmony import */ var _Image_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Image.js */ "./node_modules/ol/style/Image.js");
+/* harmony import */ var _color_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../color.js */ "./node_modules/ol/color.js");
+/* harmony import */ var _colorlike_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../colorlike.js */ "./node_modules/ol/colorlike.js");
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom.js */ "./node_modules/ol/dom.js");
+/* harmony import */ var _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../render/canvas.js */ "./node_modules/ol/render/canvas.js");
+/**
+ * @module ol/style/RegularShape
+ */
+
+
+
+
+
+
+
+
+/**
+ * Specify radius for regular polygons, or radius1 and radius2 for stars.
+ * @typedef {Object} Options
+ * @property {import("./Fill.js").default} [fill] Fill style.
+ * @property {number} points Number of points for stars and regular polygons. In case of a polygon, the number of points
+ * is the number of sides.
+ * @property {number} [radius] Radius of a regular polygon.
+ * @property {number} [radius1] First radius of a star. Ignored if radius is set.
+ * @property {number} [radius2] Second radius of a star.
+ * @property {number} [angle=0] Shape's angle in radians. A value of 0 will have one of the shape's points facing up.
+ * @property {Array<number>} [displacement=[0, 0]] Displacement of the shape in pixels.
+ * Positive values will shift the shape right and up.
+ * @property {import("./Stroke.js").default} [stroke] Stroke style.
+ * @property {number} [rotation=0] Rotation in radians (positive rotation clockwise).
+ * @property {boolean} [rotateWithView=false] Whether to rotate the shape with the view.
+ * @property {number|import("../size.js").Size} [scale=1] Scale. Unless two dimensional scaling is required a better
+ * result may be obtained with appropriate settings for `radius`, `radius1` and `radius2`.
+ * @property {"declutter"|"obstacle"|"none"|undefined} [declutterMode] Declutter mode.
+ */
+
+/**
+ * @typedef {Object} RenderOptions
+ * @property {import("../colorlike.js").ColorLike} [strokeStyle] StrokeStyle.
+ * @property {number} strokeWidth StrokeWidth.
+ * @property {number} size Size.
+ * @property {Array<number>|null} lineDash LineDash.
+ * @property {number} lineDashOffset LineDashOffset.
+ * @property {CanvasLineJoin} lineJoin LineJoin.
+ * @property {number} miterLimit MiterLimit.
+ */
+
+/**
+ * @classdesc
+ * Set regular shape style for vector features. The resulting shape will be
+ * a regular polygon when `radius` is provided, or a star when `radius1` and
+ * `radius2` are provided.
+ * @api
+ */
+class RegularShape extends _Image_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Options} options Options.
+   */
+  constructor(options) {
+    /**
+     * @type {boolean}
+     */
+    const rotateWithView =
+      options.rotateWithView !== undefined ? options.rotateWithView : false;
+
+    super({
+      opacity: 1,
+      rotateWithView: rotateWithView,
+      rotation: options.rotation !== undefined ? options.rotation : 0,
+      scale: options.scale !== undefined ? options.scale : 1,
+      displacement:
+        options.displacement !== undefined ? options.displacement : [0, 0],
+      declutterMode: options.declutterMode,
+    });
+
+    /**
+     * @private
+     * @type {Object<number, HTMLCanvasElement>}
+     */
+    this.canvas_ = undefined;
+
+    /**
+     * @private
+     * @type {HTMLCanvasElement}
+     */
+    this.hitDetectionCanvas_ = null;
+
+    /**
+     * @private
+     * @type {import("./Fill.js").default}
+     */
+    this.fill_ = options.fill !== undefined ? options.fill : null;
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.origin_ = [0, 0];
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.points_ = options.points;
+
+    /**
+     * @protected
+     * @type {number}
+     */
+    this.radius_ =
+      options.radius !== undefined ? options.radius : options.radius1;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.radius2_ = options.radius2;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.angle_ = options.angle !== undefined ? options.angle : 0;
+
+    /**
+     * @private
+     * @type {import("./Stroke.js").default}
+     */
+    this.stroke_ = options.stroke !== undefined ? options.stroke : null;
+
+    /**
+     * @private
+     * @type {import("../size.js").Size}
+     */
+    this.size_ = null;
+
+    /**
+     * @private
+     * @type {RenderOptions}
+     */
+    this.renderOptions_ = null;
+
+    this.render();
+  }
+
+  /**
+   * Clones the style.
+   * @return {RegularShape} The cloned style.
+   * @api
+   */
+  clone() {
+    const scale = this.getScale();
+    const style = new RegularShape({
+      fill: this.getFill() ? this.getFill().clone() : undefined,
+      points: this.getPoints(),
+      radius: this.getRadius(),
+      radius2: this.getRadius2(),
+      angle: this.getAngle(),
+      stroke: this.getStroke() ? this.getStroke().clone() : undefined,
+      rotation: this.getRotation(),
+      rotateWithView: this.getRotateWithView(),
+      scale: Array.isArray(scale) ? scale.slice() : scale,
+      displacement: this.getDisplacement().slice(),
+      declutterMode: this.getDeclutterMode(),
+    });
+    style.setOpacity(this.getOpacity());
+    return style;
+  }
+
+  /**
+   * Get the anchor point in pixels. The anchor determines the center point for the
+   * symbolizer.
+   * @return {Array<number>} Anchor.
+   * @api
+   */
+  getAnchor() {
+    const size = this.size_;
+    if (!size) {
+      return null;
+    }
+    const displacement = this.getDisplacement();
+    const scale = this.getScaleArray();
+    // anchor is scaled by renderer but displacement should not be scaled
+    // so divide by scale here
+    return [
+      size[0] / 2 - displacement[0] / scale[0],
+      size[1] / 2 + displacement[1] / scale[1],
+    ];
+  }
+
+  /**
+   * Get the angle used in generating the shape.
+   * @return {number} Shape's rotation in radians.
+   * @api
+   */
+  getAngle() {
+    return this.angle_;
+  }
+
+  /**
+   * Get the fill style for the shape.
+   * @return {import("./Fill.js").default} Fill style.
+   * @api
+   */
+  getFill() {
+    return this.fill_;
+  }
+
+  /**
+   * Set the fill style.
+   * @param {import("./Fill.js").default} fill Fill style.
+   * @api
+   */
+  setFill(fill) {
+    this.fill_ = fill;
+    this.render();
+  }
+
+  /**
+   * @return {HTMLCanvasElement} Image element.
+   */
+  getHitDetectionImage() {
+    if (!this.hitDetectionCanvas_) {
+      this.createHitDetectionCanvas_(this.renderOptions_);
+    }
+    return this.hitDetectionCanvas_;
+  }
+
+  /**
+   * Get the image icon.
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {HTMLCanvasElement} Image or Canvas element.
+   * @api
+   */
+  getImage(pixelRatio) {
+    let image = this.canvas_[pixelRatio];
+    if (!image) {
+      const renderOptions = this.renderOptions_;
+      const context = (0,_dom_js__WEBPACK_IMPORTED_MODULE_1__.createCanvasContext2D)(
+        renderOptions.size * pixelRatio,
+        renderOptions.size * pixelRatio
+      );
+      this.draw_(renderOptions, context, pixelRatio);
+
+      image = context.canvas;
+      this.canvas_[pixelRatio] = image;
+    }
+    return image;
+  }
+
+  /**
+   * Get the image pixel ratio.
+   * @param {number} pixelRatio Pixel ratio.
+   * @return {number} Pixel ratio.
+   */
+  getPixelRatio(pixelRatio) {
+    return pixelRatio;
+  }
+
+  /**
+   * @return {import("../size.js").Size} Image size.
+   */
+  getImageSize() {
+    return this.size_;
+  }
+
+  /**
+   * @return {import("../ImageState.js").default} Image state.
+   */
+  getImageState() {
+    return _ImageState_js__WEBPACK_IMPORTED_MODULE_2__["default"].LOADED;
+  }
+
+  /**
+   * Get the origin of the symbolizer.
+   * @return {Array<number>} Origin.
+   * @api
+   */
+  getOrigin() {
+    return this.origin_;
+  }
+
+  /**
+   * Get the number of points for generating the shape.
+   * @return {number} Number of points for stars and regular polygons.
+   * @api
+   */
+  getPoints() {
+    return this.points_;
+  }
+
+  /**
+   * Get the (primary) radius for the shape.
+   * @return {number} Radius.
+   * @api
+   */
+  getRadius() {
+    return this.radius_;
+  }
+
+  /**
+   * Get the secondary radius for the shape.
+   * @return {number|undefined} Radius2.
+   * @api
+   */
+  getRadius2() {
+    return this.radius2_;
+  }
+
+  /**
+   * Get the size of the symbolizer (in pixels).
+   * @return {import("../size.js").Size} Size.
+   * @api
+   */
+  getSize() {
+    return this.size_;
+  }
+
+  /**
+   * Get the stroke style for the shape.
+   * @return {import("./Stroke.js").default} Stroke style.
+   * @api
+   */
+  getStroke() {
+    return this.stroke_;
+  }
+
+  /**
+   * Set the stroke style.
+   * @param {import("./Stroke.js").default} stroke Stroke style.
+   * @api
+   */
+  setStroke(stroke) {
+    this.stroke_ = stroke;
+    this.render();
+  }
+
+  /**
+   * @param {function(import("../events/Event.js").default): void} listener Listener function.
+   */
+  listenImageChange(listener) {}
+
+  /**
+   * Load not yet loaded URI.
+   */
+  load() {}
+
+  /**
+   * @param {function(import("../events/Event.js").default): void} listener Listener function.
+   */
+  unlistenImageChange(listener) {}
+
+  /**
+   * Calculate additional canvas size needed for the miter.
+   * @param {string} lineJoin Line join
+   * @param {number} strokeWidth Stroke width
+   * @param {number} miterLimit Miter limit
+   * @return {number} Additional canvas size needed
+   * @private
+   */
+  calculateLineJoinSize_(lineJoin, strokeWidth, miterLimit) {
+    if (
+      strokeWidth === 0 ||
+      this.points_ === Infinity ||
+      (lineJoin !== 'bevel' && lineJoin !== 'miter')
+    ) {
+      return strokeWidth;
+    }
+    // m  | ^
+    // i  | |\                  .
+    // t >|  #\
+    // e  | |\ \              .
+    // r      \s\
+    //      |  \t\          .                 .
+    //          \r\                      .   .
+    //      |    \o\      .          .  . . .
+    //          e \k\            .  .    . .
+    //      |      \e\  .    .  .       . .
+    //       d      \ \  .  .          . .
+    //      | _ _a_ _\#  .            . .
+    //   r1          / `             . .
+    //      |                       . .
+    //       b     /               . .
+    //      |                     . .
+    //           / r2            . .
+    //      |                        .   .
+    //         /                           .   .
+    //      |α                                   .   .
+    //       /                                         .   .
+    //      ° center
+    let r1 = this.radius_;
+    let r2 = this.radius2_ === undefined ? r1 : this.radius2_;
+    if (r1 < r2) {
+      const tmp = r1;
+      r1 = r2;
+      r2 = tmp;
+    }
+    const points =
+      this.radius2_ === undefined ? this.points_ : this.points_ * 2;
+    const alpha = (2 * Math.PI) / points;
+    const a = r2 * Math.sin(alpha);
+    const b = Math.sqrt(r2 * r2 - a * a);
+    const d = r1 - b;
+    const e = Math.sqrt(a * a + d * d);
+    const miterRatio = e / a;
+    if (lineJoin === 'miter' && miterRatio <= miterLimit) {
+      return miterRatio * strokeWidth;
+    }
+    // Calculate the distnce from center to the stroke corner where
+    // it was cut short because of the miter limit.
+    //              l
+    //        ----+---- <= distance from center to here is maxr
+    //       /####|k ##\
+    //      /#####^#####\
+    //     /#### /+\# s #\
+    //    /### h/+++\# t #\
+    //   /### t/+++++\# r #\
+    //  /### a/+++++++\# o #\
+    // /### p/++ fill +\# k #\
+    ///#### /+++++^+++++\# e #\
+    //#####/+++++/+\+++++\#####\
+    const k = strokeWidth / 2 / miterRatio;
+    const l = (strokeWidth / 2) * (d / e);
+    const maxr = Math.sqrt((r1 + k) * (r1 + k) + l * l);
+    const bevelAdd = maxr - r1;
+    if (this.radius2_ === undefined || lineJoin === 'bevel') {
+      return bevelAdd * 2;
+    }
+    // If outer miter is over the miter limit the inner miter may reach through the
+    // center and be longer than the bevel, same calculation as above but swap r1 / r2.
+    const aa = r1 * Math.sin(alpha);
+    const bb = Math.sqrt(r1 * r1 - aa * aa);
+    const dd = r2 - bb;
+    const ee = Math.sqrt(aa * aa + dd * dd);
+    const innerMiterRatio = ee / aa;
+    if (innerMiterRatio <= miterLimit) {
+      const innerLength = (innerMiterRatio * strokeWidth) / 2 - r2 - r1;
+      return 2 * Math.max(bevelAdd, innerLength);
+    }
+    return bevelAdd * 2;
+  }
+
+  /**
+   * @return {RenderOptions}  The render options
+   * @protected
+   */
+  createRenderOptions() {
+    let lineJoin = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultLineJoin;
+    let miterLimit = 0;
+    let lineDash = null;
+    let lineDashOffset = 0;
+    let strokeStyle;
+    let strokeWidth = 0;
+
+    if (this.stroke_) {
+      strokeStyle = this.stroke_.getColor();
+      if (strokeStyle === null) {
+        strokeStyle = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultStrokeStyle;
+      }
+      strokeStyle = (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_4__.asColorLike)(strokeStyle);
+      strokeWidth = this.stroke_.getWidth();
+      if (strokeWidth === undefined) {
+        strokeWidth = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultLineWidth;
+      }
+      lineDash = this.stroke_.getLineDash();
+      lineDashOffset = this.stroke_.getLineDashOffset();
+      lineJoin = this.stroke_.getLineJoin();
+      if (lineJoin === undefined) {
+        lineJoin = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultLineJoin;
+      }
+      miterLimit = this.stroke_.getMiterLimit();
+      if (miterLimit === undefined) {
+        miterLimit = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultMiterLimit;
+      }
+    }
+
+    const add = this.calculateLineJoinSize_(lineJoin, strokeWidth, miterLimit);
+    const maxRadius = Math.max(this.radius_, this.radius2_ || 0);
+    const size = Math.ceil(2 * maxRadius + add);
+
+    return {
+      strokeStyle: strokeStyle,
+      strokeWidth: strokeWidth,
+      size: size,
+      lineDash: lineDash,
+      lineDashOffset: lineDashOffset,
+      lineJoin: lineJoin,
+      miterLimit: miterLimit,
+    };
+  }
+
+  /**
+   * @protected
+   */
+  render() {
+    this.renderOptions_ = this.createRenderOptions();
+    const size = this.renderOptions_.size;
+    this.canvas_ = {};
+    this.size_ = [size, size];
+  }
+
+  /**
+   * @private
+   * @param {RenderOptions} renderOptions Render options.
+   * @param {CanvasRenderingContext2D} context The rendering context.
+   * @param {number} pixelRatio The pixel ratio.
+   */
+  draw_(renderOptions, context, pixelRatio) {
+    context.scale(pixelRatio, pixelRatio);
+    // set origin to canvas center
+    context.translate(renderOptions.size / 2, renderOptions.size / 2);
+
+    this.createPath_(context);
+
+    if (this.fill_) {
+      let color = this.fill_.getColor();
+      if (color === null) {
+        color = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultFillStyle;
+      }
+      context.fillStyle = (0,_colorlike_js__WEBPACK_IMPORTED_MODULE_4__.asColorLike)(color);
+      context.fill();
+    }
+    if (this.stroke_) {
+      context.strokeStyle = renderOptions.strokeStyle;
+      context.lineWidth = renderOptions.strokeWidth;
+      if (renderOptions.lineDash) {
+        context.setLineDash(renderOptions.lineDash);
+        context.lineDashOffset = renderOptions.lineDashOffset;
+      }
+      context.lineJoin = renderOptions.lineJoin;
+      context.miterLimit = renderOptions.miterLimit;
+      context.stroke();
+    }
+  }
+
+  /**
+   * @private
+   * @param {RenderOptions} renderOptions Render options.
+   */
+  createHitDetectionCanvas_(renderOptions) {
+    if (this.fill_) {
+      let color = this.fill_.getColor();
+
+      // determine if fill is transparent (or pattern or gradient)
+      let opacity = 0;
+      if (typeof color === 'string') {
+        color = (0,_color_js__WEBPACK_IMPORTED_MODULE_5__.asArray)(color);
+      }
+      if (color === null) {
+        opacity = 1;
+      } else if (Array.isArray(color)) {
+        opacity = color.length === 4 ? color[3] : 1;
+      }
+      if (opacity === 0) {
+        // if a transparent fill style is set, create an extra hit-detection image
+        // with a default fill style
+        const context = (0,_dom_js__WEBPACK_IMPORTED_MODULE_1__.createCanvasContext2D)(
+          renderOptions.size,
+          renderOptions.size
+        );
+        this.hitDetectionCanvas_ = context.canvas;
+
+        this.drawHitDetectionCanvas_(renderOptions, context);
+      }
+    }
+    if (!this.hitDetectionCanvas_) {
+      this.hitDetectionCanvas_ = this.getImage(1);
+    }
+  }
+
+  /**
+   * @private
+   * @param {CanvasRenderingContext2D} context The context to draw in.
+   */
+  createPath_(context) {
+    let points = this.points_;
+    const radius = this.radius_;
+    if (points === Infinity) {
+      context.arc(0, 0, radius, 0, 2 * Math.PI);
+    } else {
+      const radius2 = this.radius2_ === undefined ? radius : this.radius2_;
+      if (this.radius2_ !== undefined) {
+        points *= 2;
+      }
+      const startAngle = this.angle_ - Math.PI / 2;
+      const step = (2 * Math.PI) / points;
+      for (let i = 0; i < points; i++) {
+        const angle0 = startAngle + i * step;
+        const radiusC = i % 2 === 0 ? radius : radius2;
+        context.lineTo(radiusC * Math.cos(angle0), radiusC * Math.sin(angle0));
+      }
+      context.closePath();
+    }
+  }
+
+  /**
+   * @private
+   * @param {RenderOptions} renderOptions Render options.
+   * @param {CanvasRenderingContext2D} context The context.
+   */
+  drawHitDetectionCanvas_(renderOptions, context) {
+    // set origin to canvas center
+    context.translate(renderOptions.size / 2, renderOptions.size / 2);
+
+    this.createPath_(context);
+
+    context.fillStyle = _render_canvas_js__WEBPACK_IMPORTED_MODULE_3__.defaultFillStyle;
+    context.fill();
+    if (this.stroke_) {
+      context.strokeStyle = renderOptions.strokeStyle;
+      context.lineWidth = renderOptions.strokeWidth;
+      if (renderOptions.lineDash) {
+        context.setLineDash(renderOptions.lineDash);
+        context.lineDashOffset = renderOptions.lineDashOffset;
+      }
+      context.lineJoin = renderOptions.lineJoin;
+      context.miterLimit = renderOptions.miterLimit;
+      context.stroke();
+    }
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RegularShape);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Stroke.js":
+/*!*****************************************!*\
+  !*** ./node_modules/ol/style/Stroke.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @module ol/style/Stroke
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [color] A color, gradient or pattern.
+ * See {@link module:ol/color~Color} and {@link module:ol/colorlike~ColorLike} for possible formats.
+ * Default null; if null, the Canvas/renderer default black will be used.
+ * @property {CanvasLineCap} [lineCap='round'] Line cap style: `butt`, `round`, or `square`.
+ * @property {CanvasLineJoin} [lineJoin='round'] Line join style: `bevel`, `round`, or `miter`.
+ * @property {Array<number>} [lineDash] Line dash pattern. Default is `null` (no dash).
+ * @property {number} [lineDashOffset=0] Line dash offset.
+ * @property {number} [miterLimit=10] Miter limit.
+ * @property {number} [width] Width.
+ */
+
+/**
+ * @classdesc
+ * Set stroke style for vector features.
+ * Note that the defaults given are the Canvas defaults, which will be used if
+ * option is not defined. The `get` functions return whatever was entered in
+ * the options; they will not return the default.
+ * @api
+ */
+class Stroke {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options || {};
+
+    /**
+     * @private
+     * @type {import("../color.js").Color|import("../colorlike.js").ColorLike}
+     */
+    this.color_ = options.color !== undefined ? options.color : null;
+
+    /**
+     * @private
+     * @type {CanvasLineCap|undefined}
+     */
+    this.lineCap_ = options.lineCap;
+
+    /**
+     * @private
+     * @type {Array<number>|null}
+     */
+    this.lineDash_ = options.lineDash !== undefined ? options.lineDash : null;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.lineDashOffset_ = options.lineDashOffset;
+
+    /**
+     * @private
+     * @type {CanvasLineJoin|undefined}
+     */
+    this.lineJoin_ = options.lineJoin;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.miterLimit_ = options.miterLimit;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.width_ = options.width;
+  }
+
+  /**
+   * Clones the style.
+   * @return {Stroke} The cloned style.
+   * @api
+   */
+  clone() {
+    const color = this.getColor();
+    return new Stroke({
+      color: Array.isArray(color) ? color.slice() : color || undefined,
+      lineCap: this.getLineCap(),
+      lineDash: this.getLineDash() ? this.getLineDash().slice() : undefined,
+      lineDashOffset: this.getLineDashOffset(),
+      lineJoin: this.getLineJoin(),
+      miterLimit: this.getMiterLimit(),
+      width: this.getWidth(),
+    });
+  }
+
+  /**
+   * Get the stroke color.
+   * @return {import("../color.js").Color|import("../colorlike.js").ColorLike} Color.
+   * @api
+   */
+  getColor() {
+    return this.color_;
+  }
+
+  /**
+   * Get the line cap type for the stroke.
+   * @return {CanvasLineCap|undefined} Line cap.
+   * @api
+   */
+  getLineCap() {
+    return this.lineCap_;
+  }
+
+  /**
+   * Get the line dash style for the stroke.
+   * @return {Array<number>|null} Line dash.
+   * @api
+   */
+  getLineDash() {
+    return this.lineDash_;
+  }
+
+  /**
+   * Get the line dash offset for the stroke.
+   * @return {number|undefined} Line dash offset.
+   * @api
+   */
+  getLineDashOffset() {
+    return this.lineDashOffset_;
+  }
+
+  /**
+   * Get the line join type for the stroke.
+   * @return {CanvasLineJoin|undefined} Line join.
+   * @api
+   */
+  getLineJoin() {
+    return this.lineJoin_;
+  }
+
+  /**
+   * Get the miter limit for the stroke.
+   * @return {number|undefined} Miter limit.
+   * @api
+   */
+  getMiterLimit() {
+    return this.miterLimit_;
+  }
+
+  /**
+   * Get the stroke width.
+   * @return {number|undefined} Width.
+   * @api
+   */
+  getWidth() {
+    return this.width_;
+  }
+
+  /**
+   * Set the color.
+   *
+   * @param {import("../color.js").Color|import("../colorlike.js").ColorLike} color Color.
+   * @api
+   */
+  setColor(color) {
+    this.color_ = color;
+  }
+
+  /**
+   * Set the line cap.
+   *
+   * @param {CanvasLineCap|undefined} lineCap Line cap.
+   * @api
+   */
+  setLineCap(lineCap) {
+    this.lineCap_ = lineCap;
+  }
+
+  /**
+   * Set the line dash.
+   *
+   * @param {Array<number>|null} lineDash Line dash.
+   * @api
+   */
+  setLineDash(lineDash) {
+    this.lineDash_ = lineDash;
+  }
+
+  /**
+   * Set the line dash offset.
+   *
+   * @param {number|undefined} lineDashOffset Line dash offset.
+   * @api
+   */
+  setLineDashOffset(lineDashOffset) {
+    this.lineDashOffset_ = lineDashOffset;
+  }
+
+  /**
+   * Set the line join.
+   *
+   * @param {CanvasLineJoin|undefined} lineJoin Line join.
+   * @api
+   */
+  setLineJoin(lineJoin) {
+    this.lineJoin_ = lineJoin;
+  }
+
+  /**
+   * Set the miter limit.
+   *
+   * @param {number|undefined} miterLimit Miter limit.
+   * @api
+   */
+  setMiterLimit(miterLimit) {
+    this.miterLimit_ = miterLimit;
+  }
+
+  /**
+   * Set the width.
+   *
+   * @param {number|undefined} width Width.
+   * @api
+   */
+  setWidth(width) {
+    this.width_ = width;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Stroke);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Style.js":
+/*!****************************************!*\
+  !*** ./node_modules/ol/style/Style.js ***!
+  \****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createDefaultStyle": () => (/* binding */ createDefaultStyle),
+/* harmony export */   "createEditingStyle": () => (/* binding */ createEditingStyle),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "toFunction": () => (/* binding */ toFunction)
+/* harmony export */ });
+/* harmony import */ var _Circle_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Circle.js */ "./node_modules/ol/style/Circle.js");
+/* harmony import */ var _Fill_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Fill.js */ "./node_modules/ol/style/Fill.js");
+/* harmony import */ var _Stroke_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Stroke.js */ "./node_modules/ol/style/Stroke.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/**
+ * @module ol/style/Style
+ */
+
+
+
+
+
+
+/**
+ * A function that takes an {@link module:ol/Feature~Feature} and a `{number}`
+ * representing the view's resolution. The function should return a
+ * {@link module:ol/style/Style~Style} or an array of them. This way e.g. a
+ * vector layer can be styled. If the function returns `undefined`, the
+ * feature will not be rendered.
+ *
+ * @typedef {function(import("../Feature.js").FeatureLike, number):(Style|Array<Style>|void)} StyleFunction
+ */
+
+/**
+ * A {@link Style}, an array of {@link Style}, or a {@link StyleFunction}.
+ * @typedef {Style|Array<Style>|StyleFunction} StyleLike
+ */
+
+/**
+ * A function that takes an {@link module:ol/Feature~Feature} as argument and returns an
+ * {@link module:ol/geom/Geometry~Geometry} that will be rendered and styled for the feature.
+ *
+ * @typedef {function(import("../Feature.js").FeatureLike):
+ *     (import("../geom/Geometry.js").default|import("../render/Feature.js").default|undefined)} GeometryFunction
+ */
+
+/**
+ * Custom renderer function. Takes two arguments:
+ *
+ * 1. The pixel coordinates of the geometry in GeoJSON notation.
+ * 2. The {@link module:ol/render~State} of the layer renderer.
+ *
+ * @typedef {function((import("../coordinate.js").Coordinate|Array<import("../coordinate.js").Coordinate>|Array<Array<import("../coordinate.js").Coordinate>>),import("../render.js").State): void} RenderFunction
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {string|import("../geom/Geometry.js").default|GeometryFunction} [geometry] Feature property or geometry
+ * or function returning a geometry to render for this style.
+ * @property {import("./Fill.js").default} [fill] Fill style.
+ * @property {import("./Image.js").default} [image] Image style.
+ * @property {RenderFunction} [renderer] Custom renderer. When configured, `fill`, `stroke` and `image` will be
+ * ignored, and the provided function will be called with each render frame for each geometry.
+ * @property {RenderFunction} [hitDetectionRenderer] Custom renderer for hit detection. If provided will be used
+ * in hit detection rendering.
+ * @property {import("./Stroke.js").default} [stroke] Stroke style.
+ * @property {import("./Text.js").default} [text] Text style.
+ * @property {number} [zIndex] Z index.
+ */
+
+/**
+ * @classdesc
+ * Container for vector feature rendering styles. Any changes made to the style
+ * or its children through `set*()` methods will not take effect until the
+ * feature or layer that uses the style is re-rendered.
+ *
+ * ## Feature styles
+ *
+ * If no style is defined, the following default style is used:
+ * ```js
+ *  import {Circle, Fill, Stroke, Style} from 'ol/style.js';
+ *
+ *  const fill = new Fill({
+ *    color: 'rgba(255,255,255,0.4)',
+ *  });
+ *  const stroke = new Stroke({
+ *    color: '#3399CC',
+ *    width: 1.25,
+ *  });
+ *  const styles = [
+ *    new Style({
+ *      image: new Circle({
+ *        fill: fill,
+ *        stroke: stroke,
+ *        radius: 5,
+ *      }),
+ *      fill: fill,
+ *      stroke: stroke,
+ *    }),
+ *  ];
+ * ```
+ *
+ * A separate editing style has the following defaults:
+ * ```js
+ *  import {Circle, Fill, Stroke, Style} from 'ol/style.js';
+ *
+ *  const styles = {};
+ *  const white = [255, 255, 255, 1];
+ *  const blue = [0, 153, 255, 1];
+ *  const width = 3;
+ *  styles['Polygon'] = [
+ *    new Style({
+ *      fill: new Fill({
+ *        color: [255, 255, 255, 0.5],
+ *      }),
+ *    }),
+ *  ];
+ *  styles['MultiPolygon'] =
+ *      styles['Polygon'];
+ *  styles['LineString'] = [
+ *    new Style({
+ *      stroke: new Stroke({
+ *        color: white,
+ *        width: width + 2,
+ *      }),
+ *    }),
+ *    new Style({
+ *      stroke: new Stroke({
+ *        color: blue,
+ *        width: width,
+ *      }),
+ *    }),
+ *  ];
+ *  styles['MultiLineString'] = styles['LineString'];
+ *
+ *  styles['Circle'] = styles['Polygon'].concat(
+ *    styles['LineString']
+ *  );
+ *
+ *  styles['Point'] = [
+ *    new Style({
+ *      image: new Circle({
+ *        radius: width * 2,
+ *        fill: new Fill({
+ *          color: blue,
+ *        }),
+ *        stroke: new Stroke({
+ *          color: white,
+ *          width: width / 2,
+ *        }),
+ *      }),
+ *      zIndex: Infinity,
+ *    }),
+ *  ];
+ *  styles['MultiPoint'] =
+ *      styles['Point'];
+ *  styles['GeometryCollection'] =
+ *      styles['Polygon'].concat(
+ *          styles['LineString'],
+ *          styles['Point']
+ *      );
+ * ```
+ *
+ * @api
+ */
+class Style {
+  /**
+   * @param {Options} [options] Style options.
+   */
+  constructor(options) {
+    options = options || {};
+
+    /**
+     * @private
+     * @type {string|import("../geom/Geometry.js").default|GeometryFunction}
+     */
+    this.geometry_ = null;
+
+    /**
+     * @private
+     * @type {!GeometryFunction}
+     */
+    this.geometryFunction_ = defaultGeometryFunction;
+
+    if (options.geometry !== undefined) {
+      this.setGeometry(options.geometry);
+    }
+
+    /**
+     * @private
+     * @type {import("./Fill.js").default}
+     */
+    this.fill_ = options.fill !== undefined ? options.fill : null;
+
+    /**
+     * @private
+     * @type {import("./Image.js").default}
+     */
+    this.image_ = options.image !== undefined ? options.image : null;
+
+    /**
+     * @private
+     * @type {RenderFunction|null}
+     */
+    this.renderer_ = options.renderer !== undefined ? options.renderer : null;
+
+    /**
+     * @private
+     * @type {RenderFunction|null}
+     */
+    this.hitDetectionRenderer_ =
+      options.hitDetectionRenderer !== undefined
+        ? options.hitDetectionRenderer
+        : null;
+
+    /**
+     * @private
+     * @type {import("./Stroke.js").default}
+     */
+    this.stroke_ = options.stroke !== undefined ? options.stroke : null;
+
+    /**
+     * @private
+     * @type {import("./Text.js").default}
+     */
+    this.text_ = options.text !== undefined ? options.text : null;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.zIndex_ = options.zIndex;
+  }
+
+  /**
+   * Clones the style.
+   * @return {Style} The cloned style.
+   * @api
+   */
+  clone() {
+    let geometry = this.getGeometry();
+    if (geometry && typeof geometry === 'object') {
+      geometry = /** @type {import("../geom/Geometry.js").default} */ (
+        geometry
+      ).clone();
+    }
+    return new Style({
+      geometry: geometry,
+      fill: this.getFill() ? this.getFill().clone() : undefined,
+      image: this.getImage() ? this.getImage().clone() : undefined,
+      renderer: this.getRenderer(),
+      stroke: this.getStroke() ? this.getStroke().clone() : undefined,
+      text: this.getText() ? this.getText().clone() : undefined,
+      zIndex: this.getZIndex(),
+    });
+  }
+
+  /**
+   * Get the custom renderer function that was configured with
+   * {@link #setRenderer} or the `renderer` constructor option.
+   * @return {RenderFunction|null} Custom renderer function.
+   * @api
+   */
+  getRenderer() {
+    return this.renderer_;
+  }
+
+  /**
+   * Sets a custom renderer function for this style. When set, `fill`, `stroke`
+   * and `image` options of the style will be ignored.
+   * @param {RenderFunction|null} renderer Custom renderer function.
+   * @api
+   */
+  setRenderer(renderer) {
+    this.renderer_ = renderer;
+  }
+
+  /**
+   * Sets a custom renderer function for this style used
+   * in hit detection.
+   * @param {RenderFunction|null} renderer Custom renderer function.
+   * @api
+   */
+  setHitDetectionRenderer(renderer) {
+    this.hitDetectionRenderer_ = renderer;
+  }
+
+  /**
+   * Get the custom renderer function that was configured with
+   * {@link #setHitDetectionRenderer} or the `hitDetectionRenderer` constructor option.
+   * @return {RenderFunction|null} Custom renderer function.
+   * @api
+   */
+  getHitDetectionRenderer() {
+    return this.hitDetectionRenderer_;
+  }
+
+  /**
+   * Get the geometry to be rendered.
+   * @return {string|import("../geom/Geometry.js").default|GeometryFunction}
+   * Feature property or geometry or function that returns the geometry that will
+   * be rendered with this style.
+   * @api
+   */
+  getGeometry() {
+    return this.geometry_;
+  }
+
+  /**
+   * Get the function used to generate a geometry for rendering.
+   * @return {!GeometryFunction} Function that is called with a feature
+   * and returns the geometry to render instead of the feature's geometry.
+   * @api
+   */
+  getGeometryFunction() {
+    return this.geometryFunction_;
+  }
+
+  /**
+   * Get the fill style.
+   * @return {import("./Fill.js").default} Fill style.
+   * @api
+   */
+  getFill() {
+    return this.fill_;
+  }
+
+  /**
+   * Set the fill style.
+   * @param {import("./Fill.js").default} fill Fill style.
+   * @api
+   */
+  setFill(fill) {
+    this.fill_ = fill;
+  }
+
+  /**
+   * Get the image style.
+   * @return {import("./Image.js").default} Image style.
+   * @api
+   */
+  getImage() {
+    return this.image_;
+  }
+
+  /**
+   * Set the image style.
+   * @param {import("./Image.js").default} image Image style.
+   * @api
+   */
+  setImage(image) {
+    this.image_ = image;
+  }
+
+  /**
+   * Get the stroke style.
+   * @return {import("./Stroke.js").default} Stroke style.
+   * @api
+   */
+  getStroke() {
+    return this.stroke_;
+  }
+
+  /**
+   * Set the stroke style.
+   * @param {import("./Stroke.js").default} stroke Stroke style.
+   * @api
+   */
+  setStroke(stroke) {
+    this.stroke_ = stroke;
+  }
+
+  /**
+   * Get the text style.
+   * @return {import("./Text.js").default} Text style.
+   * @api
+   */
+  getText() {
+    return this.text_;
+  }
+
+  /**
+   * Set the text style.
+   * @param {import("./Text.js").default} text Text style.
+   * @api
+   */
+  setText(text) {
+    this.text_ = text;
+  }
+
+  /**
+   * Get the z-index for the style.
+   * @return {number|undefined} ZIndex.
+   * @api
+   */
+  getZIndex() {
+    return this.zIndex_;
+  }
+
+  /**
+   * Set a geometry that is rendered instead of the feature's geometry.
+   *
+   * @param {string|import("../geom/Geometry.js").default|GeometryFunction} geometry
+   *     Feature property or geometry or function returning a geometry to render
+   *     for this style.
+   * @api
+   */
+  setGeometry(geometry) {
+    if (typeof geometry === 'function') {
+      this.geometryFunction_ = geometry;
+    } else if (typeof geometry === 'string') {
+      this.geometryFunction_ = function (feature) {
+        return /** @type {import("../geom/Geometry.js").default} */ (
+          feature.get(geometry)
+        );
+      };
+    } else if (!geometry) {
+      this.geometryFunction_ = defaultGeometryFunction;
+    } else if (geometry !== undefined) {
+      this.geometryFunction_ = function () {
+        return /** @type {import("../geom/Geometry.js").default} */ (geometry);
+      };
+    }
+    this.geometry_ = geometry;
+  }
+
+  /**
+   * Set the z-index.
+   *
+   * @param {number|undefined} zIndex ZIndex.
+   * @api
+   */
+  setZIndex(zIndex) {
+    this.zIndex_ = zIndex;
+  }
+}
+
+/**
+ * Convert the provided object into a style function.  Functions passed through
+ * unchanged.  Arrays of Style or single style objects wrapped in a
+ * new style function.
+ * @param {StyleFunction|Array<Style>|Style} obj
+ *     A style function, a single style, or an array of styles.
+ * @return {StyleFunction} A style function.
+ */
+function toFunction(obj) {
+  let styleFunction;
+
+  if (typeof obj === 'function') {
+    styleFunction = obj;
+  } else {
+    /**
+     * @type {Array<Style>}
+     */
+    let styles;
+    if (Array.isArray(obj)) {
+      styles = obj;
+    } else {
+      (0,_asserts_js__WEBPACK_IMPORTED_MODULE_0__.assert)(typeof (/** @type {?} */ (obj).getZIndex) === 'function', 41); // Expected an `Style` or an array of `Style`
+      const style = /** @type {Style} */ (obj);
+      styles = [style];
+    }
+    styleFunction = function () {
+      return styles;
+    };
+  }
+  return styleFunction;
+}
+
+/**
+ * @type {Array<Style>|null}
+ */
+let defaultStyles = null;
+
+/**
+ * @param {import("../Feature.js").FeatureLike} feature Feature.
+ * @param {number} resolution Resolution.
+ * @return {Array<Style>} Style.
+ */
+function createDefaultStyle(feature, resolution) {
+  // We don't use an immediately-invoked function
+  // and a closure so we don't get an error at script evaluation time in
+  // browsers that do not support Canvas. (import("./Circle.js").CircleStyle does
+  // canvas.getContext('2d') at construction time, which will cause an.error
+  // in such browsers.)
+  if (!defaultStyles) {
+    const fill = new _Fill_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      color: 'rgba(255,255,255,0.4)',
+    });
+    const stroke = new _Stroke_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+      color: '#3399CC',
+      width: 1.25,
+    });
+    defaultStyles = [
+      new Style({
+        image: new _Circle_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+          fill: fill,
+          stroke: stroke,
+          radius: 5,
+        }),
+        fill: fill,
+        stroke: stroke,
+      }),
+    ];
+  }
+  return defaultStyles;
+}
+
+/**
+ * Default styles for editing features.
+ * @return {Object<import("../geom/Geometry.js").Type, Array<Style>>} Styles
+ */
+function createEditingStyle() {
+  /** @type {Object<import("../geom/Geometry.js").Type, Array<Style>>} */
+  const styles = {};
+  const white = [255, 255, 255, 1];
+  const blue = [0, 153, 255, 1];
+  const width = 3;
+  styles['Polygon'] = [
+    new Style({
+      fill: new _Fill_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+        color: [255, 255, 255, 0.5],
+      }),
+    }),
+  ];
+  styles['MultiPolygon'] = styles['Polygon'];
+
+  styles['LineString'] = [
+    new Style({
+      stroke: new _Stroke_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        color: white,
+        width: width + 2,
+      }),
+    }),
+    new Style({
+      stroke: new _Stroke_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        color: blue,
+        width: width,
+      }),
+    }),
+  ];
+  styles['MultiLineString'] = styles['LineString'];
+
+  styles['Circle'] = styles['Polygon'].concat(styles['LineString']);
+
+  styles['Point'] = [
+    new Style({
+      image: new _Circle_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+        radius: width * 2,
+        fill: new _Fill_js__WEBPACK_IMPORTED_MODULE_1__["default"]({
+          color: blue,
+        }),
+        stroke: new _Stroke_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+          color: white,
+          width: width / 2,
+        }),
+      }),
+      zIndex: Infinity,
+    }),
+  ];
+  styles['MultiPoint'] = styles['Point'];
+
+  styles['GeometryCollection'] = styles['Polygon'].concat(
+    styles['LineString'],
+    styles['Point']
+  );
+
+  return styles;
+}
+
+/**
+ * Function that is called with a feature and returns its default geometry.
+ * @param {import("../Feature.js").FeatureLike} feature Feature to get the geometry for.
+ * @return {import("../geom/Geometry.js").default|import("../render/Feature.js").default|undefined} Geometry to render.
+ */
+function defaultGeometryFunction(feature) {
+  return feature.getGeometry();
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Style);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/Text.js":
+/*!***************************************!*\
+  !*** ./node_modules/ol/style/Text.js ***!
+  \***************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Fill_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Fill.js */ "./node_modules/ol/style/Fill.js");
+/* harmony import */ var _size_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../size.js */ "./node_modules/ol/size.js");
+/**
+ * @module ol/style/Text
+ */
+
+
+
+/**
+ * @typedef {'point' | 'line'} TextPlacement
+ * Default text placement is `'point'`. Note that
+ * `'line'` requires the underlying geometry to be a {@link module:ol/geom/LineString~LineString},
+ * {@link module:ol/geom/Polygon~Polygon}, {@link module:ol/geom/MultiLineString~MultiLineString} or
+ * {@link module:ol/geom/MultiPolygon~MultiPolygon}.
+ */
+
+/**
+ * @typedef {'left' | 'center' | 'right'} TextJustify
+ */
+
+/**
+ * The default fill color to use if no fill was set at construction time; a
+ * blackish `#333`.
+ *
+ * @const {string}
+ */
+const DEFAULT_FILL_COLOR = '#333';
+
+/**
+ * @typedef {Object} Options
+ * @property {string} [font] Font style as CSS `font` value, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font. Default is `'10px sans-serif'`
+ * @property {number} [maxAngle=Math.PI/4] When `placement` is set to `'line'`, allow a maximum angle between adjacent characters.
+ * The expected value is in radians, and the default is 45° (`Math.PI / 4`).
+ * @property {number} [offsetX=0] Horizontal text offset in pixels. A positive will shift the text right.
+ * @property {number} [offsetY=0] Vertical text offset in pixels. A positive will shift the text down.
+ * @property {boolean} [overflow=false] For polygon labels or when `placement` is set to `'line'`, allow text to exceed
+ * the width of the polygon at the label position or the length of the path that it follows.
+ * @property {TextPlacement} [placement='point'] Text placement.
+ * @property {number} [repeat] Repeat interval in pixels. When set, the text will be repeated at this interval. Only available
+ * when `placement` is set to `'line'`. Overrides 'textAlign'.
+ * @property {number|import("../size.js").Size} [scale] Scale.
+ * @property {boolean} [rotateWithView=false] Whether to rotate the text with the view.
+ * @property {number} [rotation=0] Rotation in radians (positive rotation clockwise).
+ * @property {string|Array<string>} [text] Text content or rich text content. For plain text provide a string, which can
+ * contain line breaks (`\n`). For rich text provide an array of text/font tuples. A tuple consists of the text to
+ * render and the font to use (or `''` to use the text style's font). A line break has to be a separate tuple (i.e. `'\n', ''`).
+ * **Example:** `['foo', 'bold 10px sans-serif', ' bar', 'italic 10px sans-serif', ' baz', '']` will yield "**foo** *bar* baz".
+ * **Note:** Rich text is not supported for the immediate rendering API.
+ * @property {CanvasTextAlign} [textAlign] Text alignment. Possible values: `'left'`, `'right'`, `'center'`, `'end'` or `'start'`.
+ * Default is `'center'` for `placement: 'point'`. For `placement: 'line'`, the default is to let the renderer choose a
+ * placement where `maxAngle` is not exceeded.
+ * @property {TextJustify} [justify] Text justification within the text box.
+ * If not set, text is justified towards the `textAlign` anchor.
+ * Otherwise, use options `'left'`, `'center'`, or `'right'` to justify the text within the text box.
+ * **Note:** `justify` is ignored for immediate rendering and also for `placement: 'line'`.
+ * @property {CanvasTextBaseline} [textBaseline='middle'] Text base line. Possible values: `'bottom'`, `'top'`, `'middle'`, `'alphabetic'`,
+ * `'hanging'`, `'ideographic'`.
+ * @property {import("./Fill.js").default} [fill] Fill style. If none is provided, we'll use a dark fill-style (#333).
+ * @property {import("./Stroke.js").default} [stroke] Stroke style.
+ * @property {import("./Fill.js").default} [backgroundFill] Fill style for the text background when `placement` is
+ * `'point'`. Default is no fill.
+ * @property {import("./Stroke.js").default} [backgroundStroke] Stroke style for the text background  when `placement`
+ * is `'point'`. Default is no stroke.
+ * @property {Array<number>} [padding=[0, 0, 0, 0]] Padding in pixels around the text for decluttering and background. The order of
+ * values in the array is `[top, right, bottom, left]`.
+ */
+
+/**
+ * @classdesc
+ * Set text style for vector features.
+ * @api
+ */
+class Text {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options || {};
+
+    /**
+     * @private
+     * @type {string|undefined}
+     */
+    this.font_ = options.font;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.rotation_ = options.rotation;
+
+    /**
+     * @private
+     * @type {boolean|undefined}
+     */
+    this.rotateWithView_ = options.rotateWithView;
+
+    /**
+     * @private
+     * @type {number|import("../size.js").Size|undefined}
+     */
+    this.scale_ = options.scale;
+
+    /**
+     * @private
+     * @type {import("../size.js").Size}
+     */
+    this.scaleArray_ = (0,_size_js__WEBPACK_IMPORTED_MODULE_0__.toSize)(options.scale !== undefined ? options.scale : 1);
+
+    /**
+     * @private
+     * @type {string|Array<string>|undefined}
+     */
+    this.text_ = options.text;
+
+    /**
+     * @private
+     * @type {CanvasTextAlign|undefined}
+     */
+    this.textAlign_ = options.textAlign;
+
+    /**
+     * @private
+     * @type {TextJustify|undefined}
+     */
+    this.justify_ = options.justify;
+
+    /**
+     * @private
+     * @type {number|undefined}
+     */
+    this.repeat_ = options.repeat;
+
+    /**
+     * @private
+     * @type {CanvasTextBaseline|undefined}
+     */
+    this.textBaseline_ = options.textBaseline;
+
+    /**
+     * @private
+     * @type {import("./Fill.js").default}
+     */
+    this.fill_ =
+      options.fill !== undefined
+        ? options.fill
+        : new _Fill_js__WEBPACK_IMPORTED_MODULE_1__["default"]({color: DEFAULT_FILL_COLOR});
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxAngle_ =
+      options.maxAngle !== undefined ? options.maxAngle : Math.PI / 4;
+
+    /**
+     * @private
+     * @type {TextPlacement}
+     */
+    this.placement_ =
+      options.placement !== undefined ? options.placement : 'point';
+
+    /**
+     * @private
+     * @type {boolean}
+     */
+    this.overflow_ = !!options.overflow;
+
+    /**
+     * @private
+     * @type {import("./Stroke.js").default}
+     */
+    this.stroke_ = options.stroke !== undefined ? options.stroke : null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.offsetX_ = options.offsetX !== undefined ? options.offsetX : 0;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.offsetY_ = options.offsetY !== undefined ? options.offsetY : 0;
+
+    /**
+     * @private
+     * @type {import("./Fill.js").default}
+     */
+    this.backgroundFill_ = options.backgroundFill
+      ? options.backgroundFill
+      : null;
+
+    /**
+     * @private
+     * @type {import("./Stroke.js").default}
+     */
+    this.backgroundStroke_ = options.backgroundStroke
+      ? options.backgroundStroke
+      : null;
+
+    /**
+     * @private
+     * @type {Array<number>|null}
+     */
+    this.padding_ = options.padding === undefined ? null : options.padding;
+  }
+
+  /**
+   * Clones the style.
+   * @return {Text} The cloned style.
+   * @api
+   */
+  clone() {
+    const scale = this.getScale();
+    return new Text({
+      font: this.getFont(),
+      placement: this.getPlacement(),
+      repeat: this.getRepeat(),
+      maxAngle: this.getMaxAngle(),
+      overflow: this.getOverflow(),
+      rotation: this.getRotation(),
+      rotateWithView: this.getRotateWithView(),
+      scale: Array.isArray(scale) ? scale.slice() : scale,
+      text: this.getText(),
+      textAlign: this.getTextAlign(),
+      justify: this.getJustify(),
+      textBaseline: this.getTextBaseline(),
+      fill: this.getFill() ? this.getFill().clone() : undefined,
+      stroke: this.getStroke() ? this.getStroke().clone() : undefined,
+      offsetX: this.getOffsetX(),
+      offsetY: this.getOffsetY(),
+      backgroundFill: this.getBackgroundFill()
+        ? this.getBackgroundFill().clone()
+        : undefined,
+      backgroundStroke: this.getBackgroundStroke()
+        ? this.getBackgroundStroke().clone()
+        : undefined,
+      padding: this.getPadding() || undefined,
+    });
+  }
+
+  /**
+   * Get the `overflow` configuration.
+   * @return {boolean} Let text overflow the length of the path they follow.
+   * @api
+   */
+  getOverflow() {
+    return this.overflow_;
+  }
+
+  /**
+   * Get the font name.
+   * @return {string|undefined} Font.
+   * @api
+   */
+  getFont() {
+    return this.font_;
+  }
+
+  /**
+   * Get the maximum angle between adjacent characters.
+   * @return {number} Angle in radians.
+   * @api
+   */
+  getMaxAngle() {
+    return this.maxAngle_;
+  }
+
+  /**
+   * Get the label placement.
+   * @return {TextPlacement} Text placement.
+   * @api
+   */
+  getPlacement() {
+    return this.placement_;
+  }
+
+  /**
+   * Get the repeat interval of the text.
+   * @return {number|undefined} Repeat interval in pixels.
+   * @api
+   */
+  getRepeat() {
+    return this.repeat_;
+  }
+
+  /**
+   * Get the x-offset for the text.
+   * @return {number} Horizontal text offset.
+   * @api
+   */
+  getOffsetX() {
+    return this.offsetX_;
+  }
+
+  /**
+   * Get the y-offset for the text.
+   * @return {number} Vertical text offset.
+   * @api
+   */
+  getOffsetY() {
+    return this.offsetY_;
+  }
+
+  /**
+   * Get the fill style for the text.
+   * @return {import("./Fill.js").default} Fill style.
+   * @api
+   */
+  getFill() {
+    return this.fill_;
+  }
+
+  /**
+   * Determine whether the text rotates with the map.
+   * @return {boolean|undefined} Rotate with map.
+   * @api
+   */
+  getRotateWithView() {
+    return this.rotateWithView_;
+  }
+
+  /**
+   * Get the text rotation.
+   * @return {number|undefined} Rotation.
+   * @api
+   */
+  getRotation() {
+    return this.rotation_;
+  }
+
+  /**
+   * Get the text scale.
+   * @return {number|import("../size.js").Size|undefined} Scale.
+   * @api
+   */
+  getScale() {
+    return this.scale_;
+  }
+
+  /**
+   * Get the symbolizer scale array.
+   * @return {import("../size.js").Size} Scale array.
+   */
+  getScaleArray() {
+    return this.scaleArray_;
+  }
+
+  /**
+   * Get the stroke style for the text.
+   * @return {import("./Stroke.js").default} Stroke style.
+   * @api
+   */
+  getStroke() {
+    return this.stroke_;
+  }
+
+  /**
+   * Get the text to be rendered.
+   * @return {string|Array<string>|undefined} Text.
+   * @api
+   */
+  getText() {
+    return this.text_;
+  }
+
+  /**
+   * Get the text alignment.
+   * @return {CanvasTextAlign|undefined} Text align.
+   * @api
+   */
+  getTextAlign() {
+    return this.textAlign_;
+  }
+
+  /**
+   * Get the justification.
+   * @return {TextJustify|undefined} Justification.
+   * @api
+   */
+  getJustify() {
+    return this.justify_;
+  }
+
+  /**
+   * Get the text baseline.
+   * @return {CanvasTextBaseline|undefined} Text baseline.
+   * @api
+   */
+  getTextBaseline() {
+    return this.textBaseline_;
+  }
+
+  /**
+   * Get the background fill style for the text.
+   * @return {import("./Fill.js").default} Fill style.
+   * @api
+   */
+  getBackgroundFill() {
+    return this.backgroundFill_;
+  }
+
+  /**
+   * Get the background stroke style for the text.
+   * @return {import("./Stroke.js").default} Stroke style.
+   * @api
+   */
+  getBackgroundStroke() {
+    return this.backgroundStroke_;
+  }
+
+  /**
+   * Get the padding for the text.
+   * @return {Array<number>|null} Padding.
+   * @api
+   */
+  getPadding() {
+    return this.padding_;
+  }
+
+  /**
+   * Set the `overflow` property.
+   *
+   * @param {boolean} overflow Let text overflow the path that it follows.
+   * @api
+   */
+  setOverflow(overflow) {
+    this.overflow_ = overflow;
+  }
+
+  /**
+   * Set the font.
+   *
+   * @param {string|undefined} font Font.
+   * @api
+   */
+  setFont(font) {
+    this.font_ = font;
+  }
+
+  /**
+   * Set the maximum angle between adjacent characters.
+   *
+   * @param {number} maxAngle Angle in radians.
+   * @api
+   */
+  setMaxAngle(maxAngle) {
+    this.maxAngle_ = maxAngle;
+  }
+
+  /**
+   * Set the x offset.
+   *
+   * @param {number} offsetX Horizontal text offset.
+   * @api
+   */
+  setOffsetX(offsetX) {
+    this.offsetX_ = offsetX;
+  }
+
+  /**
+   * Set the y offset.
+   *
+   * @param {number} offsetY Vertical text offset.
+   * @api
+   */
+  setOffsetY(offsetY) {
+    this.offsetY_ = offsetY;
+  }
+
+  /**
+   * Set the text placement.
+   *
+   * @param {TextPlacement} placement Placement.
+   * @api
+   */
+  setPlacement(placement) {
+    this.placement_ = placement;
+  }
+
+  /**
+   * Set the repeat interval of the text.
+   * @param {number|undefined} [repeat] Repeat interval in pixels.
+   * @api
+   */
+  setRepeat(repeat) {
+    this.repeat_ = repeat;
+  }
+
+  /**
+   * Set whether to rotate the text with the view.
+   *
+   * @param {boolean} rotateWithView Rotate with map.
+   * @api
+   */
+  setRotateWithView(rotateWithView) {
+    this.rotateWithView_ = rotateWithView;
+  }
+
+  /**
+   * Set the fill.
+   *
+   * @param {import("./Fill.js").default} fill Fill style.
+   * @api
+   */
+  setFill(fill) {
+    this.fill_ = fill;
+  }
+
+  /**
+   * Set the rotation.
+   *
+   * @param {number|undefined} rotation Rotation.
+   * @api
+   */
+  setRotation(rotation) {
+    this.rotation_ = rotation;
+  }
+
+  /**
+   * Set the scale.
+   *
+   * @param {number|import("../size.js").Size|undefined} scale Scale.
+   * @api
+   */
+  setScale(scale) {
+    this.scale_ = scale;
+    this.scaleArray_ = (0,_size_js__WEBPACK_IMPORTED_MODULE_0__.toSize)(scale !== undefined ? scale : 1);
+  }
+
+  /**
+   * Set the stroke.
+   *
+   * @param {import("./Stroke.js").default} stroke Stroke style.
+   * @api
+   */
+  setStroke(stroke) {
+    this.stroke_ = stroke;
+  }
+
+  /**
+   * Set the text.
+   *
+   * @param {string|Array<string>|undefined} text Text.
+   * @api
+   */
+  setText(text) {
+    this.text_ = text;
+  }
+
+  /**
+   * Set the text alignment.
+   *
+   * @param {CanvasTextAlign|undefined} textAlign Text align.
+   * @api
+   */
+  setTextAlign(textAlign) {
+    this.textAlign_ = textAlign;
+  }
+
+  /**
+   * Set the justification.
+   *
+   * @param {TextJustify|undefined} justify Justification.
+   * @api
+   */
+  setJustify(justify) {
+    this.justify_ = justify;
+  }
+
+  /**
+   * Set the text baseline.
+   *
+   * @param {CanvasTextBaseline|undefined} textBaseline Text baseline.
+   * @api
+   */
+  setTextBaseline(textBaseline) {
+    this.textBaseline_ = textBaseline;
+  }
+
+  /**
+   * Set the background fill.
+   *
+   * @param {import("./Fill.js").default} fill Fill style.
+   * @api
+   */
+  setBackgroundFill(fill) {
+    this.backgroundFill_ = fill;
+  }
+
+  /**
+   * Set the background stroke.
+   *
+   * @param {import("./Stroke.js").default} stroke Stroke style.
+   * @api
+   */
+  setBackgroundStroke(stroke) {
+    this.backgroundStroke_ = stroke;
+  }
+
+  /**
+   * Set the padding (`[top, right, bottom, left]`).
+   *
+   * @param {Array<number>|null} padding Padding.
+   * @api
+   */
+  setPadding(padding) {
+    this.padding_ = padding;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Text);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/style/flat.js":
+/*!***************************************!*\
+  !*** ./node_modules/ol/style/flat.js ***!
+  \***************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "toStyle": () => (/* binding */ toStyle)
+/* harmony export */ });
+/* harmony import */ var _style_Circle_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../style/Circle.js */ "./node_modules/ol/style/Circle.js");
+/* harmony import */ var _Fill_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Fill.js */ "./node_modules/ol/style/Fill.js");
+/* harmony import */ var _Icon_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Icon.js */ "./node_modules/ol/style/Icon.js");
+/* harmony import */ var _RegularShape_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./RegularShape.js */ "./node_modules/ol/style/RegularShape.js");
+/* harmony import */ var _Stroke_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Stroke.js */ "./node_modules/ol/style/Stroke.js");
+/* harmony import */ var _Style_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Style.js */ "./node_modules/ol/style/Style.js");
+/* harmony import */ var _Text_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Text.js */ "./node_modules/ol/style/Text.js");
+/**
+ * @module ol/style/flat
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * For static styling, the [layer.setStyle()]{@link module:ol/layer/Vector~VectorLayer#setStyle} method
+ * can be called with an object literal that has fill, stroke, text, icon, regular shape, and/or circle properties.
+ * @api
+ *
+ * @typedef {FlatFill & FlatStroke & FlatText & FlatIcon & FlatShape & FlatCircle} FlatStyle
+ */
+
+/**
+ * A flat style literal or an array of the same.
+ *
+ * @typedef {FlatStyle|Array<FlatStyle>} FlatStyleLike
+ */
+
+/**
+ * Fill style properties applied to polygon features.
+ *
+ * @typedef {Object} FlatFill
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [fill-color] The fill color.
+ */
+
+/**
+ * Stroke style properties applied to line strings and polygon boundaries.  To apply a stroke, at least one of
+ * `stroke-color` or `stroke-width` must be provided.
+ *
+ * @typedef {Object} FlatStroke
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [stroke-color] The stroke color.
+ * @property {number} [stroke-width] Stroke pixel width.
+ * @property {CanvasLineCap} [stroke-line-cap='round'] Line cap style: `butt`, `round`, or `square`.
+ * @property {CanvasLineJoin} [stroke-line-join='round'] Line join style: `bevel`, `round`, or `miter`.
+ * @property {Array<number>} [stroke-line-dash] Line dash pattern.
+ * @property {number} [stroke-line-dash-offset=0] Line dash offset.
+ * @property {number} [stroke-miter-limit=10] Miter limit.
+ */
+
+/**
+ * Label style properties applied to all features.  At a minimum, a `text-value` must be provided.
+ *
+ * @typedef {Object} FlatText
+ * @property {string|Array<string>} [text-value] Text content or rich text content. For plain text provide a string, which can
+ * contain line breaks (`\n`). For rich text provide an array of text/font tuples. A tuple consists of the text to
+ * render and the font to use (or `''` to use the text style's font). A line break has to be a separate tuple (i.e. `'\n', ''`).
+ * **Example:** `['foo', 'bold 10px sans-serif', ' bar', 'italic 10px sans-serif', ' baz', '']` will yield "**foo** *bar* baz".
+ * **Note:** Rich text is not supported for the immediate rendering API.
+ * @property {string} [text-font] Font style as CSS `font` value, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font. Default is `'10px sans-serif'`
+ * @property {number} [text-max-angle=Math.PI/4] When `text-placement` is set to `'line'`, allow a maximum angle between adjacent characters.
+ * The expected value is in radians, and the default is 45° (`Math.PI / 4`).
+ * @property {number} [text-offset-x=0] Horizontal text offset in pixels. A positive will shift the text right.
+ * @property {number} [text-offset-y=0] Vertical text offset in pixels. A positive will shift the text down.
+ * @property {boolean} [text-overflow=false] For polygon labels or when `placement` is set to `'line'`, allow text to exceed
+ * the width of the polygon at the label position or the length of the path that it follows.
+ * @property {import("./Text.js").TextPlacement} [text-placement='point'] Text placement.
+ * @property {number} [text-repeat] Repeat interval in pixels. When set, the text will be repeated at this interval. Only available when
+ * `text-placement` is set to `'line'`. Overrides `text-align`.
+ * @property {number|import("../size.js").Size} [text-scale] Scale.
+ * @property {boolean} [text-rotate-with-view=false] Whether to rotate the text with the view.
+ * @property {number} [text-rotation=0] Rotation in radians (positive rotation clockwise).
+ * @property {CanvasTextAlign} [text-align] Text alignment. Possible values: `'left'`, `'right'`, `'center'`, `'end'` or `'start'`.
+ * Default is `'center'` for `text-placement: 'point'`. For `text-placement: 'line'`, the default is to let the renderer choose a
+ * placement where `text-max-angle` is not exceeded.
+ * @property {import('./Text.js').TextJustify} [text-justify] Text justification within the text box.
+ * If not set, text is justified towards the `textAlign` anchor.
+ * Otherwise, use options `'left'`, `'center'`, or `'right'` to justify the text within the text box.
+ * **Note:** `text-justify` is ignored for immediate rendering and also for `text-placement: 'line'`.
+ * @property {CanvasTextBaseline} [text-baseline='middle'] Text base line. Possible values: `'bottom'`, `'top'`, `'middle'`, `'alphabetic'`,
+ * `'hanging'`, `'ideographic'`.
+ * @property {Array<number>} [text-padding=[0, 0, 0, 0]] Padding in pixels around the text for decluttering and background. The order of
+ * values in the array is `[top, right, bottom, left]`.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [text-fill-color] The fill color.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [text-background-fill-color] The fill color.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [text-stroke-color] The stroke color.
+ * @property {CanvasLineCap} [text-stroke-line-cap='round'] Line cap style: `butt`, `round`, or `square`.
+ * @property {CanvasLineJoin} [text-stroke-line-join='round'] Line join style: `bevel`, `round`, or `miter`.
+ * @property {Array<number>} [text-stroke-line-dash] Line dash pattern.
+ * @property {number} [text-stroke-line-dash-offset=0] Line dash offset.
+ * @property {number} [text-stroke-miter-limit=10] Miter limit.
+ * @property {number} [text-stroke-width] Stroke pixel width.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [text-background-stroke-color] The stroke color.
+ * @property {CanvasLineCap} [text-background-stroke-line-cap='round'] Line cap style: `butt`, `round`, or `square`.
+ * @property {CanvasLineJoin} [text-background-stroke-line-join='round'] Line join style: `bevel`, `round`, or `miter`.
+ * @property {Array<number>} [text-background-stroke-line-dash] Line dash pattern.
+ * @property {number} [text-background-stroke-line-dash-offset=0] Line dash offset.
+ * @property {number} [text-background-stroke-miter-limit=10] Miter limit.
+ * @property {number} [text-background-stroke-width] Stroke pixel width.
+ */
+
+/**
+ * Icon style properties applied to point features.  One of `icon-src` or `icon-img` must be provided to render
+ * points with an icon.
+ *
+ * @typedef {Object} FlatIcon
+ * @property {string} [icon-src] Image source URI.
+ * @property {HTMLImageElement|HTMLCanvasElement} [icon-img] Image object for the icon. If the `icon-src` option is not provided then the
+ * provided image must already be loaded. And in that case, it is required
+ * to provide the size of the image, with the `icon-img-size` option.
+ * @property {import("../size.js").Size} [icon-img-size] Image size in pixels. Only required if `icon-img` is set and `icon-src` is not.
+ * The provided size needs to match the actual size of the image.
+ * @property {Array<number>} [icon-anchor=[0.5, 0.5]] Anchor. Default value is the icon center.
+ * @property {import("./Icon.js").IconOrigin} [icon-anchor-origin='top-left'] Origin of the anchor: `bottom-left`, `bottom-right`,
+ * `top-left` or `top-right`.
+ * @property {import("./Icon.js").IconAnchorUnits} [icon-anchor-x-units='fraction'] Units in which the anchor x value is
+ * specified. A value of `'fraction'` indicates the x value is a fraction of the icon. A value of `'pixels'` indicates
+ * the x value in pixels.
+ * @property {import("./Icon.js").IconAnchorUnits} [icon-anchor-y-units='fraction'] Units in which the anchor y value is
+ * specified. A value of `'fraction'` indicates the y value is a fraction of the icon. A value of `'pixels'` indicates
+ * the y value in pixels.
+ * @property {import("../color.js").Color|string} [icon-color] Color to tint the icon. If not specified,
+ * the icon will be left as is.
+ * @property {null|string} [icon-cross-origin] The `crossOrigin` attribute for loaded images. Note that you must provide a
+ * `icon-cross-origin` value if you want to access pixel data with the Canvas renderer.
+ * See https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image for more detail.
+ * @property {Array<number>} [icon-offset=[0, 0]] Offset, which, together with the size and the offset origin, define the
+ * sub-rectangle to use from the original icon image.
+ * @property {Array<number>} [icon-displacement=[0,0]] Displacement of the icon.
+ * @property {import("./Icon.js").IconOrigin} [icon-offset-origin='top-left'] Origin of the offset: `bottom-left`, `bottom-right`,
+ * `top-left` or `top-right`.
+ * @property {number} [icon-opacity=1] Opacity of the icon.
+ * @property {number|import("../size.js").Size} [icon-scale=1] Scale.
+ * @property {number} [icon-rotation=0] Rotation in radians (positive rotation clockwise).
+ * @property {boolean} [icon-rotate-with-view=false] Whether to rotate the icon with the view.
+ * @property {import("../size.js").Size} [icon-size] Icon size in pixel. Can be used together with `icon-offset` to define the
+ * sub-rectangle to use from the origin (sprite) icon image.
+ * @property {"declutter"|"obstacle"|"none"|undefined} [icon-declutter-mode] Declutter mode
+ */
+
+/**
+ * Regular shape style properties for rendering point features.  At least `shape-points` must be provided.
+ *
+ * @typedef {Object} FlatShape
+ * @property {number} [shape-points] Number of points for stars and regular polygons. In case of a polygon, the number of points
+ * is the number of sides.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [shape-fill-color] The fill color.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [shape-stroke-color] The stroke color.
+ * @property {number} [shape-stroke-width] Stroke pixel width.
+ * @property {CanvasLineCap} [shape-stroke-line-cap='round'] Line cap style: `butt`, `round`, or `square`.
+ * @property {CanvasLineJoin} [shape-stroke-line-join='round'] Line join style: `bevel`, `round`, or `miter`.
+ * @property {Array<number>} [shape-stroke-line-dash] Line dash pattern.
+ * @property {number} [shape-stroke-line-dash-offset=0] Line dash offset.
+ * @property {number} [shape-stroke-miter-limit=10] Miter limit.
+ * @property {number} [shape-radius] Radius of a regular polygon.
+ * @property {number} [shape-radius1] First radius of a star. Ignored if radius is set.
+ * @property {number} [shape-radius2] Second radius of a star.
+ * @property {number} [shape-angle=0] Shape's angle in radians. A value of 0 will have one of the shape's point facing up.
+ * @property {Array<number>} [shape-displacement=[0,0]] Displacement of the shape
+ * @property {number} [shape-rotation=0] Rotation in radians (positive rotation clockwise).
+ * @property {boolean} [shape-rotate-with-view=false] Whether to rotate the shape with the view.
+ * @property {number|import("../size.js").Size} [shape-scale=1] Scale. Unless two dimensional scaling is required a better
+ * result may be obtained with appropriate settings for `shape-radius`, `shape-radius1` and `shape-radius2`.
+ * @property {"declutter"|"obstacle"|"none"|undefined} [shape-declutter-mode] Declutter mode.
+ */
+
+/**
+ * Circle style properties for rendering point features.  At least `circle-radius` must be provided.
+ *
+ * @typedef {Object} FlatCircle
+ * @property {number} [circle-radius] Circle radius.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [circle-fill-color] The fill color.
+ * @property {import("../color.js").Color|import("../colorlike.js").ColorLike} [circle-stroke-color] The stroke color.
+ * @property {number} [circle-stroke-width] Stroke pixel width.
+ * @property {CanvasLineCap} [circle-stroke-line-cap='round'] Line cap style: `butt`, `round`, or `square`.
+ * @property {CanvasLineJoin} [circle-stroke-line-join='round'] Line join style: `bevel`, `round`, or `miter`.
+ * @property {Array<number>} [circle-stroke-line-dash] Line dash pattern.
+ * @property {number} [circle-stroke-line-dash-offset=0] Line dash offset.
+ * @property {number} [circle-stroke-miter-limit=10] Miter limit.
+ * @property {Array<number>} [circle-displacement=[0,0]] displacement
+ * @property {number|import("../size.js").Size} [circle-scale=1] Scale. A two dimensional scale will produce an ellipse.
+ * Unless two dimensional scaling is required a better result may be obtained with an appropriate setting for `circle-radius`.
+ * @property {number} [circle-rotation=0] Rotation in radians
+ * (positive rotation clockwise, meaningful only when used in conjunction with a two dimensional scale).
+ * @property {boolean} [circle-rotate-with-view=false] Whether to rotate the shape with the view
+ * (meaningful only when used in conjunction with a two dimensional scale).
+ * @property {"declutter"|"obstacle"|"none"|undefined} [circle-declutter-mode] Declutter mode
+ */
+
+/**
+ * @param {FlatStyle} flatStyle A flat style literal.
+ * @return {import("./Style.js").default} A style instance.
+ */
+function toStyle(flatStyle) {
+  const style = new _Style_js__WEBPACK_IMPORTED_MODULE_0__["default"]({
+    fill: getFill(flatStyle, ''),
+    stroke: getStroke(flatStyle, ''),
+    text: getText(flatStyle),
+    image: getImage(flatStyle),
+  });
+
+  return style;
+}
+
+/**
+ * @param {FlatStyle} flatStyle The flat style.
+ * @param {string} prefix The property prefix.
+ * @return {Fill|undefined} The fill (if any).
+ */
+function getFill(flatStyle, prefix) {
+  const color = flatStyle[prefix + 'fill-color'];
+  if (!color) {
+    return;
+  }
+
+  return new _Fill_js__WEBPACK_IMPORTED_MODULE_1__["default"]({color: color});
+}
+
+/**
+ * @param {FlatStyle} flatStyle The flat style.
+ * @param {string} prefix The property prefix.
+ * @return {Stroke|undefined} The stroke (if any).
+ */
+function getStroke(flatStyle, prefix) {
+  const width = flatStyle[prefix + 'stroke-width'];
+  const color = flatStyle[prefix + 'stroke-color'];
+  if (!width && !color) {
+    return;
+  }
+
+  return new _Stroke_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+    width: width,
+    color: color,
+    lineCap: flatStyle[prefix + 'stroke-line-cap'],
+    lineJoin: flatStyle[prefix + 'stroke-line-join'],
+    lineDash: flatStyle[prefix + 'stroke-line-dash'],
+    lineDashOffset: flatStyle[prefix + 'stroke-line-dash-offset'],
+    miterLimit: flatStyle[prefix + 'stroke-miter-limit'],
+  });
+}
+
+/**
+ * @param {FlatStyle} flatStyle The flat style.
+ * @return {Text|undefined} The text (if any).
+ */
+function getText(flatStyle) {
+  const value = flatStyle['text-value'];
+  if (!value) {
+    return;
+  }
+
+  const text = new _Text_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+    text: value,
+    font: flatStyle['text-font'],
+    maxAngle: flatStyle['text-max-angle'],
+    offsetX: flatStyle['text-offset-x'],
+    offsetY: flatStyle['text-offset-y'],
+    overflow: flatStyle['text-overflow'],
+    placement: flatStyle['text-placement'],
+    repeat: flatStyle['text-repeat'],
+    scale: flatStyle['text-scale'],
+    rotateWithView: flatStyle['text-rotate-with-view'],
+    rotation: flatStyle['text-rotation'],
+    textAlign: flatStyle['text-align'],
+    justify: flatStyle['text-justify'],
+    textBaseline: flatStyle['text-baseline'],
+    padding: flatStyle['text-padding'],
+    fill: getFill(flatStyle, 'text-'),
+    backgroundFill: getFill(flatStyle, 'text-background-'),
+    stroke: getStroke(flatStyle, 'text-'),
+    backgroundStroke: getStroke(flatStyle, 'text-background-'),
+  });
+
+  return text;
+}
+
+/**
+ * @param {FlatStyle} flatStyle The flat style.
+ * @return {import("./Image.js").default|undefined} The image (if any).
+ */
+function getImage(flatStyle) {
+  const iconSrc = flatStyle['icon-src'];
+  const iconImg = flatStyle['icon-img'];
+  if (iconSrc || iconImg) {
+    const icon = new _Icon_js__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      src: iconSrc,
+      img: iconImg,
+      imgSize: flatStyle['icon-img-size'],
+      anchor: flatStyle['icon-anchor'],
+      anchorOrigin: flatStyle['icon-anchor-origin'],
+      anchorXUnits: flatStyle['icon-anchor-x-units'],
+      anchorYUnits: flatStyle['icon-anchor-y-units'],
+      color: flatStyle['icon-color'],
+      crossOrigin: flatStyle['icon-cross-origin'],
+      offset: flatStyle['icon-offset'],
+      displacement: flatStyle['icon-displacement'],
+      opacity: flatStyle['icon-opacity'],
+      scale: flatStyle['icon-scale'],
+      rotation: flatStyle['icon-rotation'],
+      rotateWithView: flatStyle['icon-rotate-with-view'],
+      size: flatStyle['icon-size'],
+      declutterMode: flatStyle['icon-declutter-mode'],
+    });
+    return icon;
+  }
+
+  const shapePoints = flatStyle['shape-points'];
+  if (shapePoints) {
+    const prefix = 'shape-';
+    const shape = new _RegularShape_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
+      points: shapePoints,
+      fill: getFill(flatStyle, prefix),
+      stroke: getStroke(flatStyle, prefix),
+      radius: flatStyle['shape-radius'],
+      radius1: flatStyle['shape-radius1'],
+      radius2: flatStyle['shape-radius2'],
+      angle: flatStyle['shape-angle'],
+      displacement: flatStyle['shape-displacement'],
+      rotation: flatStyle['shape-rotation'],
+      rotateWithView: flatStyle['shape-rotate-with-view'],
+      scale: flatStyle['shape-scale'],
+      declutterMode: flatStyle['shape-declutter-mode'],
+    });
+
+    return shape;
+  }
+
+  const circleRadius = flatStyle['circle-radius'];
+  if (circleRadius) {
+    const prefix = 'circle-';
+    const circle = new _style_Circle_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
+      radius: circleRadius,
+      fill: getFill(flatStyle, prefix),
+      stroke: getStroke(flatStyle, prefix),
+      displacement: flatStyle['circle-displacement'],
+      scale: flatStyle['circle-scale'],
+      rotation: flatStyle['circle-rotation'],
+      rotateWithView: flatStyle['circle-rotate-with-view'],
+      declutterMode: flatStyle['circle-declutter-mode'],
+    });
+
+    return circle;
+  }
+
+  return;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/tilecoord.js":
 /*!**************************************!*\
   !*** ./node_modules/ol/tilecoord.js ***!
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createOrUpdate": () => (/* binding */ createOrUpdate),
@@ -19753,6 +42581,7 @@ function withinExtentAndZ(tileCoord, tileGrid) {
   \*************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createForExtent": () => (/* binding */ createForExtent),
@@ -19940,6 +42769,7 @@ function extentFromProjection(projection) {
   \**********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -20643,6 +43473,7 @@ class TileGrid {
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DEFAULT_MAX_ZOOM": () => (/* binding */ DEFAULT_MAX_ZOOM),
@@ -20673,6 +43504,7 @@ const DEFAULT_TILE_SIZE = 256;
   \********************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createFromTemplate": () => (/* binding */ createFromTemplate),
@@ -20816,6 +43648,7 @@ function expandUrl(url) {
   \**************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "apply": () => (/* binding */ apply),
@@ -21136,6 +43969,7 @@ function toString(mat) {
   \*********************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "VERSION": () => (/* binding */ VERSION),
@@ -21202,7 +44036,7 @@ const VERSION = '7.3.0';
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -21239,42 +44073,109 @@ const VERSION = '7.3.0';
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
 /*!*****************************!*\
   !*** ./resources/js/map.js ***!
   \*****************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/layer/Tile.js */ "./node_modules/ol/layer/Tile.js");
-/* harmony import */ var ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/source/OSM.js */ "./node_modules/ol/source/OSM.js");
-/* import 'alpinejs'; 
- */
+/* harmony import */ var ol_Map_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/Map.js */ "./node_modules/ol/Map.js");
+/* harmony import */ var ol_View_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/View.js */ "./node_modules/ol/View.js");
+/* harmony import */ var ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/layer/Tile.js */ "./node_modules/ol/layer/Tile.js");
+/* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
+/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
+/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
+/* harmony import */ var ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/source/OSM.js */ "./node_modules/ol/source/OSM.js");
+/* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Style.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Circle.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Fill.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Stroke.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Text.js");
 
 
 
 
-document.addEventListener("alpine:init", function () {
-  Alpine.data("map1", function () {
+
+
+
+
+
+document.addEventListener('alpine:init', function () {
+  Alpine.data('map1', function () {
     return {
       map: {},
+      // a vector source is composed of features, which are basically objects with a geometry (point in
+      // our case) and attributes (name in this example), we initialize our component variable to an
+      // array of 3 features:
+      features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([-6.4166, 32.3333]),
+        name: 'Beni mellal'
+      })
+      /* new Feature({
+          geometry: new Point([-74.04455265662958, 40.68928126997774]),
+          name: 'Statue of Liberty',
+      }),
+      new Feature({
+          geometry: new Point([12.492283213388305, 41.890266877448695]),
+          name: 'Rome Colosseum',
+      }), */],
       init: function init() {
         console.log('Alpine.js map component initialized');
-        this.map = new ol.Map({
+        this.map = new ol_Map_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
           target: this.$refs.map1,
-          layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_0__["default"]({
-            source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_1__["default"]()
+          layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
+            source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_4__["default"]()
+          }),
+          // we add an extra vector layer to the map with the source using our local component features
+          // variable
+          new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_5__["default"]({
+            source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_6__["default"]({
+              features: this.features
+            }),
+            // we call a function for the style, this function will receive each individual feature	
+            style: this.styleFunction
           })],
-          /*        view: new Promise((resolve) => {
-                     resolve(new View({
-                         projection: "EPSG:4326",
-                         center: [0, 0],
-                         zoom: 2,
-                     }));
-                 }), */
-          view: new ol.View({
-            projection: "EPSG:4326",
-            center: [0, 0],
-            zoom: 2
+          view: new ol_View_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
+            projection: 'EPSG:4326',
+            center: [-6.4166, 32.3333],
+            zoom: 6
+          })
+        });
+      },
+      // The styleFunction defines how each feature will look on the map, it receives 
+      // each individual feature, we will use this later to conditionaly style them. 
+      // The styleFunction also defines labels for our features, based on their name 
+      // attributes in our example. The style will represent a circle with a 4px radius 
+      // with fill and stroke colors, for the label, we get a little fancy and make it 
+      // offset with a transparent background, this example is a first demonstration 
+      // on how to symbolize a layer of points.
+      styleFunction: function styleFunction(feature) {
+        return new ol_style_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
+          image: new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
+            radius: 6,
+            fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
+              color: 'red'
+            }),
+            stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+              color: 'rgba(192, 192, 192, 1)',
+              width: 2
+            })
+          }),
+          text: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
+            font: '12px sans-serif',
+            textAlign: 'left',
+            text: feature.get('name'),
+            offsetY: -15,
+            offsetX: 5,
+            backgroundFill: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
+              color: 'rgba(255, 255, 255, 0.5)'
+            }),
+            backgroundStroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+              color: 'rgba(227, 227, 227, 1)'
+            }),
+            padding: [5, 2, 2, 5]
           })
         });
       }
