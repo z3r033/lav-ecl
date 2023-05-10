@@ -44080,19 +44080,21 @@ var __webpack_exports__ = {};
   !*** ./resources/js/map.js ***!
   \*****************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ol_Map_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/Map.js */ "./node_modules/ol/Map.js");
-/* harmony import */ var ol_View_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/View.js */ "./node_modules/ol/View.js");
-/* harmony import */ var ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/layer/Tile.js */ "./node_modules/ol/layer/Tile.js");
+/* harmony import */ var ol_Map_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/Map.js */ "./node_modules/ol/Map.js");
+/* harmony import */ var ol_View_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/View.js */ "./node_modules/ol/View.js");
+/* harmony import */ var ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/layer/Tile.js */ "./node_modules/ol/layer/Tile.js");
 /* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
-/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
-/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
-/* harmony import */ var ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/source/OSM.js */ "./node_modules/ol/source/OSM.js");
+/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
+/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
+/* harmony import */ var ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/source/OSM.js */ "./node_modules/ol/source/OSM.js");
 /* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Style.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Circle.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Fill.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Stroke.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Text.js");
+/* harmony import */ var ol_geom_Polygon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/geom/Polygon */ "./node_modules/ol/geom/Polygon.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Style.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Circle.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Fill.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Stroke.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Text.js");
+
 
 
 
@@ -44113,36 +44115,49 @@ document.addEventListener('alpine:init', function () {
       features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
         geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([-6.4166, 32.3333]),
         name: 'Beni mellal'
-      })
-      /* new Feature({
-          geometry: new Point([-74.04455265662958, 40.68928126997774]),
-          name: 'Statue of Liberty',
-      }),
-      new Feature({
-          geometry: new Point([12.492283213388305, 41.890266877448695]),
-          name: 'Rome Colosseum',
-      }), */],
+      }), new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        geometry: new ol_geom_Polygon__WEBPACK_IMPORTED_MODULE_2__["default"]([[[-6.407, 32.369], [-6.435, 32.332], [-6.374, 32.311], [-6.369, 32.344], [-6.407, 32.369]]]),
+        name: 'Beni Mellal sector'
+      })],
       init: function init() {
+        var _this = this;
         console.log('Alpine.js map component initialized');
-        this.map = new ol_Map_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
+        var vectorSource = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_3__["default"]({
+          features: this.features
+        });
+        this.map = new ol_Map_js__WEBPACK_IMPORTED_MODULE_4__["default"]({
           target: this.$refs.map1,
-          layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_3__["default"]({
-            source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_4__["default"]()
-          }),
-          // we add an extra vector layer to the map with the source using our local component features
-          // variable
-          new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_5__["default"]({
-            source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_6__["default"]({
-              features: this.features
-            }),
-            // we call a function for the style, this function will receive each individual feature	
+          layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
+            source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_6__["default"]()
+          }), new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_7__["default"]({
+            source: vectorSource,
             style: this.styleFunction
           })],
-          view: new ol_View_js__WEBPACK_IMPORTED_MODULE_7__["default"]({
+          view: new ol_View_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
             projection: 'EPSG:4326',
             center: [-6.4166, 32.3333],
             zoom: 6
           })
+        });
+        // Add click event listener to the map
+
+        this.map.on('click', function (event) {
+          // Get the clicked feature
+          var clickedFeature = _this.map.forEachFeatureAtPixel(event.pixel, function (feature) {
+            return feature;
+          });
+          if (clickedFeature) {
+            var type = clickedFeature.getGeometry().getType();
+            if (type === 'Point') {
+              // Find the corresponding polygon feature by name
+              var polygonFeature = vectorSource.getFeatures().find(function (feature) {
+                return feature.get('name') === 'Beni Mellal sector';
+              });
+
+              // Zoom the map to the extent of the polygon feature
+              _this.map.getView().fit(polygonFeature.getGeometry().getExtent());
+            }
+          }
         });
       },
       // The styleFunction defines how each feature will look on the map, it receives 
@@ -44153,32 +44168,50 @@ document.addEventListener('alpine:init', function () {
       // offset with a transparent background, this example is a first demonstration 
       // on how to symbolize a layer of points.
       styleFunction: function styleFunction(feature) {
-        return new ol_style_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
-          image: new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
-            radius: 6,
-            fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
-              color: 'red'
+        var geometry = feature.getGeometry();
+        var type = geometry.getType();
+        var style;
+        if (type === 'Point') {
+          // style for point features
+          style = new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
+            image: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
+              radius: 6,
+              fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+                color: 'red'
+              }),
+              stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
+                color: 'rgba(192, 192, 192, 1)',
+                width: 2
+              })
             }),
-            stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
-              color: 'rgba(192, 192, 192, 1)',
+            text: new ol_style_js__WEBPACK_IMPORTED_MODULE_13__["default"]({
+              font: '12px sans-serif',
+              textAlign: 'left',
+              text: feature.get('name'),
+              offsetY: -15,
+              offsetX: 5,
+              backgroundFill: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+                color: 'rgba(255, 255, 255, 0.5)'
+              }),
+              backgroundStroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
+                color: 'rgba(227, 227, 227, 1)'
+              }),
+              padding: [5, 2, 2, 5]
+            })
+          });
+        } else if (type === 'Polygon') {
+          // style for polygon features
+          style = new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
+            fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+              color: 'rgba(0, 255, 0, 0.1)'
+            }),
+            stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
+              color: 'green',
               width: 2
             })
-          }),
-          text: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
-            font: '12px sans-serif',
-            textAlign: 'left',
-            text: feature.get('name'),
-            offsetY: -15,
-            offsetX: 5,
-            backgroundFill: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
-              color: 'rgba(255, 255, 255, 0.5)'
-            }),
-            backgroundStroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
-              color: 'rgba(227, 227, 227, 1)'
-            }),
-            padding: [5, 2, 2, 5]
-          })
-        });
+          });
+        }
+        return style;
       }
     };
   });
