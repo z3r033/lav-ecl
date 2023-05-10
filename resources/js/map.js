@@ -8,10 +8,12 @@ import OSM from 'ol/source/OSM.js';
 import Point from 'ol/geom/Point';
 import Polygon from 'ol/geom/Polygon';
 import { Style, Fill, Stroke, Circle, Text } from 'ol/style.js';
+import XYZ from 'ol/source/XYZ.js';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('map1', function () {
         return {
+            
             legendOpened: false,
             map: {},
             // a vector source is composed of features, which are basically objects with a geometry (point in
@@ -34,7 +36,8 @@ document.addEventListener('alpine:init', () => {
                         name: 'Beni Mellal sector'
                     })
                 ],
-            init() {         
+            init() {       
+                  
                 console.log('Alpine.js map component initialized');
                 const vectorSource = new VectorSource({
                     features: this.features,
@@ -42,16 +45,25 @@ document.addEventListener('alpine:init', () => {
                 this.map = new Map({
                     target: this.$refs.map1,
                     layers: [
-                        new TileLayer({
+                         new TileLayer({
                             source: new OSM(),
-                        }),
+                        }), 
+                      /*   new TileLayer({
+                            source: new XYZ({
+                              url: 'https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default//GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
+                              maxZoom: 8,
+                              crossOrigin: 'anonymous',
+                            }),
+                            opacity: 0.7,
+                          }), */
                         new VectorLayer({
                             source: vectorSource,
                             style: this.styleFunction,
                         })
                     ],
                     view: new View({
-                        projection: 'EPSG:4326',
+                        /* projection: 'EPSG:3857', */
+                        projection: 'EPSG:4326', 
                         center: [-6.4166, 32.3333],
                         zoom: 6,
                     })

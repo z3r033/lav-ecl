@@ -44104,6 +44104,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 document.addEventListener('alpine:init', function () {
   Alpine.data('map1', function () {
     return {
@@ -44129,11 +44130,21 @@ document.addEventListener('alpine:init', function () {
           target: this.$refs.map1,
           layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
             source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_6__["default"]()
-          }), new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_7__["default"]({
+          }),
+          /*   new TileLayer({
+                source: new XYZ({
+                  url: 'https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default//GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
+                  maxZoom: 8,
+                  crossOrigin: 'anonymous',
+                }),
+                opacity: 0.7,
+              }), */
+          new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_7__["default"]({
             source: vectorSource,
             style: this.styleFunction
           })],
           view: new ol_View_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
+            /* projection: 'EPSG:3857', */
             projection: 'EPSG:4326',
             center: [-6.4166, 32.3333],
             zoom: 6
