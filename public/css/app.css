@@ -59089,6 +59089,12 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   cursor: move;
 }
 
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
 .ellipsis{
     text-overflow: ellipsis;
     white-space: nowrap;
