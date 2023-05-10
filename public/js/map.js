@@ -44105,6 +44105,7 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener('alpine:init', function () {
   Alpine.data('map1', function () {
     return {
+      legendOpened: false,
       map: {},
       // a vector source is composed of features, which are basically objects with a geometry (point in
       // our case) and attributes (name in this example), we initialize our component variable to an
