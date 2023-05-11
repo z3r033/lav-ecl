@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ballaste', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('SHP_id');
-            $table->foreign('SHP_id')->references('id')->on('SHP')->onDelete('cascade');
+            $table->foreign('SHP_id')->references('id')->on('shp')->onDelete('cascade');
             $table->string('type', 255);
             $table->integer('puissance');
             $table->integer('tension_nominal');

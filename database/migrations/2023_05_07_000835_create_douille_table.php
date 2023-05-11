@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('douille', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('SHP_id');
-            $table->foreign('SHP_id')->references('id')->on('SHP');
+            $table->foreign('SHP_id')->references('id')->on('shp');
             $table->string('type', 255);
             $table->integer('puissance_max');
             $table->integer('tension_nominal');
