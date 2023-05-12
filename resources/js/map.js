@@ -11,9 +11,11 @@ import { Style, Fill, Stroke, Circle, Text } from 'ol/style.js';
 import XYZ from 'ol/source/XYZ.js';
 
 document.addEventListener('alpine:init', () => {
+    const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
     Alpine.data('map1', function () {
         return {
-            
+            searchQuery: '',
+
             legendOpened: false,
             map: {},
             // a vector source is composed of features, which are basically objects with a geometry (point in
@@ -36,18 +38,163 @@ document.addEventListener('alpine:init', () => {
                         name: 'Beni Mellal sector'
                     })
                 ],
-            init() {       
-                  
+               /* filteredFeatures: function() {
+                    const query = this.searchQuery.toLowerCase().trim();
+                    if (query === '') {
+                      return this.features;
+                    } else {
+                      return this.features.filter(feature => feature.get('name').toLowerCase().includes(query));
+                    }
+                  },*/
+               /*   here search for points
+               filteredFeatures() {
+                    const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+                    const query = this.searchQuery.toLowerCase().trim();
+                    if (query === '') {
+                      return this.features;
+                    } else {
+                      // Perform place search using Nominatim API
+                      const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
+                      console.log(searchURL);
+                      return fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                          const coordinates = data.map(result => ({
+                            latitude: parseFloat(result.lat),
+                            longitude: parseFloat(result.lon)
+
+                          }));
+                          console.log(coordinates);
+                          return this.features
+                          .filter(feature => {
+                            const geometry = feature.getGeometry();
+                            if (geometry.getType() === 'Point') {
+                              const [featureLon, featureLat] = geometry.getCoordinates();
+                              return coordinates.some(coord => coord.latitude === featureLat && coord.longitude === featureLon);
+                            }
+                            return false;
+                          });
+                        });
+                    }
+                  },*/
+
+                /*  filteredFeatures() {
+                    const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+                    const query = this.searchQuery.toLowerCase().trim();
+                    if (query === '') {
+                      return this.features;
+                    } else {
+                      const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
+                      console.log(searchURL);
+
+                      return fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                          const coordinates = data.map(result => ({
+                            latitude: parseFloat(result.lat),
+                            longitude: parseFloat(result.lon)
+                          }));
+                         // console.log(coordinates);
+
+                          const pointFeatures = coordinates.map(coord => new Feature({
+                            geometry: new Point([coord.longitude, coord.latitude])
+                          }));
+                        console.log(this.features);
+                          return this.features.concat(pointFeatures);
+
+                        })
+                        .catch(error => {
+                          console.error('Error fetching geocoding data:', error);
+                          // Handle any errors that occur during the request
+                        });
+                    }
+                  },*/
+                  filteredFeatures() {
+                    const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+                    const query = this.searchQuery.toLowerCase().trim();
+                    if (query === '') {
+                      return this.features;
+                    } else {
+                      const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
+                      console.log(searchURL);
+
+                      return fetch(searchURL)
+                        .then(response => response.json())
+                        .then(data => {
+                          const coordinates = data.map(result => ({
+                            latitude: parseFloat(result.lat),
+                            longitude: parseFloat(result.lon)
+                          }));
+                          console.log(coordinates);
+
+                          const pointFeatures = coordinates.map(coord => new Feature({
+                            geometry: new Point([coord.longitude, coord.latitude])
+                          }));
+                        console.log(pointFeatures);
+                          return pointFeatures;
+                        })
+                        .catch(error => {
+                          console.error('Error fetching geocoding data:', error);
+                          // Handle any errors that occur during the request
+                        });
+                    }
+                  },
+
+
+                  /*filteredFeatures() {
+    const geocodingAPI = 'https://api.opencagedata.com/geocode/v1/json';
+    const query = this.searchQuery.toLowerCase().trim();
+    if (query === '') {
+      return this.features;
+    } else {
+      const apiKey = 'YOUR_API_KEY'; // Replace with your OpenCage Geocoder API key
+
+      const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&key=${apiKey}`;
+
+      const requestOptions = {
+        method: 'GET',
+        mode: 'cors' // Enable CORS
+      };
+
+      return fetch(searchURL, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          // Process the response data and extract the relevant information
+          const results = data.results;
+          const coordinates = results.map(result => ({
+            latitude: result.geometry.lat,
+            longitude: result.geometry.lng
+          }));
+
+          return this.features.filter(feature => {
+            const geometry = feature.getGeometry();
+            if (geometry.getType() === 'Point') {
+              const [featureLon, featureLat] = geometry.getCoordinates();
+              return coordinates.some(coord => coord.latitude === featureLat && coord.longitude === featureLon);
+            }
+            return false;
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching geocoding data:', error);
+          // Handle any errors that occur during the request
+        });
+    }
+  },
+*/
+            init() {
+
                 console.log('Alpine.js map component initialized');
                 const vectorSource = new VectorSource({
-                    features: this.features,
+               /*     features: this.features,*/
+                      features: this.filteredFeatures(),
                 });
                 this.map = new Map({
                     target: this.$refs.map1,
                     layers: [
                          new TileLayer({
                             source: new OSM(),
-                        }), 
+                        }),
                       /*   new TileLayer({
                             source: new XYZ({
                               url: 'https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default//GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
@@ -63,40 +210,44 @@ document.addEventListener('alpine:init', () => {
                     ],
                     view: new View({
                         /* projection: 'EPSG:3857', */
-                        projection: 'EPSG:4326', 
+                        projection: 'EPSG:4326',
                         center: [-6.4166, 32.3333],
                         zoom: 6,
                     })
                 });
                   // Add click event listener to the map
-        
-        this.map.on('click', (event) => {
-            // Get the clicked feature
-            const clickedFeature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => feature);
-  
-            if (clickedFeature) {
-              const type = clickedFeature.getGeometry().getType();
-  
-              if (type === 'Point') {
-                // Find the corresponding polygon feature by name
-                const polygonFeature = vectorSource.getFeatures().find(
-                  (feature) => feature.get('name') === 'Beni Mellal sector'
-                );
-  
-                // Zoom the map to the extent of the polygon feature
-                this.map.getView().fit(polygonFeature.getGeometry().getExtent());
-              }
-            }
-          });
 
+                  this.map.on('click', (event) => {
+                    const clickedFeature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => feature);
+                    if (clickedFeature) {
+                        const type = clickedFeature.getGeometry().getType();
+                        if (type === 'Point') {
+                            this.map.getView().setCenter(clickedFeature.getGeometry().getCoordinates());
+                            const polygonFeature = vectorSource.getFeatures().find(
+                                (feature) => feature.get('name') === 'Beni Mellal sector'
+                            );
+                            this.map.getView().fit(polygonFeature.getGeometry().getExtent());
+                        }
+                    }
+                });
+
+                this.$watch('searchQuery', () => {
+                    vectorSource.clear();
+                    vectorSource.addFeatures(this.filteredFeatures());
+                });
+
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', (event) => {
+                    this.searchQuery = event.target.value;
+                });
 
             },
-            // The styleFunction defines how each feature will look on the map, it receives 
-            // each individual feature, we will use this later to conditionaly style them. 
-            // The styleFunction also defines labels for our features, based on their name 
-            // attributes in our example. The style will represent a circle with a 4px radius 
-            // with fill and stroke colors, for the label, we get a little fancy and make it 
-            // offset with a transparent background, this example is a first demonstration 
+            // The styleFunction defines how each feature will look on the map, it receives
+            // each individual feature, we will use this later to conditionaly style them.
+            // The styleFunction also defines labels for our features, based on their name
+            // attributes in our example. The style will represent a circle with a 4px radius
+            // with fill and stroke colors, for the label, we get a little fancy and make it
+            // offset with a transparent background, this example is a first demonstration
             // on how to symbolize a layer of points.
             styleFunction(feature) {
                 const geometry = feature.getGeometry();

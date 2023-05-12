@@ -1,5 +1,6 @@
 <script src="{{ mix('js/map.js') }}"></script>
 <link rel="stylesheet" href="{{mix("css/map.css")}}" />
+<input type="text" x-model="searchQuery">
 {{-- <div id="map-container"></div>
 <div x-data="openlayersMap()" x-init="init()" class="h-screen">
     <div ref="map" class="h-full"></div>

@@ -44106,8 +44106,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener('alpine:init', function () {
+  var geocodingAPI = 'https://nominatim.openstreetmap.org/search';
   Alpine.data('map1', function () {
     return {
+      searchQuery: '',
       legendOpened: false,
       map: {},
       // a vector source is composed of features, which are basically objects with a geometry (point in
@@ -44120,11 +44122,146 @@ document.addEventListener('alpine:init', function () {
         geometry: new ol_geom_Polygon__WEBPACK_IMPORTED_MODULE_2__["default"]([[[-6.407, 32.369], [-6.435, 32.332], [-6.374, 32.311], [-6.369, 32.344], [-6.407, 32.369]]]),
         name: 'Beni Mellal sector'
       })],
+      /* filteredFeatures: function() {
+           const query = this.searchQuery.toLowerCase().trim();
+           if (query === '') {
+             return this.features;
+           } else {
+             return this.features.filter(feature => feature.get('name').toLowerCase().includes(query));
+           }
+         },*/
+      /*   here search for points
+      filteredFeatures() {
+           const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+           const query = this.searchQuery.toLowerCase().trim();
+           if (query === '') {
+             return this.features;
+           } else {
+             // Perform place search using Nominatim API
+             const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
+             console.log(searchURL);
+             return fetch(searchURL)
+               .then(response => response.json())
+               .then(data => {
+                 const coordinates = data.map(result => ({
+                   latitude: parseFloat(result.lat),
+                   longitude: parseFloat(result.lon)
+                  }));
+                 console.log(coordinates);
+                 return this.features
+                 .filter(feature => {
+                   const geometry = feature.getGeometry();
+                   if (geometry.getType() === 'Point') {
+                     const [featureLon, featureLat] = geometry.getCoordinates();
+                     return coordinates.some(coord => coord.latitude === featureLat && coord.longitude === featureLon);
+                   }
+                   return false;
+                 });
+               });
+           }
+         },*/
+      /*  filteredFeatures() {
+          const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+          const query = this.searchQuery.toLowerCase().trim();
+          if (query === '') {
+            return this.features;
+          } else {
+            const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
+            console.log(searchURL);
+             return fetch(searchURL)
+              .then(response => response.json())
+              .then(data => {
+                const coordinates = data.map(result => ({
+                  latitude: parseFloat(result.lat),
+                  longitude: parseFloat(result.lon)
+                }));
+               // console.log(coordinates);
+                 const pointFeatures = coordinates.map(coord => new Feature({
+                  geometry: new Point([coord.longitude, coord.latitude])
+                }));
+              console.log(this.features);
+                return this.features.concat(pointFeatures);
+               })
+              .catch(error => {
+                console.error('Error fetching geocoding data:', error);
+                // Handle any errors that occur during the request
+              });
+          }
+        },*/
+      filteredFeatures: function filteredFeatures() {
+        var geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+        var query = this.searchQuery.toLowerCase().trim();
+        if (query === '') {
+          return this.features;
+        } else {
+          var searchURL = "".concat(geocodingAPI, "?q=").concat(encodeURIComponent(query), "&format=json");
+          console.log(searchURL);
+          return fetch(searchURL).then(function (response) {
+            return response.json();
+          }).then(function (data) {
+            var coordinates = data.map(function (result) {
+              return {
+                latitude: parseFloat(result.lat),
+                longitude: parseFloat(result.lon)
+              };
+            });
+            console.log(coordinates);
+            var pointFeatures = coordinates.map(function (coord) {
+              return new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
+                geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([coord.longitude, coord.latitude])
+              });
+            });
+            console.log(pointFeatures);
+            return pointFeatures;
+          })["catch"](function (error) {
+            console.error('Error fetching geocoding data:', error);
+            // Handle any errors that occur during the request
+          });
+        }
+      },
+      /*filteredFeatures() {
+      const geocodingAPI = 'https://api.opencagedata.com/geocode/v1/json';
+      const query = this.searchQuery.toLowerCase().trim();
+      if (query === '') {
+      return this.features;
+      } else {
+      const apiKey = 'YOUR_API_KEY'; // Replace with your OpenCage Geocoder API key
+      const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&key=${apiKey}`;
+      const requestOptions = {
+      method: 'GET',
+      mode: 'cors' // Enable CORS
+      };
+      return fetch(searchURL, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+      // Process the response data and extract the relevant information
+      const results = data.results;
+      const coordinates = results.map(result => ({
+      latitude: result.geometry.lat,
+      longitude: result.geometry.lng
+      }));
+      return this.features.filter(feature => {
+      const geometry = feature.getGeometry();
+      if (geometry.getType() === 'Point') {
+      const [featureLon, featureLat] = geometry.getCoordinates();
+      return coordinates.some(coord => coord.latitude === featureLat && coord.longitude === featureLon);
+      }
+      return false;
+      });
+      })
+      .catch(error => {
+      console.error('Error fetching geocoding data:', error);
+      // Handle any errors that occur during the request
+      });
+      }
+      },
+      */
       init: function init() {
         var _this = this;
         console.log('Alpine.js map component initialized');
         var vectorSource = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_3__["default"]({
-          features: this.features
+          /*     features: this.features,*/
+          features: this.filteredFeatures()
         });
         this.map = new ol_Map_js__WEBPACK_IMPORTED_MODULE_4__["default"]({
           target: this.$refs.map1,
@@ -44153,30 +44290,35 @@ document.addEventListener('alpine:init', function () {
         // Add click event listener to the map
 
         this.map.on('click', function (event) {
-          // Get the clicked feature
           var clickedFeature = _this.map.forEachFeatureAtPixel(event.pixel, function (feature) {
             return feature;
           });
           if (clickedFeature) {
             var type = clickedFeature.getGeometry().getType();
             if (type === 'Point') {
-              // Find the corresponding polygon feature by name
+              _this.map.getView().setCenter(clickedFeature.getGeometry().getCoordinates());
               var polygonFeature = vectorSource.getFeatures().find(function (feature) {
                 return feature.get('name') === 'Beni Mellal sector';
               });
-
-              // Zoom the map to the extent of the polygon feature
               _this.map.getView().fit(polygonFeature.getGeometry().getExtent());
             }
           }
         });
+        this.$watch('searchQuery', function () {
+          vectorSource.clear();
+          vectorSource.addFeatures(_this.filteredFeatures());
+        });
+        var searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function (event) {
+          _this.searchQuery = event.target.value;
+        });
       },
-      // The styleFunction defines how each feature will look on the map, it receives 
-      // each individual feature, we will use this later to conditionaly style them. 
-      // The styleFunction also defines labels for our features, based on their name 
-      // attributes in our example. The style will represent a circle with a 4px radius 
-      // with fill and stroke colors, for the label, we get a little fancy and make it 
-      // offset with a transparent background, this example is a first demonstration 
+      // The styleFunction defines how each feature will look on the map, it receives
+      // each individual feature, we will use this later to conditionaly style them.
+      // The styleFunction also defines labels for our features, based on their name
+      // attributes in our example. The style will represent a circle with a 4px radius
+      // with fill and stroke colors, for the label, we get a little fancy and make it
+      // offset with a transparent background, this example is a first demonstration
       // on how to symbolize a layer of points.
       styleFunction: function styleFunction(feature) {
         var geometry = feature.getGeometry();
