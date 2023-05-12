@@ -44192,6 +44192,7 @@ document.addEventListener('alpine:init', function () {
         var geocodingAPI = 'https://nominatim.openstreetmap.org/search';
         var query = this.searchQuery.toLowerCase().trim();
         if (query === '') {
+          console.log("this.features: ", this.features);
           return this.features;
         } else {
           var searchURL = "".concat(geocodingAPI, "?q=").concat(encodeURIComponent(query), "&format=json");
@@ -44202,16 +44203,18 @@ document.addEventListener('alpine:init', function () {
             var coordinates = data.map(function (result) {
               return {
                 latitude: parseFloat(result.lat),
-                longitude: parseFloat(result.lon)
+                longitude: parseFloat(result.lon),
+                name: result.display_name
               };
             });
             console.log(coordinates);
             var pointFeatures = coordinates.map(function (coord) {
               return new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
-                geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([coord.longitude, coord.latitude])
+                geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([coord.longitude, coord.latitude]),
+                name: coord.name
               });
             });
-            console.log(pointFeatures);
+            console.log("pointFeatures ", pointFeatures);
             return pointFeatures;
           })["catch"](function (error) {
             console.error('Error fetching geocoding data:', error);

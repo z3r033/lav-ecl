@@ -113,6 +113,7 @@ document.addEventListener('alpine:init', () => {
                     const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
                     const query = this.searchQuery.toLowerCase().trim();
                     if (query === '') {
+                        console.log("this.features: ",this.features);
                       return this.features;
                     } else {
                       const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
@@ -123,14 +124,16 @@ document.addEventListener('alpine:init', () => {
                         .then(data => {
                           const coordinates = data.map(result => ({
                             latitude: parseFloat(result.lat),
-                            longitude: parseFloat(result.lon)
+                            longitude: parseFloat(result.lon),
+                            name: result.display_name
                           }));
                           console.log(coordinates);
 
                           const pointFeatures = coordinates.map(coord => new Feature({
-                            geometry: new Point([coord.longitude, coord.latitude])
+                            geometry: new Point([coord.longitude, coord.latitude]),
+                            name: coord.name,
                           }));
-                        console.log(pointFeatures);
+                        console.log("pointFeatures ",pointFeatures);
                           return pointFeatures;
                         })
                         .catch(error => {
