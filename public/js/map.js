@@ -47852,6 +47852,7 @@ document.addEventListener('alpine:init', function () {
         button1.addEventListener('click', function () {
           // Deactivate other draw interactions
           drawButtonsecotr2.setActive(false);
+          _this2.legendOpened = false;
 
           // Activate draw interaction for button1
           drawButtonsuppoort1.setActive(true);
@@ -47866,6 +47867,7 @@ document.addEventListener('alpine:init', function () {
         button2.addEventListener('click', function () {
           // Deactivate other draw interactions
           drawButtonsuppoort1.setActive(false);
+          _this2.legendOpened = false;
 
           // Activate draw interaction for button2
           drawButtonsecotr2.setActive(true);

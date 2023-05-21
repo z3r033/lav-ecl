@@ -603,6 +603,7 @@ const drawButtonsecotr2 = new ol.interaction.Draw({
   button1.addEventListener('click', () => {
     // Deactivate other draw interactions
     drawButtonsecotr2.setActive(false);
+    this.legendOpened=false;
 
     // Activate draw interaction for button1
     drawButtonsuppoort1.setActive(true);
@@ -617,6 +618,7 @@ const drawButtonsecotr2 = new ol.interaction.Draw({
   button2.addEventListener('click', () => {
     // Deactivate other draw interactions
     drawButtonsuppoort1.setActive(false);
+    this.legendOpened=false;
 
     // Activate draw interaction for button2
     drawButtonsecotr2.setActive(true);
