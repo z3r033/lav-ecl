@@ -47716,8 +47716,7 @@ document.addEventListener('alpine:init', function () {
                   style: this.styleFunction,
                   label:'sec',
               })*/
-
-          this.supportLayer, this.secteurLayer],
+          this.secteurLayer, this.supportLayer],
           view: new ol_View_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
             /* projection: 'EPSG:3857', */
             projection: 'EPSG:4326',

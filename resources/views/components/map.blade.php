@@ -87,14 +87,15 @@
 
           </a>
             </ul>
+            <button id="addsector" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                Ajouter sector
+              </button>
             <button id="addsupport" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                 Ajouter support
               </button>
-              <button id="addsector" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                Ajouter sector
-              </button>
 
-            <h1>dddddddddd</h1>
+
+
 
 <div>
 <ul class="mt-2 space-y-1 rounded-md border border-slate-300 bg-white p-2">

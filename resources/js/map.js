@@ -461,9 +461,9 @@ document.addEventListener('alpine:init', () => {
                             style: this.styleFunction,
                             label:'sec',
                         })*/
-
-                        this.supportLayer,
                         this.secteurLayer,
+                        this.supportLayer,
+
                     ],
                     view: new View({
                         /* projection: 'EPSG:3857', */
