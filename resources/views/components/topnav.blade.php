@@ -7,7 +7,7 @@
     <ul class="navbar-nav ml-auto">
 
     <ul class="navbar-nav ml-auto">
-        style="border:1px solide"
+
         <tr style="background-color:#FF0000">
 
         <!-- Notification -->
