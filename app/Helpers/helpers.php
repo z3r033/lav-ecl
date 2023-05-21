@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 define("PAGELIST","liste");
 define("PAGECREATEFORM","create");
@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  function userfullName(){
 
     return auth()->user()->nom . " " . auth()->user()->prenom;
-    
+
 }
 
 function setMenuClass($route, $classe){

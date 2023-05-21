@@ -25,9 +25,12 @@ return new class extends Migration
             $table->string('entreprise_maintenance')->nullable();
             $table->string('coordonnees_gps', 50)->nullable();
             $table->enum('etat', ['actif', 'inactif', 'maintenance', 'hors_service']);
+            $table->point('geom', '4326')->nullable(false);
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE support ADD SPATIAL INDEX sidx_support_geom (geom)');
     }
+
 
     /**
      * Reverse the migrations.

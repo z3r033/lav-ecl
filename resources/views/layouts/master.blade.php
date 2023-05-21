@@ -55,17 +55,18 @@
                 </div>
 
                 <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-
-                        <input  id="searchInput" class="form-control form-control-sidebar" type="search" placeholder="Se localiser dans le Map"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
+                    <div class="input-group">
+                      <input  id="searchInput" @keydown.enter="handleKeyPress" x-model="searchQuery" class="form-control form-control-sidebar" type="search" placeholder="Se localiser dans le Map" aria-label="Search">
+                      <div class="input-group-append">
+                        <div>
+                          <button id="searchButton" @click="searchButtonClicked" class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                          </button>
                         </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
+
 
                <x-menu />
 

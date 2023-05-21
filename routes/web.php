@@ -41,7 +41,6 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/Utilisateurs', Utilisateurs::class)->name('users.index');
 
 
-
 Route::get('/type-articles', TypeArticle::class)->name('type-articles');
 Route::get('/articles', Articles::class)->name('articles');
 Route::get('/reclamations', ReclamationComponent::class)->name('reclamations');

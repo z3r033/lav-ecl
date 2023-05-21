@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
         Coffret::factory()->count(10)->create();
         Voie::factory()->count(10)->create();
         PointLumineux::factory()->count(10)->create();
-        $supports = [
+     /*   $supports = [
             [
                 'points_lumineux_id' => 1,
                 'type_support' => 'candelabre',
@@ -81,10 +81,10 @@ class DatabaseSeeder extends Seeder
 
         foreach ($supports as $support) {
             Support::create($support);
-        }
+        }*/
 
         Support::factory()->count(10)->create();
-        //candelabre start === 
+        //candelabre start ===
         $supports = Support::all();
 
         foreach ($supports as $support) {
@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
         Poteau::factory()->count(10)->create();
 
         Mur::factory()->count(10)->create();
-        
+
         Luminaire::factory()->count(10)->create();
 
         Led::factory()->count(50)->create();
@@ -127,7 +127,7 @@ class DatabaseSeeder extends Seeder
         ->create();
 
         Console::factory()->count(50)->create();
-        
+
         TableJupe::factory()
         ->count(50)
         ->create();

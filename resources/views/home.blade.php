@@ -5,7 +5,7 @@
     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
         <div x-data="{ open: false }">
             <button @click="open = true">Open Dropdown</button>
-        
+
             <ul
                 x-show="open"
                 @click.away="open = false"
@@ -13,7 +13,10 @@
                 Dropdown Body
             </ul>
         </div>
-        <x-map />
+
+
+     {{--    <x-map   :tures="$geojson"/> --}}
+     <x-map />
     </div>
 </div>
 
@@ -21,7 +24,7 @@
 
 @endsection
 
-{{-- 
+{{--
     @extends('layouts.app')
     @section('content')
 <div class="container">

@@ -23,6 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      //  $geojson = file_get_contents(resource_path('file.json'));
+
+      //  return view('home', ['geojson' => $geojson]);
+      return view('home');
     }
 }

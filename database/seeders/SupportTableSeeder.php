@@ -14,7 +14,7 @@ class SupportTableSeeder extends Seeder
     public function run(): void
     {
         //
-        $supports = [
+      /*  $supports = [
             [
                 'points_lumineux_id' => 1,
                 'type_support' => 'candelabre',
@@ -35,6 +35,7 @@ class SupportTableSeeder extends Seeder
             Support::create($support);
         }
 
+        Support::factory()->count(10)->create();*/
         Support::factory()->count(10)->create();
     }
 }

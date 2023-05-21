@@ -12515,6 +12515,1138 @@ function setWithCredentials(xhrWithCredentials) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/format/Feature.js":
+/*!*******************************************!*\
+  !*** ./node_modules/ol/format/Feature.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "transformExtentWithOptions": () => (/* binding */ transformExtentWithOptions),
+/* harmony export */   "transformGeometryWithOptions": () => (/* binding */ transformGeometryWithOptions)
+/* harmony export */ });
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/* harmony import */ var _proj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../proj.js */ "./node_modules/ol/proj.js");
+/**
+ * @module ol/format/Feature
+ */
+
+
+
+/**
+ * @typedef {Object} ReadOptions
+ * @property {import("../proj.js").ProjectionLike} [dataProjection] Projection of the data we are reading.
+ * If not provided, the projection will be derived from the data (where possible) or
+ * the `dataProjection` of the format is assigned (where set). If the projection
+ * can not be derived from the data and if no `dataProjection` is set for a format,
+ * the features will not be reprojected.
+ * @property {import("../extent.js").Extent} [extent] Tile extent in map units of the tile being read.
+ * This is only required when reading data with tile pixels as geometry units. When configured,
+ * a `dataProjection` with `TILE_PIXELS` as `units` and the tile's pixel extent as `extent` needs to be
+ * provided.
+ * @property {import("../proj.js").ProjectionLike} [featureProjection] Projection of the feature geometries
+ * created by the format reader. If not provided, features will be returned in the
+ * `dataProjection`.
+ */
+
+/**
+ * @typedef {Object} WriteOptions
+ * @property {import("../proj.js").ProjectionLike} [dataProjection] Projection of the data we are writing.
+ * If not provided, the `dataProjection` of the format is assigned (where set).
+ * If no `dataProjection` is set for a format, the features will be returned
+ * in the `featureProjection`.
+ * @property {import("../proj.js").ProjectionLike} [featureProjection] Projection of the feature geometries
+ * that will be serialized by the format writer. If not provided, geometries are assumed
+ * to be in the `dataProjection` if that is set; in other words, they are not transformed.
+ * @property {boolean} [rightHanded] When writing geometries, follow the right-hand
+ * rule for linear ring orientation.  This means that polygons will have counter-clockwise
+ * exterior rings and clockwise interior rings.  By default, coordinates are serialized
+ * as they are provided at construction.  If `true`, the right-hand rule will
+ * be applied.  If `false`, the left-hand rule will be applied (clockwise for
+ * exterior and counter-clockwise for interior rings).  Note that not all
+ * formats support this.  The GeoJSON format does use this property when writing
+ * geometries.
+ * @property {number} [decimals] Maximum number of decimal places for coordinates.
+ * Coordinates are stored internally as floats, but floating-point arithmetic can create
+ * coordinates with a large number of decimal places, not generally wanted on output.
+ * Set a number here to round coordinates. Can also be used to ensure that
+ * coordinates read in can be written back out with the same number of decimals.
+ * Default is no rounding.
+ */
+
+/**
+ * @typedef {'arraybuffer' | 'json' | 'text' | 'xml'} Type
+ */
+
+/**
+ * @classdesc
+ * Abstract base class; normally only used for creating subclasses and not
+ * instantiated in apps.
+ * Base class for feature formats.
+ * {@link module:ol/format/Feature~FeatureFormat} subclasses provide the ability to decode and encode
+ * {@link module:ol/Feature~Feature} objects from a variety of commonly used geospatial
+ * file formats.  See the documentation for each format for more details.
+ *
+ * @abstract
+ * @api
+ */
+class FeatureFormat {
+  constructor() {
+    /**
+     * @protected
+     * @type {import("../proj/Projection.js").default|undefined}
+     */
+    this.dataProjection = undefined;
+
+    /**
+     * @protected
+     * @type {import("../proj/Projection.js").default|undefined}
+     */
+    this.defaultFeatureProjection = undefined;
+
+    /**
+     * A list media types supported by the format in descending order of preference.
+     * @type {Array<string>}
+     */
+    this.supportedMediaTypes = null;
+  }
+
+  /**
+   * Adds the data projection to the read options.
+   * @param {Document|Element|Object|string} source Source.
+   * @param {ReadOptions} [options] Options.
+   * @return {ReadOptions|undefined} Options.
+   * @protected
+   */
+  getReadOptions(source, options) {
+    if (options) {
+      let dataProjection = options.dataProjection
+        ? (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(options.dataProjection)
+        : this.readProjection(source);
+      if (
+        options.extent &&
+        dataProjection &&
+        dataProjection.getUnits() === 'tile-pixels'
+      ) {
+        dataProjection = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(dataProjection);
+        dataProjection.setWorldExtent(options.extent);
+      }
+      options = {
+        dataProjection: dataProjection,
+        featureProjection: options.featureProjection,
+      };
+    }
+    return this.adaptOptions(options);
+  }
+
+  /**
+   * Sets the `dataProjection` on the options, if no `dataProjection`
+   * is set.
+   * @param {WriteOptions|ReadOptions|undefined} options
+   *     Options.
+   * @protected
+   * @return {WriteOptions|ReadOptions|undefined}
+   *     Updated options.
+   */
+  adaptOptions(options) {
+    return Object.assign(
+      {
+        dataProjection: this.dataProjection,
+        featureProjection: this.defaultFeatureProjection,
+      },
+      options
+    );
+  }
+
+  /**
+   * @abstract
+   * @return {Type} The format type.
+   */
+  getType() {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Read a single feature from a source.
+   *
+   * @abstract
+   * @param {Document|Element|Object|string} source Source.
+   * @param {ReadOptions} [options] Read options.
+   * @return {import("../Feature.js").FeatureLike} Feature.
+   */
+  readFeature(source, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Read all features from a source.
+   *
+   * @abstract
+   * @param {Document|Element|ArrayBuffer|Object|string} source Source.
+   * @param {ReadOptions} [options] Read options.
+   * @return {Array<import("../Feature.js").FeatureLike>} Features.
+   */
+  readFeatures(source, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Read a single geometry from a source.
+   *
+   * @abstract
+   * @param {Document|Element|Object|string} source Source.
+   * @param {ReadOptions} [options] Read options.
+   * @return {import("../geom/Geometry.js").default} Geometry.
+   */
+  readGeometry(source, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Read the projection from a source.
+   *
+   * @abstract
+   * @param {Document|Element|Object|string} source Source.
+   * @return {import("../proj/Projection.js").default|undefined} Projection.
+   */
+  readProjection(source) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Encode a feature in this format.
+   *
+   * @abstract
+   * @param {import("../Feature.js").default} feature Feature.
+   * @param {WriteOptions} [options] Write options.
+   * @return {string|ArrayBuffer} Result.
+   */
+  writeFeature(feature, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Encode an array of features in this format.
+   *
+   * @abstract
+   * @param {Array<import("../Feature.js").default>} features Features.
+   * @param {WriteOptions} [options] Write options.
+   * @return {string|ArrayBuffer} Result.
+   */
+  writeFeatures(features, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Write a single geometry in this format.
+   *
+   * @abstract
+   * @param {import("../geom/Geometry.js").default} geometry Geometry.
+   * @param {WriteOptions} [options] Write options.
+   * @return {string|ArrayBuffer} Result.
+   */
+  writeGeometry(geometry, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FeatureFormat);
+
+/**
+ * @param {import("../geom/Geometry.js").default} geometry Geometry.
+ * @param {boolean} write Set to true for writing, false for reading.
+ * @param {WriteOptions|ReadOptions} [options] Options.
+ * @return {import("../geom/Geometry.js").default} Transformed geometry.
+ */
+function transformGeometryWithOptions(geometry, write, options) {
+  const featureProjection = options
+    ? (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(options.featureProjection)
+    : null;
+  const dataProjection = options ? (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(options.dataProjection) : null;
+
+  let transformed;
+  if (
+    featureProjection &&
+    dataProjection &&
+    !(0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.equivalent)(featureProjection, dataProjection)
+  ) {
+    transformed = (write ? geometry.clone() : geometry).transform(
+      write ? featureProjection : dataProjection,
+      write ? dataProjection : featureProjection
+    );
+  } else {
+    transformed = geometry;
+  }
+  if (
+    write &&
+    options &&
+    /** @type {WriteOptions} */ (options).decimals !== undefined
+  ) {
+    const power = Math.pow(10, /** @type {WriteOptions} */ (options).decimals);
+    // if decimals option on write, round each coordinate appropriately
+    /**
+     * @param {Array<number>} coordinates Coordinates.
+     * @return {Array<number>} Transformed coordinates.
+     */
+    const transform = function (coordinates) {
+      for (let i = 0, ii = coordinates.length; i < ii; ++i) {
+        coordinates[i] = Math.round(coordinates[i] * power) / power;
+      }
+      return coordinates;
+    };
+    if (transformed === geometry) {
+      transformed = geometry.clone();
+    }
+    transformed.applyTransform(transform);
+  }
+  return transformed;
+}
+
+/**
+ * @param {import("../extent.js").Extent} extent Extent.
+ * @param {ReadOptions} [options] Read options.
+ * @return {import("../extent.js").Extent} Transformed extent.
+ */
+function transformExtentWithOptions(extent, options) {
+  const featureProjection = options
+    ? (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(options.featureProjection)
+    : null;
+  const dataProjection = options ? (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(options.dataProjection) : null;
+
+  if (
+    featureProjection &&
+    dataProjection &&
+    !(0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.equivalent)(featureProjection, dataProjection)
+  ) {
+    return (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.transformExtent)(extent, dataProjection, featureProjection);
+  }
+  return extent;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/format/GeoJSON.js":
+/*!*******************************************!*\
+  !*** ./node_modules/ol/format/GeoJSON.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Feature_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Feature.js */ "./node_modules/ol/Feature.js");
+/* harmony import */ var _geom_GeometryCollection_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../geom/GeometryCollection.js */ "./node_modules/ol/geom/GeometryCollection.js");
+/* harmony import */ var _JSONFeature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./JSONFeature.js */ "./node_modules/ol/format/JSONFeature.js");
+/* harmony import */ var _geom_LineString_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../geom/LineString.js */ "./node_modules/ol/geom/LineString.js");
+/* harmony import */ var _geom_MultiLineString_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../geom/MultiLineString.js */ "./node_modules/ol/geom/MultiLineString.js");
+/* harmony import */ var _geom_MultiPoint_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../geom/MultiPoint.js */ "./node_modules/ol/geom/MultiPoint.js");
+/* harmony import */ var _geom_MultiPolygon_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../geom/MultiPolygon.js */ "./node_modules/ol/geom/MultiPolygon.js");
+/* harmony import */ var _geom_Point_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../geom/Point.js */ "./node_modules/ol/geom/Point.js");
+/* harmony import */ var _geom_Polygon_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../geom/Polygon.js */ "./node_modules/ol/geom/Polygon.js");
+/* harmony import */ var _asserts_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../asserts.js */ "./node_modules/ol/asserts.js");
+/* harmony import */ var _proj_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../proj.js */ "./node_modules/ol/proj.js");
+/* harmony import */ var _obj_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../obj.js */ "./node_modules/ol/obj.js");
+/* harmony import */ var _Feature_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Feature.js */ "./node_modules/ol/format/Feature.js");
+/**
+ * @module ol/format/GeoJSON
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @typedef {import("geojson").GeoJSON} GeoJSONObject
+ * @typedef {import("geojson").Feature} GeoJSONFeature
+ * @typedef {import("geojson").FeatureCollection} GeoJSONFeatureCollection
+ * @typedef {import("geojson").Geometry} GeoJSONGeometry
+ * @typedef {import("geojson").Point} GeoJSONPoint
+ * @typedef {import("geojson").LineString} GeoJSONLineString
+ * @typedef {import("geojson").Polygon} GeoJSONPolygon
+ * @typedef {import("geojson").MultiPoint} GeoJSONMultiPoint
+ * @typedef {import("geojson").MultiLineString} GeoJSONMultiLineString
+ * @typedef {import("geojson").MultiPolygon} GeoJSONMultiPolygon
+ * @typedef {import("geojson").GeometryCollection} GeoJSONGeometryCollection
+ */
+
+/**
+ * @typedef {Object} Options
+ * @property {import("../proj.js").ProjectionLike} [dataProjection='EPSG:4326'] Default data projection.
+ * @property {import("../proj.js").ProjectionLike} [featureProjection] Projection for features read or
+ * written by the format.  Options passed to read or write methods will take precedence.
+ * @property {string} [geometryName] Geometry name to use when creating features.
+ * @property {boolean} [extractGeometryName=false] Certain GeoJSON providers include
+ * the geometry_name field in the feature GeoJSON. If set to `true` the GeoJSON reader
+ * will look for that field to set the geometry name. If both this field is set to `true`
+ * and a `geometryName` is provided, the `geometryName` will take precedence.
+ */
+
+/**
+ * @classdesc
+ * Feature format for reading and writing data in the GeoJSON format.
+ *
+ * @api
+ */
+class GeoJSON extends _JSONFeature_js__WEBPACK_IMPORTED_MODULE_1__["default"] {
+  /**
+   * @param {Options} [options] Options.
+   */
+  constructor(options) {
+    options = options ? options : {};
+
+    super();
+
+    /**
+     * @type {import("../proj/Projection.js").default}
+     */
+    this.dataProjection = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(
+      options.dataProjection ? options.dataProjection : 'EPSG:4326'
+    );
+
+    if (options.featureProjection) {
+      /**
+       * @type {import("../proj/Projection.js").default}
+       */
+      this.defaultFeatureProjection = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(options.featureProjection);
+    }
+
+    /**
+     * Name of the geometry attribute for features.
+     * @type {string|undefined}
+     * @private
+     */
+    this.geometryName_ = options.geometryName;
+
+    /**
+     * Look for the geometry name in the feature GeoJSON
+     * @type {boolean|undefined}
+     * @private
+     */
+    this.extractGeometryName_ = options.extractGeometryName;
+
+    this.supportedMediaTypes = [
+      'application/geo+json',
+      'application/vnd.geo+json',
+    ];
+  }
+
+  /**
+   * @param {Object} object Object.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @protected
+   * @return {import("../Feature.js").default} Feature.
+   */
+  readFeatureFromObject(object, options) {
+    /**
+     * @type {GeoJSONFeature}
+     */
+    let geoJSONFeature = null;
+    if (object['type'] === 'Feature') {
+      geoJSONFeature = /** @type {GeoJSONFeature} */ (object);
+    } else {
+      geoJSONFeature = {
+        'type': 'Feature',
+        'geometry': /** @type {GeoJSONGeometry} */ (object),
+        'properties': null,
+      };
+    }
+
+    const geometry = readGeometry(geoJSONFeature['geometry'], options);
+    const feature = new _Feature_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    if (this.geometryName_) {
+      feature.setGeometryName(this.geometryName_);
+    } else if (
+      this.extractGeometryName_ &&
+      'geometry_name' in geoJSONFeature !== undefined
+    ) {
+      feature.setGeometryName(geoJSONFeature['geometry_name']);
+    }
+    feature.setGeometry(geometry);
+
+    if ('id' in geoJSONFeature) {
+      feature.setId(geoJSONFeature['id']);
+    }
+
+    if (geoJSONFeature['properties']) {
+      feature.setProperties(geoJSONFeature['properties'], true);
+    }
+    return feature;
+  }
+
+  /**
+   * @param {Object} object Object.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @protected
+   * @return {Array<Feature>} Features.
+   */
+  readFeaturesFromObject(object, options) {
+    const geoJSONObject = /** @type {GeoJSONObject} */ (object);
+    /** @type {Array<import("../Feature.js").default>} */
+    let features = null;
+    if (geoJSONObject['type'] === 'FeatureCollection') {
+      const geoJSONFeatureCollection = /** @type {GeoJSONFeatureCollection} */ (
+        object
+      );
+      features = [];
+      const geoJSONFeatures = geoJSONFeatureCollection['features'];
+      for (let i = 0, ii = geoJSONFeatures.length; i < ii; ++i) {
+        features.push(this.readFeatureFromObject(geoJSONFeatures[i], options));
+      }
+    } else {
+      features = [this.readFeatureFromObject(object, options)];
+    }
+    return features;
+  }
+
+  /**
+   * @param {GeoJSONGeometry} object Object.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @protected
+   * @return {import("../geom/Geometry.js").default} Geometry.
+   */
+  readGeometryFromObject(object, options) {
+    return readGeometry(object, options);
+  }
+
+  /**
+   * @param {Object} object Object.
+   * @protected
+   * @return {import("../proj/Projection.js").default} Projection.
+   */
+  readProjectionFromObject(object) {
+    const crs = object['crs'];
+    let projection;
+    if (crs) {
+      if (crs['type'] == 'name') {
+        projection = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)(crs['properties']['name']);
+      } else if (crs['type'] === 'EPSG') {
+        projection = (0,_proj_js__WEBPACK_IMPORTED_MODULE_0__.get)('EPSG:' + crs['properties']['code']);
+      } else {
+        (0,_asserts_js__WEBPACK_IMPORTED_MODULE_3__.assert)(false, 36); // Unknown SRS type
+      }
+    } else {
+      projection = this.dataProjection;
+    }
+    return /** @type {import("../proj/Projection.js").default} */ (projection);
+  }
+
+  /**
+   * Encode a feature as a GeoJSON Feature object.
+   *
+   * @param {import("../Feature.js").default} feature Feature.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {GeoJSONFeature} Object.
+   * @api
+   */
+  writeFeatureObject(feature, options) {
+    options = this.adaptOptions(options);
+
+    /** @type {GeoJSONFeature} */
+    const object = {
+      'type': 'Feature',
+      geometry: null,
+      properties: null,
+    };
+
+    const id = feature.getId();
+    if (id !== undefined) {
+      object.id = id;
+    }
+
+    if (!feature.hasProperties()) {
+      return object;
+    }
+
+    const properties = feature.getProperties();
+    const geometry = feature.getGeometry();
+    if (geometry) {
+      object.geometry = writeGeometry(geometry, options);
+
+      delete properties[feature.getGeometryName()];
+    }
+
+    if (!(0,_obj_js__WEBPACK_IMPORTED_MODULE_4__.isEmpty)(properties)) {
+      object.properties = properties;
+    }
+
+    return object;
+  }
+
+  /**
+   * Encode an array of features as a GeoJSON object.
+   *
+   * @param {Array<import("../Feature.js").default>} features Features.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {GeoJSONFeatureCollection} GeoJSON Object.
+   * @api
+   */
+  writeFeaturesObject(features, options) {
+    options = this.adaptOptions(options);
+    const objects = [];
+    for (let i = 0, ii = features.length; i < ii; ++i) {
+      objects.push(this.writeFeatureObject(features[i], options));
+    }
+    return {
+      type: 'FeatureCollection',
+      features: objects,
+    };
+  }
+
+  /**
+   * Encode a geometry as a GeoJSON object.
+   *
+   * @param {import("../geom/Geometry.js").default} geometry Geometry.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {GeoJSONGeometry|GeoJSONGeometryCollection} Object.
+   * @api
+   */
+  writeGeometryObject(geometry, options) {
+    return writeGeometry(geometry, this.adaptOptions(options));
+  }
+}
+
+/**
+ * @param {GeoJSONGeometry|GeoJSONGeometryCollection} object Object.
+ * @param {import("./Feature.js").ReadOptions} [options] Read options.
+ * @return {import("../geom/Geometry.js").default} Geometry.
+ */
+function readGeometry(object, options) {
+  if (!object) {
+    return null;
+  }
+
+  /**
+   * @type {import("../geom/Geometry.js").default}
+   */
+  let geometry;
+  switch (object['type']) {
+    case 'Point': {
+      geometry = readPointGeometry(/** @type {GeoJSONPoint} */ (object));
+      break;
+    }
+    case 'LineString': {
+      geometry = readLineStringGeometry(
+        /** @type {GeoJSONLineString} */ (object)
+      );
+      break;
+    }
+    case 'Polygon': {
+      geometry = readPolygonGeometry(/** @type {GeoJSONPolygon} */ (object));
+      break;
+    }
+    case 'MultiPoint': {
+      geometry = readMultiPointGeometry(
+        /** @type {GeoJSONMultiPoint} */ (object)
+      );
+      break;
+    }
+    case 'MultiLineString': {
+      geometry = readMultiLineStringGeometry(
+        /** @type {GeoJSONMultiLineString} */ (object)
+      );
+      break;
+    }
+    case 'MultiPolygon': {
+      geometry = readMultiPolygonGeometry(
+        /** @type {GeoJSONMultiPolygon} */ (object)
+      );
+      break;
+    }
+    case 'GeometryCollection': {
+      geometry = readGeometryCollectionGeometry(
+        /** @type {GeoJSONGeometryCollection} */ (object)
+      );
+      break;
+    }
+    default: {
+      throw new Error('Unsupported GeoJSON type: ' + object['type']);
+    }
+  }
+  return (0,_Feature_js__WEBPACK_IMPORTED_MODULE_5__.transformGeometryWithOptions)(geometry, false, options);
+}
+
+/**
+ * @param {GeoJSONGeometryCollection} object Object.
+ * @param {import("./Feature.js").ReadOptions} [options] Read options.
+ * @return {GeometryCollection} Geometry collection.
+ */
+function readGeometryCollectionGeometry(object, options) {
+  const geometries = object['geometries'].map(
+    /**
+     * @param {GeoJSONGeometry} geometry Geometry.
+     * @return {import("../geom/Geometry.js").default} geometry Geometry.
+     */
+    function (geometry) {
+      return readGeometry(geometry, options);
+    }
+  );
+  return new _geom_GeometryCollection_js__WEBPACK_IMPORTED_MODULE_6__["default"](geometries);
+}
+
+/**
+ * @param {GeoJSONPoint} object Object.
+ * @return {Point} Point.
+ */
+function readPointGeometry(object) {
+  return new _geom_Point_js__WEBPACK_IMPORTED_MODULE_7__["default"](object['coordinates']);
+}
+
+/**
+ * @param {GeoJSONLineString} object Object.
+ * @return {LineString} LineString.
+ */
+function readLineStringGeometry(object) {
+  return new _geom_LineString_js__WEBPACK_IMPORTED_MODULE_8__["default"](object['coordinates']);
+}
+
+/**
+ * @param {GeoJSONMultiLineString} object Object.
+ * @return {MultiLineString} MultiLineString.
+ */
+function readMultiLineStringGeometry(object) {
+  return new _geom_MultiLineString_js__WEBPACK_IMPORTED_MODULE_9__["default"](object['coordinates']);
+}
+
+/**
+ * @param {GeoJSONMultiPoint} object Object.
+ * @return {MultiPoint} MultiPoint.
+ */
+function readMultiPointGeometry(object) {
+  return new _geom_MultiPoint_js__WEBPACK_IMPORTED_MODULE_10__["default"](object['coordinates']);
+}
+
+/**
+ * @param {GeoJSONMultiPolygon} object Object.
+ * @return {MultiPolygon} MultiPolygon.
+ */
+function readMultiPolygonGeometry(object) {
+  return new _geom_MultiPolygon_js__WEBPACK_IMPORTED_MODULE_11__["default"](object['coordinates']);
+}
+
+/**
+ * @param {GeoJSONPolygon} object Object.
+ * @return {Polygon} Polygon.
+ */
+function readPolygonGeometry(object) {
+  return new _geom_Polygon_js__WEBPACK_IMPORTED_MODULE_12__["default"](object['coordinates']);
+}
+
+/**
+ * @param {import("../geom/Geometry.js").default} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writeGeometry(geometry, options) {
+  geometry = (0,_Feature_js__WEBPACK_IMPORTED_MODULE_5__.transformGeometryWithOptions)(geometry, true, options);
+  const type = geometry.getType();
+
+  /** @type {GeoJSONGeometry} */
+  let geoJSON;
+  switch (type) {
+    case 'Point': {
+      geoJSON = writePointGeometry(/** @type {Point} */ (geometry), options);
+      break;
+    }
+    case 'LineString': {
+      geoJSON = writeLineStringGeometry(
+        /** @type {LineString} */ (geometry),
+        options
+      );
+      break;
+    }
+    case 'Polygon': {
+      geoJSON = writePolygonGeometry(
+        /** @type {Polygon} */ (geometry),
+        options
+      );
+      break;
+    }
+    case 'MultiPoint': {
+      geoJSON = writeMultiPointGeometry(
+        /** @type {MultiPoint} */ (geometry),
+        options
+      );
+      break;
+    }
+    case 'MultiLineString': {
+      geoJSON = writeMultiLineStringGeometry(
+        /** @type {MultiLineString} */ (geometry),
+        options
+      );
+      break;
+    }
+    case 'MultiPolygon': {
+      geoJSON = writeMultiPolygonGeometry(
+        /** @type {MultiPolygon} */ (geometry),
+        options
+      );
+      break;
+    }
+    case 'GeometryCollection': {
+      geoJSON = writeGeometryCollectionGeometry(
+        /** @type {GeometryCollection} */ (geometry),
+        options
+      );
+      break;
+    }
+    case 'Circle': {
+      geoJSON = {
+        type: 'GeometryCollection',
+        geometries: [],
+      };
+      break;
+    }
+    default: {
+      throw new Error('Unsupported geometry type: ' + type);
+    }
+  }
+  return geoJSON;
+}
+
+/**
+ * @param {GeometryCollection} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometryCollection} GeoJSON geometry collection.
+ */
+function writeGeometryCollectionGeometry(geometry, options) {
+  options = Object.assign({}, options);
+  delete options.featureProjection;
+  const geometries = geometry.getGeometriesArray().map(function (geometry) {
+    return writeGeometry(geometry, options);
+  });
+  return {
+    type: 'GeometryCollection',
+    geometries: geometries,
+  };
+}
+
+/**
+ * @param {LineString} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writeLineStringGeometry(geometry, options) {
+  return {
+    type: 'LineString',
+    coordinates: geometry.getCoordinates(),
+  };
+}
+
+/**
+ * @param {MultiLineString} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writeMultiLineStringGeometry(geometry, options) {
+  return {
+    type: 'MultiLineString',
+    coordinates: geometry.getCoordinates(),
+  };
+}
+
+/**
+ * @param {MultiPoint} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writeMultiPointGeometry(geometry, options) {
+  return {
+    type: 'MultiPoint',
+    coordinates: geometry.getCoordinates(),
+  };
+}
+
+/**
+ * @param {MultiPolygon} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writeMultiPolygonGeometry(geometry, options) {
+  let right;
+  if (options) {
+    right = options.rightHanded;
+  }
+  return {
+    type: 'MultiPolygon',
+    coordinates: geometry.getCoordinates(right),
+  };
+}
+
+/**
+ * @param {Point} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writePointGeometry(geometry, options) {
+  return {
+    type: 'Point',
+    coordinates: geometry.getCoordinates(),
+  };
+}
+
+/**
+ * @param {Polygon} geometry Geometry.
+ * @param {import("./Feature.js").WriteOptions} [options] Write options.
+ * @return {GeoJSONGeometry} GeoJSON geometry.
+ */
+function writePolygonGeometry(geometry, options) {
+  let right;
+  if (options) {
+    right = options.rightHanded;
+  }
+  return {
+    type: 'Polygon',
+    coordinates: geometry.getCoordinates(right),
+  };
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeoJSON);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/format/JSONFeature.js":
+/*!***********************************************!*\
+  !*** ./node_modules/ol/format/JSONFeature.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Feature_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Feature.js */ "./node_modules/ol/format/Feature.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util.js */ "./node_modules/ol/util.js");
+/**
+ * @module ol/format/JSONFeature
+ */
+
+
+
+/**
+ * @classdesc
+ * Abstract base class; normally only used for creating subclasses and not
+ * instantiated in apps.
+ * Base class for JSON feature formats.
+ *
+ * @abstract
+ */
+class JSONFeature extends _Feature_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor() {
+    super();
+  }
+
+  /**
+   * @return {import("./Feature.js").Type} Format.
+   */
+  getType() {
+    return 'json';
+  }
+
+  /**
+   * Read a feature.  Only works for a single feature. Use `readFeatures` to
+   * read a feature collection.
+   *
+   * @param {ArrayBuffer|Document|Element|Object|string} source Source.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @return {import("../Feature.js").default} Feature.
+   * @api
+   */
+  readFeature(source, options) {
+    return this.readFeatureFromObject(
+      getObject(source),
+      this.getReadOptions(source, options)
+    );
+  }
+
+  /**
+   * Read all features.  Works with both a single feature and a feature
+   * collection.
+   *
+   * @param {ArrayBuffer|Document|Element|Object|string} source Source.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @return {Array<import("../Feature.js").default>} Features.
+   * @api
+   */
+  readFeatures(source, options) {
+    return this.readFeaturesFromObject(
+      getObject(source),
+      this.getReadOptions(source, options)
+    );
+  }
+
+  /**
+   * @abstract
+   * @param {Object} object Object.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @protected
+   * @return {import("../Feature.js").default} Feature.
+   */
+  readFeatureFromObject(object, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * @abstract
+   * @param {Object} object Object.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @protected
+   * @return {Array<import("../Feature.js").default>} Features.
+   */
+  readFeaturesFromObject(object, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Read a geometry.
+   *
+   * @param {ArrayBuffer|Document|Element|Object|string} source Source.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @return {import("../geom/Geometry.js").default} Geometry.
+   * @api
+   */
+  readGeometry(source, options) {
+    return this.readGeometryFromObject(
+      getObject(source),
+      this.getReadOptions(source, options)
+    );
+  }
+
+  /**
+   * @abstract
+   * @param {Object} object Object.
+   * @param {import("./Feature.js").ReadOptions} [options] Read options.
+   * @protected
+   * @return {import("../geom/Geometry.js").default} Geometry.
+   */
+  readGeometryFromObject(object, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Read the projection.
+   *
+   * @param {ArrayBuffer|Document|Element|Object|string} source Source.
+   * @return {import("../proj/Projection.js").default} Projection.
+   * @api
+   */
+  readProjection(source) {
+    return this.readProjectionFromObject(getObject(source));
+  }
+
+  /**
+   * @abstract
+   * @param {Object} object Object.
+   * @protected
+   * @return {import("../proj/Projection.js").default} Projection.
+   */
+  readProjectionFromObject(object) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Encode a feature as string.
+   *
+   * @param {import("../Feature.js").default} feature Feature.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {string} Encoded feature.
+   * @api
+   */
+  writeFeature(feature, options) {
+    return JSON.stringify(this.writeFeatureObject(feature, options));
+  }
+
+  /**
+   * @abstract
+   * @param {import("../Feature.js").default} feature Feature.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {Object} Object.
+   */
+  writeFeatureObject(feature, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Encode an array of features as string.
+   *
+   * @param {Array<import("../Feature.js").default>} features Features.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {string} Encoded features.
+   * @api
+   */
+  writeFeatures(features, options) {
+    return JSON.stringify(this.writeFeaturesObject(features, options));
+  }
+
+  /**
+   * @abstract
+   * @param {Array<import("../Feature.js").default>} features Features.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {Object} Object.
+   */
+  writeFeaturesObject(features, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+
+  /**
+   * Encode a geometry as string.
+   *
+   * @param {import("../geom/Geometry.js").default} geometry Geometry.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {string} Encoded geometry.
+   * @api
+   */
+  writeGeometry(geometry, options) {
+    return JSON.stringify(this.writeGeometryObject(geometry, options));
+  }
+
+  /**
+   * @abstract
+   * @param {import("../geom/Geometry.js").default} geometry Geometry.
+   * @param {import("./Feature.js").WriteOptions} [options] Write options.
+   * @return {Object} Object.
+   */
+  writeGeometryObject(geometry, options) {
+    return (0,_util_js__WEBPACK_IMPORTED_MODULE_1__.abstract)();
+  }
+}
+
+/**
+ * @param {Document|Element|Object|string} source Source.
+ * @return {Object} Object.
+ */
+function getObject(source) {
+  if (typeof source === 'string') {
+    const object = JSON.parse(source);
+    return object ? /** @type {Object} */ (object) : null;
+  } else if (source !== null) {
+    return source;
+  }
+  return null;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (JSONFeature);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/functions.js":
 /*!**************************************!*\
   !*** ./node_modules/ol/functions.js ***!
@@ -12977,6 +14109,700 @@ class Geometry extends _Object_js__WEBPACK_IMPORTED_MODULE_2__["default"] {
 
 /***/ }),
 
+/***/ "./node_modules/ol/geom/GeometryCollection.js":
+/*!****************************************************!*\
+  !*** ./node_modules/ol/geom/GeometryCollection.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/EventType.js */ "./node_modules/ol/events/EventType.js");
+/* harmony import */ var _Geometry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Geometry.js */ "./node_modules/ol/geom/Geometry.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _events_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events.js */ "./node_modules/ol/events.js");
+/**
+ * @module ol/geom/GeometryCollection
+ */
+
+
+
+
+
+/**
+ * @classdesc
+ * An array of {@link module:ol/geom/Geometry~Geometry} objects.
+ *
+ * @api
+ */
+class GeometryCollection extends _Geometry_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Array<Geometry>} [geometries] Geometries.
+   */
+  constructor(geometries) {
+    super();
+
+    /**
+     * @private
+     * @type {Array<Geometry>}
+     */
+    this.geometries_ = geometries ? geometries : null;
+
+    /**
+     * @type {Array<import("../events.js").EventsKey>}
+     */
+    this.changeEventsKeys_ = [];
+
+    this.listenGeometriesChange_();
+  }
+
+  /**
+   * @private
+   */
+  unlistenGeometriesChange_() {
+    this.changeEventsKeys_.forEach(_events_js__WEBPACK_IMPORTED_MODULE_1__.unlistenByKey);
+    this.changeEventsKeys_.length = 0;
+  }
+
+  /**
+   * @private
+   */
+  listenGeometriesChange_() {
+    if (!this.geometries_) {
+      return;
+    }
+    for (let i = 0, ii = this.geometries_.length; i < ii; ++i) {
+      this.changeEventsKeys_.push(
+        (0,_events_js__WEBPACK_IMPORTED_MODULE_1__.listen)(this.geometries_[i], _events_EventType_js__WEBPACK_IMPORTED_MODULE_2__["default"].CHANGE, this.changed, this)
+      );
+    }
+  }
+
+  /**
+   * Make a complete copy of the geometry.
+   * @return {!GeometryCollection} Clone.
+   * @api
+   */
+  clone() {
+    const geometryCollection = new GeometryCollection(null);
+    geometryCollection.setGeometries(this.geometries_);
+    geometryCollection.applyProperties(this);
+    return geometryCollection;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @param {import("../coordinate.js").Coordinate} closestPoint Closest point.
+   * @param {number} minSquaredDistance Minimum squared distance.
+   * @return {number} Minimum squared distance.
+   */
+  closestPointXY(x, y, closestPoint, minSquaredDistance) {
+    if (minSquaredDistance < (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.closestSquaredDistanceXY)(this.getExtent(), x, y)) {
+      return minSquaredDistance;
+    }
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      minSquaredDistance = geometries[i].closestPointXY(
+        x,
+        y,
+        closestPoint,
+        minSquaredDistance
+      );
+    }
+    return minSquaredDistance;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @return {boolean} Contains (x, y).
+   */
+  containsXY(x, y) {
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      if (geometries[i].containsXY(x, y)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @protected
+   * @return {import("../extent.js").Extent} extent Extent.
+   */
+  computeExtent(extent) {
+    (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.createOrUpdateEmpty)(extent);
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.extend)(extent, geometries[i].getExtent());
+    }
+    return extent;
+  }
+
+  /**
+   * Return the geometries that make up this geometry collection.
+   * @return {Array<Geometry>} Geometries.
+   * @api
+   */
+  getGeometries() {
+    return cloneGeometries(this.geometries_);
+  }
+
+  /**
+   * @return {Array<Geometry>} Geometries.
+   */
+  getGeometriesArray() {
+    return this.geometries_;
+  }
+
+  /**
+   * @return {Array<Geometry>} Geometries.
+   */
+  getGeometriesArrayRecursive() {
+    /** @type {Array<Geometry>} */
+    let geometriesArray = [];
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      if (geometries[i].getType() === this.getType()) {
+        geometriesArray = geometriesArray.concat(
+          /** @type {GeometryCollection} */ (
+            geometries[i]
+          ).getGeometriesArrayRecursive()
+        );
+      } else {
+        geometriesArray.push(geometries[i]);
+      }
+    }
+    return geometriesArray;
+  }
+
+  /**
+   * Create a simplified version of this geometry using the Douglas Peucker algorithm.
+   * @param {number} squaredTolerance Squared tolerance.
+   * @return {GeometryCollection} Simplified GeometryCollection.
+   */
+  getSimplifiedGeometry(squaredTolerance) {
+    if (this.simplifiedGeometryRevision !== this.getRevision()) {
+      this.simplifiedGeometryMaxMinSquaredTolerance = 0;
+      this.simplifiedGeometryRevision = this.getRevision();
+    }
+    if (
+      squaredTolerance < 0 ||
+      (this.simplifiedGeometryMaxMinSquaredTolerance !== 0 &&
+        squaredTolerance < this.simplifiedGeometryMaxMinSquaredTolerance)
+    ) {
+      return this;
+    }
+
+    const simplifiedGeometries = [];
+    const geometries = this.geometries_;
+    let simplified = false;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      const geometry = geometries[i];
+      const simplifiedGeometry =
+        geometry.getSimplifiedGeometry(squaredTolerance);
+      simplifiedGeometries.push(simplifiedGeometry);
+      if (simplifiedGeometry !== geometry) {
+        simplified = true;
+      }
+    }
+    if (simplified) {
+      const simplifiedGeometryCollection = new GeometryCollection(null);
+      simplifiedGeometryCollection.setGeometriesArray(simplifiedGeometries);
+      return simplifiedGeometryCollection;
+    }
+    this.simplifiedGeometryMaxMinSquaredTolerance = squaredTolerance;
+    return this;
+  }
+
+  /**
+   * Get the type of this geometry.
+   * @return {import("./Geometry.js").Type} Geometry type.
+   * @api
+   */
+  getType() {
+    return 'GeometryCollection';
+  }
+
+  /**
+   * Test if the geometry and the passed extent intersect.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @return {boolean} `true` if the geometry and the extent intersect.
+   * @api
+   */
+  intersectsExtent(extent) {
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      if (geometries[i].intersectsExtent(extent)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @return {boolean} Is empty.
+   */
+  isEmpty() {
+    return this.geometries_.length === 0;
+  }
+
+  /**
+   * Rotate the geometry around a given coordinate. This modifies the geometry
+   * coordinates in place.
+   * @param {number} angle Rotation angle in radians.
+   * @param {import("../coordinate.js").Coordinate} anchor The rotation center.
+   * @api
+   */
+  rotate(angle, anchor) {
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      geometries[i].rotate(angle, anchor);
+    }
+    this.changed();
+  }
+
+  /**
+   * Scale the geometry (with an optional origin).  This modifies the geometry
+   * coordinates in place.
+   * @abstract
+   * @param {number} sx The scaling factor in the x-direction.
+   * @param {number} [sy] The scaling factor in the y-direction (defaults to sx).
+   * @param {import("../coordinate.js").Coordinate} [anchor] The scale origin (defaults to the center
+   *     of the geometry extent).
+   * @api
+   */
+  scale(sx, sy, anchor) {
+    if (!anchor) {
+      anchor = (0,_extent_js__WEBPACK_IMPORTED_MODULE_3__.getCenter)(this.getExtent());
+    }
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      geometries[i].scale(sx, sy, anchor);
+    }
+    this.changed();
+  }
+
+  /**
+   * Set the geometries that make up this geometry collection.
+   * @param {Array<Geometry>} geometries Geometries.
+   * @api
+   */
+  setGeometries(geometries) {
+    this.setGeometriesArray(cloneGeometries(geometries));
+  }
+
+  /**
+   * @param {Array<Geometry>} geometries Geometries.
+   */
+  setGeometriesArray(geometries) {
+    this.unlistenGeometriesChange_();
+    this.geometries_ = geometries;
+    this.listenGeometriesChange_();
+    this.changed();
+  }
+
+  /**
+   * Apply a transform function to the coordinates of the geometry.
+   * The geometry is modified in place.
+   * If you do not want the geometry modified in place, first `clone()` it and
+   * then use this function on the clone.
+   * @param {import("../proj.js").TransformFunction} transformFn Transform function.
+   * Called with a flat array of geometry coordinates.
+   * @api
+   */
+  applyTransform(transformFn) {
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      geometries[i].applyTransform(transformFn);
+    }
+    this.changed();
+  }
+
+  /**
+   * Translate the geometry.  This modifies the geometry coordinates in place.  If
+   * instead you want a new geometry, first `clone()` this geometry.
+   * @param {number} deltaX Delta X.
+   * @param {number} deltaY Delta Y.
+   * @api
+   */
+  translate(deltaX, deltaY) {
+    const geometries = this.geometries_;
+    for (let i = 0, ii = geometries.length; i < ii; ++i) {
+      geometries[i].translate(deltaX, deltaY);
+    }
+    this.changed();
+  }
+
+  /**
+   * Clean up.
+   */
+  disposeInternal() {
+    this.unlistenGeometriesChange_();
+    super.disposeInternal();
+  }
+}
+
+/**
+ * @param {Array<Geometry>} geometries Geometries.
+ * @return {Array<Geometry>} Cloned geometries.
+ */
+function cloneGeometries(geometries) {
+  const clonedGeometries = [];
+  for (let i = 0, ii = geometries.length; i < ii; ++i) {
+    clonedGeometries.push(geometries[i].clone());
+  }
+  return clonedGeometries;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeometryCollection);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/LineString.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/geom/LineString.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SimpleGeometry.js */ "./node_modules/ol/geom/SimpleGeometry.js");
+/* harmony import */ var _flat_closest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./flat/closest.js */ "./node_modules/ol/geom/flat/closest.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _flat_deflate_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./flat/deflate.js */ "./node_modules/ol/geom/flat/deflate.js");
+/* harmony import */ var _flat_simplify_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./flat/simplify.js */ "./node_modules/ol/geom/flat/simplify.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _flat_segments_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flat/segments.js */ "./node_modules/ol/geom/flat/segments.js");
+/* harmony import */ var _flat_inflate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./flat/inflate.js */ "./node_modules/ol/geom/flat/inflate.js");
+/* harmony import */ var _flat_interpolate_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./flat/interpolate.js */ "./node_modules/ol/geom/flat/interpolate.js");
+/* harmony import */ var _flat_intersectsextent_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./flat/intersectsextent.js */ "./node_modules/ol/geom/flat/intersectsextent.js");
+/* harmony import */ var _flat_length_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./flat/length.js */ "./node_modules/ol/geom/flat/length.js");
+/**
+ * @module ol/geom/LineString
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * Linestring geometry.
+ *
+ * @api
+ */
+class LineString extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Array<import("../coordinate.js").Coordinate>|Array<number>} coordinates Coordinates.
+   *     For internal use, flat coordinates in combination with `layout` are also accepted.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   */
+  constructor(coordinates, layout) {
+    super();
+
+    /**
+     * @private
+     * @type {import("../coordinate.js").Coordinate}
+     */
+    this.flatMidpoint_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.flatMidpointRevision_ = -1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDelta_ = -1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDeltaRevision_ = -1;
+
+    if (layout !== undefined && !Array.isArray(coordinates[0])) {
+      this.setFlatCoordinates(
+        layout,
+        /** @type {Array<number>} */ (coordinates)
+      );
+    } else {
+      this.setCoordinates(
+        /** @type {Array<import("../coordinate.js").Coordinate>} */ (
+          coordinates
+        ),
+        layout
+      );
+    }
+  }
+
+  /**
+   * Append the passed coordinate to the coordinates of the linestring.
+   * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
+   * @api
+   */
+  appendCoordinate(coordinate) {
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = coordinate.slice();
+    } else {
+      (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(this.flatCoordinates, coordinate);
+    }
+    this.changed();
+  }
+
+  /**
+   * Make a complete copy of the geometry.
+   * @return {!LineString} Clone.
+   * @api
+   */
+  clone() {
+    const lineString = new LineString(
+      this.flatCoordinates.slice(),
+      this.layout
+    );
+    lineString.applyProperties(this);
+    return lineString;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @param {import("../coordinate.js").Coordinate} closestPoint Closest point.
+   * @param {number} minSquaredDistance Minimum squared distance.
+   * @return {number} Minimum squared distance.
+   */
+  closestPointXY(x, y, closestPoint, minSquaredDistance) {
+    if (minSquaredDistance < (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.closestSquaredDistanceXY)(this.getExtent(), x, y)) {
+      return minSquaredDistance;
+    }
+    if (this.maxDeltaRevision_ != this.getRevision()) {
+      this.maxDelta_ = Math.sqrt(
+        (0,_flat_closest_js__WEBPACK_IMPORTED_MODULE_3__.maxSquaredDelta)(
+          this.flatCoordinates,
+          0,
+          this.flatCoordinates.length,
+          this.stride,
+          0
+        )
+      );
+      this.maxDeltaRevision_ = this.getRevision();
+    }
+    return (0,_flat_closest_js__WEBPACK_IMPORTED_MODULE_3__.assignClosestPoint)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride,
+      this.maxDelta_,
+      false,
+      x,
+      y,
+      closestPoint,
+      minSquaredDistance
+    );
+  }
+
+  /**
+   * Iterate over each segment, calling the provided callback.
+   * If the callback returns a truthy value the function returns that
+   * value immediately. Otherwise the function returns `false`.
+   *
+   * @param {function(this: S, import("../coordinate.js").Coordinate, import("../coordinate.js").Coordinate): T} callback Function
+   *     called for each segment. The function will receive two arguments, the start and end coordinates of the segment.
+   * @return {T|boolean} Value.
+   * @template T,S
+   * @api
+   */
+  forEachSegment(callback) {
+    return (0,_flat_segments_js__WEBPACK_IMPORTED_MODULE_4__.forEach)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride,
+      callback
+    );
+  }
+
+  /**
+   * Returns the coordinate at `m` using linear interpolation, or `null` if no
+   * such coordinate exists.
+   *
+   * `extrapolate` controls extrapolation beyond the range of Ms in the
+   * MultiLineString. If `extrapolate` is `true` then Ms less than the first
+   * M will return the first coordinate and Ms greater than the last M will
+   * return the last coordinate.
+   *
+   * @param {number} m M.
+   * @param {boolean} [extrapolate] Extrapolate. Default is `false`.
+   * @return {import("../coordinate.js").Coordinate|null} Coordinate.
+   * @api
+   */
+  getCoordinateAtM(m, extrapolate) {
+    if (this.layout != 'XYM' && this.layout != 'XYZM') {
+      return null;
+    }
+    extrapolate = extrapolate !== undefined ? extrapolate : false;
+    return (0,_flat_interpolate_js__WEBPACK_IMPORTED_MODULE_5__.lineStringCoordinateAtM)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride,
+      m,
+      extrapolate
+    );
+  }
+
+  /**
+   * Return the coordinates of the linestring.
+   * @return {Array<import("../coordinate.js").Coordinate>} Coordinates.
+   * @api
+   */
+  getCoordinates() {
+    return (0,_flat_inflate_js__WEBPACK_IMPORTED_MODULE_6__.inflateCoordinates)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride
+    );
+  }
+
+  /**
+   * Return the coordinate at the provided fraction along the linestring.
+   * The `fraction` is a number between 0 and 1, where 0 is the start of the
+   * linestring and 1 is the end.
+   * @param {number} fraction Fraction.
+   * @param {import("../coordinate.js").Coordinate} [dest] Optional coordinate whose values will
+   *     be modified. If not provided, a new coordinate will be returned.
+   * @return {import("../coordinate.js").Coordinate} Coordinate of the interpolated point.
+   * @api
+   */
+  getCoordinateAt(fraction, dest) {
+    return (0,_flat_interpolate_js__WEBPACK_IMPORTED_MODULE_5__.interpolatePoint)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride,
+      fraction,
+      dest,
+      this.stride
+    );
+  }
+
+  /**
+   * Return the length of the linestring on projected plane.
+   * @return {number} Length (on projected plane).
+   * @api
+   */
+  getLength() {
+    return (0,_flat_length_js__WEBPACK_IMPORTED_MODULE_7__.lineStringLength)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride
+    );
+  }
+
+  /**
+   * @return {Array<number>} Flat midpoint.
+   */
+  getFlatMidpoint() {
+    if (this.flatMidpointRevision_ != this.getRevision()) {
+      this.flatMidpoint_ = this.getCoordinateAt(0.5, this.flatMidpoint_);
+      this.flatMidpointRevision_ = this.getRevision();
+    }
+    return this.flatMidpoint_;
+  }
+
+  /**
+   * @param {number} squaredTolerance Squared tolerance.
+   * @return {LineString} Simplified LineString.
+   * @protected
+   */
+  getSimplifiedGeometryInternal(squaredTolerance) {
+    const simplifiedFlatCoordinates = [];
+    simplifiedFlatCoordinates.length = (0,_flat_simplify_js__WEBPACK_IMPORTED_MODULE_8__.douglasPeucker)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride,
+      squaredTolerance,
+      simplifiedFlatCoordinates,
+      0
+    );
+    return new LineString(simplifiedFlatCoordinates, 'XY');
+  }
+
+  /**
+   * Get the type of this geometry.
+   * @return {import("./Geometry.js").Type} Geometry type.
+   * @api
+   */
+  getType() {
+    return 'LineString';
+  }
+
+  /**
+   * Test if the geometry and the passed extent intersect.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @return {boolean} `true` if the geometry and the extent intersect.
+   * @api
+   */
+  intersectsExtent(extent) {
+    return (0,_flat_intersectsextent_js__WEBPACK_IMPORTED_MODULE_9__.intersectsLineString)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride,
+      extent
+    );
+  }
+
+  /**
+   * Set the coordinates of the linestring.
+   * @param {!Array<import("../coordinate.js").Coordinate>} coordinates Coordinates.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   * @api
+   */
+  setCoordinates(coordinates, layout) {
+    this.setLayout(layout, coordinates, 1);
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = [];
+    }
+    this.flatCoordinates.length = (0,_flat_deflate_js__WEBPACK_IMPORTED_MODULE_10__.deflateCoordinates)(
+      this.flatCoordinates,
+      0,
+      coordinates,
+      this.stride
+    );
+    this.changed();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LineString);
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/geom/LinearRing.js":
 /*!********************************************!*\
   !*** ./node_modules/ol/geom/LinearRing.js ***!
@@ -13183,6 +15009,1098 @@ class LinearRing extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["defaul
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LinearRing);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/MultiLineString.js":
+/*!*************************************************!*\
+  !*** ./node_modules/ol/geom/MultiLineString.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LineString_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./LineString.js */ "./node_modules/ol/geom/LineString.js");
+/* harmony import */ var _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SimpleGeometry.js */ "./node_modules/ol/geom/SimpleGeometry.js");
+/* harmony import */ var _flat_closest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./flat/closest.js */ "./node_modules/ol/geom/flat/closest.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _flat_deflate_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./flat/deflate.js */ "./node_modules/ol/geom/flat/deflate.js");
+/* harmony import */ var _flat_simplify_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./flat/simplify.js */ "./node_modules/ol/geom/flat/simplify.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _flat_inflate_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./flat/inflate.js */ "./node_modules/ol/geom/flat/inflate.js");
+/* harmony import */ var _flat_interpolate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flat/interpolate.js */ "./node_modules/ol/geom/flat/interpolate.js");
+/* harmony import */ var _flat_intersectsextent_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./flat/intersectsextent.js */ "./node_modules/ol/geom/flat/intersectsextent.js");
+/**
+ * @module ol/geom/MultiLineString
+ */
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * Multi-linestring geometry.
+ *
+ * @api
+ */
+class MultiLineString extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Array<Array<import("../coordinate.js").Coordinate>|LineString>|Array<number>} coordinates
+   *     Coordinates or LineString geometries. (For internal use, flat coordinates in
+   *     combination with `layout` and `ends` are also accepted.)
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   * @param {Array<number>} [ends] Flat coordinate ends for internal use.
+   */
+  constructor(coordinates, layout, ends) {
+    super();
+
+    /**
+     * @type {Array<number>}
+     * @private
+     */
+    this.ends_ = [];
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDelta_ = -1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDeltaRevision_ = -1;
+
+    if (Array.isArray(coordinates[0])) {
+      this.setCoordinates(
+        /** @type {Array<Array<import("../coordinate.js").Coordinate>>} */ (
+          coordinates
+        ),
+        layout
+      );
+    } else if (layout !== undefined && ends) {
+      this.setFlatCoordinates(
+        layout,
+        /** @type {Array<number>} */ (coordinates)
+      );
+      this.ends_ = ends;
+    } else {
+      let layout = this.getLayout();
+      const lineStrings = /** @type {Array<LineString>} */ (coordinates);
+      const flatCoordinates = [];
+      const ends = [];
+      for (let i = 0, ii = lineStrings.length; i < ii; ++i) {
+        const lineString = lineStrings[i];
+        if (i === 0) {
+          layout = lineString.getLayout();
+        }
+        (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(flatCoordinates, lineString.getFlatCoordinates());
+        ends.push(flatCoordinates.length);
+      }
+      this.setFlatCoordinates(layout, flatCoordinates);
+      this.ends_ = ends;
+    }
+  }
+
+  /**
+   * Append the passed linestring to the multilinestring.
+   * @param {LineString} lineString LineString.
+   * @api
+   */
+  appendLineString(lineString) {
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = lineString.getFlatCoordinates().slice();
+    } else {
+      (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(this.flatCoordinates, lineString.getFlatCoordinates().slice());
+    }
+    this.ends_.push(this.flatCoordinates.length);
+    this.changed();
+  }
+
+  /**
+   * Make a complete copy of the geometry.
+   * @return {!MultiLineString} Clone.
+   * @api
+   */
+  clone() {
+    const multiLineString = new MultiLineString(
+      this.flatCoordinates.slice(),
+      this.layout,
+      this.ends_.slice()
+    );
+    multiLineString.applyProperties(this);
+    return multiLineString;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @param {import("../coordinate.js").Coordinate} closestPoint Closest point.
+   * @param {number} minSquaredDistance Minimum squared distance.
+   * @return {number} Minimum squared distance.
+   */
+  closestPointXY(x, y, closestPoint, minSquaredDistance) {
+    if (minSquaredDistance < (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.closestSquaredDistanceXY)(this.getExtent(), x, y)) {
+      return minSquaredDistance;
+    }
+    if (this.maxDeltaRevision_ != this.getRevision()) {
+      this.maxDelta_ = Math.sqrt(
+        (0,_flat_closest_js__WEBPACK_IMPORTED_MODULE_3__.arrayMaxSquaredDelta)(
+          this.flatCoordinates,
+          0,
+          this.ends_,
+          this.stride,
+          0
+        )
+      );
+      this.maxDeltaRevision_ = this.getRevision();
+    }
+    return (0,_flat_closest_js__WEBPACK_IMPORTED_MODULE_3__.assignClosestArrayPoint)(
+      this.flatCoordinates,
+      0,
+      this.ends_,
+      this.stride,
+      this.maxDelta_,
+      false,
+      x,
+      y,
+      closestPoint,
+      minSquaredDistance
+    );
+  }
+
+  /**
+   * Returns the coordinate at `m` using linear interpolation, or `null` if no
+   * such coordinate exists.
+   *
+   * `extrapolate` controls extrapolation beyond the range of Ms in the
+   * MultiLineString. If `extrapolate` is `true` then Ms less than the first
+   * M will return the first coordinate and Ms greater than the last M will
+   * return the last coordinate.
+   *
+   * `interpolate` controls interpolation between consecutive LineStrings
+   * within the MultiLineString. If `interpolate` is `true` the coordinates
+   * will be linearly interpolated between the last coordinate of one LineString
+   * and the first coordinate of the next LineString.  If `interpolate` is
+   * `false` then the function will return `null` for Ms falling between
+   * LineStrings.
+   *
+   * @param {number} m M.
+   * @param {boolean} [extrapolate] Extrapolate. Default is `false`.
+   * @param {boolean} [interpolate] Interpolate. Default is `false`.
+   * @return {import("../coordinate.js").Coordinate|null} Coordinate.
+   * @api
+   */
+  getCoordinateAtM(m, extrapolate, interpolate) {
+    if (
+      (this.layout != 'XYM' && this.layout != 'XYZM') ||
+      this.flatCoordinates.length === 0
+    ) {
+      return null;
+    }
+    extrapolate = extrapolate !== undefined ? extrapolate : false;
+    interpolate = interpolate !== undefined ? interpolate : false;
+    return (0,_flat_interpolate_js__WEBPACK_IMPORTED_MODULE_4__.lineStringsCoordinateAtM)(
+      this.flatCoordinates,
+      0,
+      this.ends_,
+      this.stride,
+      m,
+      extrapolate,
+      interpolate
+    );
+  }
+
+  /**
+   * Return the coordinates of the multilinestring.
+   * @return {Array<Array<import("../coordinate.js").Coordinate>>} Coordinates.
+   * @api
+   */
+  getCoordinates() {
+    return (0,_flat_inflate_js__WEBPACK_IMPORTED_MODULE_5__.inflateCoordinatesArray)(
+      this.flatCoordinates,
+      0,
+      this.ends_,
+      this.stride
+    );
+  }
+
+  /**
+   * @return {Array<number>} Ends.
+   */
+  getEnds() {
+    return this.ends_;
+  }
+
+  /**
+   * Return the linestring at the specified index.
+   * @param {number} index Index.
+   * @return {LineString} LineString.
+   * @api
+   */
+  getLineString(index) {
+    if (index < 0 || this.ends_.length <= index) {
+      return null;
+    }
+    return new _LineString_js__WEBPACK_IMPORTED_MODULE_6__["default"](
+      this.flatCoordinates.slice(
+        index === 0 ? 0 : this.ends_[index - 1],
+        this.ends_[index]
+      ),
+      this.layout
+    );
+  }
+
+  /**
+   * Return the linestrings of this multilinestring.
+   * @return {Array<LineString>} LineStrings.
+   * @api
+   */
+  getLineStrings() {
+    const flatCoordinates = this.flatCoordinates;
+    const ends = this.ends_;
+    const layout = this.layout;
+    /** @type {Array<LineString>} */
+    const lineStrings = [];
+    let offset = 0;
+    for (let i = 0, ii = ends.length; i < ii; ++i) {
+      const end = ends[i];
+      const lineString = new _LineString_js__WEBPACK_IMPORTED_MODULE_6__["default"](
+        flatCoordinates.slice(offset, end),
+        layout
+      );
+      lineStrings.push(lineString);
+      offset = end;
+    }
+    return lineStrings;
+  }
+
+  /**
+   * @return {Array<number>} Flat midpoints.
+   */
+  getFlatMidpoints() {
+    const midpoints = [];
+    const flatCoordinates = this.flatCoordinates;
+    let offset = 0;
+    const ends = this.ends_;
+    const stride = this.stride;
+    for (let i = 0, ii = ends.length; i < ii; ++i) {
+      const end = ends[i];
+      const midpoint = (0,_flat_interpolate_js__WEBPACK_IMPORTED_MODULE_4__.interpolatePoint)(
+        flatCoordinates,
+        offset,
+        end,
+        stride,
+        0.5
+      );
+      (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(midpoints, midpoint);
+      offset = end;
+    }
+    return midpoints;
+  }
+
+  /**
+   * @param {number} squaredTolerance Squared tolerance.
+   * @return {MultiLineString} Simplified MultiLineString.
+   * @protected
+   */
+  getSimplifiedGeometryInternal(squaredTolerance) {
+    const simplifiedFlatCoordinates = [];
+    const simplifiedEnds = [];
+    simplifiedFlatCoordinates.length = (0,_flat_simplify_js__WEBPACK_IMPORTED_MODULE_7__.douglasPeuckerArray)(
+      this.flatCoordinates,
+      0,
+      this.ends_,
+      this.stride,
+      squaredTolerance,
+      simplifiedFlatCoordinates,
+      0,
+      simplifiedEnds
+    );
+    return new MultiLineString(simplifiedFlatCoordinates, 'XY', simplifiedEnds);
+  }
+
+  /**
+   * Get the type of this geometry.
+   * @return {import("./Geometry.js").Type} Geometry type.
+   * @api
+   */
+  getType() {
+    return 'MultiLineString';
+  }
+
+  /**
+   * Test if the geometry and the passed extent intersect.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @return {boolean} `true` if the geometry and the extent intersect.
+   * @api
+   */
+  intersectsExtent(extent) {
+    return (0,_flat_intersectsextent_js__WEBPACK_IMPORTED_MODULE_8__.intersectsLineStringArray)(
+      this.flatCoordinates,
+      0,
+      this.ends_,
+      this.stride,
+      extent
+    );
+  }
+
+  /**
+   * Set the coordinates of the multilinestring.
+   * @param {!Array<Array<import("../coordinate.js").Coordinate>>} coordinates Coordinates.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   * @api
+   */
+  setCoordinates(coordinates, layout) {
+    this.setLayout(layout, coordinates, 2);
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = [];
+    }
+    const ends = (0,_flat_deflate_js__WEBPACK_IMPORTED_MODULE_9__.deflateCoordinatesArray)(
+      this.flatCoordinates,
+      0,
+      coordinates,
+      this.stride,
+      this.ends_
+    );
+    this.flatCoordinates.length = ends.length === 0 ? 0 : ends[ends.length - 1];
+    this.changed();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MultiLineString);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/MultiPoint.js":
+/*!********************************************!*\
+  !*** ./node_modules/ol/geom/MultiPoint.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Point_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Point.js */ "./node_modules/ol/geom/Point.js");
+/* harmony import */ var _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SimpleGeometry.js */ "./node_modules/ol/geom/SimpleGeometry.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _flat_deflate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./flat/deflate.js */ "./node_modules/ol/geom/flat/deflate.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flat/inflate.js */ "./node_modules/ol/geom/flat/inflate.js");
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math.js */ "./node_modules/ol/math.js");
+/**
+ * @module ol/geom/MultiPoint
+ */
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * Multi-point geometry.
+ *
+ * @api
+ */
+class MultiPoint extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Array<import("../coordinate.js").Coordinate>|Array<number>} coordinates Coordinates.
+   *     For internal use, flat coordinates in combination with `layout` are also accepted.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   */
+  constructor(coordinates, layout) {
+    super();
+    if (layout && !Array.isArray(coordinates[0])) {
+      this.setFlatCoordinates(
+        layout,
+        /** @type {Array<number>} */ (coordinates)
+      );
+    } else {
+      this.setCoordinates(
+        /** @type {Array<import("../coordinate.js").Coordinate>} */ (
+          coordinates
+        ),
+        layout
+      );
+    }
+  }
+
+  /**
+   * Append the passed point to this multipoint.
+   * @param {Point} point Point.
+   * @api
+   */
+  appendPoint(point) {
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = point.getFlatCoordinates().slice();
+    } else {
+      (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(this.flatCoordinates, point.getFlatCoordinates());
+    }
+    this.changed();
+  }
+
+  /**
+   * Make a complete copy of the geometry.
+   * @return {!MultiPoint} Clone.
+   * @api
+   */
+  clone() {
+    const multiPoint = new MultiPoint(
+      this.flatCoordinates.slice(),
+      this.layout
+    );
+    multiPoint.applyProperties(this);
+    return multiPoint;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @param {import("../coordinate.js").Coordinate} closestPoint Closest point.
+   * @param {number} minSquaredDistance Minimum squared distance.
+   * @return {number} Minimum squared distance.
+   */
+  closestPointXY(x, y, closestPoint, minSquaredDistance) {
+    if (minSquaredDistance < (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.closestSquaredDistanceXY)(this.getExtent(), x, y)) {
+      return minSquaredDistance;
+    }
+    const flatCoordinates = this.flatCoordinates;
+    const stride = this.stride;
+    for (let i = 0, ii = flatCoordinates.length; i < ii; i += stride) {
+      const squaredDistance = (0,_math_js__WEBPACK_IMPORTED_MODULE_3__.squaredDistance)(
+        x,
+        y,
+        flatCoordinates[i],
+        flatCoordinates[i + 1]
+      );
+      if (squaredDistance < minSquaredDistance) {
+        minSquaredDistance = squaredDistance;
+        for (let j = 0; j < stride; ++j) {
+          closestPoint[j] = flatCoordinates[i + j];
+        }
+        closestPoint.length = stride;
+      }
+    }
+    return minSquaredDistance;
+  }
+
+  /**
+   * Return the coordinates of the multipoint.
+   * @return {Array<import("../coordinate.js").Coordinate>} Coordinates.
+   * @api
+   */
+  getCoordinates() {
+    return (0,_flat_inflate_js__WEBPACK_IMPORTED_MODULE_4__.inflateCoordinates)(
+      this.flatCoordinates,
+      0,
+      this.flatCoordinates.length,
+      this.stride
+    );
+  }
+
+  /**
+   * Return the point at the specified index.
+   * @param {number} index Index.
+   * @return {Point} Point.
+   * @api
+   */
+  getPoint(index) {
+    const n = !this.flatCoordinates
+      ? 0
+      : this.flatCoordinates.length / this.stride;
+    if (index < 0 || n <= index) {
+      return null;
+    }
+    return new _Point_js__WEBPACK_IMPORTED_MODULE_5__["default"](
+      this.flatCoordinates.slice(
+        index * this.stride,
+        (index + 1) * this.stride
+      ),
+      this.layout
+    );
+  }
+
+  /**
+   * Return the points of this multipoint.
+   * @return {Array<Point>} Points.
+   * @api
+   */
+  getPoints() {
+    const flatCoordinates = this.flatCoordinates;
+    const layout = this.layout;
+    const stride = this.stride;
+    /** @type {Array<Point>} */
+    const points = [];
+    for (let i = 0, ii = flatCoordinates.length; i < ii; i += stride) {
+      const point = new _Point_js__WEBPACK_IMPORTED_MODULE_5__["default"](flatCoordinates.slice(i, i + stride), layout);
+      points.push(point);
+    }
+    return points;
+  }
+
+  /**
+   * Get the type of this geometry.
+   * @return {import("./Geometry.js").Type} Geometry type.
+   * @api
+   */
+  getType() {
+    return 'MultiPoint';
+  }
+
+  /**
+   * Test if the geometry and the passed extent intersect.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @return {boolean} `true` if the geometry and the extent intersect.
+   * @api
+   */
+  intersectsExtent(extent) {
+    const flatCoordinates = this.flatCoordinates;
+    const stride = this.stride;
+    for (let i = 0, ii = flatCoordinates.length; i < ii; i += stride) {
+      const x = flatCoordinates[i];
+      const y = flatCoordinates[i + 1];
+      if ((0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.containsXY)(extent, x, y)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Set the coordinates of the multipoint.
+   * @param {!Array<import("../coordinate.js").Coordinate>} coordinates Coordinates.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   * @api
+   */
+  setCoordinates(coordinates, layout) {
+    this.setLayout(layout, coordinates, 1);
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = [];
+    }
+    this.flatCoordinates.length = (0,_flat_deflate_js__WEBPACK_IMPORTED_MODULE_6__.deflateCoordinates)(
+      this.flatCoordinates,
+      0,
+      coordinates,
+      this.stride
+    );
+    this.changed();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MultiPoint);
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/MultiPolygon.js":
+/*!**********************************************!*\
+  !*** ./node_modules/ol/geom/MultiPolygon.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MultiPoint_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./MultiPoint.js */ "./node_modules/ol/geom/MultiPoint.js");
+/* harmony import */ var _Polygon_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Polygon.js */ "./node_modules/ol/geom/Polygon.js");
+/* harmony import */ var _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SimpleGeometry.js */ "./node_modules/ol/geom/SimpleGeometry.js");
+/* harmony import */ var _flat_closest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./flat/closest.js */ "./node_modules/ol/geom/flat/closest.js");
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../extent.js */ "./node_modules/ol/extent.js");
+/* harmony import */ var _flat_deflate_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./flat/deflate.js */ "./node_modules/ol/geom/flat/deflate.js");
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _flat_interiorpoint_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./flat/interiorpoint.js */ "./node_modules/ol/geom/flat/interiorpoint.js");
+/* harmony import */ var _flat_inflate_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./flat/inflate.js */ "./node_modules/ol/geom/flat/inflate.js");
+/* harmony import */ var _flat_intersectsextent_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./flat/intersectsextent.js */ "./node_modules/ol/geom/flat/intersectsextent.js");
+/* harmony import */ var _flat_orient_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./flat/orient.js */ "./node_modules/ol/geom/flat/orient.js");
+/* harmony import */ var _flat_area_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./flat/area.js */ "./node_modules/ol/geom/flat/area.js");
+/* harmony import */ var _flat_center_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./flat/center.js */ "./node_modules/ol/geom/flat/center.js");
+/* harmony import */ var _flat_contains_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flat/contains.js */ "./node_modules/ol/geom/flat/contains.js");
+/* harmony import */ var _flat_simplify_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./flat/simplify.js */ "./node_modules/ol/geom/flat/simplify.js");
+/**
+ * @module ol/geom/MultiPolygon
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @classdesc
+ * Multi-polygon geometry.
+ *
+ * @api
+ */
+class MultiPolygon extends _SimpleGeometry_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  /**
+   * @param {Array<Array<Array<import("../coordinate.js").Coordinate>>|Polygon>|Array<number>} coordinates Coordinates.
+   *     For internal use, flat coordinates in combination with `layout` and `endss` are also accepted.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   * @param {Array<Array<number>>} [endss] Array of ends for internal use with flat coordinates.
+   */
+  constructor(coordinates, layout, endss) {
+    super();
+
+    /**
+     * @type {Array<Array<number>>}
+     * @private
+     */
+    this.endss_ = [];
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.flatInteriorPointsRevision_ = -1;
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.flatInteriorPoints_ = null;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDelta_ = -1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.maxDeltaRevision_ = -1;
+
+    /**
+     * @private
+     * @type {number}
+     */
+    this.orientedRevision_ = -1;
+
+    /**
+     * @private
+     * @type {Array<number>}
+     */
+    this.orientedFlatCoordinates_ = null;
+
+    if (!endss && !Array.isArray(coordinates[0])) {
+      let thisLayout = this.getLayout();
+      const polygons = /** @type {Array<Polygon>} */ (coordinates);
+      const flatCoordinates = [];
+      const thisEndss = [];
+      for (let i = 0, ii = polygons.length; i < ii; ++i) {
+        const polygon = polygons[i];
+        if (i === 0) {
+          thisLayout = polygon.getLayout();
+        }
+        const offset = flatCoordinates.length;
+        const ends = polygon.getEnds();
+        for (let j = 0, jj = ends.length; j < jj; ++j) {
+          ends[j] += offset;
+        }
+        (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(flatCoordinates, polygon.getFlatCoordinates());
+        thisEndss.push(ends);
+      }
+      layout = thisLayout;
+      coordinates = flatCoordinates;
+      endss = thisEndss;
+    }
+    if (layout !== undefined && endss) {
+      this.setFlatCoordinates(
+        layout,
+        /** @type {Array<number>} */ (coordinates)
+      );
+      this.endss_ = endss;
+    } else {
+      this.setCoordinates(
+        /** @type {Array<Array<Array<import("../coordinate.js").Coordinate>>>} */ (
+          coordinates
+        ),
+        layout
+      );
+    }
+  }
+
+  /**
+   * Append the passed polygon to this multipolygon.
+   * @param {Polygon} polygon Polygon.
+   * @api
+   */
+  appendPolygon(polygon) {
+    /** @type {Array<number>} */
+    let ends;
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = polygon.getFlatCoordinates().slice();
+      ends = polygon.getEnds().slice();
+      this.endss_.push();
+    } else {
+      const offset = this.flatCoordinates.length;
+      (0,_array_js__WEBPACK_IMPORTED_MODULE_1__.extend)(this.flatCoordinates, polygon.getFlatCoordinates());
+      ends = polygon.getEnds().slice();
+      for (let i = 0, ii = ends.length; i < ii; ++i) {
+        ends[i] += offset;
+      }
+    }
+    this.endss_.push(ends);
+    this.changed();
+  }
+
+  /**
+   * Make a complete copy of the geometry.
+   * @return {!MultiPolygon} Clone.
+   * @api
+   */
+  clone() {
+    const len = this.endss_.length;
+    const newEndss = new Array(len);
+    for (let i = 0; i < len; ++i) {
+      newEndss[i] = this.endss_[i].slice();
+    }
+
+    const multiPolygon = new MultiPolygon(
+      this.flatCoordinates.slice(),
+      this.layout,
+      newEndss
+    );
+    multiPolygon.applyProperties(this);
+
+    return multiPolygon;
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @param {import("../coordinate.js").Coordinate} closestPoint Closest point.
+   * @param {number} minSquaredDistance Minimum squared distance.
+   * @return {number} Minimum squared distance.
+   */
+  closestPointXY(x, y, closestPoint, minSquaredDistance) {
+    if (minSquaredDistance < (0,_extent_js__WEBPACK_IMPORTED_MODULE_2__.closestSquaredDistanceXY)(this.getExtent(), x, y)) {
+      return minSquaredDistance;
+    }
+    if (this.maxDeltaRevision_ != this.getRevision()) {
+      this.maxDelta_ = Math.sqrt(
+        (0,_flat_closest_js__WEBPACK_IMPORTED_MODULE_3__.multiArrayMaxSquaredDelta)(
+          this.flatCoordinates,
+          0,
+          this.endss_,
+          this.stride,
+          0
+        )
+      );
+      this.maxDeltaRevision_ = this.getRevision();
+    }
+    return (0,_flat_closest_js__WEBPACK_IMPORTED_MODULE_3__.assignClosestMultiArrayPoint)(
+      this.getOrientedFlatCoordinates(),
+      0,
+      this.endss_,
+      this.stride,
+      this.maxDelta_,
+      true,
+      x,
+      y,
+      closestPoint,
+      minSquaredDistance
+    );
+  }
+
+  /**
+   * @param {number} x X.
+   * @param {number} y Y.
+   * @return {boolean} Contains (x, y).
+   */
+  containsXY(x, y) {
+    return (0,_flat_contains_js__WEBPACK_IMPORTED_MODULE_4__.linearRingssContainsXY)(
+      this.getOrientedFlatCoordinates(),
+      0,
+      this.endss_,
+      this.stride,
+      x,
+      y
+    );
+  }
+
+  /**
+   * Return the area of the multipolygon on projected plane.
+   * @return {number} Area (on projected plane).
+   * @api
+   */
+  getArea() {
+    return (0,_flat_area_js__WEBPACK_IMPORTED_MODULE_5__.linearRingss)(
+      this.getOrientedFlatCoordinates(),
+      0,
+      this.endss_,
+      this.stride
+    );
+  }
+
+  /**
+   * Get the coordinate array for this geometry.  This array has the structure
+   * of a GeoJSON coordinate array for multi-polygons.
+   *
+   * @param {boolean} [right] Orient coordinates according to the right-hand
+   *     rule (counter-clockwise for exterior and clockwise for interior rings).
+   *     If `false`, coordinates will be oriented according to the left-hand rule
+   *     (clockwise for exterior and counter-clockwise for interior rings).
+   *     By default, coordinate orientation will depend on how the geometry was
+   *     constructed.
+   * @return {Array<Array<Array<import("../coordinate.js").Coordinate>>>} Coordinates.
+   * @api
+   */
+  getCoordinates(right) {
+    let flatCoordinates;
+    if (right !== undefined) {
+      flatCoordinates = this.getOrientedFlatCoordinates().slice();
+      (0,_flat_orient_js__WEBPACK_IMPORTED_MODULE_6__.orientLinearRingsArray)(
+        flatCoordinates,
+        0,
+        this.endss_,
+        this.stride,
+        right
+      );
+    } else {
+      flatCoordinates = this.flatCoordinates;
+    }
+
+    return (0,_flat_inflate_js__WEBPACK_IMPORTED_MODULE_7__.inflateMultiCoordinatesArray)(
+      flatCoordinates,
+      0,
+      this.endss_,
+      this.stride
+    );
+  }
+
+  /**
+   * @return {Array<Array<number>>} Endss.
+   */
+  getEndss() {
+    return this.endss_;
+  }
+
+  /**
+   * @return {Array<number>} Flat interior points.
+   */
+  getFlatInteriorPoints() {
+    if (this.flatInteriorPointsRevision_ != this.getRevision()) {
+      const flatCenters = (0,_flat_center_js__WEBPACK_IMPORTED_MODULE_8__.linearRingss)(
+        this.flatCoordinates,
+        0,
+        this.endss_,
+        this.stride
+      );
+      this.flatInteriorPoints_ = (0,_flat_interiorpoint_js__WEBPACK_IMPORTED_MODULE_9__.getInteriorPointsOfMultiArray)(
+        this.getOrientedFlatCoordinates(),
+        0,
+        this.endss_,
+        this.stride,
+        flatCenters
+      );
+      this.flatInteriorPointsRevision_ = this.getRevision();
+    }
+    return this.flatInteriorPoints_;
+  }
+
+  /**
+   * Return the interior points as {@link module:ol/geom/MultiPoint~MultiPoint multipoint}.
+   * @return {MultiPoint} Interior points as XYM coordinates, where M is
+   * the length of the horizontal intersection that the point belongs to.
+   * @api
+   */
+  getInteriorPoints() {
+    return new _MultiPoint_js__WEBPACK_IMPORTED_MODULE_10__["default"](this.getFlatInteriorPoints().slice(), 'XYM');
+  }
+
+  /**
+   * @return {Array<number>} Oriented flat coordinates.
+   */
+  getOrientedFlatCoordinates() {
+    if (this.orientedRevision_ != this.getRevision()) {
+      const flatCoordinates = this.flatCoordinates;
+      if (
+        (0,_flat_orient_js__WEBPACK_IMPORTED_MODULE_6__.linearRingssAreOriented)(flatCoordinates, 0, this.endss_, this.stride)
+      ) {
+        this.orientedFlatCoordinates_ = flatCoordinates;
+      } else {
+        this.orientedFlatCoordinates_ = flatCoordinates.slice();
+        this.orientedFlatCoordinates_.length = (0,_flat_orient_js__WEBPACK_IMPORTED_MODULE_6__.orientLinearRingsArray)(
+          this.orientedFlatCoordinates_,
+          0,
+          this.endss_,
+          this.stride
+        );
+      }
+      this.orientedRevision_ = this.getRevision();
+    }
+    return this.orientedFlatCoordinates_;
+  }
+
+  /**
+   * @param {number} squaredTolerance Squared tolerance.
+   * @return {MultiPolygon} Simplified MultiPolygon.
+   * @protected
+   */
+  getSimplifiedGeometryInternal(squaredTolerance) {
+    const simplifiedFlatCoordinates = [];
+    const simplifiedEndss = [];
+    simplifiedFlatCoordinates.length = (0,_flat_simplify_js__WEBPACK_IMPORTED_MODULE_11__.quantizeMultiArray)(
+      this.flatCoordinates,
+      0,
+      this.endss_,
+      this.stride,
+      Math.sqrt(squaredTolerance),
+      simplifiedFlatCoordinates,
+      0,
+      simplifiedEndss
+    );
+    return new MultiPolygon(simplifiedFlatCoordinates, 'XY', simplifiedEndss);
+  }
+
+  /**
+   * Return the polygon at the specified index.
+   * @param {number} index Index.
+   * @return {Polygon} Polygon.
+   * @api
+   */
+  getPolygon(index) {
+    if (index < 0 || this.endss_.length <= index) {
+      return null;
+    }
+    let offset;
+    if (index === 0) {
+      offset = 0;
+    } else {
+      const prevEnds = this.endss_[index - 1];
+      offset = prevEnds[prevEnds.length - 1];
+    }
+    const ends = this.endss_[index].slice();
+    const end = ends[ends.length - 1];
+    if (offset !== 0) {
+      for (let i = 0, ii = ends.length; i < ii; ++i) {
+        ends[i] -= offset;
+      }
+    }
+    return new _Polygon_js__WEBPACK_IMPORTED_MODULE_12__["default"](
+      this.flatCoordinates.slice(offset, end),
+      this.layout,
+      ends
+    );
+  }
+
+  /**
+   * Return the polygons of this multipolygon.
+   * @return {Array<Polygon>} Polygons.
+   * @api
+   */
+  getPolygons() {
+    const layout = this.layout;
+    const flatCoordinates = this.flatCoordinates;
+    const endss = this.endss_;
+    const polygons = [];
+    let offset = 0;
+    for (let i = 0, ii = endss.length; i < ii; ++i) {
+      const ends = endss[i].slice();
+      const end = ends[ends.length - 1];
+      if (offset !== 0) {
+        for (let j = 0, jj = ends.length; j < jj; ++j) {
+          ends[j] -= offset;
+        }
+      }
+      const polygon = new _Polygon_js__WEBPACK_IMPORTED_MODULE_12__["default"](
+        flatCoordinates.slice(offset, end),
+        layout,
+        ends
+      );
+      polygons.push(polygon);
+      offset = end;
+    }
+    return polygons;
+  }
+
+  /**
+   * Get the type of this geometry.
+   * @return {import("./Geometry.js").Type} Geometry type.
+   * @api
+   */
+  getType() {
+    return 'MultiPolygon';
+  }
+
+  /**
+   * Test if the geometry and the passed extent intersect.
+   * @param {import("../extent.js").Extent} extent Extent.
+   * @return {boolean} `true` if the geometry and the extent intersect.
+   * @api
+   */
+  intersectsExtent(extent) {
+    return (0,_flat_intersectsextent_js__WEBPACK_IMPORTED_MODULE_13__.intersectsLinearRingMultiArray)(
+      this.getOrientedFlatCoordinates(),
+      0,
+      this.endss_,
+      this.stride,
+      extent
+    );
+  }
+
+  /**
+   * Set the coordinates of the multipolygon.
+   * @param {!Array<Array<Array<import("../coordinate.js").Coordinate>>>} coordinates Coordinates.
+   * @param {import("./Geometry.js").GeometryLayout} [layout] Layout.
+   * @api
+   */
+  setCoordinates(coordinates, layout) {
+    this.setLayout(layout, coordinates, 3);
+    if (!this.flatCoordinates) {
+      this.flatCoordinates = [];
+    }
+    const endss = (0,_flat_deflate_js__WEBPACK_IMPORTED_MODULE_14__.deflateMultiCoordinatesArray)(
+      this.flatCoordinates,
+      0,
+      coordinates,
+      this.stride,
+      this.endss_
+    );
+    if (endss.length === 0) {
+      this.flatCoordinates.length = 0;
+    } else {
+      const lastEnds = endss[endss.length - 1];
+      this.flatCoordinates.length =
+        lastEnds.length === 0 ? 0 : lastEnds[lastEnds.length - 1];
+    }
+    this.changed();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MultiPolygon);
 
 
 /***/ }),
@@ -14314,6 +17232,50 @@ function linearRingss(flatCoordinates, offset, endss, stride) {
 
 /***/ }),
 
+/***/ "./node_modules/ol/geom/flat/center.js":
+/*!*********************************************!*\
+  !*** ./node_modules/ol/geom/flat/center.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "linearRingss": () => (/* binding */ linearRingss)
+/* harmony export */ });
+/* harmony import */ var _extent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../extent.js */ "./node_modules/ol/extent.js");
+/**
+ * @module ol/geom/flat/center
+ */
+
+
+/**
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {Array<Array<number>>} endss Endss.
+ * @param {number} stride Stride.
+ * @return {Array<number>} Flat centers.
+ */
+function linearRingss(flatCoordinates, offset, endss, stride) {
+  const flatCenters = [];
+  let extent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_0__.createEmpty)();
+  for (let i = 0, ii = endss.length; i < ii; ++i) {
+    const ends = endss[i];
+    extent = (0,_extent_js__WEBPACK_IMPORTED_MODULE_0__.createOrUpdateFromFlatCoordinates)(
+      flatCoordinates,
+      offset,
+      ends[0],
+      stride
+    );
+    flatCenters.push((extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2);
+    offset = ends[ends.length - 1];
+  }
+  return flatCenters;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/ol/geom/flat/closest.js":
 /*!**********************************************!*\
   !*** ./node_modules/ol/geom/flat/closest.js ***!
@@ -15193,6 +18155,231 @@ function getInteriorPointsOfMultiArray(
     offset = ends[ends.length - 1];
   }
   return interiorPoints;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/ol/geom/flat/interpolate.js":
+/*!**************************************************!*\
+  !*** ./node_modules/ol/geom/flat/interpolate.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "interpolatePoint": () => (/* binding */ interpolatePoint),
+/* harmony export */   "lineStringCoordinateAtM": () => (/* binding */ lineStringCoordinateAtM),
+/* harmony export */   "lineStringsCoordinateAtM": () => (/* binding */ lineStringsCoordinateAtM)
+/* harmony export */ });
+/* harmony import */ var _array_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../array.js */ "./node_modules/ol/array.js");
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../math.js */ "./node_modules/ol/math.js");
+/**
+ * @module ol/geom/flat/interpolate
+ */
+
+
+
+/**
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {number} end End.
+ * @param {number} stride Stride.
+ * @param {number} fraction Fraction.
+ * @param {Array<number>} [dest] Destination.
+ * @param {number} [dimension] Destination dimension (default is `2`)
+ * @return {Array<number>} Destination.
+ */
+function interpolatePoint(
+  flatCoordinates,
+  offset,
+  end,
+  stride,
+  fraction,
+  dest,
+  dimension
+) {
+  let o, t;
+  const n = (end - offset) / stride;
+  if (n === 1) {
+    o = offset;
+  } else if (n === 2) {
+    o = offset;
+    t = fraction;
+  } else if (n !== 0) {
+    let x1 = flatCoordinates[offset];
+    let y1 = flatCoordinates[offset + 1];
+    let length = 0;
+    const cumulativeLengths = [0];
+    for (let i = offset + stride; i < end; i += stride) {
+      const x2 = flatCoordinates[i];
+      const y2 = flatCoordinates[i + 1];
+      length += Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+      cumulativeLengths.push(length);
+      x1 = x2;
+      y1 = y2;
+    }
+    const target = fraction * length;
+    const index = (0,_array_js__WEBPACK_IMPORTED_MODULE_0__.binarySearch)(cumulativeLengths, target);
+    if (index < 0) {
+      t =
+        (target - cumulativeLengths[-index - 2]) /
+        (cumulativeLengths[-index - 1] - cumulativeLengths[-index - 2]);
+      o = offset + (-index - 2) * stride;
+    } else {
+      o = offset + index * stride;
+    }
+  }
+  dimension = dimension > 1 ? dimension : 2;
+  dest = dest ? dest : new Array(dimension);
+  for (let i = 0; i < dimension; ++i) {
+    dest[i] =
+      o === undefined
+        ? NaN
+        : t === undefined
+        ? flatCoordinates[o + i]
+        : (0,_math_js__WEBPACK_IMPORTED_MODULE_1__.lerp)(flatCoordinates[o + i], flatCoordinates[o + stride + i], t);
+  }
+  return dest;
+}
+
+/**
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {number} end End.
+ * @param {number} stride Stride.
+ * @param {number} m M.
+ * @param {boolean} extrapolate Extrapolate.
+ * @return {import("../../coordinate.js").Coordinate|null} Coordinate.
+ */
+function lineStringCoordinateAtM(
+  flatCoordinates,
+  offset,
+  end,
+  stride,
+  m,
+  extrapolate
+) {
+  if (end == offset) {
+    return null;
+  }
+  let coordinate;
+  if (m < flatCoordinates[offset + stride - 1]) {
+    if (extrapolate) {
+      coordinate = flatCoordinates.slice(offset, offset + stride);
+      coordinate[stride - 1] = m;
+      return coordinate;
+    }
+    return null;
+  } else if (flatCoordinates[end - 1] < m) {
+    if (extrapolate) {
+      coordinate = flatCoordinates.slice(end - stride, end);
+      coordinate[stride - 1] = m;
+      return coordinate;
+    }
+    return null;
+  }
+  // FIXME use O(1) search
+  if (m == flatCoordinates[offset + stride - 1]) {
+    return flatCoordinates.slice(offset, offset + stride);
+  }
+  let lo = offset / stride;
+  let hi = end / stride;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (m < flatCoordinates[(mid + 1) * stride - 1]) {
+      hi = mid;
+    } else {
+      lo = mid + 1;
+    }
+  }
+  const m0 = flatCoordinates[lo * stride - 1];
+  if (m == m0) {
+    return flatCoordinates.slice((lo - 1) * stride, (lo - 1) * stride + stride);
+  }
+  const m1 = flatCoordinates[(lo + 1) * stride - 1];
+  const t = (m - m0) / (m1 - m0);
+  coordinate = [];
+  for (let i = 0; i < stride - 1; ++i) {
+    coordinate.push(
+      (0,_math_js__WEBPACK_IMPORTED_MODULE_1__.lerp)(
+        flatCoordinates[(lo - 1) * stride + i],
+        flatCoordinates[lo * stride + i],
+        t
+      )
+    );
+  }
+  coordinate.push(m);
+  return coordinate;
+}
+
+/**
+ * @param {Array<number>} flatCoordinates Flat coordinates.
+ * @param {number} offset Offset.
+ * @param {Array<number>} ends Ends.
+ * @param {number} stride Stride.
+ * @param {number} m M.
+ * @param {boolean} extrapolate Extrapolate.
+ * @param {boolean} interpolate Interpolate.
+ * @return {import("../../coordinate.js").Coordinate|null} Coordinate.
+ */
+function lineStringsCoordinateAtM(
+  flatCoordinates,
+  offset,
+  ends,
+  stride,
+  m,
+  extrapolate,
+  interpolate
+) {
+  if (interpolate) {
+    return lineStringCoordinateAtM(
+      flatCoordinates,
+      offset,
+      ends[ends.length - 1],
+      stride,
+      m,
+      extrapolate
+    );
+  }
+  let coordinate;
+  if (m < flatCoordinates[stride - 1]) {
+    if (extrapolate) {
+      coordinate = flatCoordinates.slice(0, stride);
+      coordinate[stride - 1] = m;
+      return coordinate;
+    }
+    return null;
+  }
+  if (flatCoordinates[flatCoordinates.length - 1] < m) {
+    if (extrapolate) {
+      coordinate = flatCoordinates.slice(flatCoordinates.length - stride);
+      coordinate[stride - 1] = m;
+      return coordinate;
+    }
+    return null;
+  }
+  for (let i = 0, ii = ends.length; i < ii; ++i) {
+    const end = ends[i];
+    if (offset == end) {
+      continue;
+    }
+    if (m < flatCoordinates[offset + stride - 1]) {
+      return null;
+    } else if (m <= flatCoordinates[end - 1]) {
+      return lineStringCoordinateAtM(
+        flatCoordinates,
+        offset,
+        end,
+        stride,
+        m,
+        false
+      );
+    }
+    offset = end;
+  }
+  return null;
 }
 
 
@@ -44080,20 +47267,27 @@ var __webpack_exports__ = {};
   !*** ./resources/js/map.js ***!
   \*****************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var ol_Map_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/Map.js */ "./node_modules/ol/Map.js");
+/* harmony import */ var ol_Map_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/Map.js */ "./node_modules/ol/Map.js");
 /* harmony import */ var ol_View_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ol/View.js */ "./node_modules/ol/View.js");
-/* harmony import */ var ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ol/layer/Tile.js */ "./node_modules/ol/layer/Tile.js");
-/* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
-/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
-/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
-/* harmony import */ var ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/source/OSM.js */ "./node_modules/ol/source/OSM.js");
-/* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
-/* harmony import */ var ol_geom_Polygon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/geom/Polygon */ "./node_modules/ol/geom/Polygon.js");
+/* harmony import */ var ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ol/layer/Tile.js */ "./node_modules/ol/layer/Tile.js");
+/* harmony import */ var ol_Feature__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ol/Feature */ "./node_modules/ol/Feature.js");
+/* harmony import */ var ol_source_Vector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ol/source/Vector */ "./node_modules/ol/source/Vector.js");
+/* harmony import */ var ol_layer_Vector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ol/layer/Vector */ "./node_modules/ol/layer/Vector.js");
+/* harmony import */ var ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ol/source/OSM.js */ "./node_modules/ol/source/OSM.js");
+/* harmony import */ var ol_geom_Point__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ol/geom/Point */ "./node_modules/ol/geom/Point.js");
 /* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Style.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Circle.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Fill.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Stroke.js");
-/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Text.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Icon.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Text.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Fill.js");
+/* harmony import */ var ol_style_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ol/style.js */ "./node_modules/ol/style/Stroke.js");
+/* harmony import */ var ol_format_GeoJSON__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ol/format/GeoJSON */ "./node_modules/ol/format/GeoJSON.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -44106,22 +47300,56 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener('alpine:init', function () {
-  var geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+  //const geocodingAPI = 'https://nominatim.openstreetmap.org/search';
   Alpine.data('map1', function () {
     return {
+      openModal: false,
+      opensupportModal: false,
+      supportModal: null,
+      clickedCoordinates: {},
+      clickedPolygonCoordinates: [],
+      finpolygon: false,
+      clickCount: 0,
+      previousClickCoordinate: null,
       searchQuery: '',
-      legendOpened: false,
+      searchResults: [],
+      supportLayer: [],
+      sectorLayer: [],
+      vectorSource: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        features: [] // Initialize with empty features array
+      }),
+
+      legendOpened: true,
+      activeDraw: 'default',
       map: {},
       // a vector source is composed of features, which are basically objects with a geometry (point in
       // our case) and attributes (name in this example), we initialize our component variable to an
       // array of 3 features:
-      features: [new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
-        geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([-6.4166, 32.3333]),
-        name: 'Beni mellal'
-      }), new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
-        geometry: new ol_geom_Polygon__WEBPACK_IMPORTED_MODULE_2__["default"]([[[-6.407, 32.369], [-6.435, 32.332], [-6.374, 32.311], [-6.369, 32.344], [-6.407, 32.369]]]),
-        name: 'Beni Mellal sector'
-      })],
+      /*  features : [
+                new Feature({
+                    geometry: new Point([-6.4166, 32.3333]),
+                    name: 'Beni mellal',
+                }),
+                new Feature({
+                    geometry: new Point([-74.04455265662958, 40.68928126997774]),
+                    name: 'Statue of Liberty',
+                }),
+                new Feature({
+                    geometry: new Point([12.492283213388305, 41.890266877448695]),
+                    name: 'Rome Colosseum',
+                }),
+                new Feature({
+                    geometry: new Polygon([[
+                        [-6.407, 32.369],
+                        [-6.435, 32.332],
+                        [-6.374, 32.311],
+                        [-6.369, 32.344],
+                        [-6.407, 32.369]
+                    ]]),
+                    name: 'Beni Mellal sector'
+                })
+            ],*/
+      features: [],
       /* filteredFeatures: function() {
            const query = this.searchQuery.toLowerCase().trim();
            if (query === '') {
@@ -44190,12 +47418,15 @@ document.addEventListener('alpine:init', function () {
         },*/
       filteredFeatures: function filteredFeatures() {
         var geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+        //https://nominatim.openstreetmap.org/search?q=<your_query>&&format=json
+
         var query = this.searchQuery.toLowerCase().trim();
         if (query === '') {
           console.log("this.features: ", this.features);
           return this.features;
         } else {
-          var searchURL = "".concat(geocodingAPI, "?q=").concat(encodeURIComponent(query), "&format=json");
+          var searchURL = "".concat(geocodingAPI, "?q=").concat(encodeURIComponent(query), "&city=Beni%20Mellal&format=json");
+          //const searchURL = `${geocodingAPI}?q=${encodeURIComponent(query)}&format=json`;
           console.log(searchURL);
           return fetch(searchURL).then(function (response) {
             return response.json();
@@ -44209,8 +47440,8 @@ document.addEventListener('alpine:init', function () {
             });
             console.log(coordinates);
             var pointFeatures = coordinates.map(function (coord) {
-              return new ol_Feature__WEBPACK_IMPORTED_MODULE_0__["default"]({
-                geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_1__["default"]([coord.longitude, coord.latitude]),
+              return new ol_Feature__WEBPACK_IMPORTED_MODULE_1__["default"]({
+                geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_2__["default"]([coord.longitude, coord.latitude]),
                 name: coord.name
               });
             });
@@ -44220,6 +47451,67 @@ document.addEventListener('alpine:init', function () {
             console.error('Error fetching geocoding data:', error);
             // Handle any errors that occur during the request
           });
+        }
+      },
+      searchButtonClicked: function searchButtonClicked() {
+        var _this = this;
+        var geocodingAPI = 'https://nominatim.openstreetmap.org/search';
+        this.searchQuery = document.getElementById('searchInput').value;
+        var query = this.searchQuery.toLowerCase().trim();
+        if (query === '') {
+          console.log('Empty search query');
+          return;
+        }
+        var searchURL = "".concat(geocodingAPI, "?q=").concat(encodeURIComponent(query), "&format=json");
+        console.log('Search URL:', searchURL);
+        fetch(searchURL).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          var coordinates = data.map(function (result) {
+            return {
+              latitude: parseFloat(result.lat),
+              longitude: parseFloat(result.lon),
+              name: result.display_name
+            };
+          });
+          console.log('Coordinates:', coordinates);
+          _this.searchResults = coordinates;
+          // Perform your desired actions with the coordinates, such as updating the map or displaying search results
+          // Example:
+          // - Update the map markers
+          // - Display search results on the page
+
+          // - Center the map on the first coordinate
+
+          // Clear previous search results
+          _this.vectorSource.clear();
+
+          // Add new search results to the vector source
+          var pointFeatures = coordinates.map(function (coord) {
+            return new ol_Feature__WEBPACK_IMPORTED_MODULE_1__["default"]({
+              geometry: new ol_geom_Point__WEBPACK_IMPORTED_MODULE_2__["default"]([coord.longitude, coord.latitude]),
+              name: coord.name
+            });
+          });
+          _this.vectorSource.addFeatures(pointFeatures);
+          console.log(_this.vectorSource);
+
+          // Center the map on the first coordinate
+          if (coordinates.length > 0) {
+            var _coordinates = _slicedToArray(coordinates, 1),
+              firstCoordinate = _coordinates[0];
+            _this.map.getView().setCenter([firstCoordinate.longitude, firstCoordinate.latitude]);
+            _this.map.getView().setZoom(10);
+            _this.legendOpened = true;
+          }
+        })["catch"](function (error) {
+          console.error('Error fetching geocoding data:', error);
+          // Handle any errors that occur during the request, such as displaying an error message to the user
+        });
+      },
+      handleKeyPress: function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+          this.searchButtonClicked();
         }
       },
       /*filteredFeatures() {
@@ -44259,30 +47551,173 @@ document.addEventListener('alpine:init', function () {
       }
       },
       */
-      init: function init() {
-        var _this = this;
-        console.log('Alpine.js map component initialized');
-        var vectorSource = new ol_source_Vector__WEBPACK_IMPORTED_MODULE_3__["default"]({
-          /*     features: this.features,*/
-          features: this.filteredFeatures()
+      /*    init() {
+               console.log('Alpine.js map component initialized');
+              this.supportModal = this.$refs.supportModal;
+             // const vectorSource = new VectorSource({
+                    //  features: this.features,
+                    //features: this.filteredFeatures(),
+            //  });
+                this.map = new Map({
+                  target: this.$refs.map1,
+                  layers: [
+                       new TileLayer({
+                          source: new OSM(),
+                          label: 'OpenStreetMap',
+                      }),
+                    /*   new TileLayer({
+                          source: new XYZ({
+                            url: 'https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default//GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
+                            maxZoom: 8,
+                            crossOrigin: 'anonymous',
+                          }),
+                          opacity: 0.7,
+                        }), */
+      /*     new VectorLayer({
+              // source: vectorSource,
+              source: new VectorSource({
+               features: this.features,
+            }),
+               style: this.styleFunction,
+               label:'sec',
+           })
+       ],
+       view: new View({
+           /* projection: 'EPSG:3857', */
+      /*      projection: 'EPSG:4326',
+            center: [-6.4166, 32.3333],
+            zoom: 6,
+        })
+      });
+      // Add click event listener to the map
+        const draw = new ol.interaction.Draw({
+        source: this.vectorSource,
+        type: 'Point',
+        style: (feature) => {
+            return new Style({
+                image: new Icon({
+                    src: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // Example Google Maps icon URL
+                    scale: 1, // Adjust the scale of the icon
+                    anchor: [0.5, 1], // Set the anchor point of the icon (optional)
+                  }),
+            });
+          },
+      });
+      this.map.addInteraction(draw);
+       draw.on('drawend', (event) => {
+        const feature = event.feature;
+        const geometry = feature.getGeometry();
+        const coordinates = geometry.getCoordinates();
+        console.log('Point coordinates:', coordinates);
+      });
+      this.map.on('click', (event) => {
+        console.log("clicke");
+        const clickedCoordinate = this.map.getCoordinateFromPixel(event.pixel);
+        const [longitude, latitude] = clickedCoordinate;
+        this.clickedCoordinates = {
+          latitude,
+          longitude
+        };
+        //this.openModal = true;
+        this.opensupportModal = true;
+      });
+      const closeModal = () => {
+        this.openModal = false;
+        this.opensupportModal = false;
+      };
+       const closeButton = document.querySelector('.close');
+      closeButton.addEventListener('click', closeModal);
+       window.addEventListener('click', (event) => {
+        if (event.target === this.$refs.modal || event.target === this.$refs.supportModal ) {
+          closeModal();
+        }
+      });
+      /*  this.map.on('click', (event) => {
+        const clickedFeature = this.map.forEachFeatureAtPixel(event.pixel, (feature) => feature);
+        if (clickedFeature) {
+            const type = clickedFeature.getGeometry().getType();
+            if (type === 'Point') {
+                this.map.getView().setCenter(clickedFeature.getGeometry().getCoordinates());
+                const polygonFeature = vectorSource.getFeatures().find(
+                    (feature) => feature.get('name') === 'Beni Mellal sector'
+                );
+                this.map.getView().fit(polygonFeature.getGeometry().getExtent());
+            }
+        }
+      });*/
+      /*  const searchButton = document.getElementById('searchButton');
+        //searchButton.addEventListener('click', this.searchButtonClicked);
+        searchButton.addEventListener('click', () => this.searchButtonClicked());
+       /*  this.$watch('searchQuery', () => {
+            vectorSource.clear();
+            vectorSource.addFeatures(this.filteredFeatures());
         });
-        this.map = new ol_Map_js__WEBPACK_IMPORTED_MODULE_4__["default"]({
-          target: this.$refs.map1,
-          layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
-            source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_6__["default"]()
+         const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (event) => {
+            this.searchQuery = event.target.value;
+        });*/
+      // },
+      initComponent: function initComponent() {
+        var _this2 = this;
+        var paramsObjsupport = {
+          servive: 'WFS',
+          version: '2.0.0',
+          request: 'GetFeature',
+          typeName: 'lav_ecl:support',
+          outputFormat: 'application/json',
+          crs: 'EPSG:4326',
+          srsName: 'EPSG:4326'
+        };
+        var paramsObjsecteur = {
+          servive: 'WFS',
+          version: '2.0.0',
+          request: 'GetFeature',
+          typeName: 'lav_ecl:secteur',
+          outputFormat: 'application/json',
+          crs: 'EPSG:4326',
+          srsName: 'EPSG:4326'
+        };
+        var urlParamssupport = new URLSearchParams(paramsObjsupport);
+        var urlParamssecteur = new URLSearchParams(paramsObjsecteur);
+        var supportsUrl = 'http://localhost:8080/geoserver/wfs?' + urlParamssupport.toString();
+        var secteurUrl = 'http://localhost:8080/geoserver/wfs?' + urlParamssecteur.toString();
+        //console.log(supportsUrl);
+        console.log(secteurUrl);
+        this.supportLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_3__["default"]({
+          source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_0__["default"]({
+            format: new ol_format_GeoJSON__WEBPACK_IMPORTED_MODULE_4__["default"](),
+            url: supportsUrl
           }),
-          /*   new TileLayer({
-                source: new XYZ({
-                  url: 'https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default//GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
-                  maxZoom: 8,
-                  crossOrigin: 'anonymous',
-                }),
-                opacity: 0.7,
-              }), */
-          new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_7__["default"]({
-            source: vectorSource,
-            style: this.styleFunction
-          })],
+          style: this.styleFunction,
+          label: "support"
+        });
+        this.secteurLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_3__["default"]({
+          source: new ol_source_Vector__WEBPACK_IMPORTED_MODULE_0__["default"]({
+            format: new ol_format_GeoJSON__WEBPACK_IMPORTED_MODULE_4__["default"](),
+            url: secteurUrl
+          }),
+          style: this.styleFunction,
+          label: "secteurs"
+        });
+        // this.features = new GeoJSON().readFeatures(monuments)
+        console.log('Alpine.js map component initialized');
+        this.supportModal = this.$refs.supportModal;
+        this.map = new ol_Map_js__WEBPACK_IMPORTED_MODULE_5__["default"]({
+          target: this.$refs.map1,
+          layers: [new ol_layer_Tile_js__WEBPACK_IMPORTED_MODULE_6__["default"]({
+            source: new ol_source_OSM_js__WEBPACK_IMPORTED_MODULE_7__["default"](),
+            label: 'OpenStreetMap'
+          }),
+          /*    new VectorLayer({
+                 // source: vectorSource,
+                 source: new VectorSource({
+                  features: this.features,
+               }),
+                  style: this.styleFunction,
+                  label:'sec',
+              })*/
+
+          this.supportLayer, this.secteurLayer],
           view: new ol_View_js__WEBPACK_IMPORTED_MODULE_8__["default"]({
             /* projection: 'EPSG:3857', */
             projection: 'EPSG:4326',
@@ -44290,30 +47725,236 @@ document.addEventListener('alpine:init', function () {
             zoom: 6
           })
         });
-        // Add click event listener to the map
+        var button1 = document.getElementById('addsupport');
+        var button2 = document.getElementById('addsector');
 
-        this.map.on('click', function (event) {
-          var clickedFeature = _this.map.forEachFeatureAtPixel(event.pixel, function (feature) {
-            return feature;
-          });
-          if (clickedFeature) {
-            var type = clickedFeature.getGeometry().getType();
-            if (type === 'Point') {
-              _this.map.getView().setCenter(clickedFeature.getGeometry().getCoordinates());
-              var polygonFeature = vectorSource.getFeatures().find(function (feature) {
-                return feature.get('name') === 'Beni Mellal sector';
-              });
-              _this.map.getView().fit(polygonFeature.getGeometry().getExtent());
-            }
+        /*   const draw = new ol.interaction.Draw({
+             source: this.vectorSource,
+             type: 'Point',
+             style: (feature) => {
+                 return new Style({
+                     image: new Icon({
+                         src: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // Example Google Maps icon URL
+                         scale: 1, // Adjust the scale of the icon
+                         anchor: [0.5, 1], // Set the anchor point of the icon (optional)
+                       }),
+                       text: new ol.style.Text({
+                         text: 'ajouter support', // Specify the text to display
+                         offsetY: -12, // Adjust the vertical position of the label (optional)
+                         textAlign: 'center', // Set the alignment of the text within the label (optional)
+                         fill: new ol.style.Fill({ color: 'black' }), // Specify the text color
+                       }),
+                 });
+                },
+           });*/
+
+        var draw = new ol.interaction.Draw({
+          source: this.vectorSource,
+          type: 'Point'
+        });
+
+        // Define the default draw interaction
+        var defaultDraw = new ol.interaction.Draw({
+          source: this.vectorSource,
+          type: 'Point'
+        });
+
+        // Define the draw interaction for button1
+        var drawButtonsuppoort1 = new ol.interaction.Draw({
+          source: this.vectorSource,
+          type: 'Point',
+          style: function style(feature) {
+            return new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
+              image: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
+                src: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                // Example Google Maps icon URL
+                scale: 1,
+                // Adjust the scale of the icon
+                anchor: [0.5, 1] // Set the anchor point of the icon (optional)
+              }),
+
+              text: new ol.style.Text({
+                text: 'ajouter support',
+                // Specify the text to display
+                offsetY: -12,
+                // Adjust the vertical position of the label (optional)
+                textAlign: 'center',
+                // Set the alignment of the text within the label (optional)
+                fill: new ol.style.Fill({
+                  color: 'black'
+                }) // Specify the text color
+              })
+            });
           }
         });
-        this.$watch('searchQuery', function () {
-          vectorSource.clear();
-          vectorSource.addFeatures(_this.filteredFeatures());
+
+        // Define the draw interaction for button2
+        /* const drawButtonsecotr2 = new ol.interaction.Draw({
+          source: this.vectorSource,
+          type: 'Point',
+          style: (feature) => {
+              return new Style({
+                  image: new Icon({
+                      src: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // Example Google Maps icon URL
+                      scale: 1, // Adjust the scale of the icon
+                      anchor: [0.5, 1], // Set the anchor point of the icon (optional)
+                    }),
+                    text: new ol.style.Text({
+                      text: 'ajouter sector', // Specify the text to display
+                      offsetY: -12, // Adjust the vertical position of the label (optional)
+                      textAlign: 'center', // Set the alignment of the text within the label (optional)
+                      fill: new ol.style.Fill({ color: 'black' }), // Specify the text color
+                    }),
+              });
+             },
+        });*/
+
+        // Create a new Draw interaction for drawing a polygon
+        // Create a new Draw interaction for drawing a polygon
+        var drawButtonsecotr2 = new ol.interaction.Draw({
+          source: this.vectorSource,
+          type: 'Polygon',
+          style: function style(feature) {
+            // Style for the polygon
+            var polygonStyle = new ol.style.Style({
+              stroke: new ol.style.Stroke({
+                color: 'blue',
+                width: 2
+              }),
+              fill: new ol.style.Fill({
+                color: 'rgba(0, 0, 255, 0.3)'
+              })
+            });
+
+            // Style for the text
+            var textStyle = new ol.style.Text({
+              text: 'Your Text Here',
+              // Replace with your desired text
+              offsetY: -12,
+              // Adjust the vertical position of the text
+              textAlign: 'center',
+              fill: new ol.style.Fill({
+                color: 'black'
+              })
+            });
+
+            // Apply the text style to the polygon feature
+            polygonStyle.setText(textStyle);
+            return polygonStyle;
+          }
         });
-        var searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', function (event) {
-          _this.searchQuery = event.target.value;
+
+        // Set the default draw interaction as active
+        defaultDraw.setActive(true);
+        this.activeDraw = "default";
+        this.map.addInteraction(defaultDraw);
+
+        // Event listener for button1 click
+        button1.addEventListener('click', function () {
+          // Deactivate other draw interactions
+          drawButtonsecotr2.setActive(false);
+
+          // Activate draw interaction for button1
+          drawButtonsuppoort1.setActive(true);
+          _this2.map.addInteraction(drawButtonsuppoort1);
+          _this2.activeDraw = "support";
+          console.log(_this2.activeDraw === "sector");
+          console.log(_this2.activeDraw === "support");
+          console.log(_this2.activeDraw === "default");
+        });
+
+        // Event listener for button2 click
+        button2.addEventListener('click', function () {
+          // Deactivate other draw interactions
+          drawButtonsuppoort1.setActive(false);
+
+          // Activate draw interaction for button2
+          drawButtonsecotr2.setActive(true);
+          _this2.map.addInteraction(drawButtonsecotr2);
+          _this2.activeDraw = "sector";
+          console.log(_this2.activeDraw === "sector");
+          console.log(_this2.activeDraw === "support");
+          console.log(_this2.activeDraw === "default");
+        });
+        var self = this;
+        drawButtonsecotr2.on('drawend', function (event) {
+          // Get the drawn feature
+          var feature = event.feature;
+
+          // Get the geometry of the feature
+          var geometry = feature.getGeometry();
+
+          // Get the coordinates of the polygon
+          var coordinates = geometry.getCoordinates();
+          self.clickedPolygonCoordinates = coordinates;
+          // Do something with the coordinates, such as storing or displaying them
+          console.log('cordinate polygon', this.clickedPolygonCoordinates);
+
+          // Disable the Draw interaction for drawing a polygon
+          //  console.log(this.opensupportModal);
+          this.finpolygon = true;
+
+          // this.map.removeInteraction(drawButtonsecotr2);
+        });
+
+        draw.on('drawend', function (event) {
+          var feature = event.feature;
+          var geometry = feature.getGeometry();
+          var coordinates = geometry.getCoordinates();
+          console.log('Point coordinates:', coordinates);
+        });
+        this.map.on('click', function (event) {
+          var clp = _this2.clickedPolygonCoordinates;
+          var clickedCoordinate = _this2.map.getCoordinateFromPixel(event.pixel);
+          if (_this2.previousClickCoordinate && ol.coordinate.equals(_this2.previousClickCoordinate, clickedCoordinate)) {
+            // Action for the second click in the same point
+            console.log("Second click in the same point", clp);
+            // Perform your desired action here
+            // Reset the previous click coordinate
+            // Action for the second click
+
+            if (_this2.activeDraw === 'sector') {
+              _this2.opensupportModal = true;
+            }
+            _this2.previousClickCoordinate = null;
+          } else {
+            // Action for the first click or a new point
+            console.log("First click or a new point");
+            console.log("clicke");
+            var _clickedCoordinate = _slicedToArray(clickedCoordinate, 2),
+              longitude = _clickedCoordinate[0],
+              latitude = _clickedCoordinate[1];
+            _this2.clickedCoordinates = {
+              latitude: latitude,
+              longitude: longitude
+            };
+            if (_this2.activeDraw === 'support' || _this2.activeDraw === 'default') {
+              _this2.opensupportModal = true;
+            }
+            _this2.previousClickCoordinate = clickedCoordinate;
+          }
+
+          // Perform your desired action here
+          // Reset the click count for future clicks
+
+          //   this.opensupportModal = true;
+        });
+
+        var closeModal = function closeModal() {
+          _this2.openModal = false;
+          _this2.opensupportModal = false;
+        };
+        var closeButton = document.querySelector('.close');
+        closeButton.addEventListener('click', closeModal);
+        window.addEventListener('click', function (event) {
+          if (event.target === _this2.$refs.modal || event.target === _this2.$refs.supportModal) {
+            closeModal();
+          }
+        });
+        var searchButton = document.getElementById('searchButton');
+        //searchButton.addEventListener('click', this.searchButtonClicked);
+        searchButton.addEventListener('click', function () {
+          return _this2.searchButtonClicked();
         });
       },
       // The styleFunction defines how each feature will look on the map, it receives
@@ -44323,6 +47964,16 @@ document.addEventListener('alpine:init', function () {
       // with fill and stroke colors, for the label, we get a little fancy and make it
       // offset with a transparent background, this example is a first demonstration
       // on how to symbolize a layer of points.
+
+      get supportFeatures() {
+        return this.supportLayer.getSource().getFeatures();
+      },
+      get secteurFeatures() {
+        return this.secteurLayer.getSource().getFeatures();
+      },
+      get clickedpolygonFeatures() {
+        return this.clickedPolygonCoordinates;
+      },
       styleFunction: function styleFunction(feature) {
         var geometry = feature.getGeometry();
         var type = geometry.getType();
@@ -44330,26 +47981,34 @@ document.addEventListener('alpine:init', function () {
         if (type === 'Point') {
           // style for point features
           style = new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
+            /* image: new Circle({
+                 radius: 6,
+                 fill: new Fill({
+                     color: 'red',
+                 }),
+                 stroke: new Stroke({
+                     color: 'rgba(192, 192, 192, 1)',
+                     width: 2
+                 }),
+             }),*/
             image: new ol_style_js__WEBPACK_IMPORTED_MODULE_10__["default"]({
-              radius: 6,
-              fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
-                color: 'red'
-              }),
-              stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
-                color: 'rgba(192, 192, 192, 1)',
-                width: 2
-              })
+              src: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+              // Example Google Maps icon URL
+              scale: 1,
+              // Adjust the scale of the icon
+              anchor: [0.5, 1] // Set the anchor point of the icon (optional)
             }),
-            text: new ol_style_js__WEBPACK_IMPORTED_MODULE_13__["default"]({
+
+            text: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
               font: '12px sans-serif',
               textAlign: 'left',
               text: feature.get('name'),
               offsetY: -15,
               offsetX: 5,
-              backgroundFill: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+              backgroundFill: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
                 color: 'rgba(255, 255, 255, 0.5)'
               }),
-              backgroundStroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
+              backgroundStroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_13__["default"]({
                 color: 'rgba(227, 227, 227, 1)'
               }),
               padding: [5, 2, 2, 5]
@@ -44358,16 +48017,48 @@ document.addEventListener('alpine:init', function () {
         } else if (type === 'Polygon') {
           // style for polygon features
           style = new ol_style_js__WEBPACK_IMPORTED_MODULE_9__["default"]({
-            fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_11__["default"]({
+            fill: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
               color: 'rgba(0, 255, 0, 0.1)'
             }),
-            stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_12__["default"]({
+            stroke: new ol_style_js__WEBPACK_IMPORTED_MODULE_13__["default"]({
               color: 'green',
               width: 2
             })
           });
         }
         return style;
+      },
+      gotoFeature: function gotoFeature(feature) {
+        console.log("clicked in this", feature.getGeometry().getCoordinates());
+        this.map.getView().animate({
+          center: feature.getGeometry().getCoordinates(),
+          zoom: 20,
+          duration: 2000
+        });
+      },
+      gotoResult: function gotoResult(result) {
+        this.map.getView().animate({
+          center: [result.longitude, result.latitude],
+          zoom: 20,
+          duration: 2000
+        });
+      },
+      gotoFeaturegeometry: function gotoFeaturegeometry(polygon) {
+        var geometry = polygon.getGeometry();
+
+        // Get the coordinates of the polygon
+        var coordinates = geometry.getCoordinates()[0];
+        console.log(coordinates);
+        // Calculate the extent of the polygon
+        var extent = ol.extent.boundingExtent(coordinates);
+
+        // Calculate the center of the extent
+        var center = ol.extent.getCenter(extent);
+        this.map.getView().animate({
+          center: center,
+          zoom: 20,
+          duration: 2000
+        });
       }
     };
   });
