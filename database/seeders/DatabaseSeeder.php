@@ -57,11 +57,11 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         User::factory()->count(10)->create();
-        Secteur::factory(Secteur::class)->count(10)->create();
-        PosteElectrique::factory()->count(10)->create();
-        Coffret::factory()->count(10)->create();
-        Voie::factory()->count(10)->create();
-        PointLumineux::factory()->count(10)->create();
+        Secteur::factory(Secteur::class)->count(2)->create();
+        PosteElectrique::factory()->count(2)->create();
+        Coffret::factory()->count(2)->create();
+        Voie::factory()->count(2)->create();
+        PointLumineux::factory()->count(2)->create();
      /*   $supports = [
             [
                 'points_lumineux_id' => 1,
