@@ -42,7 +42,11 @@
               </template>
               <div class="form-group">
                 <label for="geom">Geom</label>
-                <input type="text" class="form-control" id="geom" placeholder="Entrez la valeur de geom" wire:model.defer="geom" required x-bind:value="'POLYGON((' + clickedPolygonCoordinates.map(coordinate => coordinate.join(',')).join(' ') + '))'">
+
+  {{--   <input type="text" class="form-control" id="geom" placeholder="Entrez la valeur de geom" wire:model.defer="-7.844822656250001,32.48710859375001,-6.284764062500001,29.78447187500001,-8.59189296875,29.63066328125001,-7.844822656250001,32.48710859375001geom" required :value="'POLYGON((' + clickedPolygonCoordinates.map(coordinate => coordinate.join(','))+ '))'"> --}}
+  {{--  <input type="text" class="form-control" id="geom" placeholder="Entrez la valeur de geom" wire:model.defer="geom" required x-bindvalue="clickedPolygonCoordinates.map(coordinate => coordinate.join(','))+">--}}
+  <input type="text" class="form-control" id="geom" placeholder="Entrez la valeur de geom" wire:model.defer="geom" required x-bind:value="clickedPolygonCoordinates.map(coordinate => coordinate.join('#')).join(' ')">
+
 
                 @error('geom') <span class="error">{{ $message }}</span> @enderror
               </div>
