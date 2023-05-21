@@ -47679,8 +47679,8 @@ document.addEventListener('alpine:init', function () {
         };
         var urlParamssupport = new URLSearchParams(paramsObjsupport);
         var urlParamssecteur = new URLSearchParams(paramsObjsecteur);
-        var supportsUrl = 'https://51.161.34.161:8080/geoserver/wfs?' + urlParamssupport.toString();
-        var secteurUrl = 'https://51.161.34.161:8080/geoserver/wfs?' + urlParamssecteur.toString();
+        var supportsUrl = 'http://51.161.34.161:8080/geoserver/wfs?' + urlParamssupport.toString();
+        var secteurUrl = 'http://51.161.34.161:8080/geoserver/wfs?' + urlParamssecteur.toString();
         //console.log(supportsUrl);
         console.log(secteurUrl);
         this.supportLayer = new ol_layer_Vector__WEBPACK_IMPORTED_MODULE_3__["default"]({
