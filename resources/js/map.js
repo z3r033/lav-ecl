@@ -566,10 +566,11 @@ const drawButtonsecotr2 = new ol.interaction.Draw({
     style: function(feature) {
       // Style for the polygon
       var polygonStyle = new ol.style.Style({
-        stroke: new ol.style.Stroke({
-          color: 'blue',
-          width: 2,
-        }),
+        image: new Icon({
+            src: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // Example Google Maps icon URL
+            scale: 1, // Adjust the scale of the icon
+            anchor: [0.5, 1], // Set the anchor point of the icon (optional)
+          }),
         fill: new ol.style.Fill({
           color: 'rgba(0, 0, 255, 0.3)',
         }),
