@@ -418,9 +418,11 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 const urlParamssupport = new URLSearchParams(paramsObjsupport)
+
+
                 const urlParamssecteur = new URLSearchParams(paramsObjsecteur)
-                const supportsUrl = 'http://localhost:8080/geoserver/wfs?' +  urlParamssupport.toString()
-                const secteurUrl = 'http://localhost:8080/geoserver/wfs?' +  urlParamssecteur.toString()
+                const supportsUrl = 'http://51.161.34.161:8080/geoserver/wfs?' +  urlParamssupport.toString()
+                const secteurUrl = 'http://51.161.34.161:8080/geoserver/wfs?' +  urlParamssecteur.toString()
                 //console.log(supportsUrl);
                 console.log(secteurUrl);
 
